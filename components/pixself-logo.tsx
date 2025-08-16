@@ -55,8 +55,8 @@ export function PixselfLogo({
       <div className="relative flex-shrink-0">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/logo-YMhoAQFu8ywlKWEXpy3OSEIQcWgcl0.png"
-          alt="Pixself Logo"
+          src="/image/logo.png"
+          alt="Pixself: The Studio Logo"
           className={`${getSizeClasses()} w-auto object-contain ${animated ? "hover:scale-105 transition-transform duration-200" : ""}`}
           style={{
             imageRendering: "pixelated",
@@ -90,7 +90,7 @@ export function PixselfLogo({
             PIXSELF
           </span>
           <span className="text-[8px] tracking-wide truncate" style={{ color: PIXSELF_BRAND.colors.sky.primary }}>
-            Create Your Pixel Self
+            The Studio
           </span>
         </div>
       )}
