@@ -38,7 +38,6 @@ export function EnhancedTitleSection({
   canRedo,
   isLoading,
   isDownloadLoading,
-  isDesktop,
 }: EnhancedTitleSectionProps) {
   const [floatingElements, setFloatingElements] = useState<
     Array<{

@@ -7,7 +7,7 @@ import { Brain, SlidersHorizontal, RefreshCcw } from "lucide-react"
 import { RETRO_UI_THEME } from "@/config/8bit-theme"
 import { EnhancedRetroPixelPanel, EnhancedRetroPixelButton } from "@/components/enhanced-8bit-ui"
 
-type DimensionKey = "IE" | "SN" | "TF" | "JP"
+// type DimensionKey = "IE" | "SN" | "TF" | "JP"
 
 interface SwipeBarProps {
   label: string

@@ -73,7 +73,7 @@ const play8BitSound = (type: "click" | "select" | "success" | "error", enabled: 
   if (!enabled) return
 
   try {
-    const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)()
+    const audioContext = new (window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)()
     const oscillator = audioContext.createOscillator()
     const gainNode = audioContext.createGain()
 
@@ -109,7 +109,7 @@ const play8BitSound = (type: "click" | "select" | "success" | "error", enabled: 
 
     oscillator.start(audioContext.currentTime)
     oscillator.stop(audioContext.currentTime + 0.3)
-  } catch (error) {
+  } catch {
     console.log("Audio not supported")
   }
 }
@@ -454,7 +454,6 @@ function MobileVariantPreview({ part, variant, color }: { part: string; variant:
 
     // Draw a simple preview based on the part type
     const scale = 1
-    const cx = 24
 
     switch (part) {
       case "hair":
@@ -607,8 +606,8 @@ function drawBodyPreview(ctx: CanvasRenderingContext2D, variant: number, color: 
 }
 
 function drawCostumePreview(ctx: CanvasRenderingContext2D, variant: number, color: string, scale: number) {
-  const cx = 24,
-    v = variant % 10
+  const cx = 24
+  const v = variant % 10
   if (v === 0) return
   pixelRect(ctx, cx - 14, 22, 28, 11, color, scale)
   if (v < 3) pixelRect(ctx, cx - 12, 26, 24, 2, "#FFFFFF", scale)
@@ -631,7 +630,7 @@ export default function Page() {
   const [soundEnabled, setSoundEnabled] = useState(true)
   const [loading, setLoading] = useState(false)
   const [downloadLoading, setDownloadLoading] = useState(false)
-  const [shareLoading, setShareLoading] = useState(false)
+  const [shareLoading] = useState(false)
   const [showDownloadModal, setShowDownloadModal] = useState(false)
   const [showShareModal, setShowShareModal] = useState(false)
   const [showGalleryModal, setShowGalleryModal] = useState(false)
@@ -678,132 +677,26 @@ export default function Page() {
     [historyIndex],
   )
 
-  function undo() {
+  const undo = useCallback(() => {
     if (historyIndex > 0) {
       const newIndex = historyIndex - 1
       setHistoryIndex(newIndex)
       setSelections(history[newIndex].selections)
       play8BitSound("click", soundEnabled)
     }
-  }
+  }, [historyIndex, history, soundEnabled, setSelections])
 
-  function redo() {
+  const redo = useCallback(() => {
     if (historyIndex < history.length - 1) {
       const newIndex = historyIndex + 1
       setHistoryIndex(newIndex)
       setSelections(history[newIndex].selections)
       play8BitSound("click", soundEnabled)
     }
-  }
-
-  // Add keyboard shortcuts for undo/redo
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.ctrlKey || e.metaKey) {
-        if (e.key === "z" && !e.shiftKey) {
-          e.preventDefault()
-          undo()
-        } else if (e.key === "y" || (e.key === "z" && e.shiftKey)) {
-          e.preventDefault()
-          redo()
-        } else if (e.key === "s") {
-          e.preventDefault()
-          showDownloadConfirmation()
-        } else if (e.key === " ") {
-          e.preventDefault()
-          randomize()
-        } else if (e.key === "g") {
-          e.preventDefault()
-          if (storageAvailable) setShowGalleryModal(true)
-        }
-      } else if (e.key === " " && !e.ctrlKey && !e.metaKey) {
-        e.preventDefault()
-        randomize()
-      }
-    }
-
-    window.addEventListener("keydown", handleKeyDown)
-    return () => window.removeEventListener("keydown", handleKeyDown)
-  }, [historyIndex, history, soundEnabled, storageAvailable])
-
-  function onSelectVariant(part: PartKey, variant: number) {
-    setLoading(true)
-    setTimeout(() => {
-      const newSelections = { ...selections, [part]: { ...selections[part], variant } }
-      setSelections(newSelections)
-      addToHistory(newSelections)
-      setLoading(false)
-      play8BitSound("select", soundEnabled)
-    }, 50)
-  }
-
-  function onSelectColor(part: PartKey, color: number) {
-    const newSelections = { ...selections, [part]: { ...selections[part], color } }
-    setSelections(newSelections)
-    addToHistory(newSelections)
-    play8BitSound("click", soundEnabled)
-  }
-
-  function randomize() {
-    setLoading(true)
-    setTimeout(() => {
-      const newSelections = { ...selections }
-      ;(Object.keys(newSelections) as PartKey[]).forEach((p) => {
-        newSelections[p] = {
-          variant: Math.floor(Math.random() * 10),
-          color: Math.floor(Math.random() * RETRO_CHARACTER_PALETTES[p].length),
-        }
-      })
-      setSelections(newSelections)
-      addToHistory(newSelections)
-      setLoading(false)
-      play8BitSound("success", soundEnabled)
-    }, 100)
-  }
-
-  function resetAll() {
-    const newSelections = defaultSelections()
-    setSelections(newSelections)
-    addToHistory(newSelections)
-    play8BitSound("click", soundEnabled)
-  }
-
-  // Generate thumbnail for saving
-  const generateThumbnail = useCallback((selections: Selections): string => {
-    const canvas = document.createElement("canvas")
-    const ctx = canvas.getContext("2d")
-
-    if (!ctx) return ""
-
-    canvas.width = 64 * 4
-    canvas.height = 80 * 4
-    ctx.imageSmoothingEnabled = false
-
-    drawCharacterToCanvas(canvas, selections, 4)
-
-    return canvas.toDataURL("image/png")
-  }, [])
-
-  // Handle loading character from gallery
-  const handleLoadCharacter = useCallback(
-    (newSelections: Selections) => {
-      setSelections(newSelections)
-      addToHistory(newSelections)
-      play8BitSound("success", soundEnabled)
-    },
-    [addToHistory, soundEnabled],
-  )
-
-  // Handle saving character
-  const handleSaveCharacter = useCallback(
-    (name: string) => {
-      play8BitSound("success", soundEnabled)
-    },
-    [soundEnabled],
-  )
+  }, [historyIndex, history, soundEnabled, setSelections])
 
   // Show download confirmation modal
-  function showDownloadConfirmation(scale = 12) {
+  const showDownloadConfirmation = useCallback((scale = 12) => {
     try {
       // Create a temporary canvas for preview
       const previewCanvas = document.createElement("canvas")
@@ -846,7 +739,114 @@ export default function Page() {
       play8BitSound("error", soundEnabled)
       alert("Preview generation failed. Please try again.")
     }
+  }, [selections, soundEnabled, setDownloadModalData, setShowDownloadModal])
+
+  const randomize = useCallback(() => {
+    setLoading(true)
+    setTimeout(() => {
+      const newSelections = { ...selections }
+      ;(Object.keys(newSelections) as PartKey[]).forEach((p) => {
+        newSelections[p] = {
+          variant: Math.floor(Math.random() * 10),
+          color: Math.floor(Math.random() * RETRO_CHARACTER_PALETTES[p].length),
+        }
+      })
+      setSelections(newSelections)
+      addToHistory(newSelections)
+      setLoading(false)
+      play8BitSound("success", soundEnabled)
+    }, 100)
+  }, [selections, addToHistory, soundEnabled, setLoading, setSelections])
+
+  // Add keyboard shortcuts for undo/redo
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.ctrlKey || e.metaKey) {
+        if (e.key === "z" && !e.shiftKey) {
+          e.preventDefault()
+          undo()
+        } else if (e.key === "y" || (e.key === "z" && e.shiftKey)) {
+          e.preventDefault()
+          redo()
+        } else if (e.key === "s") {
+          e.preventDefault()
+          showDownloadConfirmation()
+        } else if (e.key === " ") {
+          e.preventDefault()
+          randomize()
+        } else if (e.key === "g") {
+          e.preventDefault()
+          if (storageAvailable) setShowGalleryModal(true)
+        }
+      } else if (e.key === " " && !e.ctrlKey && !e.metaKey) {
+        e.preventDefault()
+        randomize()
+      }
+    }
+
+    window.addEventListener("keydown", handleKeyDown)
+    return () => window.removeEventListener("keydown", handleKeyDown)
+  }, [historyIndex, history, soundEnabled, storageAvailable, undo, redo, showDownloadConfirmation, randomize])
+
+  function onSelectVariant(part: PartKey, variant: number) {
+    setLoading(true)
+    setTimeout(() => {
+      const newSelections = { ...selections, [part]: { ...selections[part], variant } }
+      setSelections(newSelections)
+      addToHistory(newSelections)
+      setLoading(false)
+      play8BitSound("select", soundEnabled)
+    }, 50)
   }
+
+  function onSelectColor(part: PartKey, color: number) {
+    const newSelections = { ...selections, [part]: { ...selections[part], color } }
+    setSelections(newSelections)
+    addToHistory(newSelections)
+    play8BitSound("click", soundEnabled)
+  }
+
+  function resetAll() {
+    const newSelections = defaultSelections()
+    setSelections(newSelections)
+    addToHistory(newSelections)
+    play8BitSound("click", soundEnabled)
+  }
+
+  // Generate thumbnail for saving
+  const generateThumbnail = useCallback((selections: Selections): string => {
+    const canvas = document.createElement("canvas")
+    const ctx = canvas.getContext("2d")
+
+    if (!ctx) return ""
+
+    canvas.width = 64 * 4
+    canvas.height = 80 * 4
+    ctx.imageSmoothingEnabled = false
+
+    drawCharacterToCanvas(canvas, selections, 4)
+
+    return canvas.toDataURL("image/png")
+  }, [])
+
+  // Handle loading character from gallery
+  const handleLoadCharacter = useCallback(
+    (newSelections: Selections) => {
+      setSelections(newSelections)
+      addToHistory(newSelections)
+      play8BitSound("success", soundEnabled)
+    },
+    [addToHistory, soundEnabled],
+  )
+
+  // Handle saving character
+  const handleSaveCharacter = useCallback(
+    () => {
+      play8BitSound("success", soundEnabled)
+    },
+    [soundEnabled],
+  )
+
 
   // Actual download function that creates and saves a PNG
   function downloadPng() {
@@ -1586,7 +1586,6 @@ export default function Page() {
                                     ? PIXSELF_BRAND.colors.primary.navy
                                     : PIXSELF_BRAND.colors.primary.navyLight,
                                   imageRendering: "pixelated",
-                                  focusRingColor: PIXSELF_BRAND.colors.accent.sparkle,
                                 }}
                               >
                                 {/* Mini Canvas Preview */}
@@ -1776,7 +1775,7 @@ export default function Page() {
           onSaveCharacter={handleSaveCharacter}
           generateThumbnail={generateThumbnail}
           soundEnabled={soundEnabled}
-          onPlaySound={play8BitSound}
+          onPlaySound={(type) => play8BitSound(type, soundEnabled)}
         />
       )}
     </main>

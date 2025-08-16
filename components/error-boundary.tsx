@@ -25,14 +25,6 @@ export class ErrorBoundary extends Component<Props, State> {
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     console.error("Character Studio Error:", error, errorInfo)
-
-    // Report to error tracking service
-    if (typeof window !== "undefined" && window.gtag) {
-      window.gtag("event", "exception", {
-        description: error.message,
-        fatal: false,
-      })
-    }
   }
 
   render() {
@@ -44,7 +36,7 @@ export class ErrorBoundary extends Component<Props, State> {
               <AlertTriangle className="h-12 w-12 text-[#ff4444] mx-auto mb-4" />
               <h2 className="text-[14px] font-bold text-[#F5DEB3] mb-2">Oops! Something went wrong</h2>
               <p className="text-[10px] text-[#87CEEB] mb-6">
-                The character studio encountered an unexpected error. Don't worry, your progress should be saved.
+                The character studio encountered an unexpected error. Don&apos;t worry, your progress should be saved.
               </p>
               <button
                 onClick={() => window.location.reload()}

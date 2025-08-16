@@ -14,7 +14,7 @@ interface EnhancedVariantGridProps {
   onPreview?: (variant: number) => void
   onPreviewEnd?: () => void
   isLoading?: boolean
-  selections?: any
+  selections?: Record<string, { variant: number; color: number }>
   onSelectVariant?: (part: string, variant: number) => void
   loading?: boolean
 }
@@ -27,9 +27,7 @@ export function EnhancedVariantGrid({
   onPreview,
   onPreviewEnd,
   isLoading = false,
-  selections,
-  onSelectVariant,
-  loading,
+
 }: EnhancedVariantGridProps) {
   const [thumbnails, setThumbnails] = useState<string[]>([])
   const [loadingThumbnails, setLoadingThumbnails] = useState(true)
@@ -40,7 +38,7 @@ export function EnhancedVariantGrid({
     const generateThumbs = async () => {
       setLoadingThumbnails(true)
       try {
-        const color = RETRO_CHARACTER_PALETTES[activePart]?.[currentColor] || "#FFFFFF"
+        const color = RETRO_CHARACTER_PALETTES[activePart as keyof typeof RETRO_CHARACTER_PALETTES]?.[currentColor] || "#FFFFFF"
         const thumbs = generateVariantThumbnails(activePart, color, 120)
         setThumbnails(thumbs)
       } catch (error) {
@@ -108,7 +106,7 @@ export function EnhancedVariantGrid({
                 backgroundColor: isSelected ? PIXSELF_BRAND.colors.primary.gold : PIXSELF_BRAND.colors.cloud.light,
                 borderColor: isSelected ? PIXSELF_BRAND.colors.primary.navy : PIXSELF_BRAND.colors.primary.navyLight,
                 imageRendering: "pixelated",
-                focusRingColor: PIXSELF_BRAND.colors.accent.sparkle,
+
                 boxShadow: isSelected
                   ? `0 0 20px ${PIXSELF_BRAND.colors.primary.gold}60, inset 0 0 10px ${PIXSELF_BRAND.colors.primary.gold}20`
                   : isPreview
@@ -118,6 +116,7 @@ export function EnhancedVariantGrid({
             >
               {/* Thumbnail image */}
               {thumbnail && !loadingThumbnails ? (
+                // eslint-disable-next-line @next/next/no-img-element
                 <img
                   src={thumbnail || "/placeholder.svg"}
                   alt={`Variant ${i + 1}`}

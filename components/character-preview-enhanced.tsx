@@ -6,7 +6,7 @@ import { RETRO_UI_THEME } from "@/config/8bit-theme"
 import { EnhancedRetroPixelPanel, RetroLoadingSpinner } from "./enhanced-8bit-ui"
 
 interface EnhancedCharacterPreviewProps {
-  selections: any
+  selections: Record<string, { variant: number; color: number }>
   activePart: string
   zoom: number
   onZoomChange: (zoom: number) => void

@@ -251,6 +251,7 @@ export function EnhancedVariantButton({
     >
       {/* Preview image or placeholder */}
       {previewImage ? (
+        // eslint-disable-next-line @next/next/no-img-element
         <img
           src={previewImage || "/placeholder.svg"}
           alt={`Variant ${variant + 1}`}
@@ -336,7 +337,7 @@ export function EnhancedRetroProgressBar({
     } else {
       setDisplayValue(value)
     }
-  }, [value, animated])
+  }, [value, animated, displayValue])
 
   return (
     <div className="space-y-2">

@@ -1,4 +1,4 @@
-export type PartKey = "hair" | "head" | "eyes" | "eyebrows" | "mouth" | "body" | "costume" | "shoes"
+export type PartKey = "hair" | "head" | "eyes" | "eyebrows" | "mouth" | "body" | "costume"
 
 export interface PartSelection {
   variant: number

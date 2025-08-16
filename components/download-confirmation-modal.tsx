@@ -122,6 +122,7 @@ export function DownloadConfirmationModal({
                 boxShadow: PIXSELF_BRAND.shadows.pixel,
               }}
             >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={characterPreview || "/placeholder.svg"}
                 alt="Character Preview"
@@ -198,7 +199,7 @@ export function DownloadConfirmationModal({
                 🎮 BRING YOUR CHARACTER TO LIFE! 🎮
               </div>
               <div className="text-[8px] mb-3" style={{ color: PIXSELF_BRAND.colors.primary.navyLight }}>
-                Turn your pixel character into a real keychain! Send us your PNG and we'll create a custom physical
+                Turn your pixel character into a real keychain! Send us your PNG and we&apos;ll create a custom physical
                 keychain just for you.
               </div>
             </div>

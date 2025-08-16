@@ -1,5 +1,3 @@
-import { useOptimizedCanvas } from "@/hooks/use-optimized-canvas"
-import { drawCharacterToCanvas } from "@/utils/drawing"
 import type { Selections } from "@/types/character"
 
 interface CharacterPreviewProps {
@@ -8,27 +6,14 @@ interface CharacterPreviewProps {
   onZoomChange: (zoom: number) => void
 }
 
-export function CharacterPreview({ selections, zoom, onZoomChange }: CharacterPreviewProps) {
-  const canvasRef = useOptimizedCanvas({
-    selections,
-    scale: 6,
-    zoom,
-    drawFunction: drawCharacterToCanvas,
-  })
-
+export function CharacterPreview({ zoom }: CharacterPreviewProps) {
   return (
     <div className="space-y-6" data-tour="character-preview">
-      {/* Zoom controls */}
-      <div className="flex items-center justify-between">{/* ... zoom controls implementation */}</div>
-
-      {/* Canvas container */}
+      {/* Placeholder for character preview */}
       <div className="relative mx-auto aspect-[64/80] w-full max-w-[500px] bg-gradient-to-br from-[#0a0a0a] to-[#1a1a1a] border-4 border-[#00d4ff] shadow-[0_0_30px_rgba(0,212,255,0.5)] overflow-hidden rounded-lg">
-        <canvas
-          ref={canvasRef}
-          className="absolute inset-4 w-auto h-auto max-w-full max-h-full"
-          style={{ imageRendering: "pixelated" }}
-          aria-label="Pixel character preview"
-        />
+        <div className="absolute inset-4 flex items-center justify-center text-white text-sm">
+          Character Preview (Zoom: {Math.round(zoom * 100)}%)
+        </div>
       </div>
     </div>
   )

@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useEffect, useRef } from "react"
+import React, { useState, useEffect, useRef, useCallback } from "react"
 import { X, Save, Trash2, Download, Upload, Search, Grid, List, Star } from "lucide-react"
 import { PIXSELF_BRAND } from "@/config/pixself-brand"
 import { PixselfButton } from "@/components/pixself-ui-components"
@@ -33,7 +33,6 @@ export function CharacterGalleryModal({
   onLoadCharacter,
   onSaveCharacter,
   generateThumbnail,
-  soundEnabled,
   onPlaySound,
 }: CharacterGalleryModalProps) {
   const [savedCharacters, setSavedCharacters] = useState<SavedCharacter[]>([])
@@ -47,14 +46,7 @@ export function CharacterGalleryModal({
   const [isLoading, setIsLoading] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
-  // Load saved characters when modal opens
-  useEffect(() => {
-    if (isOpen) {
-      loadCharacters()
-    }
-  }, [isOpen])
-
-  const loadCharacters = () => {
+  const loadCharacters = useCallback(() => {
     try {
       const characters = getSavedCharacters()
       setSavedCharacters(characters)
@@ -62,7 +54,14 @@ export function CharacterGalleryModal({
       console.error("Error loading characters:", error)
       onPlaySound("error")
     }
-  }
+  }, [onPlaySound])
+
+  // Load saved characters when modal opens
+  useEffect(() => {
+    if (isOpen) {
+      loadCharacters()
+    }
+  }, [isOpen, loadCharacters])
 
   // Filter and sort characters
   const filteredAndSortedCharacters = React.useMemo(() => {
@@ -289,7 +288,6 @@ export function CharacterGalleryModal({
                   backgroundColor: PIXSELF_BRAND.colors.cloud.white,
                   borderColor: PIXSELF_BRAND.colors.primary.navyLight,
                   color: PIXSELF_BRAND.colors.primary.navy,
-                  focusRingColor: PIXSELF_BRAND.colors.accent.sparkle,
                 }}
               />
             </div>
@@ -297,13 +295,13 @@ export function CharacterGalleryModal({
             {/* Sort */}
             <select
               value={sortBy}
-              onChange={(e) => setSortBy(e.target.value as any)}
+              onChange={(e) => setSortBy(e.target.value as "updated" | "created" | "name")}
               className="px-3 py-2 text-[12px] border-4 focus:outline-none focus:ring-2 focus:ring-opacity-50"
               style={{
                 backgroundColor: PIXSELF_BRAND.colors.cloud.white,
                 borderColor: PIXSELF_BRAND.colors.primary.navyLight,
                 color: PIXSELF_BRAND.colors.primary.navy,
-                focusRingColor: PIXSELF_BRAND.colors.accent.sparkle,
+
               }}
             >
               <option value="updated">Last Updated</option>
@@ -381,6 +379,7 @@ export function CharacterGalleryModal({
                     <div className="p-3 h-full flex flex-col">
                       {/* Thumbnail */}
                       <div className="flex-1 flex items-center justify-center mb-3">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                           src={character.thumbnail || "/placeholder.svg"}
                           alt={character.name}
@@ -406,6 +405,7 @@ export function CharacterGalleryModal({
                     <>
                       {/* List View */}
                       <div className="w-16 h-16 flex-shrink-0">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                           src={character.thumbnail || "/placeholder.svg"}
                           alt={character.name}
@@ -447,6 +447,7 @@ export function CharacterGalleryModal({
           >
             <div className="flex items-center gap-3">
               <div className="w-12 h-12 border-2" style={{ borderColor: PIXSELF_BRAND.colors.primary.navyLight }}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={selectedCharacter.thumbnail || "/placeholder.svg"}
                   alt={selectedCharacter.name}
@@ -507,7 +508,7 @@ export function CharacterGalleryModal({
                 backgroundColor: PIXSELF_BRAND.colors.cloud.light,
                 borderColor: PIXSELF_BRAND.colors.primary.navyLight,
                 color: PIXSELF_BRAND.colors.primary.navy,
-                focusRingColor: PIXSELF_BRAND.colors.accent.sparkle,
+
               }}
               autoFocus
             />
@@ -546,11 +547,11 @@ export function CharacterGalleryModal({
             className="w-full max-w-md border-4 p-6"
             style={{
               backgroundColor: PIXSELF_BRAND.colors.cloud.white,
-              borderColor: PIXSELF_BRAND.colors.accent.error,
+              borderColor: PIXSELF_BRAND.colors.ui.error,
               boxShadow: PIXSELF_BRAND.shadows.glow,
             }}
           >
-            <h3 className="text-[14px] font-bold mb-4" style={{ color: PIXSELF_BRAND.colors.accent.error }}>
+            <h3 className="text-[14px] font-bold mb-4" style={{ color: PIXSELF_BRAND.colors.ui.error }}>
               DELETE CHARACTER
             </h3>
 

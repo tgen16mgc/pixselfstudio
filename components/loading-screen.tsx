@@ -83,7 +83,7 @@ export function LoadingScreen({ onComplete }: LoadingScreenProps) {
 
   const filledBlocks = Math.floor((progress / 100) * 20) // 20 blocks total
 
-  const getPixelShape = (type: string, size: number) => {
+  const getPixelShape = (type: string) => {
     switch (type) {
       case "cross":
         return {
@@ -150,7 +150,7 @@ export function LoadingScreen({ onComplete }: LoadingScreenProps) {
               animationDuration: `${effect.duration}s`,
               filter: `drop-shadow(0 0 2px ${effect.color})`,
               imageRendering: "pixelated",
-              ...getPixelShape(effect.type, effect.size),
+              ...getPixelShape(effect.type),
             }}
           />
         ))}
