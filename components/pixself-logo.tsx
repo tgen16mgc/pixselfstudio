@@ -55,7 +55,7 @@ export function PixselfLogo({
       <div className="relative flex-shrink-0">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/my-app/public/image/logo.png"
+          src="https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/image/logo.png"
           alt="Pixself: The Studio Logo"
           className={`${getSizeClasses()} w-auto object-contain ${animated ? "hover:scale-105 transition-transform duration-200" : ""}`}
           style={{

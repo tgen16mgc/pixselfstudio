@@ -34,7 +34,7 @@ export function PixselfBackground() {
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: "url('https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/my-app/public/image/coverr-background.jpeg')",
+          backgroundImage: "url('https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/image/coverr-background.jpeg')",
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}

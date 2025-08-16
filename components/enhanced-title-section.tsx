@@ -97,7 +97,7 @@ export function EnhancedTitleSection({
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-80"
         style={{
-          backgroundImage: "url('https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/my-app/public/image/title%20background.gif')",
+          backgroundImage: "url('https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/image/title%20background.gif')",
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
