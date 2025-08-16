@@ -17,10 +17,11 @@ export const metadata: Metadata = {
   description: "Create your unique pixel character with Pixself Studio - the ultimate pixel art character creator",
   icons: {
     icon: [
-      { url: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/image/logo.png", sizes: "32x32", type: "image/png" },
-      { url: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/image/logo.png", sizes: "16x16", type: "image/png" },
+      { url: "/favicon-32x32.svg", sizes: "32x32", type: "image/svg+xml" },
+      { url: "/favicon-16x16.svg", sizes: "16x16", type: "image/svg+xml" },
     ],
-    apple: { url: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/image/logo.png", sizes: "180x180", type: "image/png" },
+    apple: { url: "/apple-touch-icon.svg", sizes: "180x180", type: "image/svg+xml" },
+    shortcut: "/favicon.ico",
   },
 };
 
