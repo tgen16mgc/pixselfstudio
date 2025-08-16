@@ -177,9 +177,9 @@ export function CharacterGalleryModal({
   if (!isOpen) return null
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/60 backdrop-blur-sm">
       <div
-        className="relative w-full max-w-6xl max-h-[90vh] border-4 backdrop-blur-sm overflow-hidden"
+        className="relative w-full max-w-6xl max-h-[95vh] sm:max-h-[90vh] border-4 backdrop-blur-sm overflow-hidden"
         style={{
           backgroundColor: PIXSELF_BRAND.colors.cloud.white,
           borderColor: PIXSELF_BRAND.colors.primary.navy,
@@ -188,15 +188,15 @@ export function CharacterGalleryModal({
       >
         {/* Header */}
         <div
-          className="px-6 py-4 border-b-4 flex items-center justify-between"
+          className="px-3 sm:px-6 py-3 sm:py-4 border-b-4 flex items-center justify-between"
           style={{
             backgroundColor: PIXSELF_BRAND.colors.primary.gold,
             borderBottomColor: PIXSELF_BRAND.colors.primary.navy,
           }}
         >
-          <div className="flex items-center gap-3">
-            <Grid className="h-5 w-5" style={{ color: PIXSELF_BRAND.colors.primary.navy }} />
-            <h2 className="text-[14px] font-bold tracking-wider" style={{ color: PIXSELF_BRAND.colors.primary.navy }}>
+          <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+            <Grid className="h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0" style={{ color: PIXSELF_BRAND.colors.primary.navy }} />
+            <h2 className="text-[12px] sm:text-[14px] font-bold tracking-wider truncate" style={{ color: PIXSELF_BRAND.colors.primary.navy }}>
               CHARACTER GALLERY
             </h2>
             <div
@@ -213,7 +213,7 @@ export function CharacterGalleryModal({
 
           <button
             onClick={onClose}
-            className="w-8 h-8 border-2 flex items-center justify-center transition-all duration-200 hover:scale-110 active:scale-95"
+            className="w-7 h-7 sm:w-8 sm:h-8 border-2 flex items-center justify-center transition-all duration-200 hover:scale-110 active:scale-95 flex-shrink-0"
             style={{
               backgroundColor: PIXSELF_BRAND.colors.cloud.white,
               borderColor: PIXSELF_BRAND.colors.primary.navy,
@@ -226,24 +226,26 @@ export function CharacterGalleryModal({
 
         {/* Controls */}
         <div
-          className="px-6 py-4 border-b-4 space-y-4"
+          className="px-3 sm:px-6 py-3 sm:py-4 border-b-4 space-y-3 sm:space-y-4"
           style={{
             backgroundColor: PIXSELF_BRAND.colors.cloud.light,
             borderBottomColor: PIXSELF_BRAND.colors.primary.navyLight,
           }}
         >
           {/* Top Row - Save and Import/Export */}
-          <div className="flex items-center justify-between gap-4">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2 sm:gap-4">
             <PixselfButton
               onClick={() => setShowSaveDialog(true)}
               variant="accent"
               size="sm"
               icon={<Save className="h-4 w-4" />}
+              fullWidth
+              className="sm:w-auto"
             >
               SAVE CURRENT
             </PixselfButton>
 
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 justify-center sm:justify-end">
               <PixselfButton
                 onClick={handleExportCharacters}
                 variant="secondary"
@@ -272,7 +274,7 @@ export function CharacterGalleryModal({
           </div>
 
           {/* Bottom Row - Search and View Controls */}
-          <div className="flex items-center gap-4">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4">
             {/* Search */}
             <div className="flex-1 relative">
               <div className="absolute left-3 top-1/2 transform -translate-y-1/2">
@@ -292,25 +294,26 @@ export function CharacterGalleryModal({
               />
             </div>
 
-            {/* Sort */}
-            <select
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value as "updated" | "created" | "name")}
-              className="px-3 py-2 text-[12px] border-4 focus:outline-none focus:ring-2 focus:ring-opacity-50"
-              style={{
-                backgroundColor: PIXSELF_BRAND.colors.cloud.white,
-                borderColor: PIXSELF_BRAND.colors.primary.navyLight,
-                color: PIXSELF_BRAND.colors.primary.navy,
+            {/* Sort and View Controls */}
+            <div className="flex items-center gap-2 justify-center sm:justify-end">
+              {/* Sort */}
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value as "updated" | "created" | "name")}
+                className="px-3 py-2 text-[12px] border-4 focus:outline-none focus:ring-2 focus:ring-opacity-50"
+                style={{
+                  backgroundColor: PIXSELF_BRAND.colors.cloud.white,
+                  borderColor: PIXSELF_BRAND.colors.primary.navyLight,
+                  color: PIXSELF_BRAND.colors.primary.navy,
+                }}
+              >
+                <option value="updated">Last Updated</option>
+                <option value="created">Date Created</option>
+                <option value="name">Name A-Z</option>
+              </select>
 
-              }}
-            >
-              <option value="updated">Last Updated</option>
-              <option value="created">Date Created</option>
-              <option value="name">Name A-Z</option>
-            </select>
-
-            {/* View Mode */}
-            <div className="flex border-4" style={{ borderColor: PIXSELF_BRAND.colors.primary.navyLight }}>
+              {/* View Mode */}
+              <div className="flex border-4" style={{ borderColor: PIXSELF_BRAND.colors.primary.navyLight }}>
               <button
                 onClick={() => setViewMode("grid")}
                 className={`px-3 py-2 border-r-2 transition-all duration-200 ${
@@ -338,12 +341,13 @@ export function CharacterGalleryModal({
               >
                 <List className="h-4 w-4" />
               </button>
+              </div>
             </div>
           </div>
         </div>
 
         {/* Character List */}
-        <div className="flex-1 overflow-y-auto p-6" style={{ maxHeight: "60vh" }}>
+        <div className="flex-1 overflow-y-auto p-3 sm:p-6" style={{ maxHeight: "60vh" }}>
           {filteredAndSortedCharacters.length === 0 ? (
             <div className="text-center py-12">
               <div className="mb-4">
@@ -357,12 +361,12 @@ export function CharacterGalleryModal({
               </div>
             </div>
           ) : (
-            <div className={viewMode === "grid" ? "grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4" : "space-y-3"}>
+            <div className={viewMode === "grid" ? "grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4" : "space-y-3"}>
               {filteredAndSortedCharacters.map((character) => (
                 <div
                   key={character.id}
                   className={`border-4 transition-all duration-200 hover:scale-105 cursor-pointer ${
-                    viewMode === "grid" ? "aspect-square" : "flex items-center gap-4 p-4"
+                    viewMode === "grid" ? "aspect-square" : "flex items-center gap-3 sm:gap-4 p-3 sm:p-4"
                   }`}
                   style={{
                     backgroundColor: PIXSELF_BRAND.colors.cloud.white,
@@ -376,7 +380,7 @@ export function CharacterGalleryModal({
                   onClick={() => setSelectedCharacter(character)}
                 >
                   {viewMode === "grid" ? (
-                    <div className="p-3 h-full flex flex-col">
+                    <div className="p-2 sm:p-3 h-full flex flex-col">
                       {/* Thumbnail */}
                       <div className="flex-1 flex items-center justify-center mb-3">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -439,7 +443,7 @@ export function CharacterGalleryModal({
         {/* Selected Character Actions */}
         {selectedCharacter && (
           <div
-            className="px-6 py-4 border-t-4 flex items-center justify-between"
+            className="px-3 sm:px-6 py-3 sm:py-4 border-t-4 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 sm:gap-0"
             style={{
               backgroundColor: PIXSELF_BRAND.colors.cloud.light,
               borderTopColor: PIXSELF_BRAND.colors.primary.navyLight,
@@ -465,8 +469,14 @@ export function CharacterGalleryModal({
               </div>
             </div>
 
-            <div className="flex items-center gap-2">
-              <PixselfButton onClick={() => handleLoadCharacter(selectedCharacter)} variant="accent" size="sm">
+            <div className="flex items-center gap-2 justify-center sm:justify-end">
+              <PixselfButton 
+                onClick={() => handleLoadCharacter(selectedCharacter)} 
+                variant="accent" 
+                size="sm"
+                fullWidth
+                className="sm:w-auto"
+              >
                 LOAD
               </PixselfButton>
               <PixselfButton
@@ -474,6 +484,8 @@ export function CharacterGalleryModal({
                 variant="secondary"
                 size="sm"
                 icon={<Trash2 className="h-4 w-4" />}
+                fullWidth
+                className="sm:w-auto"
               >
                 DELETE
               </PixselfButton>
