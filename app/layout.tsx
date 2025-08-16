@@ -15,6 +15,13 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Pixself: The Studio",
   description: "Create your unique pixel character with Pixself Studio - the ultimate pixel art character creator",
+  icons: {
+    icon: [
+      { url: "/image/logo.png", sizes: "32x32", type: "image/png" },
+      { url: "/image/logo.png", sizes: "16x16", type: "image/png" },
+    ],
+    apple: { url: "/image/logo.png", sizes: "180x180", type: "image/png" },
+  },
 };
 
 export default function RootLayout({
