@@ -61,6 +61,8 @@ export function PostDownloadModal({
     onClose()
   }
 
+  console.log("PostDownloadModal render - isOpen:", isOpen, "characterPreview:", !!characterPreview)
+  
   if (!isOpen) return null
 
   return (
