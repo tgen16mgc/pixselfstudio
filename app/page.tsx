@@ -1102,7 +1102,10 @@ export default function Page() {
             }, 100)
           }}
           onConfirm={downloadPng}
-          onDownloadComplete={() => setShowPostDownloadModal(true)}
+          onDownloadComplete={() => {
+            console.log("onDownloadComplete called, setting showPostDownloadModal to true")
+            setShowPostDownloadModal(true)
+          }}
           characterPreview={downloadModalData.preview}
           fileName={downloadModalData.fileName}
           fileSize={downloadModalData.fileSize}
@@ -1115,12 +1118,21 @@ export default function Page() {
         <PostDownloadModal
           isOpen={showPostDownloadModal}
           onClose={() => {
+            console.log("Post-download modal closing")
             setShowPostDownloadModal(false)
             setDownloadModalData(null)
           }}
           characterPreview={downloadModalData.preview}
           fileName={downloadModalData.fileName}
         />
+      )}
+      
+      {/* Debug info */}
+      {process.env.NODE_ENV === 'development' && (
+        <div style={{ position: 'fixed', top: 10, right: 10, background: 'black', color: 'white', padding: '5px', fontSize: '12px', zIndex: 9999 }}>
+          showPostDownloadModal: {showPostDownloadModal.toString()}<br/>
+          hasDownloadModalData: {(!!downloadModalData).toString()}
+        </div>
       )}
 
       {/* Share Template Modal */}

@@ -54,14 +54,19 @@ export function DownloadConfirmationModal({
   }, [isOpen, onClose])
 
   const handleDownloadAndBuy = () => {
+    console.log("Download and Buy clicked")
+    
     // First trigger the download
     onConfirm()
+    console.log("Download confirmed")
     
     // Close this modal first
     onClose()
+    console.log("Download modal closed")
     
     // Show the post-download modal after a brief delay to prevent immediate closure
     setTimeout(() => {
+      console.log("Triggering post-download modal")
       onDownloadComplete()
     }, 200)
   }
