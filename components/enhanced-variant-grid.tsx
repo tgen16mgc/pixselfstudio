@@ -40,7 +40,7 @@ export function EnhancedVariantGrid({
     const generateThumbs = async () => {
       setLoadingThumbnails(true)
       try {
-        const color = RETRO_CHARACTER_PALETTES[activePart]?.[currentColor] || "#FFFFFF"
+        const color = RETRO_CHARACTER_PALETTES[activePart as keyof typeof RETRO_CHARACTER_PALETTES]?.[currentColor] || "#FFFFFF"
         const thumbs = generateVariantThumbnails(activePart, color, 120)
         setThumbnails(thumbs)
       } catch (error) {

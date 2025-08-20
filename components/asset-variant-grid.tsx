@@ -48,7 +48,7 @@ export function AssetVariantGrid({
                   style={{
                     backgroundColor: isSelected
                       ? PIXSELF_BRAND.colors.primary.gold
-                      : isPreview
+                      : false // isPreview
                         ? PIXSELF_BRAND.colors.sky.light
                         : PIXSELF_BRAND.colors.cloud.light,
                     borderColor: isSelected

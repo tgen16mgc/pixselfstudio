@@ -29,7 +29,7 @@ export function ColorPalettePlaceholder({ activePart, isMobile = false }: ColorP
     return null
   }
 
-  const colors = COLOR_PALETTES[activePart] || COLOR_PALETTES.default
+  const colors = COLOR_PALETTES[activePart as keyof typeof COLOR_PALETTES] || COLOR_PALETTES.default
 
   if (isMobile) {
     // Mobile: Horizontal scrollable
@@ -44,7 +44,7 @@ export function ColorPalettePlaceholder({ activePart, isMobile = false }: ColorP
 
         <div className="overflow-x-auto pb-2">
           <div className="flex items-stretch gap-2 min-w-max px-1">
-            {colors.map((color, index) => {
+            {colors.map((color: string, index: number) => {
               const isSelected = selectedColor === color
               const isPreview = previewColor === color
 
@@ -112,7 +112,7 @@ export function ColorPalettePlaceholder({ activePart, isMobile = false }: ColorP
       </div>
 
       <div className="grid grid-cols-3 gap-3">
-        {colors.map((color, index) => {
+        {colors.map((color: string, index: number) => {
           const isSelected = selectedColor === color
           const isPreview = previewColor === color
 

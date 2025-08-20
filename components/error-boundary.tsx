@@ -27,12 +27,8 @@ export class ErrorBoundary extends Component<Props, State> {
     console.error("Character Studio Error:", error, errorInfo)
 
     // Report to error tracking service
-    if (typeof window !== "undefined" && window.gtag) {
-      window.gtag("event", "exception", {
-        description: error.message,
-        fatal: false,
-      })
-    }
+    // Analytics error tracking removed for simplicity
+    console.error("Error boundary caught:", error)
   }
 
   render() {

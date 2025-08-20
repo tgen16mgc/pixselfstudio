@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useEffect, useRef, useCallback } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import { X, Save, Trash2, Download, Upload, Search, Grid, List, Star } from "lucide-react"
 import { PIXSELF_BRAND } from "@/config/pixself-brand"
 import { PixselfButton } from "@/components/pixself-ui-components"
@@ -53,7 +53,7 @@ export function CharacterGalleryModal({
     }
   }, [isOpen, loadCharacters])
 
-  const loadCharacters = useCallback(() => {
+  const loadCharacters = () => {
     try {
       const characters = getSavedCharacters()
       setSavedCharacters(characters)
@@ -61,7 +61,7 @@ export function CharacterGalleryModal({
       console.error("Error loading characters:", error)
       onPlaySound("error")
     }
-  }, [onPlaySound])
+  }
 
   // Filter and sort characters
   const filteredAndSortedCharacters = React.useMemo(() => {
