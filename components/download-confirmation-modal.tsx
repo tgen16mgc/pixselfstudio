@@ -40,6 +40,17 @@ export function DownloadConfirmationModal({
     }
   }, [isOpen])
 
+  // Protected close function that respects download state - DEFINED FIRST
+  const handleClose = useCallback(() => {
+    if (downloadInProgress) {
+      console.log("Close requested but download in progress, setting pending flag")
+      pendingCloseRef.current = true
+      return
+    }
+    console.log("Close requested and allowed")
+    onClose()
+  }, [downloadInProgress, onClose])
+
   // Handle pending close when download completes
   useEffect(() => {
     if (!downloadInProgress && pendingCloseRef.current) {
@@ -133,17 +144,6 @@ export function DownloadConfirmationModal({
       onDownloadProgressChange?.(false)
     }, 2000) // Longer delay to ensure download starts and Chrome notification appears/disappears
   }
-
-  // Protected close function that respects download state
-  const handleClose = useCallback(() => {
-    if (downloadInProgress) {
-      console.log("Close requested but download in progress, setting pending flag")
-      pendingCloseRef.current = true
-      return
-    }
-    console.log("Close requested and allowed")
-    onClose()
-  }, [downloadInProgress, onClose])
 
   const handleBuyNow = () => {
     // Open the order form
