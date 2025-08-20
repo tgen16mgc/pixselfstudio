@@ -66,12 +66,16 @@ export function DownloadConfirmationModal({
     onConfirm()
     console.log("Download confirmed")
     
-    // Show the post-download state within the same modal
+    // Try immediate state change first to test
+    console.log("Setting downloadComplete to true immediately")
+    setDownloadComplete(true)
+    console.log("Called setDownloadComplete(true)")
+    
+    // Also try with a delay as backup
     setTimeout(() => {
-      console.log("Setting downloadComplete to true")
+      console.log("Timeout: Setting downloadComplete to true again")
       setDownloadComplete(true)
-      console.log("downloadComplete state should now be true")
-    }, 500)
+    }, 100)
   }
 
   const handleBuyNow = () => {
@@ -148,6 +152,16 @@ export function DownloadConfirmationModal({
           {process.env.NODE_ENV === 'development' && (
             <div style={{ position: 'absolute', top: '50px', right: '10px', background: 'red', color: 'white', padding: '2px 5px', fontSize: '10px', zIndex: 10000 }}>
               State: {downloadComplete ? 'POST-DOWNLOAD' : 'CONFIRMATION'}
+              <br />
+              <button 
+                onClick={() => {
+                  console.log("Debug button clicked, setting downloadComplete to true")
+                  setDownloadComplete(true)
+                }}
+                style={{ background: 'blue', color: 'white', padding: '2px', fontSize: '8px', marginTop: '2px' }}
+              >
+                Test State
+              </button>
             </div>
           )}
           
