@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useEffect, useRef } from "react"
+import React, { useState, useEffect, useRef, useCallback } from "react"
 import { X, Save, Trash2, Download, Upload, Search, Grid, List, Star } from "lucide-react"
 import { PIXSELF_BRAND } from "@/config/pixself-brand"
 import { PixselfButton } from "@/components/pixself-ui-components"
