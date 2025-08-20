@@ -74,7 +74,7 @@ export function DownloadConfirmationModal({
     setTimeout(() => {
       setDownloadComplete(true)
       setIsDownloadProtected(false)
-    }, 3000) // 3 second protection window
+    }, 3000) // 3 second protection window - build fix applied
   }
 
   const handleBuyNow = () => {
