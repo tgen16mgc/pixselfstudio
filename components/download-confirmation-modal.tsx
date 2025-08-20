@@ -26,25 +26,37 @@ export function DownloadConfirmationModal({
 }: DownloadConfirmationModalProps) {
   const modalRef = useRef<HTMLDivElement>(null)
   const [downloadComplete, setDownloadComplete] = useState(false)
+  const [downloadInProgress, setDownloadInProgress] = useState(false)
 
-  // Reset download complete state when modal opens
+  // Reset states when modal opens
   useEffect(() => {
     if (isOpen) {
       setDownloadComplete(false)
+      setDownloadInProgress(false)
     }
   }, [isOpen])
 
-  // Handle escape key and click outside
+  // Handle escape key and click outside - but prevent closing during download
   useEffect(() => {
     if (!isOpen) return
 
     const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose()
+      if (e.key === "Escape" && !downloadInProgress) {
+        console.log("Escape pressed, closing modal")
+        onClose()
+      } else if (downloadInProgress) {
+        console.log("Escape pressed but download in progress, preventing close")
+      }
     }
 
     const handleClickOutside = (e: MouseEvent) => {
       if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
-        onClose()
+        if (!downloadInProgress) {
+          console.log("Click outside, closing modal")
+          onClose()
+        } else {
+          console.log("Click outside but download in progress, preventing close")
+        }
       }
     }
 
@@ -57,25 +69,25 @@ export function DownloadConfirmationModal({
       document.removeEventListener("mousedown", handleClickOutside)
       document.body.style.overflow = "unset"
     }
-  }, [isOpen, onClose])
+  }, [isOpen, onClose, downloadInProgress])
 
   const handleDownloadAndBuy = () => {
     console.log("Download and Buy clicked")
     
-    // First trigger the download
+    // Set download in progress to prevent modal from closing
+    console.log("Setting downloadInProgress to true")
+    setDownloadInProgress(true)
+    
+    // Trigger the download
     onConfirm()
     console.log("Download confirmed")
     
-    // Try immediate state change first to test
-    console.log("Setting downloadComplete to true immediately")
-    setDownloadComplete(true)
-    console.log("Called setDownloadComplete(true)")
-    
-    // Also try with a delay as backup
+    // Wait a bit for download to start, then show post-download state
     setTimeout(() => {
-      console.log("Timeout: Setting downloadComplete to true again")
+      console.log("Setting downloadComplete to true and downloadInProgress to false")
       setDownloadComplete(true)
-    }, 100)
+      setDownloadInProgress(false)
+    }, 2000) // Longer delay to ensure download starts and Chrome notification appears/disappears
   }
 
   const handleBuyNow = () => {
@@ -153,10 +165,13 @@ export function DownloadConfirmationModal({
             <div style={{ position: 'absolute', top: '50px', right: '10px', background: 'red', color: 'white', padding: '2px 5px', fontSize: '10px', zIndex: 10000 }}>
               State: {downloadComplete ? 'POST-DOWNLOAD' : 'CONFIRMATION'}
               <br />
+              Progress: {downloadInProgress ? 'DOWNLOADING' : 'IDLE'}
+              <br />
               <button 
                 onClick={() => {
                   console.log("Debug button clicked, setting downloadComplete to true")
                   setDownloadComplete(true)
+                  setDownloadInProgress(false)
                 }}
                 style={{ background: 'blue', color: 'white', padding: '2px', fontSize: '8px', marginTop: '2px' }}
               >
@@ -165,7 +180,20 @@ export function DownloadConfirmationModal({
             </div>
           )}
           
-          {downloadComplete ? (
+          {downloadInProgress ? (
+            // Download in progress state
+            <div className="text-center py-8">
+              <div className="text-[12px] font-bold mb-4" style={{ color: PIXSELF_BRAND.colors.primary.navy }}>
+                🔄 Download in Progress...
+              </div>
+              <div className="text-[10px] mb-4" style={{ color: PIXSELF_BRAND.colors.primary.navyLight }}>
+                Please wait while your character downloads. The modal will update automatically.
+              </div>
+              <div className="text-[8px]" style={{ color: PIXSELF_BRAND.colors.primary.navyLight }}>
+                Chrome may show a download notification - this is normal!
+              </div>
+            </div>
+          ) : downloadComplete ? (
             // Post-download content
             <>
               {/* Success Message */}
