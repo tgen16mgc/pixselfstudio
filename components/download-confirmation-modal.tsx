@@ -64,18 +64,14 @@ export function DownloadConfirmationModal({
   }, [isOpen, isDownloadProtected, onClose])
 
   const handleDownloadAndBuy = () => {
-    console.log("Download and Buy clicked")
-    
     // Protect modal from closing for 3 seconds
     setIsDownloadProtected(true)
     
     // Trigger the download
     onConfirm()
-    console.log("Download confirmed")
     
     // Wait for download to complete, then show post-download state
     setTimeout(() => {
-      console.log("Download protection period over, showing post-download state")
       setDownloadComplete(true)
       setIsDownloadProtected(false)
     }, 3000) // 3 second protection window
@@ -91,8 +87,6 @@ export function DownloadConfirmationModal({
     onClose()
   }
 
-  console.log("DownloadConfirmationModal render - isOpen:", isOpen, "downloadComplete:", downloadComplete)
-  
   if (!isOpen) return null
 
   return (
@@ -136,9 +130,9 @@ export function DownloadConfirmationModal({
               {downloadComplete ? "DOWNLOAD COMPLETE" : "DOWNLOAD CONFIRMATION"}
             </h2>
           </div>
-                                <button
+          <button
                         onClick={() => !isDownloadProtected && onClose()}
-                        className="w-6 h-6 border-2 flex items-center justify-center transition-all duration-200 hover:scale-110"
+            className="w-6 h-6 border-2 flex items-center justify-center transition-all duration-200 hover:scale-110"
             style={{
               backgroundColor: PIXSELF_BRAND.colors.cloud.white,
               borderColor: PIXSELF_BRAND.colors.primary.navy,
@@ -151,25 +145,6 @@ export function DownloadConfirmationModal({
 
         {/* Content */}
         <div className="p-4 sm:p-6 space-y-4 sm:space-y-6">
-          {/* Debug indicator */}
-          {process.env.NODE_ENV === 'development' && (
-            <div style={{ position: 'absolute', top: '50px', right: '10px', background: 'red', color: 'white', padding: '2px 5px', fontSize: '10px', zIndex: 10000 }}>
-              State: {downloadComplete ? 'POST-DOWNLOAD' : 'CONFIRMATION'}
-              <br />
-              Protected: {isDownloadProtected ? 'YES' : 'NO'}
-              <br />
-              <button 
-                onClick={() => {
-                  console.log("Debug button clicked, setting downloadComplete to true")
-                  setDownloadComplete(true)
-                  setIsDownloadProtected(false)
-                }}
-                style={{ background: 'blue', color: 'white', padding: '2px', fontSize: '8px', marginTop: '2px' }}
-              >
-                Test State
-              </button>
-            </div>
-          )}
           
           {isDownloadProtected && !downloadComplete ? (
             // Download in progress state
