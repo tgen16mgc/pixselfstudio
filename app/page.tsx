@@ -1094,10 +1094,12 @@ export default function Page() {
           isOpen={showDownloadModal}
           onClose={() => {
             setShowDownloadModal(false)
-            // Only clear data if user cancels (not if going to post-download modal)
-            if (!showPostDownloadModal) {
-              setDownloadModalData(null)
-            }
+            // Clear data if user cancels (X button) without triggering post-download
+            setTimeout(() => {
+              if (!showPostDownloadModal) {
+                setDownloadModalData(null)
+              }
+            }, 100)
           }}
           onConfirm={downloadPng}
           onDownloadComplete={() => setShowPostDownloadModal(true)}

@@ -57,13 +57,11 @@ export function DownloadConfirmationModal({
     // First trigger the download
     onConfirm()
     
+    // Show the post-download modal immediately
+    onDownloadComplete()
+    
     // Close this modal
     onClose()
-    
-    // Show the post-download modal after a short delay to let download start
-    setTimeout(() => {
-      onDownloadComplete()
-    }, 500)
   }
 
   if (!isOpen) return null
