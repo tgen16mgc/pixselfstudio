@@ -51,9 +51,9 @@ export function CharacterGalleryModal({
     if (isOpen) {
       loadCharacters()
     }
-  }, [isOpen, loadCharacters])
+  }, [isOpen])
 
-  const loadCharacters = useCallback(() => {
+  const loadCharacters = () => {
     try {
       const characters = getSavedCharacters()
       setSavedCharacters(characters)
@@ -61,7 +61,7 @@ export function CharacterGalleryModal({
       console.error("Error loading characters:", error)
       onPlaySound("error")
     }
-  }, [onPlaySound])
+  }
 
   // Filter and sort characters
   const filteredAndSortedCharacters = React.useMemo(() => {
@@ -288,7 +288,7 @@ export function CharacterGalleryModal({
                   backgroundColor: PIXSELF_BRAND.colors.cloud.white,
                   borderColor: PIXSELF_BRAND.colors.primary.navyLight,
                   color: PIXSELF_BRAND.colors.primary.navy,
-                  focusRingColor: PIXSELF_BRAND.colors.accent.sparkle,
+                  outline: `2px solid ${PIXSELF_BRAND.colors.accent.sparkle}`,
                 }}
               />
             </div>
@@ -302,7 +302,7 @@ export function CharacterGalleryModal({
                 backgroundColor: PIXSELF_BRAND.colors.cloud.white,
                 borderColor: PIXSELF_BRAND.colors.primary.navyLight,
                 color: PIXSELF_BRAND.colors.primary.navy,
-                focusRingColor: PIXSELF_BRAND.colors.accent.sparkle,
+                outline: `2px solid ${PIXSELF_BRAND.colors.accent.sparkle}`,
               }}
             >
               <option value="updated">Last Updated</option>
@@ -509,7 +509,7 @@ export function CharacterGalleryModal({
                 backgroundColor: PIXSELF_BRAND.colors.cloud.light,
                 borderColor: PIXSELF_BRAND.colors.primary.navyLight,
                 color: PIXSELF_BRAND.colors.primary.navy,
-                focusRingColor: PIXSELF_BRAND.colors.accent.sparkle,
+                outline: `2px solid ${PIXSELF_BRAND.colors.accent.sparkle}`,
               }}
               autoFocus
             />
@@ -548,11 +548,11 @@ export function CharacterGalleryModal({
             className="w-full max-w-md border-4 p-6"
             style={{
               backgroundColor: PIXSELF_BRAND.colors.cloud.white,
-              borderColor: PIXSELF_BRAND.colors.accent.error,
+              borderColor: PIXSELF_BRAND.colors.ui.error,
               boxShadow: PIXSELF_BRAND.shadows.glow,
             }}
           >
-            <h3 className="text-[14px] font-bold mb-4" style={{ color: PIXSELF_BRAND.colors.accent.error }}>
+            <h3 className="text-[14px] font-bold mb-4" style={{ color: PIXSELF_BRAND.colors.ui.error }}>
               DELETE CHARACTER
             </h3>
 

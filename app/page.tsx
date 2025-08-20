@@ -259,23 +259,62 @@ export default function Page() {
     [historyIndex],
   )
 
-  function undo() {
+  const undo = useCallback(() => {
     if (historyIndex > 0) {
       const newIndex = historyIndex - 1
       setHistoryIndex(newIndex)
       setSelections(history[newIndex].selections)
       play8BitSound("click", soundEnabled)
     }
-  }
+  }, [historyIndex, history, soundEnabled, setSelections])
 
-  function redo() {
+  const redo = useCallback(() => {
     if (historyIndex < history.length - 1) {
       const newIndex = historyIndex + 1
       setHistoryIndex(newIndex)
       setSelections(history[newIndex].selections)
       play8BitSound("click", soundEnabled)
     }
-  }
+  }, [historyIndex, history, soundEnabled, setSelections])
+
+  const showDownloadConfirmation = useCallback(async (scale = 1) => {
+    try {
+      // Generate preview using the thumbnail function
+      const previewDataUrl = await generateCharacterThumbnail(selections, 400)
+
+      // Calculate file info
+      const width = 640 * scale
+      const height = 640 * scale
+      const sizeLabel = scale === 0.5 ? "small" : scale === 1 ? "medium" : "large"
+      const timestamp = new Date().toISOString().slice(0, 19).replace(/[:.]/g, "-")
+      const fileName = `pixself-character-${sizeLabel}-${timestamp}.png`
+      const estimatedSize = Math.round((width * height * 4) / 1024) // Rough estimate in KB
+      const fileSize = estimatedSize > 1024 ? `${(estimatedSize / 1024).toFixed(1)} MB` : `${estimatedSize} KB`
+
+      setDownloadModalData({
+        preview: previewDataUrl,
+        fileName,
+        fileSize,
+        scale,
+      })
+      setShowDownloadModal(true)
+    } catch (error) {
+      console.error("Preview generation failed:", error)
+      play8BitSound("error", soundEnabled)
+      alert("Preview generation failed. Please try again.")
+    }
+  }, [selections, soundEnabled, setDownloadModalData, setShowDownloadModal])
+
+  const randomize = useCallback(() => {
+    setLoading(true)
+    setTimeout(() => {
+      const newSelections = randomizeSelections()
+      setSelections(newSelections)
+      addToHistory(newSelections)
+      setLoading(false)
+      play8BitSound("success", soundEnabled)
+    }, 100)
+  }, [addToHistory, soundEnabled, setLoading, setSelections])
 
   // Add keyboard shortcuts for undo/redo
   useEffect(() => {
@@ -325,16 +364,7 @@ export default function Page() {
     }, 50)
   }
 
-  function randomize() {
-    setLoading(true)
-    setTimeout(() => {
-      const newSelections = randomizeSelections()
-      setSelections(newSelections)
-      addToHistory(newSelections)
-      setLoading(false)
-      play8BitSound("success", soundEnabled)
-    }, 100)
-  }
+  // randomize function moved above
 
   function resetAll() {
     const newSelections = createDefaultSelections()
@@ -361,34 +391,7 @@ export default function Page() {
     [soundEnabled],
   )
 
-  // Show download confirmation modal
-  const showDownloadConfirmation = useCallback(async (scale = 1) => {
-    try {
-      // Generate preview using the thumbnail function
-      const previewDataUrl = await generateCharacterThumbnail(selections, 400)
-
-      // Calculate file info
-      const width = 640 * scale
-      const height = 640 * scale
-      const sizeLabel = scale === 0.5 ? "small" : scale === 1 ? "medium" : "large"
-      const timestamp = new Date().toISOString().slice(0, 19).replace(/[:.]/g, "-")
-      const fileName = `pixself-character-${sizeLabel}-${timestamp}.png`
-      const estimatedSize = Math.round((width * height * 4) / 1024) // Rough estimate in KB
-      const fileSize = estimatedSize > 1024 ? `${(estimatedSize / 1024).toFixed(1)} MB` : `${estimatedSize} KB`
-
-      setDownloadModalData({
-        preview: previewDataUrl,
-        fileName,
-        fileSize,
-        scale,
-      })
-      setShowDownloadModal(true)
-    } catch (error) {
-      console.error("Preview generation failed:", error)
-      play8BitSound("error", soundEnabled)
-      alert("Preview generation failed. Please try again.")
-    }
-  }, [selections, soundEnabled, setDownloadModalData, setShowDownloadModal])
+  // Show download confirmation modal (moved above)
 
   // Actual download function that creates and saves a PNG
   async function downloadPng() {
@@ -1108,7 +1111,7 @@ export default function Page() {
             setSharePreviewData("")
           }}
           characterPreview={sharePreviewData}
-          isLoading={shareLoading}
+          isLoading={false}
         />
       )}
 
@@ -1120,9 +1123,8 @@ export default function Page() {
           currentSelections={selections}
           onLoadCharacter={handleLoadCharacter}
           onSaveCharacter={handleSaveCharacter}
-          generateThumbnail={generateCharacterThumbnail}
           soundEnabled={soundEnabled}
-          onPlaySound={play8BitSound}
+          onPlaySound={(type) => play8BitSound(type, soundEnabled)}
         />
       )}
 

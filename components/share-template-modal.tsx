@@ -17,12 +17,6 @@ export function ShareTemplateModal({ isOpen, onClose, characterPreview }: ShareT
   const [shareImageUrl, setShareImageUrl] = useState<string>("")
   const [isGenerating, setIsGenerating] = useState(false)
 
-  useEffect(() => {
-    if (isOpen && characterPreview && canvasRef.current) {
-      generateShareTemplate()
-    }
-  }, [isOpen, characterPreview, generateShareTemplate])
-
   const generateShareTemplate = useCallback(async () => {
     if (!canvasRef.current) return
 
@@ -166,6 +160,12 @@ export function ShareTemplateModal({ isOpen, onClose, characterPreview }: ShareT
       setIsGenerating(false)
     }
   }, [characterPreview])
+
+  useEffect(() => {
+    if (isOpen && characterPreview && canvasRef.current) {
+      generateShareTemplate()
+    }
+  }, [isOpen, characterPreview, generateShareTemplate])
 
   const downloadShareImage = () => {
     if (!shareImageUrl) return

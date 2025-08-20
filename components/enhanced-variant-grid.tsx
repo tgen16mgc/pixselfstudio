@@ -108,7 +108,7 @@ export function EnhancedVariantGrid({
                 backgroundColor: isSelected ? PIXSELF_BRAND.colors.primary.gold : PIXSELF_BRAND.colors.cloud.light,
                 borderColor: isSelected ? PIXSELF_BRAND.colors.primary.navy : PIXSELF_BRAND.colors.primary.navyLight,
                 imageRendering: "pixelated",
-                focusRingColor: PIXSELF_BRAND.colors.accent.sparkle,
+                outline: `2px solid ${PIXSELF_BRAND.colors.accent.sparkle}`,
                 boxShadow: isSelected
                   ? `0 0 20px ${PIXSELF_BRAND.colors.primary.gold}60, inset 0 0 10px ${PIXSELF_BRAND.colors.primary.gold}20`
                   : isPreview

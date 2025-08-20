@@ -1,5 +1,5 @@
 import { useOptimizedCanvas } from "@/hooks/use-optimized-canvas"
-import { drawCharacterToCanvas } from "@/utils/drawing"
+import { drawCharacterToCanvas } from "@/utils/character-drawing"
 import type { Selections } from "@/types/character"
 
 interface CharacterPreviewProps {
