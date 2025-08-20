@@ -20,7 +20,7 @@ export function AssetVariantGrid({
   isLoading = false,
   isMobile = false,
 }: AssetVariantGridProps) {
-  const [previewAsset, setPreviewAsset] = useState<string | null>(null)
+  const [, setPreviewAsset] = useState<string | null>(null)
 
   const part = CHARACTER_PARTS.find((p) => p.key === activePart)
   if (!part) return null
@@ -35,7 +35,7 @@ export function AssetVariantGrid({
           <div className="flex items-stretch gap-2 min-w-max px-1">
             {assets.map((asset) => {
               const isSelected = currentAssetId === asset.id
-              const isPreview = previewAsset === asset.id
+              // const isPreview = previewAsset === asset.id
 
               return (
                 <button
@@ -115,7 +115,7 @@ export function AssetVariantGrid({
     <div className="grid grid-cols-2 gap-3">
       {assets.map((asset) => {
         const isSelected = currentAssetId === asset.id
-        const isPreview = previewAsset === asset.id
+        // const isPreview = previewAsset === asset.id
 
         return (
           <button

@@ -51,9 +51,9 @@ export function CharacterGalleryModal({
     if (isOpen) {
       loadCharacters()
     }
-  }, [isOpen])
+  }, [isOpen, loadCharacters])
 
-  const loadCharacters = () => {
+  const loadCharacters = useCallback(() => {
     try {
       const characters = getSavedCharacters()
       setSavedCharacters(characters)
@@ -61,7 +61,7 @@ export function CharacterGalleryModal({
       console.error("Error loading characters:", error)
       onPlaySound("error")
     }
-  }
+  }, [onPlaySound])
 
   // Filter and sort characters
   const filteredAndSortedCharacters = React.useMemo(() => {
