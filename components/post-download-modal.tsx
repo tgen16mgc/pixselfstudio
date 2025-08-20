@@ -1,6 +1,6 @@
 "use client"
 
-import { useRef, useEffect } from "react"
+import { useRef, useEffect, useState } from "react"
 import { ShoppingCart, X, RefreshCw } from "lucide-react"
 import { PixselfButton } from "./pixself-ui-components"
 import { PIXSELF_BRAND } from "@/config/pixself-brand"
@@ -19,17 +19,26 @@ export function PostDownloadModal({
   fileName,
 }: PostDownloadModalProps) {
   const modalRef = useRef<HTMLDivElement>(null)
+  const [canClose, setCanClose] = useState(false)
 
   // Handle escape key and click outside
   useEffect(() => {
-    if (!isOpen) return
+    if (!isOpen) {
+      setCanClose(false)
+      return
+    }
+
+    // Allow closing after a brief delay to prevent immediate closure
+    const timer = setTimeout(() => {
+      setCanClose(true)
+    }, 300)
 
     const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose()
+      if (e.key === "Escape" && canClose) onClose()
     }
 
     const handleClickOutside = (e: MouseEvent) => {
-      if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
+      if (modalRef.current && !modalRef.current.contains(e.target as Node) && canClose) {
         onClose()
       }
     }
@@ -39,11 +48,12 @@ export function PostDownloadModal({
     document.body.style.overflow = "hidden"
 
     return () => {
+      clearTimeout(timer)
       document.removeEventListener("keydown", handleEscape)
       document.removeEventListener("mousedown", handleClickOutside)
       document.body.style.overflow = "unset"
     }
-  }, [isOpen, onClose])
+  }, [isOpen, onClose, canClose])
 
   const handleBuyNow = () => {
     // Open the order form
