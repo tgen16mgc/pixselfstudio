@@ -68,8 +68,9 @@ export function DownloadConfirmationModal({
     
     // Show the post-download state within the same modal
     setTimeout(() => {
-      console.log("Showing post-download state")
+      console.log("Setting downloadComplete to true")
       setDownloadComplete(true)
+      console.log("downloadComplete state should now be true")
     }, 500)
   }
 
@@ -83,6 +84,8 @@ export function DownloadConfirmationModal({
     onClose()
   }
 
+  console.log("DownloadConfirmationModal render - isOpen:", isOpen, "downloadComplete:", downloadComplete)
+  
   if (!isOpen) return null
 
   return (
@@ -141,6 +144,13 @@ export function DownloadConfirmationModal({
 
         {/* Content */}
         <div className="p-4 sm:p-6 space-y-4 sm:space-y-6">
+          {/* Debug indicator */}
+          {process.env.NODE_ENV === 'development' && (
+            <div style={{ position: 'absolute', top: '50px', right: '10px', background: 'red', color: 'white', padding: '2px 5px', fontSize: '10px', zIndex: 10000 }}>
+              State: {downloadComplete ? 'POST-DOWNLOAD' : 'CONFIRMATION'}
+            </div>
+          )}
+          
           {downloadComplete ? (
             // Post-download content
             <>
