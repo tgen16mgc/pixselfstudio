@@ -175,8 +175,20 @@ export function DownloadConfirmationModal({
 
               {/* Character Preview for iOS Hold-to-Save */}
               <div className="flex flex-col items-center space-y-3">
+                {/* Mobile: Direct image for iOS hold-to-save */}
+                <div className="block sm:hidden flex flex-col items-center">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={characterPreview || "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/placeholder.svg"}
+                    alt={fileName}
+                    className="w-24 h-30 object-contain"
+                    style={{ imageRendering: "pixelated" }}
+                  />
+                </div>
+
+                {/* Desktop: Decorated image container */}
                 <div
-                  className="relative border-2 sm:border-4 p-3 sm:p-4"
+                  className="hidden sm:block relative border-2 sm:border-4 p-3 sm:p-4"
                   style={{
                     backgroundColor: PIXSELF_BRAND.colors.cloud.light,
                     borderColor: PIXSELF_BRAND.colors.primary.navyLight,
@@ -187,21 +199,13 @@ export function DownloadConfirmationModal({
                   <img
                     src={characterPreview || "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/placeholder.svg"}
                     alt={fileName}
-                    className="w-24 h-30 sm:w-32 sm:h-40 object-contain"
+                    className="w-32 h-40 object-contain"
                     style={{ imageRendering: "pixelated" }}
                   />
 
-                  {/* iOS Instruction Overlay */}
-                  <div className="block sm:hidden absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-200 rounded">
-                    <div className="text-center p-2">
-                      <div className="text-[8px] font-bold text-white mb-1">📱 iOS Users</div>
-                      <div className="text-[7px] text-white">Hold image to save</div>
-                    </div>
-                  </div>
-
-                  {/* Sparkle decorations */}
+                  {/* Sparkle decorations - desktop only */}
                   <div
-                    className="absolute -top-1 -right-1 sm:-top-2 sm:-right-2 w-3 h-3 sm:w-4 sm:h-4 animate-pulse"
+                    className="absolute -top-2 -right-2 w-4 h-4 animate-pulse"
                     style={{
                       backgroundColor: PIXSELF_BRAND.colors.accent.sparkle,
                       clipPath:
