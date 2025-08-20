@@ -21,37 +21,51 @@ export function PostDownloadModal({
   const modalRef = useRef<HTMLDivElement>(null)
   const [canClose, setCanClose] = useState(false)
 
-  // Handle escape key and click outside
+  // Handle escape key and click outside with proper delay
   useEffect(() => {
     if (!isOpen) {
       setCanClose(false)
       return
     }
 
-    // Allow closing after a brief delay to prevent immediate closure
-    const timer = setTimeout(() => {
+    console.log("Setting up post-download modal event handlers")
+
+    // Allow closing after a delay to prevent immediate closure
+    const enableClosingTimer = setTimeout(() => {
+      console.log("Enabling modal closing")
       setCanClose(true)
-    }, 300)
+    }, 500)
 
     const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && canClose) onClose()
-    }
-
-    const handleClickOutside = (e: MouseEvent) => {
-      if (modalRef.current && !modalRef.current.contains(e.target as Node) && canClose) {
+      if (e.key === "Escape" && canClose) {
+        console.log("Escape key pressed, closing modal")
         onClose()
       }
     }
 
-    document.addEventListener("keydown", handleEscape)
-    document.addEventListener("mousedown", handleClickOutside)
+    const handleClickOutside = (e: MouseEvent) => {
+      if (canClose && modalRef.current && !modalRef.current.contains(e.target as Node)) {
+        console.log("Click outside detected, closing modal")
+        onClose()
+      }
+    }
+
+    // Add event listeners with a small delay to avoid immediate triggers
+    const setupTimer = setTimeout(() => {
+      document.addEventListener("keydown", handleEscape)
+      document.addEventListener("mousedown", handleClickOutside)
+      console.log("Event listeners added")
+    }, 100)
+
     document.body.style.overflow = "hidden"
 
     return () => {
-      clearTimeout(timer)
+      clearTimeout(enableClosingTimer)
+      clearTimeout(setupTimer)
       document.removeEventListener("keydown", handleEscape)
       document.removeEventListener("mousedown", handleClickOutside)
       document.body.style.overflow = "unset"
+      console.log("Post-download modal cleanup")
     }
   }, [isOpen, onClose, canClose])
 
