@@ -1,6 +1,6 @@
 "use client"
 
-import { useRef, useEffect, useState, useCallback } from "react"
+import { useRef, useEffect, useState } from "react"
 import { Download, X, ShoppingCart, RefreshCw } from "lucide-react"
 import { PixselfButton } from "./pixself-ui-components"
 import { PIXSELF_BRAND } from "@/config/pixself-brand"

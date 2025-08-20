@@ -46,7 +46,7 @@ export function CharacterGalleryModal({
   const [isLoading, setIsLoading] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
-  const loadCharacters = () => {
+  const loadCharacters = useCallback(() => {
     try {
       const characters = getSavedCharacters()
       setSavedCharacters(characters)
@@ -54,7 +54,7 @@ export function CharacterGalleryModal({
       console.error("Error loading characters:", error)
       onPlaySound("error")
     }
-  }
+  }, [onPlaySound])
 
   // Load saved characters when modal opens
   useEffect(() => {
