@@ -46,13 +46,6 @@ export function CharacterGalleryModal({
   const [isLoading, setIsLoading] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
-  // Load saved characters when modal opens
-  useEffect(() => {
-    if (isOpen) {
-      loadCharacters()
-    }
-  }, [isOpen, loadCharacters])
-
   const loadCharacters = () => {
     try {
       const characters = getSavedCharacters()
@@ -62,6 +55,13 @@ export function CharacterGalleryModal({
       onPlaySound("error")
     }
   }
+
+  // Load saved characters when modal opens
+  useEffect(() => {
+    if (isOpen) {
+      loadCharacters()
+    }
+  }, [isOpen, loadCharacters])
 
   // Filter and sort characters
   const filteredAndSortedCharacters = React.useMemo(() => {
