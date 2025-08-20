@@ -9,7 +9,7 @@ export function FantasyBackground() {
     const img = new Image()
     img.onload = () => setImageLoaded(true)
     img.onerror = () => setImageLoaded(false)
-    img.src = "/images/cozy-room-bg.gif"
+    img.src = "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/image/coverr-background.jpeg"
   }, [])
 
   return (
@@ -19,7 +19,7 @@ export function FantasyBackground() {
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-70"
           style={{
-            backgroundImage: "url('/images/cozy-room-bg.gif')",
+            backgroundImage: "url('https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/image/coverr-background.jpeg')",
           }}
         />
       ) : (

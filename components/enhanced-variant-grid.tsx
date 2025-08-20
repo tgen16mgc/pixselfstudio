@@ -120,7 +120,7 @@ export function EnhancedVariantGrid({
               {thumbnail && !loadingThumbnails ? (
                 // eslint-disable-next-line @next/next/no-img-element
           <img
-                  src={thumbnail || "/placeholder.svg"}
+                  src={thumbnail || "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/placeholder.svg"}
                   alt={`Variant ${i + 1}`}
                   className="w-full h-full object-contain p-1"
                   style={{ imageRendering: "pixelated" }}

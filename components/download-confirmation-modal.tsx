@@ -125,7 +125,7 @@ export function DownloadConfirmationModal({
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src={characterPreview || "/placeholder.svg"}
+                src={characterPreview || "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/placeholder.svg"}
                 alt="Character Preview"
                 className="w-32 h-40 object-contain"
                 style={{ imageRendering: "pixelated" }}

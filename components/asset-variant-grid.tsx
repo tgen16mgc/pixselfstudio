@@ -71,7 +71,7 @@ export function AssetVariantGrid({
                     ) : asset.path ? (
                       // eslint-disable-next-line @next/next/no-img-element
                       <img
-                        src={asset.path || "/placeholder.svg"}
+                        src={asset.path || "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/placeholder.svg"}
                         alt={asset.name}
                         className="w-full h-full object-contain"
                         style={{
@@ -155,7 +155,7 @@ export function AssetVariantGrid({
               asset.path && (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
-                  src={asset.path || "/placeholder.svg"}
+                  src={asset.path || "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/placeholder.svg"}
                   alt={asset.name}
                   className="w-full h-full object-contain"
                   style={{

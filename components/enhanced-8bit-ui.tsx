@@ -253,7 +253,7 @@ export function EnhancedVariantButton({
       {previewImage ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img
-          src={previewImage || "/placeholder.svg"}
+          src={previewImage || "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/placeholder.svg"}
           alt={`Variant ${variant + 1}`}
           className="w-full h-full object-contain p-1"
           style={{ imageRendering: "pixelated" }}

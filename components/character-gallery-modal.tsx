@@ -382,7 +382,7 @@ export function CharacterGalleryModal({
                       <div className="flex-1 flex items-center justify-center mb-3">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
-                          src={character.thumbnail || "/placeholder.svg"}
+                          src={character.thumbnail || "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/placeholder.svg"}
                           alt={character.name}
                           className="max-w-full max-h-full object-contain"
                           style={{ imageRendering: "pixelated" }}
@@ -408,7 +408,7 @@ export function CharacterGalleryModal({
                       <div className="w-16 h-16 flex-shrink-0">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
-                          src={character.thumbnail || "/placeholder.svg"}
+                          src={character.thumbnail || "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/placeholder.svg"}
                           alt={character.name}
                           className="w-full h-full object-contain"
                           style={{ imageRendering: "pixelated" }}
@@ -450,7 +450,7 @@ export function CharacterGalleryModal({
               <div className="w-12 h-12 border-2" style={{ borderColor: PIXSELF_BRAND.colors.primary.navyLight }}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src={selectedCharacter.thumbnail || "/placeholder.svg"}
+                  src={selectedCharacter.thumbnail || "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/placeholder.svg"}
                   alt={selectedCharacter.name}
                   className="w-full h-full object-contain"
                   style={{ imageRendering: "pixelated" }}

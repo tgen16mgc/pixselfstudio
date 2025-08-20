@@ -280,7 +280,7 @@ export function ShareTemplateModal({ isOpen, onClose, characterPreview }: ShareT
               ) : shareImageUrl ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
-                  src={shareImageUrl || "/placeholder.svg"}
+                  src={shareImageUrl || "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/placeholder.svg"}
                   alt="Share template"
                   className="w-[600px] h-[315px] object-cover"
                 />
