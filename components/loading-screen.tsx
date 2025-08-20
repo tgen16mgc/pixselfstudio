@@ -150,7 +150,7 @@ export function LoadingScreen({ onComplete }: LoadingScreenProps) {
               animationDuration: `${effect.duration}s`,
               filter: `drop-shadow(0 0 2px ${effect.color})`,
               imageRendering: "pixelated",
-              ...getPixelShape(effect.type),
+              ...getPixelShape(effect.type, effect.size),
             }}
           />
         ))}

@@ -28,7 +28,7 @@ export function RetroPixelBackground() {
           const isEven = (x + y) % 2 === 0
           const noise = Math.random()
 
-          let color: string = CLASSIC_8BIT_COLORS.nes.black
+          let color = CLASSIC_8BIT_COLORS.nes.black
 
           // Base checkerboard
           if (isEven) {

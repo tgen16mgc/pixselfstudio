@@ -38,6 +38,7 @@ export function EnhancedTitleSection({
   canRedo,
   isLoading,
   isDownloadLoading,
+  // isDesktop: _isDesktop,
 }: EnhancedTitleSectionProps) {
   const [floatingElements, setFloatingElements] = useState<
     Array<{
@@ -130,9 +131,9 @@ export function EnhancedTitleSection({
 
       {/* Main content */}
       <div className="relative z-10 p-6">
-        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
           {/* Centered Logo and Title Section */}
-          <div className="flex flex-col items-center lg:items-start gap-4 min-w-0 flex-1">
+          <div className="flex flex-col items-center lg:items-start min-w-0 flex-1 gap-2.5">
             {/* Clickable Logo centered above title */}
             <div className="flex-shrink-0 relative">
               <div

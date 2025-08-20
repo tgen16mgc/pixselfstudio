@@ -1,8 +1,8 @@
-export type PartKey = "hair" | "head" | "eyes" | "eyebrows" | "mouth" | "body" | "costume"
+export type PartKey = "body" | "hairBehind" | "clothes" | "mouth" | "eyes" | "eyebrows" | "hairFront" | "earring"
 
 export interface PartSelection {
-  variant: number
-  color: number
+  assetId: string
+  enabled: boolean
 }
 
 export type Selections = Record<PartKey, PartSelection>
@@ -11,9 +11,17 @@ export interface PartDefinition {
   key: PartKey
   label: string
   icon: string
-  pixelIcon: string
-  category: "Head" | "Face" | "Body"
-  maxVariants: number
+  category: "Head" | "Face" | "Body" | "Hair" | "Accessories"
+  assets: AssetDefinition[]
+  defaultAsset: string
+  optional: boolean
+}
+
+export interface AssetDefinition {
+  id: string
+  name: string
+  path: string
+  enabled: boolean
 }
 
 export interface CharacterStats {

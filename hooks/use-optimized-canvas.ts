@@ -11,7 +11,7 @@ interface UseOptimizedCanvasProps {
 
 export function useOptimizedCanvas({ selections, scale, zoom, drawFunction }: UseOptimizedCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const animationRef = useRef<number>(0)
+  const animationRef = useRef<number>()
   const lastDrawTime = useRef<number>(0)
   const isDirty = useRef<boolean>(true)
   const lastSelections = useRef<string>("")

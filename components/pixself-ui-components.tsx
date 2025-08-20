@@ -77,7 +77,7 @@ export function PixselfButton({
       style={{
         ...styles,
         imageRendering: "pixelated",
-
+        focusRingColor: PIXSELF_BRAND.colors.accent.sparkle,
       }}
     >
       {loading ? (
@@ -223,7 +223,7 @@ export function PixselfColorSwatch({
           borderColor: selected ? PIXSELF_BRAND.colors.primary.gold : PIXSELF_BRAND.colors.primary.navy,
           boxShadow: selected ? PIXSELF_BRAND.shadows.glowStrong : PIXSELF_BRAND.shadows.pixel,
           imageRendering: "pixelated",
-  
+          focusRingColor: PIXSELF_BRAND.colors.accent.sparkle,
         }}
       >
         {/* Selection indicator */}

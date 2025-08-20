@@ -17,6 +17,12 @@ export function ShareTemplateModal({ isOpen, onClose, characterPreview }: ShareT
   const [shareImageUrl, setShareImageUrl] = useState<string>("")
   const [isGenerating, setIsGenerating] = useState(false)
 
+  useEffect(() => {
+    if (isOpen && characterPreview && canvasRef.current) {
+      generateShareTemplate()
+    }
+  }, [isOpen, characterPreview, generateShareTemplate])
+
   const generateShareTemplate = useCallback(async () => {
     if (!canvasRef.current) return
 
@@ -33,7 +39,7 @@ export function ShareTemplateModal({ isOpen, onClose, characterPreview }: ShareT
       // Clear canvas
       ctx.clearRect(0, 0, canvas.width, canvas.height)
 
-      // Background gradient
+      // Create gradient background with proper color values
       const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height)
       gradient.addColorStop(0, PIXSELF_BRAND.colors.sky.light || "#B0E0E6")
       gradient.addColorStop(0.5, PIXSELF_BRAND.colors.cloud.light || "#F8F9FA")
@@ -41,148 +47,145 @@ export function ShareTemplateModal({ isOpen, onClose, characterPreview }: ShareT
       ctx.fillStyle = gradient
       ctx.fillRect(0, 0, canvas.width, canvas.height)
 
-      // Add decorative pixels
-      for (let x = 0; x < canvas.width; x += 60) {
+      // Add decorative pattern
+      ctx.globalAlpha = 0.1
+      for (let x = 0; x < canvas.width; x += 40) {
         for (let y = 0; y < canvas.height; y += 40) {
           ctx.fillStyle = PIXSELF_BRAND.colors.primary.gold || "#F4D03F"
           ctx.fillRect(x, y, 4, 4)
         }
       }
+      ctx.globalAlpha = 1
 
-      // Character image
+      // Add character preview with background circle
       const characterImg = new Image()
       characterImg.crossOrigin = "anonymous"
 
-      characterImg.onload = () => {
-        const centerX = 250
-        const centerY = 315
-        const circleRadius = 180
+      await new Promise((resolve, reject) => {
+        characterImg.onload = resolve
+        characterImg.onerror = reject
+        characterImg.src = characterPreview
+      })
 
-        // Draw character circle background
-        ctx.beginPath()
-        ctx.arc(centerX, centerY, circleRadius, 0, Math.PI * 2)
-        ctx.fillStyle = PIXSELF_BRAND.colors.cloud.white || "#FFFFFF"
-        ctx.fill()
-        ctx.strokeStyle = PIXSELF_BRAND.colors.primary.navy || "#2C3E50"
-        ctx.lineWidth = 8
-        ctx.stroke()
+      // Draw background circle for character
+      const centerX = 300
+      const centerY = canvas.height / 2
+      const circleRadius = 180
 
-        // Draw character image inside circle
-        ctx.save()
-        ctx.beginPath()
-        ctx.arc(centerX, centerY, circleRadius - 10, 0, Math.PI * 2)
-        ctx.clip()
-        ctx.drawImage(characterImg, centerX - 150, centerY - 150, 300, 300)
-        ctx.restore()
+      ctx.beginPath()
+      ctx.arc(centerX, centerY, circleRadius, 0, Math.PI * 2)
+      ctx.fillStyle = PIXSELF_BRAND.colors.cloud.white || "#FFFFFF"
+      ctx.fill()
+      ctx.strokeStyle = PIXSELF_BRAND.colors.primary.navy || "#2C3E50"
+      ctx.lineWidth = 8
+      ctx.stroke()
 
-        // Add text content
-        ctx.textAlign = "left"
-        ctx.textBaseline = "top"
+      // Draw character in circle
+      const charSize = 280
+      ctx.drawImage(characterImg, centerX - charSize / 2, centerY - charSize / 2, charSize, charSize)
 
-        // Main heading
-        ctx.fillStyle = PIXSELF_BRAND.colors.primary.navy || "#2C3E50"
-        ctx.font = "bold 72px Arial"
-        ctx.fillText("Check out my", 520, 120)
+      // Add text content
+      ctx.textAlign = "left"
+      ctx.textBaseline = "top"
 
-        // PIXSELF text with special styling
-        ctx.fillStyle = PIXSELF_BRAND.colors.primary.gold || "#F4D03F"
-        ctx.font = "bold 84px Arial"
-        ctx.fillText("PIXSELF", 520, 200)
+      // Main heading
+      ctx.fillStyle = PIXSELF_BRAND.colors.primary.navy || "#2C3E50"
+      ctx.font = "bold 72px Arial"
+      ctx.fillText("Check out my", 520, 120)
 
-        // Add stroke to PIXSELF text
-        ctx.strokeStyle = PIXSELF_BRAND.colors.primary.navy || "#2C3E50"
-        ctx.lineWidth = 4
-        ctx.strokeText("PIXSELF", 520, 200)
+      // PIXSELF text with special styling
+      ctx.fillStyle = PIXSELF_BRAND.colors.primary.gold || "#F4D03F"
+      ctx.font = "bold 84px Arial"
+      ctx.fillText("PIXSELF", 520, 200)
 
-        // Continue text
-        ctx.fillStyle = PIXSELF_BRAND.colors.primary.navy || "#2C3E50"
-        ctx.font = "bold 72px Arial"
-        ctx.fillText("character!", 520, 290)
+      // Add stroke to PIXSELF text
+      ctx.strokeStyle = PIXSELF_BRAND.colors.primary.navy || "#2C3E50"
+      ctx.lineWidth = 4
+      ctx.strokeText("PIXSELF", 520, 200)
 
-        // Tagline
-        ctx.fillStyle = PIXSELF_BRAND.colors.primary.navyLight || "#34495E"
-        ctx.font = "bold 36px Arial"
-        ctx.fillText("PIXture yourSELF in PIXSELF city", 520, 380)
+      // Continue text
+      ctx.fillStyle = PIXSELF_BRAND.colors.primary.navy || "#2C3E50"
+      ctx.font = "bold 72px Arial"
+      ctx.fillText("character!", 520, 290)
 
-        // CTA Button
-        const buttonX = 520
-        const buttonY = 480
-        const buttonWidth = 400
-        const buttonHeight = 80
+      // Tagline
+      ctx.fillStyle = PIXSELF_BRAND.colors.primary.navyLight || "#34495E"
+      ctx.font = "bold 36px Arial"
+      ctx.fillText("PIXture yourSELF in PIXSELF city", 520, 380)
 
-        ctx.fillStyle = PIXSELF_BRAND.colors.primary.gold || "#F4D03F"
-        ctx.fillRect(buttonX, buttonY, buttonWidth, buttonHeight)
+      // CTA Button background
+      const buttonX = 520
+      const buttonY = 450
+      const buttonWidth = 320
+      const buttonHeight = 80
 
-        // CTA Button border
-        ctx.strokeStyle = PIXSELF_BRAND.colors.primary.navy || "#2C3E50"
-        ctx.lineWidth = 6
-        ctx.strokeRect(buttonX, buttonY, buttonWidth, buttonHeight)
+      ctx.fillStyle = PIXSELF_BRAND.colors.primary.gold || "#F4D03F"
+      ctx.fillRect(buttonX, buttonY, buttonWidth, buttonHeight)
 
-        // CTA Button text
-        ctx.fillStyle = PIXSELF_BRAND.colors.primary.navy || "#2C3E50"
-        ctx.font = "bold 32px Arial"
-        ctx.textAlign = "center"
-        ctx.textBaseline = "middle"
-        ctx.fillText("CREATE YOURS NOW!", buttonX + buttonWidth / 2, buttonY + buttonHeight / 2)
+      // CTA Button border
+      ctx.strokeStyle = PIXSELF_BRAND.colors.primary.navy || "#2C3E50"
+      ctx.lineWidth = 6
+      ctx.strokeRect(buttonX, buttonY, buttonWidth, buttonHeight)
 
-        // Logo/branding (bottom right)
-        const logoX = 950
-        const logoY = 50
-        const logoSize = 200
+      // CTA Button text
+      ctx.fillStyle = PIXSELF_BRAND.colors.primary.navy || "#2C3E50"
+      ctx.font = "bold 32px Arial"
+      ctx.textAlign = "center"
+      ctx.textBaseline = "middle"
+      ctx.fillText("CREATE YOURS NOW!", buttonX + buttonWidth / 2, buttonY + buttonHeight / 2)
 
-        // Logo background
-        ctx.fillStyle = PIXSELF_BRAND.colors.cloud.white || "#FFFFFF"
-        ctx.fillRect(logoX - 10, logoY - 10, logoSize + 20, logoSize + 20)
-        ctx.strokeStyle = PIXSELF_BRAND.colors.primary.navy || "#2C3E50"
-        ctx.lineWidth = 4
-        ctx.strokeRect(logoX - 10, logoY - 10, logoSize + 20, logoSize + 20)
+      // Add small logo in top-right corner
+      const logoSize = 120
+      const logoX = canvas.width - logoSize - 40
+      const logoY = 40
 
-        // Logo text (simplified)
-        ctx.fillStyle = PIXSELF_BRAND.colors.primary.gold || "#F4D03F"
-        ctx.font = "bold 24px Arial"
-        ctx.textAlign = "center"
-        ctx.textBaseline = "middle"
-        ctx.fillText("PIXSELF", logoX + logoSize / 2, logoY + logoSize / 2)
+      // Logo background
+      ctx.fillStyle = PIXSELF_BRAND.colors.cloud.white || "#FFFFFF"
+      ctx.fillRect(logoX - 10, logoY - 10, logoSize + 20, logoSize + 20)
+      ctx.strokeStyle = PIXSELF_BRAND.colors.primary.navy || "#2C3E50"
+      ctx.lineWidth = 4
+      ctx.strokeRect(logoX - 10, logoY - 10, logoSize + 20, logoSize + 20)
 
-        // Convert to blob and create URL
-        canvas.toBlob((blob) => {
-          if (blob) {
-            const url = URL.createObjectURL(blob)
-            setShareImageUrl(url)
-          }
-          setIsGenerating(false)
-        }, "image/png")
-      }
+      // Logo text (simplified)
+      ctx.fillStyle = PIXSELF_BRAND.colors.primary.gold || "#F4D03F"
+      ctx.font = "bold 24px Arial"
+      ctx.textAlign = "center"
+      ctx.textBaseline = "middle"
+      ctx.fillText("PIXSELF", logoX + logoSize / 2, logoY + logoSize / 2)
 
-      characterImg.src = characterPreview
+      // Convert to blob and create URL
+      canvas.toBlob((blob) => {
+        if (blob) {
+          const url = URL.createObjectURL(blob)
+          setShareImageUrl(url)
+        }
+        setIsGenerating(false)
+      }, "image/png")
     } catch (error) {
       console.error("Error generating share template:", error)
       setIsGenerating(false)
     }
   }, [characterPreview])
 
-  useEffect(() => {
-    if (isOpen && characterPreview && canvasRef.current) {
-      generateShareTemplate()
-    }
-  }, [isOpen, characterPreview, generateShareTemplate])
-
   const downloadShareImage = () => {
     if (!shareImageUrl) return
 
     const link = document.createElement("a")
     link.href = shareImageUrl
-    link.download = "pixself-character-share.png"
-    document.body.appendChild(link)
+    link.download = `pixself-character-share-${Date.now()}.png`
     link.click()
-    document.body.removeChild(link)
   }
 
   const shareToFacebook = () => {
+    if (!shareImageUrl) return
+
+    // For Facebook, we'll download the image and provide sharing text
+    downloadShareImage()
+
     const shareText = encodeURIComponent(
       "Check out my PIXSELF character! PIXture yourSELF in PIXSELF city 🎮✨ #pixelart #charactercreator",
     )
-    const shareUrl = encodeURIComponent("https://pixself.com")
+    const shareUrl = encodeURIComponent("https://pixself.com") // Replace with your actual URL
 
     window.open(
       `https://www.facebook.com/sharer/sharer.php?u=${shareUrl}&quote=${shareText}`,
@@ -192,10 +195,14 @@ export function ShareTemplateModal({ isOpen, onClose, characterPreview }: ShareT
   }
 
   const shareToTwitter = () => {
+    if (!shareImageUrl) return
+
+    downloadShareImage()
+
     const shareText = encodeURIComponent(
       "Check out my PIXSELF character! PIXture yourSELF in PIXSELF city 🎮✨ #pixelart #charactercreator",
     )
-    const shareUrl = encodeURIComponent("https://pixself.com")
+    const shareUrl = encodeURIComponent("https://pixself.com") // Replace with your actual URL
 
     window.open(`https://twitter.com/intent/tweet?text=${shareText}&url=${shareUrl}`, "_blank", "width=600,height=400")
   }
@@ -220,6 +227,7 @@ export function ShareTemplateModal({ isOpen, onClose, characterPreview }: ShareT
         style={{
           backgroundColor: PIXSELF_BRAND.colors.cloud.white,
           borderColor: PIXSELF_BRAND.colors.primary.navy,
+          boxShadow: PIXSELF_BRAND.shadows.glowStrong,
         }}
       >
         {/* Header */}
@@ -236,6 +244,7 @@ export function ShareTemplateModal({ isOpen, onClose, characterPreview }: ShareT
               SHARE YOUR CHARACTER
             </h2>
           </div>
+
           <button
             onClick={onClose}
             className="w-8 h-8 border-2 flex items-center justify-center transition-all duration-200 hover:scale-110 active:scale-95"
@@ -271,7 +280,7 @@ export function ShareTemplateModal({ isOpen, onClose, characterPreview }: ShareT
               ) : shareImageUrl ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
-                  src={shareImageUrl}
+                  src={shareImageUrl || "/placeholder.svg"}
                   alt="Share template"
                   className="w-[600px] h-[315px] object-cover"
                 />

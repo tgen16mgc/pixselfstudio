@@ -1,7 +1,7 @@
 "use client"
 
 import { useRef, useEffect } from "react"
-import { Download, X, ExternalLink } from "lucide-react"
+import { Download, X } from "lucide-react"
 import { PixselfButton } from "./pixself-ui-components"
 import { PIXSELF_BRAND } from "@/config/pixself-brand"
 
@@ -51,11 +51,12 @@ export function DownloadConfirmationModal({
     }
   }, [isOpen, onClose])
 
-  const handleKeychainClick = () => {
-    const message = encodeURIComponent(
-      "Hi! I just created my pixel character using Pixself and I'd love to get it as a physical keychain! Can you help me with the ordering process? 🎮✨",
-    )
-    window.open(`https://www.facebook.com/wearepixself?locale=vi_VN&message=${message}`, "_blank")
+  const handleDownloadAndBuy = () => {
+    // First trigger the download
+    onConfirm()
+
+    // Then open the order form
+    window.open("https://forms.gle/kBTQL5uMEQ1qp9xP9", "_blank")
   }
 
   if (!isOpen) return null
@@ -167,27 +168,9 @@ export function DownloadConfirmationModal({
             </div>
           </div>
 
-          {/* Download Confirmation */}
-          <div className="text-center space-y-4">
-            <div className="text-[10px]" style={{ color: PIXSELF_BRAND.colors.primary.navy }}>
-              Ready to download your pixel character?
-            </div>
-
-            <PixselfButton
-              onClick={onConfirm}
-              disabled={isLoading}
-              loading={isLoading}
-              variant="accent"
-              fullWidth
-              icon={<Download className="h-4 w-4" />}
-            >
-              {isLoading ? "DOWNLOADING..." : "CONFIRM DOWNLOAD"}
-            </PixselfButton>
-          </div>
-
-          {/* Keychain CTA */}
+          {/* Combined CTA Section */}
           <div
-            className="border-4 p-4 space-y-3"
+            className="border-4 p-4 space-y-4"
             style={{
               backgroundColor: "rgba(244, 208, 63, 0.1)",
               borderColor: PIXSELF_BRAND.colors.primary.gold,
@@ -199,24 +182,25 @@ export function DownloadConfirmationModal({
                 🎮 BRING YOUR CHARACTER TO LIFE! 🎮
               </div>
               <div className="text-[8px] mb-3" style={{ color: PIXSELF_BRAND.colors.primary.navyLight }}>
-                Turn your pixel character into a real keychain! Send us your PNG and we&apos;ll create a custom physical
-                keychain just for you.
+                Download your pixel character and turn it into a real keychain! We&apos;ll create a custom physical keychain
+                just for you.
               </div>
             </div>
 
             <PixselfButton
-              onClick={handleKeychainClick}
-              variant="secondary"
-              size="sm"
+              onClick={handleDownloadAndBuy}
+              disabled={isLoading}
+              loading={isLoading}
+              variant="accent"
               fullWidth
-              icon={<ExternalLink className="h-3.5 w-3.5" />}
+              icon={<Download className="h-4 w-4" />}
             >
-              GET YOUR PIXEL KEYCHAIN NOW!
+              {isLoading ? "DOWNLOADING..." : "DOWNLOAD AND BUY!"}
             </PixselfButton>
 
             <div className="text-center">
               <div className="text-[6px]" style={{ color: PIXSELF_BRAND.colors.primary.navyLight }}>
-                Click to message us on Facebook with your character!
+                Downloads your image and opens our order form
               </div>
             </div>
           </div>

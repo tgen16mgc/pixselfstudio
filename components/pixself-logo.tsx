@@ -103,7 +103,7 @@ export function PixselfLogo({
         onClick={handleClick}
         className={`transition-all duration-200 ${animated ? "hover:scale-105 active:scale-95" : ""} focus:outline-none focus:ring-2 focus:ring-offset-2`}
         style={{
-
+          outline: `2px solid ${PIXSELF_BRAND.colors.accent.sparkle}`,
         }}
         title="Visit our Facebook page"
       >

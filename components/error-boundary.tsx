@@ -25,6 +25,14 @@ export class ErrorBoundary extends Component<Props, State> {
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     console.error("Character Studio Error:", error, errorInfo)
+
+    // Report to error tracking service
+    if (typeof window !== "undefined" && window.gtag) {
+      window.gtag("event", "exception", {
+        description: error.message,
+        fatal: false,
+      })
+    }
   }
 
   render() {

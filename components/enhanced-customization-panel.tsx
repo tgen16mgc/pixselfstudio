@@ -39,7 +39,7 @@ export function EnhancedCustomizationPanel({
   const [previewVariant, setPreviewVariant] = useState<number | null>(null)
 
   const currentSelection = selections[activePart]
-  const colors = RETRO_CHARACTER_PALETTES[activePart as keyof typeof RETRO_CHARACTER_PALETTES] || []
+  const colors = RETRO_CHARACTER_PALETTES[activePart] || []
 
   // Color names for better accessibility
   const colorNames = {
@@ -112,7 +112,7 @@ export function EnhancedCustomizationPanel({
               <EnhancedRetroColorSwatch
                 key={i}
                 color={color}
-                colorName={colorNames[activePart as keyof typeof colorNames]?.[i]}
+                colorName={colorNames[activePart]?.[i]}
                 selected={currentSelection.color === i}
                 onClick={() => onColorSelect(activePart, i)}
                 onPreview={(color) => setPreviewColor(color)}
@@ -141,7 +141,7 @@ export function EnhancedCustomizationPanel({
             />
             <div className="flex-1">
               <div className="text-[10px] font-bold" style={{ color: RETRO_UI_THEME.text.primary }}>
-                {colorNames[activePart as keyof typeof colorNames]?.[currentSelection.color] || `Color ${currentSelection.color + 1}`}
+                {colorNames[activePart]?.[currentSelection.color] || `Color ${currentSelection.color + 1}`}
               </div>
               <div className="text-[8px]" style={{ color: RETRO_UI_THEME.text.muted }}>
                 {previewColor || colors[currentSelection.color]}
