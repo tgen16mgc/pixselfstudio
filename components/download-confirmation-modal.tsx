@@ -347,11 +347,7 @@ export function DownloadConfirmationModal({
             </div>
 
             <PixselfButton
-              onClick={(e) => {
-                e.preventDefault()
-                e.stopPropagation()
-                handleDownloadAndBuy()
-              }}
+              onClick={handleDownloadAndBuy}
               disabled={isLoading}
               loading={isLoading}
               variant="accent"
