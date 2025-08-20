@@ -177,9 +177,9 @@ export function CharacterGalleryModal({
   if (!isOpen) return null
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/60 backdrop-blur-sm">
       <div
-        className="relative w-full max-w-6xl max-h-[90vh] border-4 backdrop-blur-sm overflow-hidden"
+        className="relative w-full max-w-6xl h-full sm:h-auto sm:max-h-[90vh] border-2 sm:border-4 backdrop-blur-sm overflow-hidden flex flex-col"
         style={{
           backgroundColor: PIXSELF_BRAND.colors.cloud.white,
           borderColor: PIXSELF_BRAND.colors.primary.navy,
@@ -188,19 +188,19 @@ export function CharacterGalleryModal({
       >
         {/* Header */}
         <div
-          className="px-6 py-4 border-b-4 flex items-center justify-between"
+          className="px-3 sm:px-6 py-3 sm:py-4 border-b-2 sm:border-b-4 flex items-center justify-between flex-shrink-0"
           style={{
             backgroundColor: PIXSELF_BRAND.colors.primary.gold,
             borderBottomColor: PIXSELF_BRAND.colors.primary.navy,
           }}
         >
-          <div className="flex items-center gap-3">
-            <Grid className="h-5 w-5" style={{ color: PIXSELF_BRAND.colors.primary.navy }} />
-            <h2 className="text-[14px] font-bold tracking-wider" style={{ color: PIXSELF_BRAND.colors.primary.navy }}>
+          <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1">
+            <Grid className="h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0" style={{ color: PIXSELF_BRAND.colors.primary.navy }} />
+            <h2 className="text-[12px] sm:text-[14px] font-bold tracking-wider truncate" style={{ color: PIXSELF_BRAND.colors.primary.navy }}>
               CHARACTER GALLERY
             </h2>
             <div
-              className="px-2 py-1 text-[8px] font-bold border-2"
+              className="px-2 py-1 text-[8px] font-bold border-2 flex-shrink-0"
               style={{
                 backgroundColor: PIXSELF_BRAND.colors.cloud.white,
                 borderColor: PIXSELF_BRAND.colors.primary.navy,
@@ -213,7 +213,7 @@ export function CharacterGalleryModal({
 
           <button
             onClick={onClose}
-            className="w-8 h-8 border-2 flex items-center justify-center transition-all duration-200 hover:scale-110 active:scale-95"
+            className="w-8 h-8 sm:w-8 sm:h-8 border-2 flex items-center justify-center transition-all duration-200 hover:scale-110 active:scale-95 flex-shrink-0 ml-2"
             style={{
               backgroundColor: PIXSELF_BRAND.colors.cloud.white,
               borderColor: PIXSELF_BRAND.colors.primary.navy,
@@ -226,30 +226,33 @@ export function CharacterGalleryModal({
 
         {/* Controls */}
         <div
-          className="px-6 py-4 border-b-4 space-y-4"
+          className="px-3 sm:px-6 py-3 sm:py-4 border-b-2 sm:border-b-4 space-y-3 sm:space-y-4 flex-shrink-0"
           style={{
             backgroundColor: PIXSELF_BRAND.colors.cloud.light,
             borderBottomColor: PIXSELF_BRAND.colors.primary.navyLight,
           }}
         >
           {/* Top Row - Save and Import/Export */}
-          <div className="flex items-center justify-between gap-4">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 sm:gap-4">
             <PixselfButton
               onClick={() => setShowSaveDialog(true)}
               variant="accent"
               size="sm"
               icon={<Save className="h-4 w-4" />}
+              fullWidth
+              className="sm:w-auto"
             >
               SAVE CURRENT
             </PixselfButton>
 
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 justify-center sm:justify-end">
               <PixselfButton
                 onClick={handleExportCharacters}
                 variant="secondary"
                 size="sm"
                 icon={<Download className="h-4 w-4" />}
                 disabled={savedCharacters.length === 0}
+                className="flex-1 sm:flex-none"
               >
                 EXPORT
               </PixselfButton>
@@ -258,6 +261,7 @@ export function CharacterGalleryModal({
                 variant="secondary"
                 size="sm"
                 icon={<Upload className="h-4 w-4" />}
+                className="flex-1 sm:flex-none"
               >
                 IMPORT
               </PixselfButton>
@@ -272,7 +276,7 @@ export function CharacterGalleryModal({
           </div>
 
           {/* Bottom Row - Search and View Controls */}
-          <div className="flex items-center gap-4">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4">
             {/* Search */}
             <div className="flex-1 relative">
               <div className="absolute left-3 top-1/2 transform -translate-y-1/2">
@@ -283,7 +287,7 @@ export function CharacterGalleryModal({
                 placeholder="Search characters..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 text-[12px] border-4 focus:outline-none focus:ring-2 focus:ring-opacity-50"
+                className="w-full pl-10 pr-4 py-2 text-[12px] border-2 sm:border-4 focus:outline-none focus:ring-2 focus:ring-opacity-50"
                 style={{
                   backgroundColor: PIXSELF_BRAND.colors.cloud.white,
                   borderColor: PIXSELF_BRAND.colors.primary.navyLight,
@@ -293,64 +297,66 @@ export function CharacterGalleryModal({
               />
             </div>
 
-            {/* Sort */}
-            <select
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value as "updated" | "created" | "name")}
-              className="px-3 py-2 text-[12px] border-4 focus:outline-none focus:ring-2 focus:ring-opacity-50"
-              style={{
-                backgroundColor: PIXSELF_BRAND.colors.cloud.white,
-                borderColor: PIXSELF_BRAND.colors.primary.navyLight,
-                color: PIXSELF_BRAND.colors.primary.navy,
-                outline: `2px solid ${PIXSELF_BRAND.colors.accent.sparkle}`,
-              }}
-            >
-              <option value="updated">Last Updated</option>
-              <option value="created">Date Created</option>
-              <option value="name">Name A-Z</option>
-            </select>
+            <div className="flex items-center gap-2 sm:gap-4">
+              {/* Sort */}
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value as "updated" | "created" | "name")}
+                className="flex-1 sm:flex-none px-3 py-2 text-[12px] border-2 sm:border-4 focus:outline-none focus:ring-2 focus:ring-opacity-50"
+                style={{
+                  backgroundColor: PIXSELF_BRAND.colors.cloud.white,
+                  borderColor: PIXSELF_BRAND.colors.primary.navyLight,
+                  color: PIXSELF_BRAND.colors.primary.navy,
+                  outline: `2px solid ${PIXSELF_BRAND.colors.accent.sparkle}`,
+                }}
+              >
+                <option value="updated">Last Updated</option>
+                <option value="created">Date Created</option>
+                <option value="name">Name A-Z</option>
+              </select>
 
-            {/* View Mode */}
-            <div className="flex border-4" style={{ borderColor: PIXSELF_BRAND.colors.primary.navyLight }}>
-              <button
-                onClick={() => setViewMode("grid")}
-                className={`px-3 py-2 border-r-2 transition-all duration-200 ${
-                  viewMode === "grid" ? "active:scale-95" : "hover:scale-105"
-                }`}
-                style={{
-                  backgroundColor:
-                    viewMode === "grid" ? PIXSELF_BRAND.colors.primary.gold : PIXSELF_BRAND.colors.cloud.white,
-                  borderRightColor: PIXSELF_BRAND.colors.primary.navyLight,
-                  color: PIXSELF_BRAND.colors.primary.navy,
-                }}
-              >
-                <Grid className="h-4 w-4" />
-              </button>
-              <button
-                onClick={() => setViewMode("list")}
-                className={`px-3 py-2 transition-all duration-200 ${
-                  viewMode === "list" ? "active:scale-95" : "hover:scale-105"
-                }`}
-                style={{
-                  backgroundColor:
-                    viewMode === "list" ? PIXSELF_BRAND.colors.primary.gold : PIXSELF_BRAND.colors.cloud.white,
-                  color: PIXSELF_BRAND.colors.primary.navy,
-                }}
-              >
-                <List className="h-4 w-4" />
-              </button>
+              {/* View Mode */}
+              <div className="flex border-2 sm:border-4" style={{ borderColor: PIXSELF_BRAND.colors.primary.navyLight }}>
+                <button
+                  onClick={() => setViewMode("grid")}
+                  className={`px-3 py-2 border-r-2 transition-all duration-200 ${
+                    viewMode === "grid" ? "active:scale-95" : "hover:scale-105"
+                  }`}
+                  style={{
+                    backgroundColor:
+                      viewMode === "grid" ? PIXSELF_BRAND.colors.primary.gold : PIXSELF_BRAND.colors.cloud.white,
+                    borderRightColor: PIXSELF_BRAND.colors.primary.navyLight,
+                    color: PIXSELF_BRAND.colors.primary.navy,
+                  }}
+                >
+                  <Grid className="h-4 w-4" />
+                </button>
+                <button
+                  onClick={() => setViewMode("list")}
+                  className={`px-3 py-2 transition-all duration-200 ${
+                    viewMode === "list" ? "active:scale-95" : "hover:scale-105"
+                  }`}
+                  style={{
+                    backgroundColor:
+                      viewMode === "list" ? PIXSELF_BRAND.colors.primary.gold : PIXSELF_BRAND.colors.cloud.white,
+                    color: PIXSELF_BRAND.colors.primary.navy,
+                  }}
+                >
+                  <List className="h-4 w-4" />
+                </button>
+              </div>
             </div>
           </div>
         </div>
 
         {/* Character List */}
-        <div className="flex-1 overflow-y-auto p-6" style={{ maxHeight: "60vh" }}>
+        <div className="flex-1 overflow-y-auto p-3 sm:p-6 min-h-0">
           {filteredAndSortedCharacters.length === 0 ? (
-            <div className="text-center py-12">
+            <div className="text-center py-8 sm:py-12">
               <div className="mb-4">
-                <Star className="h-12 w-12 mx-auto" style={{ color: PIXSELF_BRAND.colors.primary.navyLight }} />
+                <Star className="h-8 w-8 sm:h-12 sm:w-12 mx-auto" style={{ color: PIXSELF_BRAND.colors.primary.navyLight }} />
               </div>
-              <div className="text-[14px] font-bold mb-2" style={{ color: PIXSELF_BRAND.colors.primary.navy }}>
+              <div className="text-[12px] sm:text-[14px] font-bold mb-2" style={{ color: PIXSELF_BRAND.colors.primary.navy }}>
                 {searchQuery ? "No characters found" : "No saved characters"}
               </div>
               <div className="text-[10px]" style={{ color: PIXSELF_BRAND.colors.primary.navyLight }}>
@@ -358,12 +364,12 @@ export function CharacterGalleryModal({
               </div>
             </div>
           ) : (
-            <div className={viewMode === "grid" ? "grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4" : "space-y-3"}>
+            <div className={viewMode === "grid" ? "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 sm:gap-4" : "space-y-2 sm:space-y-3"}>
               {filteredAndSortedCharacters.map((character) => (
                 <div
                   key={character.id}
-                  className={`border-4 transition-all duration-200 hover:scale-105 cursor-pointer ${
-                    viewMode === "grid" ? "aspect-square" : "flex items-center gap-4 p-4"
+                  className={`border-2 sm:border-4 transition-all duration-200 hover:scale-105 active:scale-95 cursor-pointer ${
+                    viewMode === "grid" ? "aspect-square" : "flex items-center gap-3 sm:gap-4 p-2 sm:p-4"
                   }`}
                   style={{
                     backgroundColor: PIXSELF_BRAND.colors.cloud.white,
@@ -377,9 +383,9 @@ export function CharacterGalleryModal({
                   onClick={() => setSelectedCharacter(character)}
                 >
                   {viewMode === "grid" ? (
-                    <div className="p-3 h-full flex flex-col">
+                    <div className="p-2 sm:p-3 h-full flex flex-col">
                       {/* Thumbnail */}
-                      <div className="flex-1 flex items-center justify-center mb-3">
+                      <div className="flex-1 flex items-center justify-center mb-2 sm:mb-3">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                           src={character.thumbnail || "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/placeholder.svg"}
@@ -392,12 +398,12 @@ export function CharacterGalleryModal({
                       {/* Info */}
                       <div className="text-center">
                         <div
-                          className="text-[10px] font-bold mb-1 truncate"
+                          className="text-[9px] sm:text-[10px] font-bold mb-1 truncate"
                           style={{ color: PIXSELF_BRAND.colors.primary.navy }}
                         >
                           {character.name}
                         </div>
-                        <div className="text-[8px]" style={{ color: PIXSELF_BRAND.colors.primary.navyLight }}>
+                        <div className="text-[7px] sm:text-[8px]" style={{ color: PIXSELF_BRAND.colors.primary.navyLight }}>
                           {new Date(character.updatedAt).toLocaleDateString()}
                         </div>
                       </div>
@@ -405,7 +411,7 @@ export function CharacterGalleryModal({
                   ) : (
                     <>
                       {/* List View */}
-                      <div className="w-16 h-16 flex-shrink-0">
+                      <div className="w-12 h-12 sm:w-16 sm:h-16 flex-shrink-0">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                           src={character.thumbnail || "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/placeholder.svg"}
@@ -417,15 +423,15 @@ export function CharacterGalleryModal({
 
                       <div className="flex-1 min-w-0">
                         <div
-                          className="text-[12px] font-bold mb-1 truncate"
+                          className="text-[11px] sm:text-[12px] font-bold mb-1 truncate"
                           style={{ color: PIXSELF_BRAND.colors.primary.navy }}
                         >
                           {character.name}
                         </div>
-                        <div className="text-[9px] mb-1" style={{ color: PIXSELF_BRAND.colors.primary.navyLight }}>
+                        <div className="text-[8px] sm:text-[9px] mb-1" style={{ color: PIXSELF_BRAND.colors.primary.navyLight }}>
                           Created: {new Date(character.createdAt).toLocaleDateString()}
                         </div>
-                        <div className="text-[9px]" style={{ color: PIXSELF_BRAND.colors.primary.navyLight }}>
+                        <div className="text-[8px] sm:text-[9px]" style={{ color: PIXSELF_BRAND.colors.primary.navyLight }}>
                           Updated: {new Date(character.updatedAt).toLocaleDateString()}
                         </div>
                       </div>
@@ -440,14 +446,14 @@ export function CharacterGalleryModal({
         {/* Selected Character Actions */}
         {selectedCharacter && (
           <div
-            className="px-6 py-4 border-t-4 flex items-center justify-between"
+            className="px-3 sm:px-6 py-3 sm:py-4 border-t-2 sm:border-t-4 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 sm:gap-0 flex-shrink-0"
             style={{
               backgroundColor: PIXSELF_BRAND.colors.cloud.light,
               borderTopColor: PIXSELF_BRAND.colors.primary.navyLight,
             }}
           >
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 border-2" style={{ borderColor: PIXSELF_BRAND.colors.primary.navyLight }}>
+              <div className="w-10 h-10 sm:w-12 sm:h-12 border-2 flex-shrink-0" style={{ borderColor: PIXSELF_BRAND.colors.primary.navyLight }}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={selectedCharacter.thumbnail || "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/placeholder.svg"}
@@ -456,18 +462,24 @@ export function CharacterGalleryModal({
                   style={{ imageRendering: "pixelated" }}
                 />
               </div>
-              <div>
-                <div className="text-[12px] font-bold" style={{ color: PIXSELF_BRAND.colors.primary.navy }}>
+              <div className="min-w-0 flex-1">
+                <div className="text-[11px] sm:text-[12px] font-bold truncate" style={{ color: PIXSELF_BRAND.colors.primary.navy }}>
                   {selectedCharacter.name}
                 </div>
-                <div className="text-[9px]" style={{ color: PIXSELF_BRAND.colors.primary.navyLight }}>
+                <div className="text-[8px] sm:text-[9px]" style={{ color: PIXSELF_BRAND.colors.primary.navyLight }}>
                   {new Date(selectedCharacter.updatedAt).toLocaleDateString()}
                 </div>
               </div>
             </div>
 
             <div className="flex items-center gap-2">
-              <PixselfButton onClick={() => handleLoadCharacter(selectedCharacter)} variant="accent" size="sm">
+              <PixselfButton 
+                onClick={() => handleLoadCharacter(selectedCharacter)} 
+                variant="accent" 
+                size="sm"
+                fullWidth
+                className="sm:w-auto"
+              >
                 LOAD
               </PixselfButton>
               <PixselfButton
@@ -475,6 +487,8 @@ export function CharacterGalleryModal({
                 variant="secondary"
                 size="sm"
                 icon={<Trash2 className="h-4 w-4" />}
+                fullWidth
+                className="sm:w-auto"
               >
                 DELETE
               </PixselfButton>
@@ -485,16 +499,16 @@ export function CharacterGalleryModal({
 
       {/* Save Dialog */}
       {showSaveDialog && (
-        <div className="absolute inset-0 bg-black/40 flex items-center justify-center p-4">
+        <div className="absolute inset-0 bg-black/40 flex items-center justify-center p-3 sm:p-4">
           <div
-            className="w-full max-w-md border-4 p-6"
+            className="w-full max-w-md border-2 sm:border-4 p-4 sm:p-6"
             style={{
               backgroundColor: PIXSELF_BRAND.colors.cloud.white,
               borderColor: PIXSELF_BRAND.colors.primary.navy,
               boxShadow: PIXSELF_BRAND.shadows.glow,
             }}
           >
-            <h3 className="text-[14px] font-bold mb-4" style={{ color: PIXSELF_BRAND.colors.primary.navy }}>
+            <h3 className="text-[12px] sm:text-[14px] font-bold mb-4" style={{ color: PIXSELF_BRAND.colors.primary.navy }}>
               SAVE CHARACTER
             </h3>
 
@@ -504,7 +518,7 @@ export function CharacterGalleryModal({
               value={saveDialogName}
               onChange={(e) => setSaveDialogName(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && handleSaveCharacter()}
-              className="w-full px-4 py-3 text-[12px] border-4 mb-4 focus:outline-none focus:ring-2 focus:ring-opacity-50"
+              className="w-full px-3 sm:px-4 py-2 sm:py-3 text-[12px] border-2 sm:border-4 mb-4 focus:outline-none focus:ring-2 focus:ring-opacity-50"
               style={{
                 backgroundColor: PIXSELF_BRAND.colors.cloud.light,
                 borderColor: PIXSELF_BRAND.colors.primary.navyLight,
@@ -514,7 +528,7 @@ export function CharacterGalleryModal({
               autoFocus
             />
 
-            <div className="flex items-center gap-3">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
               <PixselfButton
                 onClick={handleSaveCharacter}
                 disabled={!saveDialogName.trim() || isLoading}
@@ -543,24 +557,24 @@ export function CharacterGalleryModal({
 
       {/* Delete Confirmation */}
       {showDeleteConfirm && (
-        <div className="absolute inset-0 bg-black/40 flex items-center justify-center p-4">
+        <div className="absolute inset-0 bg-black/40 flex items-center justify-center p-3 sm:p-4">
           <div
-            className="w-full max-w-md border-4 p-6"
+            className="w-full max-w-md border-2 sm:border-4 p-4 sm:p-6"
             style={{
               backgroundColor: PIXSELF_BRAND.colors.cloud.white,
               borderColor: PIXSELF_BRAND.colors.ui.error,
               boxShadow: PIXSELF_BRAND.shadows.glow,
             }}
           >
-            <h3 className="text-[14px] font-bold mb-4" style={{ color: PIXSELF_BRAND.colors.ui.error }}>
+            <h3 className="text-[12px] sm:text-[14px] font-bold mb-4" style={{ color: PIXSELF_BRAND.colors.ui.error }}>
               DELETE CHARACTER
             </h3>
 
-            <p className="text-[12px] mb-4" style={{ color: PIXSELF_BRAND.colors.primary.navy }}>
+            <p className="text-[11px] sm:text-[12px] mb-4" style={{ color: PIXSELF_BRAND.colors.primary.navy }}>
               Are you sure you want to delete this character? This action cannot be undone.
             </p>
 
-            <div className="flex items-center gap-3">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
               <PixselfButton
                 onClick={() => handleDeleteCharacter(showDeleteConfirm)}
                 variant="secondary"
