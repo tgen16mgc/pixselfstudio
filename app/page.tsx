@@ -219,6 +219,7 @@ export default function Page() {
     fileSize: string
     scale: number
   } | null>(null)
+  const [downloadInProgress, setDownloadInProgress] = useState(false)
   const [sharePreviewData, setSharePreviewData] = useState<string>("")
   const [storageAvailable, setStorageAvailable] = useState(false)
 
@@ -1093,9 +1094,16 @@ export default function Page() {
         <DownloadConfirmationModal
           isOpen={showDownloadModal}
           onClose={() => {
+            console.log("Parent onClose called, downloadInProgress:", downloadInProgress)
+            if (downloadInProgress) {
+              console.log("Download in progress, preventing modal close")
+              return
+            }
+            console.log("Closing modal from parent")
             setShowDownloadModal(false)
             setDownloadModalData(null)
           }}
+          onDownloadProgressChange={setDownloadInProgress}
           onConfirm={downloadPng}
           characterPreview={downloadModalData.preview}
           fileName={downloadModalData.fileName}

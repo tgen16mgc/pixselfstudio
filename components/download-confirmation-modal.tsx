@@ -1,6 +1,6 @@
 "use client"
 
-import { useRef, useEffect, useState } from "react"
+import { useRef, useEffect, useState, useCallback } from "react"
 import { Download, X, ShoppingCart, RefreshCw } from "lucide-react"
 import { PixselfButton } from "./pixself-ui-components"
 import { PIXSELF_BRAND } from "@/config/pixself-brand"
@@ -13,6 +13,7 @@ interface DownloadConfirmationModalProps {
   fileName: string
   fileSize: string
   isLoading?: boolean
+  onDownloadProgressChange?: (inProgress: boolean) => void
 }
 
 export function DownloadConfirmationModal({
@@ -23,53 +24,94 @@ export function DownloadConfirmationModal({
   fileName,
   fileSize,
   isLoading = false,
+  onDownloadProgressChange,
 }: DownloadConfirmationModalProps) {
   const modalRef = useRef<HTMLDivElement>(null)
   const [downloadComplete, setDownloadComplete] = useState(false)
   const [downloadInProgress, setDownloadInProgress] = useState(false)
+  const pendingCloseRef = useRef(false)
 
   // Reset states when modal opens
   useEffect(() => {
     if (isOpen) {
       setDownloadComplete(false)
       setDownloadInProgress(false)
+      pendingCloseRef.current = false
     }
   }, [isOpen])
 
-  // Handle escape key and click outside - but prevent closing during download
+  // Handle pending close when download completes
+  useEffect(() => {
+    if (!downloadInProgress && pendingCloseRef.current) {
+      console.log("Download completed and close was pending, closing now")
+      pendingCloseRef.current = false
+      onClose()
+    }
+  }, [downloadInProgress, onClose])
+
+  // Handle ALL events that might close the modal - prevent during download
   useEffect(() => {
     if (!isOpen) return
 
     const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && !downloadInProgress) {
-        console.log("Escape pressed, closing modal")
-        onClose()
-      } else if (downloadInProgress) {
-        console.log("Escape pressed but download in progress, preventing close")
+      console.log("KeyDown event:", e.key, "downloadInProgress:", downloadInProgress)
+      if (e.key === "Escape") {
+        e.preventDefault()
+        e.stopPropagation()
+        handleClose()
       }
     }
 
     const handleClickOutside = (e: MouseEvent) => {
+      console.log("Click event, target:", e.target, "downloadInProgress:", downloadInProgress)
       if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
-        if (!downloadInProgress) {
-          console.log("Click outside, closing modal")
-          onClose()
-        } else {
-          console.log("Click outside but download in progress, preventing close")
-        }
+        e.preventDefault()
+        e.stopPropagation()
+        handleClose()
+      }
+    }
+
+    // Block all potential events that might close the modal
+    const handleFocus = (e: FocusEvent) => {
+      if (downloadInProgress) {
+        console.log("Focus event during download, preventing:", e.type)
+        e.preventDefault()
+        e.stopPropagation()
+      }
+    }
+
+    const handleBlur = (e: FocusEvent) => {
+      if (downloadInProgress) {
+        console.log("Blur event during download, preventing:", e.type)
+        e.preventDefault()
+        e.stopPropagation()
+      }
+    }
+
+    const handleVisibilityChange = () => {
+      if (downloadInProgress) {
+        console.log("Visibility change during download, preventing")
       }
     }
 
     document.addEventListener("keydown", handleEscape)
     document.addEventListener("mousedown", handleClickOutside)
+    document.addEventListener("click", handleClickOutside)
+    document.addEventListener("focusin", handleFocus)
+    document.addEventListener("focusout", handleBlur)
+    document.addEventListener("visibilitychange", handleVisibilityChange)
     document.body.style.overflow = "hidden"
 
     return () => {
       document.removeEventListener("keydown", handleEscape)
       document.removeEventListener("mousedown", handleClickOutside)
+      document.removeEventListener("click", handleClickOutside)
+      document.removeEventListener("focusin", handleFocus)
+      document.removeEventListener("focusout", handleBlur)
+      document.removeEventListener("visibilitychange", handleVisibilityChange)
       document.body.style.overflow = "unset"
     }
-  }, [isOpen, onClose, downloadInProgress])
+  }, [isOpen, downloadInProgress, handleClose])
 
   const handleDownloadAndBuy = () => {
     console.log("Download and Buy clicked")
@@ -77,6 +119,7 @@ export function DownloadConfirmationModal({
     // Set download in progress to prevent modal from closing
     console.log("Setting downloadInProgress to true")
     setDownloadInProgress(true)
+    onDownloadProgressChange?.(true)
     
     // Trigger the download
     onConfirm()
@@ -87,17 +130,29 @@ export function DownloadConfirmationModal({
       console.log("Setting downloadComplete to true and downloadInProgress to false")
       setDownloadComplete(true)
       setDownloadInProgress(false)
+      onDownloadProgressChange?.(false)
     }, 2000) // Longer delay to ensure download starts and Chrome notification appears/disappears
   }
+
+  // Protected close function that respects download state
+  const handleClose = useCallback(() => {
+    if (downloadInProgress) {
+      console.log("Close requested but download in progress, setting pending flag")
+      pendingCloseRef.current = true
+      return
+    }
+    console.log("Close requested and allowed")
+    onClose()
+  }, [downloadInProgress, onClose])
 
   const handleBuyNow = () => {
     // Open the order form
     window.open("https://forms.gle/kBTQL5uMEQ1qp9xP9", "_blank")
-    onClose()
+    handleClose()
   }
 
   const handleCreateAnother = () => {
-    onClose()
+    handleClose()
   }
 
   console.log("DownloadConfirmationModal render - isOpen:", isOpen, "downloadComplete:", downloadComplete)
@@ -145,9 +200,9 @@ export function DownloadConfirmationModal({
               {downloadComplete ? "DOWNLOAD COMPLETE" : "DOWNLOAD CONFIRMATION"}
             </h2>
           </div>
-          <button
-            onClick={onClose}
-            className="w-6 h-6 border-2 flex items-center justify-center transition-all duration-200 hover:scale-110"
+                                <button
+                        onClick={handleClose}
+                        className="w-6 h-6 border-2 flex items-center justify-center transition-all duration-200 hover:scale-110"
             style={{
               backgroundColor: PIXSELF_BRAND.colors.cloud.white,
               borderColor: PIXSELF_BRAND.colors.primary.navy,
