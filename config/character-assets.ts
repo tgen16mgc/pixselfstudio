@@ -37,7 +37,7 @@ export const CHARACTER_PARTS: PartDefinition[] = [
       {
         id: "default",
         name: "Default Body",
-        path: "/assets/character/body.png",
+        path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/body.png",
         enabled: true,
       },
       // Add more body assets here in the future
@@ -60,7 +60,7 @@ export const CHARACTER_PARTS: PartDefinition[] = [
       {
         id: "default",
         name: "Default Hair Behind",
-        path: "/assets/character/hair-behind.png",
+        path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair-behind.png",
         enabled: true,
       },
       // Add more hair behind assets here
@@ -83,7 +83,7 @@ export const CHARACTER_PARTS: PartDefinition[] = [
       {
         id: "default",
         name: "Default Clothes",
-        path: "/assets/character/clothes.png",
+        path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/clothes.png",
         enabled: true,
       },
       // Add more clothing assets here
@@ -106,7 +106,7 @@ export const CHARACTER_PARTS: PartDefinition[] = [
       {
         id: "default",
         name: "Default Mouth",
-        path: "/assets/character/mouth.png",
+        path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/mouth.png",
         enabled: true,
       },
       // Add more mouth assets here
@@ -129,7 +129,7 @@ export const CHARACTER_PARTS: PartDefinition[] = [
       {
         id: "default",
         name: "Default Eyes",
-        path: "/assets/character/eyes.png",
+        path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/eyes.png",
         enabled: true,
       },
       // Add more eye assets here
@@ -152,7 +152,7 @@ export const CHARACTER_PARTS: PartDefinition[] = [
       {
         id: "default",
         name: "Default Eyebrows",
-        path: "/assets/character/eyebrows.png",
+        path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/eyebrows.png",
         enabled: true,
       },
       // Add more eyebrow assets here
@@ -175,7 +175,7 @@ export const CHARACTER_PARTS: PartDefinition[] = [
       {
         id: "default",
         name: "Default Hair Front",
-        path: "/assets/character/hair-front.png",
+        path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair-front.png",
         enabled: true,
       },
       // Add more hair front assets here
