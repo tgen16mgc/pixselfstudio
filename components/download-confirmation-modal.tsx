@@ -13,7 +13,6 @@ interface DownloadConfirmationModalProps {
   fileName: string
   fileSize: string
   isLoading?: boolean
-  onDownloadProgressChange?: (inProgress: boolean) => void
 }
 
 export function DownloadConfirmationModal({
@@ -24,135 +23,72 @@ export function DownloadConfirmationModal({
   fileName,
   fileSize,
   isLoading = false,
-  onDownloadProgressChange,
 }: DownloadConfirmationModalProps) {
   const modalRef = useRef<HTMLDivElement>(null)
   const [downloadComplete, setDownloadComplete] = useState(false)
-  const [downloadInProgress, setDownloadInProgress] = useState(false)
-  const pendingCloseRef = useRef(false)
+  const [isDownloadProtected, setIsDownloadProtected] = useState(false)
 
   // Reset states when modal opens
   useEffect(() => {
     if (isOpen) {
       setDownloadComplete(false)
-      setDownloadInProgress(false)
-      pendingCloseRef.current = false
+      setIsDownloadProtected(false)
     }
   }, [isOpen])
 
-  // Protected close function that respects download state - DEFINED FIRST
-  const handleClose = useCallback(() => {
-    if (downloadInProgress) {
-      console.log("Close requested but download in progress, setting pending flag")
-      pendingCloseRef.current = true
-      return
-    }
-    console.log("Close requested and allowed")
-    onClose()
-  }, [downloadInProgress, onClose])
-
-  // Handle pending close when download completes
-  useEffect(() => {
-    if (!downloadInProgress && pendingCloseRef.current) {
-      console.log("Download completed and close was pending, closing now")
-      pendingCloseRef.current = false
-      onClose()
-    }
-  }, [downloadInProgress, onClose])
-
-  // Handle ALL events that might close the modal - prevent during download
+  // Simple escape key and click outside handling
   useEffect(() => {
     if (!isOpen) return
 
     const handleEscape = (e: KeyboardEvent) => {
-      console.log("KeyDown event:", e.key, "downloadInProgress:", downloadInProgress)
-      if (e.key === "Escape") {
-        e.preventDefault()
-        e.stopPropagation()
-        handleClose()
+      if (e.key === "Escape" && !isDownloadProtected) {
+        onClose()
       }
     }
 
     const handleClickOutside = (e: MouseEvent) => {
-      console.log("Click event, target:", e.target, "downloadInProgress:", downloadInProgress)
-      if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
-        e.preventDefault()
-        e.stopPropagation()
-        handleClose()
-      }
-    }
-
-    // Block all potential events that might close the modal
-    const handleFocus = (e: FocusEvent) => {
-      if (downloadInProgress) {
-        console.log("Focus event during download, preventing:", e.type)
-        e.preventDefault()
-        e.stopPropagation()
-      }
-    }
-
-    const handleBlur = (e: FocusEvent) => {
-      if (downloadInProgress) {
-        console.log("Blur event during download, preventing:", e.type)
-        e.preventDefault()
-        e.stopPropagation()
-      }
-    }
-
-    const handleVisibilityChange = () => {
-      if (downloadInProgress) {
-        console.log("Visibility change during download, preventing")
+      if (modalRef.current && !modalRef.current.contains(e.target as Node) && !isDownloadProtected) {
+        onClose()
       }
     }
 
     document.addEventListener("keydown", handleEscape)
     document.addEventListener("mousedown", handleClickOutside)
-    document.addEventListener("click", handleClickOutside)
-    document.addEventListener("focusin", handleFocus)
-    document.addEventListener("focusout", handleBlur)
-    document.addEventListener("visibilitychange", handleVisibilityChange)
     document.body.style.overflow = "hidden"
 
     return () => {
       document.removeEventListener("keydown", handleEscape)
       document.removeEventListener("mousedown", handleClickOutside)
-      document.removeEventListener("click", handleClickOutside)
-      document.removeEventListener("focusin", handleFocus)
-      document.removeEventListener("focusout", handleBlur)
-      document.removeEventListener("visibilitychange", handleVisibilityChange)
       document.body.style.overflow = "unset"
     }
-  }, [isOpen, downloadInProgress, handleClose])
+  }, [isOpen, isDownloadProtected, onClose])
 
   const handleDownloadAndBuy = () => {
     console.log("Download and Buy clicked")
     
-    // Set download in progress to prevent modal from closing
-    console.log("Setting downloadInProgress to true")
-    setDownloadInProgress(true)
-    onDownloadProgressChange?.(true)
+    // Protect modal from closing for 3 seconds
+    setIsDownloadProtected(true)
     
     // Trigger the download
     onConfirm()
     console.log("Download confirmed")
     
-    // Wait a bit for download to start, then show post-download state
+    // Wait for download to complete, then show post-download state
     setTimeout(() => {
-      console.log("Setting downloadComplete to true and downloadInProgress to false")
+      console.log("Download protection period over, showing post-download state")
       setDownloadComplete(true)
-      setDownloadInProgress(false)
-      onDownloadProgressChange?.(false)
-    }, 2000) // Longer delay to ensure download starts and Chrome notification appears/disappears
+      setIsDownloadProtected(false)
+    }, 3000) // 3 second protection window
   }
 
   const handleBuyNow = () => {
     // Open the order form
     window.open("https://forms.gle/kBTQL5uMEQ1qp9xP9", "_blank")
-    handleClose()
+    onClose()
   }
 
   const handleCreateAnother = () => {
-    handleClose()
+    onClose()
   }
 
   console.log("DownloadConfirmationModal render - isOpen:", isOpen, "downloadComplete:", downloadComplete)
@@ -201,7 +137,7 @@ export function DownloadConfirmationModal({
             </h2>
           </div>
                                 <button
-                        onClick={handleClose}
+                        onClick={() => !isDownloadProtected && onClose()}
                         className="w-6 h-6 border-2 flex items-center justify-center transition-all duration-200 hover:scale-110"
             style={{
               backgroundColor: PIXSELF_BRAND.colors.cloud.white,
@@ -220,13 +156,13 @@ export function DownloadConfirmationModal({
             <div style={{ position: 'absolute', top: '50px', right: '10px', background: 'red', color: 'white', padding: '2px 5px', fontSize: '10px', zIndex: 10000 }}>
               State: {downloadComplete ? 'POST-DOWNLOAD' : 'CONFIRMATION'}
               <br />
-              Progress: {downloadInProgress ? 'DOWNLOADING' : 'IDLE'}
+              Protected: {isDownloadProtected ? 'YES' : 'NO'}
               <br />
               <button 
                 onClick={() => {
                   console.log("Debug button clicked, setting downloadComplete to true")
                   setDownloadComplete(true)
-                  setDownloadInProgress(false)
+                  setIsDownloadProtected(false)
                 }}
                 style={{ background: 'blue', color: 'white', padding: '2px', fontSize: '8px', marginTop: '2px' }}
               >
@@ -235,14 +171,14 @@ export function DownloadConfirmationModal({
             </div>
           )}
           
-          {downloadInProgress ? (
+          {isDownloadProtected && !downloadComplete ? (
             // Download in progress state
             <div className="text-center py-8">
               <div className="text-[12px] font-bold mb-4" style={{ color: PIXSELF_BRAND.colors.primary.navy }}>
                 🔄 Download in Progress...
               </div>
               <div className="text-[10px] mb-4" style={{ color: PIXSELF_BRAND.colors.primary.navyLight }}>
-                Please wait while your character downloads. The modal will update automatically.
+                Your download should start automatically. Please wait...
               </div>
               <div className="text-[8px]" style={{ color: PIXSELF_BRAND.colors.primary.navyLight }}>
                 Chrome may show a download notification - this is normal!
