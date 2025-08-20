@@ -181,7 +181,7 @@ export function DownloadConfirmationModal({
                   <img
                     src={characterPreview || "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/placeholder.svg"}
                     alt={fileName}
-                    className="w-24 h-30 object-contain"
+                    className="w-32 h-40 object-contain"
                     style={{ imageRendering: "pixelated" }}
                   />
                 </div>
