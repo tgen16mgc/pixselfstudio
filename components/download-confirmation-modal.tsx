@@ -64,11 +64,11 @@ export function DownloadConfirmationModal({
     onClose()
     console.log("Download modal closed")
     
-    // Show the post-download modal after a brief delay to prevent immediate closure
+    // Show the post-download modal after a longer delay to ensure clean transition
     setTimeout(() => {
       console.log("Triggering post-download modal")
       onDownloadComplete()
-    }, 200)
+    }, 1000)
   }
 
   if (!isOpen) return null
@@ -200,7 +200,11 @@ export function DownloadConfirmationModal({
             </div>
 
             <PixselfButton
-              onClick={handleDownloadAndBuy}
+              onClick={(e) => {
+                e.preventDefault()
+                e.stopPropagation()
+                handleDownloadAndBuy()
+              }}
               disabled={isLoading}
               loading={isLoading}
               variant="accent"
