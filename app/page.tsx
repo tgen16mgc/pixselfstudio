@@ -24,6 +24,7 @@ import { PixselfBackground } from "@/components/pixself-background"
 import { PixselfButton, PixselfPanel } from "@/components/pixself-ui-components"
 import { LoadingScreen } from "@/components/loading-screen"
 import { DownloadConfirmationModal } from "@/components/download-confirmation-modal"
+import { PostDownloadModal } from "@/components/post-download-modal"
 import { ShareTemplateModal } from "@/components/share-template-modal"
 import { CharacterGalleryModal } from "@/components/character-gallery-modal"
 import { EnhancedTitleSection } from "@/components/enhanced-title-section"
@@ -209,6 +210,7 @@ export default function Page() {
   const [downloadLoading, setDownloadLoading] = useState(false)
   // const [, setShareLoading] = useState(false)
   const [showDownloadModal, setShowDownloadModal] = useState(false)
+  const [showPostDownloadModal, setShowPostDownloadModal] = useState(false)
   const [showShareModal, setShowShareModal] = useState(false)
   const [showGalleryModal, setShowGalleryModal] = useState(false)
   const [downloadModalData, setDownloadModalData] = useState<{
@@ -1095,10 +1097,24 @@ export default function Page() {
             setDownloadModalData(null)
           }}
           onConfirm={downloadPng}
+          onDownloadComplete={() => setShowPostDownloadModal(true)}
           characterPreview={downloadModalData.preview}
           fileName={downloadModalData.fileName}
           fileSize={downloadModalData.fileSize}
           isLoading={downloadLoading}
+        />
+      )}
+
+      {/* Post-Download Modal */}
+      {downloadModalData && (
+        <PostDownloadModal
+          isOpen={showPostDownloadModal}
+          onClose={() => {
+            setShowPostDownloadModal(false)
+            setDownloadModalData(null)
+          }}
+          characterPreview={downloadModalData.preview}
+          fileName={downloadModalData.fileName}
         />
       )}
 

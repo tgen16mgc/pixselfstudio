@@ -9,6 +9,7 @@ interface DownloadConfirmationModalProps {
   isOpen: boolean
   onClose: () => void
   onConfirm: () => void
+  onDownloadComplete: () => void // New callback for when download completes
   characterPreview: string // base64 image data
   fileName: string
   fileSize: string
@@ -19,6 +20,7 @@ export function DownloadConfirmationModal({
   isOpen,
   onClose,
   onConfirm,
+  onDownloadComplete,
   characterPreview,
   fileName,
   fileSize,
@@ -54,9 +56,14 @@ export function DownloadConfirmationModal({
   const handleDownloadAndBuy = () => {
     // First trigger the download
     onConfirm()
-
-    // Then open the order form
-    window.open("https://forms.gle/kBTQL5uMEQ1qp9xP9", "_blank")
+    
+    // Close this modal
+    onClose()
+    
+    // Show the post-download modal after a short delay to let download start
+    setTimeout(() => {
+      onDownloadComplete()
+    }, 500)
   }
 
   if (!isOpen) return null
