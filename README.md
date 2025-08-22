@@ -362,26 +362,26 @@ The project includes several automation scripts for asset management:
 
 **Basic Asset Management:**
 ```bash
-npm run scan-assets          # Scan and discover new assets
-npm run update-config        # Update static configuration
-npm run update-assets        # Run both scan and update
+npm run scan                 # Scan and discover new assets
+npm run config               # Update static configuration
+npm run update               # Run both scan and update
 ```
 
 **CDN Integration:**
 ```bash
-npm run setup-cdn            # Generate GitHub CDN URLs
-npm run update-assets-cdn    # Complete workflow with CDN
+npm run cdn                  # Generate GitHub CDN URLs
+npm run assets               # Complete workflow with CDN
 ```
 
 **Color Variants:**
 ```bash
-npm run add-color-variants   # Add color variants to assets
-npm run update-assets-with-colors  # Complete workflow with colors
+npm run colors               # Add color variants to assets
+npm run all                  # Complete workflow with colors
 ```
 
 **Complete Workflow (Recommended):**
 ```bash
-npm run update-assets-with-colors  # Scan → Update → Add Colors → CDN
+npm run all                  # Scan → Update → Add Colors → CDN
 ```
 
 ### 10. **Advanced Features**

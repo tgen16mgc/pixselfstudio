@@ -7,13 +7,13 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "scan-assets": "node scripts/update-asset-manifest.js",
-    "update-config": "node scripts/update-static-config.js",
-    "update-assets": "node scripts/update-assets.js",
-    "setup-cdn": "node scripts/generate-cdn-urls.js",
-    "update-assets-cdn": "node scripts/update-assets-with-cdn.js",
-    "add-color-variants": "node scripts/add-color-variants.js",
-    "update-assets-with-colors": "node scripts/update-assets-with-cdn.js"
+    "scan": "node scripts/update-asset-manifest.js",
+    "config": "node scripts/update-static-config.js",
+    "update": "node scripts/update-assets.js",
+    "cdn": "node scripts/generate-cdn-urls.js",
+    "assets": "node scripts/update-assets-with-cdn.js",
+    "colors": "node scripts/add-color-variants.js",
+    "all": "node scripts/update-assets-with-cdn.js"
   },
   "dependencies": {
     "class-variance-authority": "^0.7.1",

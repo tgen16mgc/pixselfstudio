@@ -99,7 +99,7 @@ Use these predefined colors for consistency:
 Run the automated script to add color variants to your configuration:
 
 ```bash
-npm run add-color-variants
+npm run colors
 ```
 
 This script will:
@@ -122,7 +122,7 @@ git commit -m "feat: add color variants for character assets"
 git push origin main
 
 # Update CDN configuration
-npm run setup-cdn
+npm run cdn
 ```
 
 ## 🎯 Option 2: Programmatic Color Application
@@ -258,9 +258,9 @@ public/assets/character/
 ## 🚀 Quick Start
 
 1. **Create color variant PNGs** for your assets
-2. **Run the automation script**: `npm run add-color-variants`
+2. **Run the automation script**: `npm run colors`
 3. **Upload to GitHub**: `git add . && git commit -m "add color variants" && git push`
-4. **Update CDN**: `npm run setup-cdn`
+4. **Update CDN**: `npm run cdn`
 
 ## 🎯 Best Practices
 
@@ -275,7 +275,7 @@ public/assets/character/
 ### Color variants not showing up?
 - Check that the PNG files exist in the correct location
 - Verify the file names match the configuration
-- Run `npm run setup-cdn` to update CDN URLs
+- Run `npm run cdn` to update CDN URLs
 
 ### Colors look wrong?
 - Ensure you're using the correct hex color values
