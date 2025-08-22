@@ -106,13 +106,13 @@ function updateCharacterAssetsWithColorVariants() {
   const startIndex = configContent.indexOf(startMarker)
   if (startIndex === -1) {
     console.error('❌ Could not find FALLBACK_CHARACTER_PARTS in config file')
-    return
+    return false
   }
   
   const endIndex = configContent.indexOf(endMarker, startIndex + startMarker.length)
   if (endIndex === -1) {
     console.error('❌ Could not find end of FALLBACK_CHARACTER_PARTS array')
-    return
+    return false
   }
   
   // Extract the current parts configuration
@@ -144,9 +144,20 @@ function updateCharacterAssetsWithColorVariants() {
       
       // Add color variants for colorable parts (except "none" assets)
       if (COLORABLE_PARTS.includes(partKey) && asset.id !== 'none') {
-        const variants = addColorVariantsToAsset(asset, partKey)
-        assets.push(...variants)
-        console.log(`    ✅ Added ${variants.length - 1} color variants to ${asset.id}`)
+        // Check if this asset already has color variants
+        const hasColorVariants = asset.id.includes('-') && 
+          Object.keys(COLOR_VARIANTS[partKey] || COLOR_VARIANTS.hair).some(color => 
+            asset.id.endsWith(`-${color}`)
+          )
+        
+        if (!hasColorVariants) {
+          const variants = addColorVariantsToAsset(asset, partKey)
+          assets.push(...variants)
+          console.log(`    ✅ Added ${variants.length - 1} color variants to ${asset.id}`)
+        } else {
+          assets.push(asset)
+          console.log(`    ℹ️  ${asset.id} already has color variants`)
+        }
       } else {
         assets.push(asset)
       }
@@ -187,6 +198,8 @@ ${asset.color ? `      color: "${asset.color}",` : ''}
     const colorCount = Object.keys(COLOR_VARIANTS[part] || COLOR_VARIANTS.hair).length
     console.log(`  ${part}: ${colorCount} color variants available`)
   })
+  
+  return true
 }
 
 // Helper functions
@@ -261,7 +274,11 @@ function isOptional(partKey) {
 // Run the script
 if (require.main === module) {
   try {
-    updateCharacterAssetsWithColorVariants()
+    const success = updateCharacterAssetsWithColorVariants()
+    if (!success) {
+      console.log('ℹ️  No changes made to character assets.')
+      process.exit(0)
+    }
   } catch (error) {
     console.error('❌ Error updating character assets:', error)
     process.exit(1)

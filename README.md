@@ -356,7 +356,35 @@ const hairStyles = [
 - Keep file sizes reasonable
 - Use appropriate compression
 
-### 9. **Advanced Features**
+### 9. **Script Commands**
+
+The project includes several automation scripts for asset management:
+
+**Basic Asset Management:**
+```bash
+npm run scan-assets          # Scan and discover new assets
+npm run update-config        # Update static configuration
+npm run update-assets        # Run both scan and update
+```
+
+**CDN Integration:**
+```bash
+npm run setup-cdn            # Generate GitHub CDN URLs
+npm run update-assets-cdn    # Complete workflow with CDN
+```
+
+**Color Variants:**
+```bash
+npm run add-color-variants   # Add color variants to assets
+npm run update-assets-with-colors  # Complete workflow with colors
+```
+
+**Complete Workflow (Recommended):**
+```bash
+npm run update-assets-with-colors  # Scan → Update → Add Colors → CDN
+```
+
+### 10. **Advanced Features**
 
 **Conditional Assets:**
 
@@ -375,6 +403,11 @@ const hairStyles = [
 - Create multiple versions of the same asset
 - Use consistent naming conventions
 - Group related assets together
+
+**Color Variants:**
+- Add color variants to any asset using the automation script
+- Supports 6 color variants per asset (hair, body, clothes, eyes, mouth, blush)
+- Automatic CDN integration for all color variants
 
 ## 🤝 Contributing
 
