@@ -241,13 +241,14 @@ export default function Page() {
   useEffect(() => {
     if (history.length === 0) {
       const initialState: HistoryState = {
-        selections: selections,
+        selections: createDefaultSelections(),
         timestamp: Date.now(),
       }
+      console.log('Initializing history', { initialState })
       setHistory([initialState])
       setHistoryIndex(0)
     }
-  }, [history.length, selections])
+  }, [history.length])
 
   // Add to history when selections change
   const addToHistory = useCallback(
@@ -259,7 +260,14 @@ export default function Page() {
 
       setHistory((prev) => {
         const newHistory = [...prev.slice(0, historyIndex + 1), newState]
-        return newHistory.slice(-50)
+        const result = newHistory.slice(-50)
+        console.log('History updated', { 
+          oldLength: prev.length, 
+          newLength: result.length, 
+          historyIndex, 
+          newHistoryIndex: historyIndex + 1 
+        })
+        return result
       })
       setHistoryIndex((prev) => prev + 1)
     },
@@ -267,20 +275,28 @@ export default function Page() {
   )
 
   const undo = useCallback(() => {
+    console.log('Undo called', { historyIndex, historyLength: history.length })
     if (historyIndex > 0) {
       const newIndex = historyIndex - 1
       setHistoryIndex(newIndex)
       setSelections(history[newIndex].selections)
       play8BitSound("click", soundEnabled)
+      console.log('Undo successful', { newIndex })
+    } else {
+      console.log('Cannot undo - at beginning of history')
     }
   }, [historyIndex, history, soundEnabled, setSelections])
 
   const redo = useCallback(() => {
+    console.log('Redo called', { historyIndex, historyLength: history.length })
     if (historyIndex < history.length - 1) {
       const newIndex = historyIndex + 1
       setHistoryIndex(newIndex)
       setSelections(history[newIndex].selections)
       play8BitSound("click", soundEnabled)
+      console.log('Redo successful', { newIndex })
+    } else {
+      console.log('Cannot redo - at end of history')
     }
   }, [historyIndex, history, soundEnabled, setSelections])
 
@@ -329,9 +345,11 @@ export default function Page() {
       if (e.ctrlKey || e.metaKey) {
         if (e.key === "z" && !e.shiftKey) {
           e.preventDefault()
+          console.log('Ctrl+Z pressed - calling undo')
           undo()
         } else if (e.key === "y" || (e.key === "z" && e.shiftKey)) {
           e.preventDefault()
+          console.log('Ctrl+Y or Ctrl+Shift+Z pressed - calling redo')
           redo()
         } else if (e.key === "s") {
           e.preventDefault()
