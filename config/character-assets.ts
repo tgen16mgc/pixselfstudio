@@ -43,6 +43,12 @@ const FALLBACK_CHARACTER_PARTS: PartDefinition[] = [
     category: "Body",
     assets: [
     {
+      id: "aotheneu",
+      name: "Aotheneu CLOTHES",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/body/clothes/clothes-aotheneu.png",
+      enabled: true,
+    },
+    {
       id: "neu",
       name: "Neu CLOTHES",
       path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/body/clothes/clothes-neu.png",
@@ -74,6 +80,12 @@ const FALLBACK_CHARACTER_PARTS: PartDefinition[] = [
       id: "64",
       name: "64 HAIR-FRONT",
       path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-front/hair-front-64.png",
+      enabled: true,
+    },
+    {
+      id: "tomboy",
+      name: "Tomboy HAIR-FRONT",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-front/hair-front-tomboy.png",
       enabled: true,
     }
     ],
@@ -177,6 +189,12 @@ const FALLBACK_CHARACTER_PARTS: PartDefinition[] = [
       enabled: true,
     },
     {
+      id: "small",
+      name: "Small MOUTH",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/mouth/mouth-small.png",
+      enabled: true,
+    },
+    {
       id: "smile1",
       name: "Smile1 MOUTH",
       path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/mouth/mouth-smile1.png",
@@ -202,6 +220,12 @@ const FALLBACK_CHARACTER_PARTS: PartDefinition[] = [
       id: "default",
       name: "Default BLUSH",
       path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/blush/blush-default.png",
+      enabled: true,
+    },
+    {
+      id: "light",
+      name: "Light BLUSH",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/blush/blush-light.png",
       enabled: true,
     }
     ],

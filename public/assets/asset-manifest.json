@@ -4,6 +4,7 @@
     "body-v2.png"
   ],
   "clothes": [
+    "clothes-aotheneu.png",
     "clothes-neu.png",
     "clothes-somi.png"
   ],
@@ -13,7 +14,8 @@
   ],
   "hairFront": [
     "hair-front-2side.png",
-    "hair-front-64.png"
+    "hair-front-64.png",
+    "hair-front-tomboy.png"
   ],
   "eyes": [
     "eyes-default.png",
@@ -25,10 +27,12 @@
   ],
   "mouth": [
     "mouth-default.png",
+    "mouth-small.png",
     "mouth-smile1.png"
   ],
   "blush": [
-    "blush-default.png"
+    "blush-default.png",
+    "blush-light.png"
   ],
   "earring": [
     "earring-default.png"

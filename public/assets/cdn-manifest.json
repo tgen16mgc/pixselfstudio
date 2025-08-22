@@ -1,5 +1,5 @@
 {
-  "generated": "2025-08-22T18:32:54.214Z",
+  "generated": "2025-08-22T18:45:16.050Z",
   "github": {
     "username": "tgen16mgc",
     "repo": "pixselfstudio",
@@ -21,6 +21,11 @@
     ],
     "clothes": [
       {
+        "filename": "clothes-aotheneu.png",
+        "cdnUrl": "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/body/clothes/clothes-aotheneu.png",
+        "localPath": "/assets/character/body/clothes/clothes-aotheneu.png"
+      },
+      {
         "filename": "clothes-neu.png",
         "cdnUrl": "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/body/clothes/clothes-neu.png",
         "localPath": "/assets/character/body/clothes/clothes-neu.png"
@@ -41,6 +46,11 @@
         "filename": "hair-front-64.png",
         "cdnUrl": "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-front/hair-front-64.png",
         "localPath": "/assets/character/hair/hair-front/hair-front-64.png"
+      },
+      {
+        "filename": "hair-front-tomboy.png",
+        "cdnUrl": "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-front/hair-front-tomboy.png",
+        "localPath": "/assets/character/hair/hair-front/hair-front-tomboy.png"
       }
     ],
     "hair-behind": [
@@ -86,6 +96,11 @@
         "localPath": "/assets/character/face/mouth/mouth-default.png"
       },
       {
+        "filename": "mouth-small.png",
+        "cdnUrl": "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/mouth/mouth-small.png",
+        "localPath": "/assets/character/face/mouth/mouth-small.png"
+      },
+      {
         "filename": "mouth-smile1.png",
         "cdnUrl": "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/mouth/mouth-smile1.png",
         "localPath": "/assets/character/face/mouth/mouth-smile1.png"
@@ -96,6 +111,11 @@
         "filename": "blush-default.png",
         "cdnUrl": "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/blush/blush-default.png",
         "localPath": "/assets/character/face/blush/blush-default.png"
+      },
+      {
+        "filename": "blush-light.png",
+        "cdnUrl": "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/blush/blush-light.png",
+        "localPath": "/assets/character/face/blush/blush-light.png"
       }
     ],
     "earring": [
