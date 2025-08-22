@@ -6,12 +6,14 @@ const path = require('path')
 // Color variants for different parts
 const COLOR_VARIANTS = {
   hair: {
-    black: "#2C1810",
-    brown: "#8B4513", 
-    blonde: "#DAA520",
-    red: "#DC143C",
-    purple: "#9370DB",
-    blue: "#00CED1"
+    black: "#333333",
+    white: "#FAFAFA",
+    pink: "#F8BBD0",
+    yellow: "#FFF9C4",
+    red: "#FF8A80",
+    wineRed: "#B56576",
+    purple: "#CE93D8",
+    blue: "#90CAF9"
   },
   body: {
     fair: "#FDBCB4",
@@ -65,23 +67,57 @@ function generateCDNUrl(assetPath) {
 function addColorVariantsToAsset(asset, partKey) {
   const colorVariants = COLOR_VARIANTS[partKey] || COLOR_VARIANTS.hair
   
-  // Keep the original asset
-  const variants = [asset]
-  
-  // Add color variants
-  Object.entries(colorVariants).forEach(([colorName, colorHex]) => {
-    const colorVariant = {
+  // For hair parts, make black the default variant
+  if (partKey === 'hairFront' || partKey === 'hairBehind') {
+    // Start with black variant as default
+    const variants = []
+    
+    // Add black variant first (as default)
+    const blackVariant = {
       ...asset,
-      id: `${asset.id}-${colorName}`,
-      name: `${asset.name} (${colorName.charAt(0).toUpperCase() + colorName.slice(1)})`,
-      path: asset.path.replace('.png', `-${colorName}.png`),
-      color: colorHex,
+      id: `${asset.id}-black`,
+      name: `${asset.name} (Black)`,
+      path: asset.path.replace('.png', '-black.png'),
+      color: colorVariants.black,
       enabled: true
     }
-    variants.push(colorVariant)
-  })
-  
-  return variants
+    variants.push(blackVariant)
+    
+    // Add other color variants
+    Object.entries(colorVariants).forEach(([colorName, colorHex]) => {
+      if (colorName !== 'black') { // Skip black as it's already added
+        const colorVariant = {
+          ...asset,
+          id: `${asset.id}-${colorName}`,
+          name: `${asset.name} (${colorName.charAt(0).toUpperCase() + colorName.slice(1)})`,
+          path: asset.path.replace('.png', `-${colorName}.png`),
+          color: colorHex,
+          enabled: true
+        }
+        variants.push(colorVariant)
+      }
+    })
+    
+    return variants
+  } else {
+    // For non-hair parts, keep original behavior
+    const variants = [asset]
+    
+    // Add color variants
+    Object.entries(colorVariants).forEach(([colorName, colorHex]) => {
+      const colorVariant = {
+        ...asset,
+        id: `${asset.id}-${colorName}`,
+        name: `${asset.name} (${colorName.charAt(0).toUpperCase() + colorName.slice(1)})`,
+        path: asset.path.replace('.png', `-${colorName}.png`),
+        color: colorHex,
+        enabled: true
+      }
+      variants.push(colorVariant)
+    })
+    
+    return variants
+  }
 }
 
 function updateCharacterAssetsWithColorVariants() {

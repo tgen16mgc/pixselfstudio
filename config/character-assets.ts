@@ -145,12 +145,6 @@ const FALLBACK_CHARACTER_PARTS: PartDefinition[] = [
       name: "Curly HAIR BEHIND",
       path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-behind/hair-behind-curly.png",
       enabled: true,
-    },
-    {
-      id: "default",
-      name: "Default HAIR BEHIND",
-      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-behind/hair-behind-default.png",
-      enabled: true,
     }
     ],
     defaultAsset: "default",
