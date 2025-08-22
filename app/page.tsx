@@ -505,6 +505,17 @@ export default function Page() {
     {} as Record<string, PartDefinition[]>,
   )
 
+  // Sort parts within each category to put hairFront before hairBehind
+  Object.keys(partsByCategory).forEach(category => {
+    partsByCategory[category].sort((a, b) => {
+      // Put hairFront before hairBehind
+      if (a.key === 'hairFront' && b.key === 'hairBehind') return -1
+      if (a.key === 'hairBehind' && b.key === 'hairFront') return 1
+      // Keep other parts in their original order
+      return 0
+    })
+  })
+
   // Show loading screen first
   if (isLoading) {
     return <LoadingScreen onComplete={() => setIsLoading(false)} />
