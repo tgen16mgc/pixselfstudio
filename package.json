@@ -11,7 +11,8 @@
     "update-config": "node scripts/update-static-config.js",
     "update-assets": "node scripts/update-assets.js",
     "setup-cdn": "node scripts/generate-cdn-urls.js",
-    "update-assets-cdn": "node scripts/update-assets-with-cdn.js"
+    "update-assets-cdn": "node scripts/update-assets-with-cdn.js",
+    "add-color-variants": "node scripts/add-color-variants.js"
   },
   "dependencies": {
     "class-variance-authority": "^0.7.1",
