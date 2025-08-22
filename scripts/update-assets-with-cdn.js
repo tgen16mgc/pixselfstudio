@@ -18,20 +18,20 @@ try {
   
   console.log('\n' + '='.repeat(50) + '\n');
   
-  // Step 3: Add color variants (if any new assets detected)
-  console.log('🎨 Step 3: Adding color variants to new assets...');
+  // Step 3: Run cdn
+  console.log('🌐 Step 3: Setting up GitHub CDN...');
+  execSync('npm run cdn', { stdio: 'inherit' });
+  
+  console.log('\n' + '='.repeat(50) + '\n');
+  
+  // Step 4: Add color variants (after CDN setup)
+  console.log('🎨 Step 4: Adding color variants to new assets...');
   try {
     execSync('npm run colors', { stdio: 'inherit' });
     console.log('✅ Color variants added successfully!');
   } catch (colorError) {
     console.log('ℹ️  No new color variants to add or color variants already up to date.');
   }
-  
-  console.log('\n' + '='.repeat(50) + '\n');
-  
-  // Step 4: Run cdn
-  console.log('🌐 Step 4: Setting up GitHub CDN...');
-  execSync('npm run cdn', { stdio: 'inherit' });
   
   console.log('\n' + '='.repeat(50));
   console.log('✅ Complete asset update with CDN setup completed successfully!');

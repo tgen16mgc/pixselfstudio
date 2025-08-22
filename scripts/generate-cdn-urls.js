@@ -90,12 +90,253 @@ function generateCDNManifest() {
   return cdnManifest;
 }
 
+// Parse existing parts configuration to preserve color variants
+function parseExistingParts(partsSection) {
+  const parts = {};
+  const partRegex = /\{\s*key:\s*"([^"]+)",[\s\S]*?assets:\s*\[([\s\S]*?)\],[\s\S]*?\}/g;
+  let match;
+  
+  while ((match = partRegex.exec(partsSection)) !== null) {
+    const partKey = match[1];
+    const assetsSection = match[2];
+    
+    // Parse assets including color variants
+    const assetRegex = /\{\s*id:\s*"([^"]+)",\s*name:\s*"([^"]+)",\s*path:\s*"([^"]*)",\s*enabled:\s*(true|false)(?:,\s*color:\s*"([^"]*)")?\s*\}/g;
+    const assets = [];
+    let assetMatch;
+    
+    while ((assetMatch = assetRegex.exec(assetsSection)) !== null) {
+      const asset = {
+        id: assetMatch[1],
+        name: assetMatch[2],
+        path: assetMatch[3],
+        enabled: assetMatch[4] === 'true'
+      };
+      
+      // Preserve color property if it exists
+      if (assetMatch[5]) {
+        asset.color = assetMatch[5];
+      }
+      
+      assets.push(asset);
+    }
+    
+    parts[partKey] = assets;
+  }
+  
+  return parts;
+}
+
+// Update CDN URLs in existing parts while preserving color variants
+function updateCDNUrlsInExistingParts(existingParts, cdnManifest) {
+  const updatedParts = {};
+  
+  // Key mapping for different naming conventions
+  const keyMapping = {
+    'hair-front': 'hairFront',
+    'hair-behind': 'hairBehind'
+  };
+  
+  for (const [partKey, existingAssets] of Object.entries(existingParts)) {
+    const manifestKey = Object.keys(keyMapping).find(key => keyMapping[key] === partKey) || partKey;
+    const manifestAssets = cdnManifest[manifestKey] || [];
+    
+    // Create a map of manifest assets by filename (without extension)
+    const manifestAssetMap = {};
+    manifestAssets.forEach(asset => {
+      const baseFilename = asset.filename.replace(/\.png$/, '').replace(`${manifestKey}-`, '');
+      manifestAssetMap[baseFilename] = asset.cdnUrl;
+    });
+    
+    // Update existing assets with CDN URLs
+    const updatedAssets = existingAssets.map(asset => {
+      if (asset.id === 'none') {
+        // Keep "none" assets as they are
+        return asset;
+      }
+      
+      // Check if this asset has a corresponding CDN URL
+      const cdnUrl = manifestAssetMap[asset.id];
+      if (cdnUrl) {
+        return {
+          ...asset,
+          path: cdnUrl
+        };
+      }
+      
+      // If it's a color variant, try to construct the CDN URL
+      const colorMatch = asset.id.match(/^(.+)-(.+)$/);
+      if (colorMatch && asset.color) {
+        const [, baseAssetId, colorName] = colorMatch;
+        const baseCdnUrl = manifestAssetMap[baseAssetId];
+        if (baseCdnUrl) {
+          const colorVariantUrl = baseCdnUrl.replace(/\.png$/, `-${colorName}.png`);
+          return {
+            ...asset,
+            path: colorVariantUrl
+          };
+        }
+      }
+      
+      // Keep the asset as is if no CDN URL found
+      return asset;
+    });
+    
+    updatedParts[partKey] = updatedAssets;
+  }
+  
+  return updatedParts;
+}
+
+// Generate parts configuration from updated parts
+function generatePartsConfig(updatedParts) {
+  const partConfig = {
+    body: { label: "BODY", icon: "👤", category: "Body", defaultAsset: "default", optional: false },
+    clothes: { label: "CLOTHES", icon: "👕", category: "Body", defaultAsset: "default", optional: true },
+    hairBehind: { label: "HAIR BEHIND", icon: "🎭", category: "Hair", defaultAsset: "default", optional: true },
+    hairFront: { label: "HAIR FRONT", icon: "💇", category: "Hair", defaultAsset: "default", optional: true },
+    eyes: { label: "EYES", icon: "👀", category: "Face", defaultAsset: "default", optional: true },
+    eyebrows: { label: "EYEBROWS", icon: "🤨", category: "Face", defaultAsset: "default", optional: true },
+    mouth: { label: "MOUTH", icon: "👄", category: "Face", defaultAsset: "default", optional: true },
+    blush: { label: "BLUSH", icon: "😊", category: "Face", defaultAsset: "none", optional: true },
+    earring: { label: "EARRING", icon: "💎", category: "Accessories", defaultAsset: "none", optional: true },
+    glasses: { label: "GLASSES", icon: "🤓", category: "Accessories", defaultAsset: "none", optional: true },
+  };
+  
+  return Object.entries(updatedParts).map(([partKey, assets]) => {
+    const config = partConfig[partKey];
+    if (!config) return '';
+    
+    const assetsString = assets.map(asset => {
+      let assetString = `    {
+      id: "${asset.id}",
+      name: "${asset.name}",
+      path: "${asset.path}",
+      enabled: ${asset.enabled}`;
+      
+      if (asset.color) {
+        assetString += `,
+      color: "${asset.color}"`;
+      }
+      
+      assetString += ',\n    }';
+      return assetString;
+    }).join(',\n');
+    
+    return `  {
+    key: "${partKey}",
+    label: "${config.label}",
+    icon: "${config.icon}",
+    category: "${config.category}",
+    assets: [
+${assetsString}
+    ],
+    defaultAsset: "${config.defaultAsset}",
+    optional: ${config.optional},
+  }`;
+  }).filter(part => part).join(',\n');
+}
+
+// Generate parts from CDN manifest when no existing parts are found
+function generatePartsFromCDNManifest(cdnManifest) {
+  const parts = {};
+  
+  // Key mapping for different naming conventions
+  const keyMapping = {
+    'hair-front': 'hairFront',
+    'hair-behind': 'hairBehind'
+  };
+  
+  const partConfig = {
+    body: { label: "BODY", icon: "👤", category: "Body", defaultAsset: "default", optional: false },
+    clothes: { label: "CLOTHES", icon: "👕", category: "Body", defaultAsset: "default", optional: true },
+    hairBehind: { label: "HAIR BEHIND", icon: "🎭", category: "Hair", defaultAsset: "default", optional: true },
+    hairFront: { label: "HAIR FRONT", icon: "💇", category: "Hair", defaultAsset: "default", optional: true },
+    eyes: { label: "EYES", icon: "👀", category: "Face", defaultAsset: "default", optional: true },
+    eyebrows: { label: "EYEBROWS", icon: "🤨", category: "Face", defaultAsset: "default", optional: true },
+    mouth: { label: "MOUTH", icon: "👄", category: "Face", defaultAsset: "default", optional: true },
+    blush: { label: "BLUSH", icon: "😊", category: "Face", defaultAsset: "none", optional: true },
+    earring: { label: "EARRING", icon: "💎", category: "Accessories", defaultAsset: "none", optional: true },
+    glasses: { label: "GLASSES", icon: "🤓", category: "Accessories", defaultAsset: "none", optional: true },
+  };
+  
+  Object.entries(cdnManifest).forEach(([manifestKey, assets]) => {
+    const configKey = keyMapping[manifestKey] || manifestKey;
+    const config = partConfig[configKey];
+    
+    if (!config) return;
+    
+    const partAssets = [];
+    
+    // Add "none" option for optional parts
+    if (config.optional && configKey !== 'body') {
+      partAssets.push({
+        id: "none",
+        name: `No ${config.label}`,
+        path: "",
+        enabled: true,
+      });
+    }
+    
+    // Add assets from CDN manifest
+    assets.forEach(asset => {
+      const assetId = asset.filename.replace(/\.png$/, '').replace(`${manifestKey}-`, '');
+      const assetName = assetId === 'default' ? `Default ${config.label}` : 
+        assetId.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') + ` ${config.label}`;
+      
+      partAssets.push({
+        id: assetId,
+        name: assetName,
+        path: asset.cdnUrl,
+        enabled: true,
+      });
+    });
+    
+    parts[configKey] = partAssets;
+  });
+  
+  return parts;
+}
+
 // Update the static config to use CDN URLs
 function updateConfigWithCDN() {
   const cdnManifest = generateCDNManifest();
   const configPath = path.join(__dirname, '../config/character-assets.ts');
   
   console.log('\n⚙️  Updating static config with CDN URLs...');
+  
+  // Read existing config to preserve color variants
+  const existingConfig = fs.readFileSync(configPath, 'utf8');
+  
+  // Find the FALLBACK_CHARACTER_PARTS array
+  const startMarker = 'const FALLBACK_CHARACTER_PARTS: PartDefinition[] = [';
+  const endMarker = ']';
+  
+  const startIndex = existingConfig.indexOf(startMarker);
+  if (startIndex === -1) {
+    console.error('❌ Could not find FALLBACK_CHARACTER_PARTS in existing config');
+    return;
+  }
+  
+  const endIndex = existingConfig.indexOf(endMarker, startIndex + startMarker.length);
+  if (endIndex === -1) {
+    console.error('❌ Could not find end of FALLBACK_CHARACTER_PARTS array');
+    return;
+  }
+  
+  // Parse existing parts to preserve color variants
+  const existingPartsSection = existingConfig.substring(startIndex + startMarker.length, endIndex);
+  const existingParts = parseExistingParts(existingPartsSection);
+  
+  // Update CDN URLs for existing parts while preserving color variants
+  let updatedParts;
+  if (Object.keys(existingParts).length === 0) {
+    // If no existing parts, generate new parts from CDN manifest
+    updatedParts = generatePartsFromCDNManifest(cdnManifest);
+  } else {
+    // If existing parts found, update their CDN URLs while preserving color variants
+    updatedParts = updateCDNUrlsInExistingParts(existingParts, cdnManifest);
+  }
   
   // Generate the complete config content
   const configContent = `import type { AssetDefinition, PartDefinition } from "@/types/character"
@@ -114,74 +355,7 @@ export function CHARACTER_PARTS(): PartDefinition[] {
 
 // Fallback manual configuration in case auto-discovery fails
 const FALLBACK_CHARACTER_PARTS: PartDefinition[] = [
-${Object.entries(cdnManifest).map(([partKey, assets]) => {
-  // Add "none" option for optional parts
-  let assetsString = '';
-  // Map manifest keys to config keys
-  const keyMapping = {
-    'body': 'body',
-    'clothes': 'clothes',
-    'hair-behind': 'hairBehind',
-    'hair-front': 'hairFront',
-    'eyes': 'eyes',
-    'eyebrows': 'eyebrows',
-    'mouth': 'mouth',
-    'blush': 'blush',
-    'earring': 'earring',
-    'glasses': 'glasses'
-  };
-  
-  const partConfig = {
-    body: { label: "BODY", icon: "👤", category: "Body", defaultAsset: "default", optional: false },
-    clothes: { label: "CLOTHES", icon: "👕", category: "Body", defaultAsset: "default", optional: true },
-    hairBehind: { label: "HAIR BEHIND", icon: "🎭", category: "Hair", defaultAsset: "default", optional: true },
-    hairFront: { label: "HAIR FRONT", icon: "💇", category: "Hair", defaultAsset: "default", optional: true },
-    eyes: { label: "EYES", icon: "👀", category: "Face", defaultAsset: "default", optional: true },
-    eyebrows: { label: "EYEBROWS", icon: "🤨", category: "Face", defaultAsset: "default", optional: true },
-    mouth: { label: "MOUTH", icon: "👄", category: "Face", defaultAsset: "default", optional: true },
-    blush: { label: "BLUSH", icon: "😊", category: "Face", defaultAsset: "none", optional: true },
-    earring: { label: "EARRING", icon: "💎", category: "Accessories", defaultAsset: "none", optional: true },
-    glasses: { label: "GLASSES", icon: "🤓", category: "Accessories", defaultAsset: "none", optional: true },
-  };
-  
-  const configKey = keyMapping[partKey];
-  const config = partConfig[configKey];
-  
-  // Add "none" option for optional parts
-  if (['clothes', 'hairBehind', 'hairFront', 'eyes', 'eyebrows', 'mouth', 'blush', 'earring', 'glasses'].includes(configKey)) {
-    assetsString += `    {
-      id: "none",
-      name: "No ${config.label}",
-      path: "",
-      enabled: true,
-    },\n`;
-  }
-  
-  assetsString += assets.map(asset => {
-    const assetId = asset.filename.replace(/\.png$/, '').replace(`${partKey}-`, '');
-    const assetName = assetId === 'default' ? `Default ${config.label}` : 
-      assetId.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') + ` ${config.label}`;
-    
-    return `    {
-      id: "${assetId}",
-      name: "${assetName}",
-      path: "${asset.cdnUrl}",
-      enabled: true,
-    }`;
-  }).join(',\n');
-  
-  return `  {
-    key: "${configKey}",
-    label: "${config.label}",
-    icon: "${config.icon}",
-    category: "${config.category}",
-    assets: [
-${assetsString}
-    ],
-    defaultAsset: "${config.defaultAsset}",
-    optional: ${config.optional},
-  }`;
-}).join(',\n')}
+${generatePartsConfig(updatedParts)}
 ]
 
 // Layering order (high to low z-index)

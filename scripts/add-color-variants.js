@@ -13,7 +13,8 @@ const COLOR_VARIANTS = {
     red: "#FF8A80",
     wineRed: "#B56576",
     purple: "#CE93D8",
-    blue: "#90CAF9"
+    blue: "#90CAF9",
+    brown: "#8B4513"
   },
   body: {
     fair: "#FDBCB4",
@@ -77,7 +78,7 @@ function addColorVariantsToAsset(asset, partKey) {
       ...asset,
       id: `${asset.id}-black`,
       name: `${asset.name} (Black)`,
-      path: asset.path.replace('.png', '-black.png'),
+      path: generateCDNUrlForColorVariant(asset.path, 'black'),
       color: colorVariants.black,
       enabled: true
     }
@@ -90,7 +91,7 @@ function addColorVariantsToAsset(asset, partKey) {
           ...asset,
           id: `${asset.id}-${colorName}`,
           name: `${asset.name} (${colorName.charAt(0).toUpperCase() + colorName.slice(1)})`,
-          path: asset.path.replace('.png', `-${colorName}.png`),
+          path: generateCDNUrlForColorVariant(asset.path, colorName),
           color: colorHex,
           enabled: true
         }
@@ -109,7 +110,7 @@ function addColorVariantsToAsset(asset, partKey) {
         ...asset,
         id: `${asset.id}-${colorName}`,
         name: `${asset.name} (${colorName.charAt(0).toUpperCase() + colorName.slice(1)})`,
-        path: asset.path.replace('.png', `-${colorName}.png`),
+        path: generateCDNUrlForColorVariant(asset.path, colorName),
         color: colorHex,
         enabled: true
       }
@@ -118,6 +119,12 @@ function addColorVariantsToAsset(asset, partKey) {
     
     return variants
   }
+}
+
+function generateCDNUrlForColorVariant(originalPath, colorName) {
+  // Extract the base path from the CDN URL
+  const basePath = originalPath.replace(/\.png$/, '');
+  return `${basePath}-${colorName}.png`;
 }
 
 function updateCharacterAssetsWithColorVariants() {
@@ -159,9 +166,10 @@ function updateCharacterAssetsWithColorVariants() {
     
     // Parse assets
     const assetRegex = /\{\s*id:\s*"([^"]+)",\s*name:\s*"([^"]+)",\s*path:\s*"([^"]*)",\s*enabled:\s*(true|false)\s*\}/g
-    const assets = []
+    const allAssets = []
     let assetMatch
     
+    // First pass: collect all assets
     while ((assetMatch = assetRegex.exec(assetsSection)) !== null) {
       const asset = {
         id: assetMatch[1],
@@ -169,22 +177,55 @@ function updateCharacterAssetsWithColorVariants() {
         path: assetMatch[3],
         enabled: assetMatch[4] === 'true'
       }
+      allAssets.push(asset)
+    }
+    
+    // Second pass: process assets and add color variants
+    const assets = []
+    const processedBaseAssets = new Set()
+    
+    // Sort assets so that base assets come before their color variants
+    allAssets.sort((a, b) => {
+      // Check if either asset is a color variant
+      const aIsColorVariant = Object.keys(COLOR_VARIANTS[partKey] || COLOR_VARIANTS.hair).some(color => 
+        a.id.endsWith(`-${color}`)
+      )
+      const bIsColorVariant = Object.keys(COLOR_VARIANTS[partKey] || COLOR_VARIANTS.hair).some(color => 
+        b.id.endsWith(`-${color}`)
+      )
       
+      // Put base assets before color variants
+      if (aIsColorVariant && !bIsColorVariant) return 1
+      if (!aIsColorVariant && bIsColorVariant) return -1
+      
+      // If both are the same type, maintain original order
+      return 0
+    })
+    
+    for (const asset of allAssets) {
       // Add color variants for colorable parts (except "none" assets)
       if (COLORABLE_PARTS.includes(partKey) && asset.id !== 'none') {
-        // Check if this asset already has color variants
-        const hasColorVariants = asset.id.includes('-') && 
-          Object.keys(COLOR_VARIANTS[partKey] || COLOR_VARIANTS.hair).some(color => 
-            asset.id.endsWith(`-${color}`)
-          )
+        // Check if this asset is already a color variant
+        const isColorVariant = Object.keys(COLOR_VARIANTS[partKey] || COLOR_VARIANTS.hair).some(color => 
+          asset.id.endsWith(`-${color}`)
+        )
         
-        if (!hasColorVariants) {
-          const variants = addColorVariantsToAsset(asset, partKey)
-          assets.push(...variants)
-          console.log(`    ✅ Added ${variants.length - 1} color variants to ${asset.id}`)
+        if (!isColorVariant) {
+          // This is a base asset, check if we already processed it
+          if (!processedBaseAssets.has(asset.id)) {
+            // Add the base asset
+            assets.push(asset)
+            processedBaseAssets.add(asset.id)
+            
+            // Add color variants to it
+            const variants = addColorVariantsToAsset(asset, partKey)
+            assets.push(...variants)
+            console.log(`    ✅ Added ${variants.length} color variants to ${asset.id}`)
+          }
         } else {
+          // This is already a color variant, just add it as is
           assets.push(asset)
-          console.log(`    ℹ️  ${asset.id} already has color variants`)
+          console.log(`    ℹ️  ${asset.id} is a color variant, keeping as is`)
         }
       } else {
         assets.push(asset)
