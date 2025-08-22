@@ -40,8 +40,10 @@ import {
   generateCharacterThumbnail,
   preloadCharacterAssets,
 } from "@/utils/character-drawing"
-import { CHARACTER_PARTS } from "@/config/character-assets"
+import { CHARACTER_PARTS, type PartDefinition } from "@/config/character-assets"
 import type { PartKey, Selections } from "@/types/character"
+import { useDynamicAssets } from "@/hooks/use-dynamic-assets"
+
 
 const press2p = Press_Start_2P({ weight: "400", subsets: ["latin"] })
 
@@ -199,6 +201,7 @@ function useIsDesktop() {
 // Main component
 export default function Page() {
   const isDesktop = useIsDesktop()
+  const { parts: dynamicParts } = useDynamicAssets()
   const [isLoading, setIsLoading] = useState(true)
   const [selections, setSelections] = useState<Selections>(createDefaultSelections)
   const [activePart, setActivePart] = useState<PartKey>("body")
@@ -226,6 +229,8 @@ export default function Page() {
   useEffect(() => {
     preloadCharacterAssets().catch(console.error)
   }, [])
+
+
 
   // Check storage availability on mount
   useEffect(() => {
@@ -461,14 +466,25 @@ export default function Page() {
     }
   }
 
+  // Use dynamic parts or fallback to static parts
+  const currentParts = dynamicParts.length > 0 ? dynamicParts : CHARACTER_PARTS()
+  
+  // Debug logging
+  console.log('🔍 Dynamic parts loaded:', dynamicParts.length)
+  console.log('🔍 Using parts:', currentParts.length, currentParts.length > 0 ? '(from ' + (dynamicParts.length > 0 ? 'DYNAMIC' : 'STATIC') + ')' : '')
+  if (currentParts.length > 0) {
+    const glassesPart = currentParts.find(p => p.key === 'glasses')
+    console.log('🤓 Glasses part:', glassesPart ? `${glassesPart.assets.length} assets` : 'NOT FOUND')
+  }
+
   // Group parts by category
-  const partsByCategory = CHARACTER_PARTS.reduce(
+  const partsByCategory = currentParts.reduce(
     (acc, part) => {
       if (!acc[part.category]) acc[part.category] = []
       acc[part.category].push(part)
       return acc
     },
-    {} as Record<string, typeof CHARACTER_PARTS>,
+    {} as Record<string, PartDefinition[]>,
   )
 
   // Show loading screen first
@@ -682,7 +698,7 @@ export default function Page() {
             {/* Right Sidebar - Customization */}
             <div className="col-span-3 space-y-6">
               <PixselfPanel
-                title={`CUSTOMIZE ${CHARACTER_PARTS.find((p) => p.key === activePart)?.label}`}
+                title={`CUSTOMIZE ${currentParts.find((p) => p.key === activePart)?.label}`}
                 icon={<Settings className="h-4 w-4" />}
               >
                 <div className="space-y-6">
@@ -1005,7 +1021,7 @@ export default function Page() {
 
             {/* Mobile Customization Panel - Compact */}
             <PixselfPanel
-              title={`CUSTOMIZE ${CHARACTER_PARTS.find((p) => p.key === activePart)?.label}`}
+              title={`CUSTOMIZE ${currentParts.find((p) => p.key === activePart)?.label}`}
               icon={<Settings className="h-4 w-4" />}
             >
               <div className="space-y-4">

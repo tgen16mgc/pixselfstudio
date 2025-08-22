@@ -6,7 +6,10 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "scan-assets": "node scripts/update-asset-manifest.js",
+    "update-config": "node scripts/update-static-config.js",
+    "update-assets": "node scripts/update-assets.js"
   },
   "dependencies": {
     "class-variance-authority": "^0.7.1",

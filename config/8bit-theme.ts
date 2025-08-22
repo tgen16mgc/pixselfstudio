@@ -97,6 +97,15 @@ export const RETRO_CHARACTER_PALETTES = {
     CLASSIC_8BIT_COLORS.nes.purple, // Purple
   ],
 
+  blush: [
+    CLASSIC_8BIT_COLORS.nes.magenta, // Pink
+    CLASSIC_8BIT_COLORS.nes.red, // Red
+    CLASSIC_8BIT_COLORS.c64.red, // Muted Red
+    CLASSIC_8BIT_COLORS.nes.orange, // Orange
+    CLASSIC_8BIT_COLORS.nes.darkRed, // Dark Red
+    CLASSIC_8BIT_COLORS.nes.purple, // Purple
+  ],
+
   body: [
     CLASSIC_8BIT_COLORS.c64.lightRed, // Fair
     CLASSIC_8BIT_COLORS.nes.orange, // Light

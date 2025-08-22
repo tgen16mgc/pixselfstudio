@@ -5,7 +5,7 @@ A modern 8-bit pixel art character creator built with Next.js 15, TypeScript, an
 ## ✨ Features
 
 ### 🎨 Character Customization
-- **7 Body Parts**: Hair, Head, Eyes, Eyebrows, Mouth, Body, and Costume
+- **8 Body Parts**: Hair, Head, Eyes, Eyebrows, Mouth, Blush, Body, and Costume
 - **Multiple Variants**: 10 different style variants for each body part
 - **Color Palettes**: 6+ carefully curated colors for each part
 - **Real-time Preview**: Live character rendering with smooth animations
@@ -122,8 +122,259 @@ pixselfstudio/
 ├── utils/                # Utility functions
 ├── types/                # TypeScript type definitions
 └── public/               # Static assets
-    └── image/            # Background images
+    └── assets/           # Character assets
+        └── character/    # Character body parts
 ```
+
+## 🎨 Asset Upload Guide
+
+This guide explains how to add new character parts and assets to your Pixself Character Studio.
+
+### 1. **Asset Requirements**
+
+**Image Specifications:**
+- **Format**: PNG with transparency
+- **Size**: 640x640 pixels (recommended)
+- **Style**: Pixel art style to match existing assets
+- **Background**: Transparent
+- **Color**: Any colors (can be recolored via the system)
+
+### 2. **File Structure**
+
+Your assets should be organized in the `public/assets/character/` directory:
+
+```plaintext
+public/
+└── assets/
+    └── character/
+        ├── body.png
+        ├── clothes.png
+        ├── eyes.png
+        ├── eyebrows.png
+        ├── hair-front.png
+        ├── hair-behind.png
+        ├── mouth.png
+        ├── earring.png (when available)
+        ├── glasses.png (when available)
+        └── [new-part].png
+```
+
+### 3. **Adding New Assets to Existing Parts**
+
+To add new variants to existing parts (like new hairstyles, clothes, etc.):
+
+**Step 1**: Upload your asset file to the appropriate directory
+
+```plaintext
+public/assets/character/hair-front-style2.png
+public/assets/character/clothes-dress.png
+public/assets/character/eyes-sleepy.png
+```
+
+**Step 2**: Update the `config/character-assets.ts` file:
+
+```typescript
+// Find the part you want to add to (e.g., hairFront)
+{
+  key: "hairFront",
+  label: "HAIR FRONT",
+  icon: "💇",
+  category: "Hair",
+  assets: [
+    {
+      id: "none",
+      name: "None",
+      path: "",
+      enabled: true,
+    },
+    {
+      id: "default",
+      name: "Default Hair Front",
+      path: "/assets/character/hair-front.png",
+      enabled: true,
+    },
+    // ADD NEW ASSET HERE
+    {
+      id: "style2",
+      name: "Curly Hair",
+      path: "/assets/character/hair-front-style2.png",
+      enabled: true,
+    },
+  ],
+  defaultAsset: "default",
+  optional: true,
+},
+```
+
+### 4. **Adding Completely New Parts**
+
+To add entirely new character parts (like hats, shoes, etc.):
+
+**Step 1**: Upload your asset files
+
+```plaintext
+public/assets/character/hat-cap.png
+public/assets/character/hat-beanie.png
+public/assets/character/shoes-sneakers.png
+```
+
+**Step 2**: Update the TypeScript types in `types/character.ts`:
+
+```typescript
+export type PartKey = 
+  | "body" 
+  | "hairBehind" 
+  | "clothes" 
+  | "mouth" 
+  | "eyes" 
+  | "eyebrows" 
+  | "hairFront" 
+  | "earring"
+  | "glasses"
+  | "hat"      // ADD NEW PART
+  | "shoes"    // ADD NEW PART
+```
+
+**Step 3**: Add the new part definition in `config/character-assets.ts`:
+
+```typescript
+// Add to the CHARACTER_PARTS array
+{
+  key: "hat",
+  label: "HAT",
+  icon: "🎩",
+  category: "Accessories",
+  assets: [
+    {
+      id: "none",
+      name: "No Hat",
+      path: "",
+      enabled: true,
+    },
+    {
+      id: "cap",
+      name: "Baseball Cap",
+      path: "/assets/character/hat-cap.png",
+      enabled: true,
+    },
+    {
+      id: "beanie",
+      name: "Beanie",
+      path: "/assets/character/hat-beanie.png",
+      enabled: true,
+    },
+  ],
+  defaultAsset: "none",
+  optional: true,
+},
+```
+
+**Step 4**: Update the layer order in `config/character-assets.ts`:
+
+```typescript
+// Update LAYER_ORDER to include new parts
+export const LAYER_ORDER: PartKey[] = [
+  "hat",        // ADD NEW PARTS IN CORRECT Z-ORDER
+  "glasses",    // Highest layer
+  "hairFront",
+  "eyebrows",
+  "eyes",
+  "mouth",
+  "clothes",
+  "body",
+  "hairBehind",
+  "shoes",      // ADD SHOES BEHIND BODY
+  "earring",
+]
+```
+
+### 5. **Asset Creation Tips**
+
+**Design Guidelines:**
+- Keep the pixel art style consistent
+- Use similar proportions to existing assets
+- Ensure assets align properly when layered
+- Test with different combinations
+
+**Color Considerations:**
+- Assets can use any colors initially
+- The color system will allow recoloring
+- Use contrasting colors for better visibility
+
+**Positioning:**
+- Center your assets in the 640x640 canvas
+- Align with existing body proportions
+- Consider how parts will layer together
+
+### 6. **Testing New Assets**
+
+After adding assets:
+
+1. **Restart the development server**
+2. **Check the browser console** for any errors
+3. **Test the new parts** in the character customizer
+4. **Verify layering** looks correct
+5. **Test export functionality** with new assets
+
+### 7. **Bulk Asset Upload**
+
+For multiple assets:
+
+**Step 1**: Organize files with consistent naming:
+
+```plaintext
+hair-front-1.png, hair-front-2.png, hair-front-3.png
+clothes-shirt.png, clothes-dress.png, clothes-jacket.png
+```
+
+**Step 2**: Use the helper function to add multiple assets:
+
+```typescript
+// You can use this pattern to add multiple assets quickly
+const hairStyles = [
+  { id: "style1", name: "Short Hair", path: "/assets/character/hair-front-1.png" },
+  { id: "style2", name: "Long Hair", path: "/assets/character/hair-front-2.png" },
+  { id: "style3", name: "Curly Hair", path: "/assets/character/hair-front-3.png" },
+]
+
+// Add them to the hairFront assets array
+```
+
+### 8. **Common Issues & Solutions**
+
+**Asset not showing:**
+- Check file path is correct
+- Ensure file is in `public/` directory
+- Verify asset is marked as `enabled: true`
+
+**Layering issues:**
+- Adjust the `LAYER_ORDER` array
+- Higher in array = rendered on top
+
+**Performance issues:**
+- Optimize PNG files for web
+- Keep file sizes reasonable
+- Use appropriate compression
+
+### 9. **Advanced Features**
+
+**Conditional Assets:**
+
+```typescript
+// Assets that only show with certain combinations
+{
+  id: "special",
+  name: "Special Style",
+  path: "/assets/character/special.png",
+  enabled: true,
+  // You can add custom logic for when this shows
+}
+```
+
+**Asset Variants:**
+- Create multiple versions of the same asset
+- Use consistent naming conventions
+- Group related assets together
 
 ## 🤝 Contributing
 

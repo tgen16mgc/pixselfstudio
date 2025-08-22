@@ -22,7 +22,7 @@ export function AssetVariantGrid({
 }: AssetVariantGridProps) {
   const [, setPreviewAsset] = useState<string | null>(null)
 
-  const part = CHARACTER_PARTS.find((p) => p.key === activePart)
+  const part = CHARACTER_PARTS().find((p) => p.key === activePart)
   if (!part) return null
 
   const assets = part.assets || []

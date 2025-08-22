@@ -48,6 +48,7 @@ export function EnhancedCustomizationPanel({
     eyes: ["Brown", "Blue", "Green", "Gray", "Purple", "Red"],
     eyebrows: ["Black", "Brown", "Blonde", "Gray", "Dark Red", "Purple"],
     mouth: ["Dark Red", "Red", "Muted Red", "Orange", "Pink", "Purple"],
+    blush: ["Pink", "Red", "Muted Red", "Orange", "Dark Red", "Purple"],
     body: ["Fair", "Light", "Medium", "Olive", "Deep", "Dark"],
     costume: ["Red", "Blue", "Green", "Yellow", "Purple", "Orange"],
     shoes: ["Black", "Brown", "Gray", "Dark Blue", "Dark Red", "Dark Green"],

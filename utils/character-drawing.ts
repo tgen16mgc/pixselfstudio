@@ -8,7 +8,7 @@ const imageCache = new Map<string, HTMLImageElement>()
 export async function preloadCharacterAssets(): Promise<void> {
   const loadPromises: Promise<void>[] = []
 
-  CHARACTER_PARTS.forEach((part) => {
+  CHARACTER_PARTS().forEach((part) => {
     part.assets.forEach((asset) => {
       if (asset.path && asset.enabled) {
         loadPromises.push(loadImage(asset.path))
@@ -118,7 +118,7 @@ export async function generateCharacterThumbnail(selections: Selections, size = 
 export function createDefaultSelections(): Selections {
   const selections: Selections = {} as Selections
 
-  CHARACTER_PARTS.forEach((part) => {
+  CHARACTER_PARTS().forEach((part) => {
     selections[part.key] = {
       assetId: part.defaultAsset,
       enabled: true, // All parts start enabled by default
@@ -132,7 +132,7 @@ export function createDefaultSelections(): Selections {
 export function randomizeSelections(): Selections {
   const selections: Selections = {} as Selections
 
-  CHARACTER_PARTS.forEach((part) => {
+  CHARACTER_PARTS().forEach((part) => {
     const enabledAssets = part.assets.filter((asset) => asset.enabled)
     const randomAsset = enabledAssets[Math.floor(Math.random() * enabledAssets.length)]
 

@@ -1,0 +1,39 @@
+{
+  "body": [
+    "body-default.png",
+    "body-v2.png"
+  ],
+  "clothes": [
+    "clothes-neu.png",
+    "clothes-somi.png"
+  ],
+  "hairBehind": [
+    "hair-behind-2side.png",
+    "hair-behind-default.png"
+  ],
+  "hairFront": [
+    "hair-front-2side.png",
+    "hair-front-64.png"
+  ],
+  "eyes": [
+    "eyes-default.png",
+    "eyes-medium.png"
+  ],
+  "eyebrows": [
+    "eyebrows-default.png",
+    "eyebrows-flat.png"
+  ],
+  "mouth": [
+    "mouth-default.png",
+    "mouth-smile1.png"
+  ],
+  "blush": [
+    "blush-default.png"
+  ],
+  "earring": [
+    "earring-default.png"
+  ],
+  "glasses": [
+    "glasses-default.png"
+  ]
+}

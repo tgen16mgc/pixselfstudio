@@ -1,3 +1,5 @@
+import { getCharacterPartsFromManifest } from "@/utils/manifest-asset-discovery"
+
 export type PartKey =
   | "body"
   | "hairBehind"
@@ -8,6 +10,7 @@ export type PartKey =
   | "hairFront"
   | "earring"
   | "glasses"
+  | "blush"
 
 export interface AssetDefinition {
   id: string
@@ -26,8 +29,16 @@ export interface PartDefinition {
   optional: boolean // If true, can be turned off (like earring)
 }
 
-// Asset definitions - Easy to expand by adding new assets to each part
-export const CHARACTER_PARTS: PartDefinition[] = [
+// Automatically discover assets from filesystem
+let _cachedParts: PartDefinition[] | null = null
+
+export function CHARACTER_PARTS(): PartDefinition[] {
+  // For now, return fallback parts - will be replaced by dynamic loading in components
+  return FALLBACK_CHARACTER_PARTS
+}
+
+// Fallback manual configuration in case auto-discovery fails
+const FALLBACK_CHARACTER_PARTS: PartDefinition[] = [
   {
     key: "body",
     label: "BODY",
@@ -36,37 +47,19 @@ export const CHARACTER_PARTS: PartDefinition[] = [
     assets: [
       {
         id: "default",
-        name: "Default Body",
-        path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/body.png",
+        name: "Default BODY",
+        path: "/assets/character/body/body/body-default.png",
         enabled: true,
       },
-      // Add more body assets here in the future
+      {
+        id: "v2",
+        name: "V2 BODY",
+        path: "/assets/character/body/body/body-v2.png",
+        enabled: true,
+      }
     ],
     defaultAsset: "default",
     optional: false,
-  },
-  {
-    key: "hairBehind",
-    label: "HAIR BEHIND",
-    icon: "🎭",
-    category: "Hair",
-    assets: [
-      {
-        id: "none",
-        name: "None",
-        path: "",
-        enabled: true,
-      },
-      {
-        id: "default",
-        name: "Default Hair Behind",
-        path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair-behind.png",
-        enabled: true,
-      },
-      // Add more hair behind assets here
-    ],
-    defaultAsset: "default",
-    optional: true,
   },
   {
     key: "clothes",
@@ -76,86 +69,50 @@ export const CHARACTER_PARTS: PartDefinition[] = [
     assets: [
       {
         id: "none",
-        name: "None",
+        name: "No CLOTHES",
         path: "",
         enabled: true,
       },
       {
-        id: "default",
-        name: "Default Clothes",
-        path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/clothes.png",
+        id: "neu",
+        name: "Neu CLOTHES",
+        path: "/assets/character/body/clothes/clothes-neu.png",
         enabled: true,
       },
-      // Add more clothing assets here
+      {
+        id: "somi",
+        name: "Somi CLOTHES",
+        path: "/assets/character/body/clothes/clothes-somi.png",
+        enabled: true,
+      }
     ],
     defaultAsset: "default",
     optional: true,
   },
   {
-    key: "mouth",
-    label: "MOUTH",
-    icon: "👄",
-    category: "Face",
+    key: "hairBehind",
+    label: "HAIR BEHIND",
+    icon: "🎭",
+    category: "Hair",
     assets: [
       {
         id: "none",
-        name: "None",
+        name: "No HAIR BEHIND",
         path: "",
         enabled: true,
       },
       {
-        id: "default",
-        name: "Default Mouth",
-        path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/mouth.png",
-        enabled: true,
-      },
-      // Add more mouth assets here
-    ],
-    defaultAsset: "default",
-    optional: true,
-  },
-  {
-    key: "eyes",
-    label: "EYES",
-    icon: "👀",
-    category: "Face",
-    assets: [
-      {
-        id: "none",
-        name: "None",
-        path: "",
+        id: "behind-2side",
+        name: "Behind 2side HAIR BEHIND",
+        path: "/assets/character/hair/hair-behind/hair-behind-2side.png",
         enabled: true,
       },
       {
-        id: "default",
-        name: "Default Eyes",
-        path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/eyes.png",
+        id: "behind-default",
+        name: "Behind Default HAIR BEHIND",
+        path: "/assets/character/hair/hair-behind/hair-behind-default.png",
         enabled: true,
-      },
-      // Add more eye assets here
-    ],
-    defaultAsset: "default",
-    optional: true,
-  },
-  {
-    key: "eyebrows",
-    label: "EYEBROWS",
-    icon: "🤨",
-    category: "Face",
-    assets: [
-      {
-        id: "none",
-        name: "None",
-        path: "",
-        enabled: true,
-      },
-      {
-        id: "default",
-        name: "Default Eyebrows",
-        path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/eyebrows.png",
-        enabled: true,
-      },
-      // Add more eyebrow assets here
+      }
     ],
     defaultAsset: "default",
     optional: true,
@@ -168,19 +125,130 @@ export const CHARACTER_PARTS: PartDefinition[] = [
     assets: [
       {
         id: "none",
-        name: "None",
+        name: "No HAIR FRONT",
+        path: "",
+        enabled: true,
+      },
+      {
+        id: "front-2side",
+        name: "Front 2side HAIR FRONT",
+        path: "/assets/character/hair/hair-front/hair-front-2side.png",
+        enabled: true,
+      },
+      {
+        id: "front-64",
+        name: "Front 64 HAIR FRONT",
+        path: "/assets/character/hair/hair-front/hair-front-64.png",
+        enabled: true,
+      }
+    ],
+    defaultAsset: "default",
+    optional: true,
+  },
+  {
+    key: "eyes",
+    label: "EYES",
+    icon: "👀",
+    category: "Face",
+    assets: [
+      {
+        id: "none",
+        name: "No EYES",
         path: "",
         enabled: true,
       },
       {
         id: "default",
-        name: "Default Hair Front",
-        path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair-front.png",
+        name: "Default EYES",
+        path: "/assets/character/face/eyes/eyes-default.png",
         enabled: true,
       },
-      // Add more hair front assets here
+      {
+        id: "medium",
+        name: "Medium EYES",
+        path: "/assets/character/face/eyes/eyes-medium.png",
+        enabled: true,
+      }
     ],
     defaultAsset: "default",
+    optional: true,
+  },
+  {
+    key: "eyebrows",
+    label: "EYEBROWS",
+    icon: "🤨",
+    category: "Face",
+    assets: [
+      {
+        id: "none",
+        name: "No EYEBROWS",
+        path: "",
+        enabled: true,
+      },
+      {
+        id: "default",
+        name: "Default EYEBROWS",
+        path: "/assets/character/face/eyebrows/eyebrows-default.png",
+        enabled: true,
+      },
+      {
+        id: "flat",
+        name: "Flat EYEBROWS",
+        path: "/assets/character/face/eyebrows/eyebrows-flat.png",
+        enabled: true,
+      }
+    ],
+    defaultAsset: "default",
+    optional: true,
+  },
+  {
+    key: "mouth",
+    label: "MOUTH",
+    icon: "👄",
+    category: "Face",
+    assets: [
+      {
+        id: "none",
+        name: "No MOUTH",
+        path: "",
+        enabled: true,
+      },
+      {
+        id: "default",
+        name: "Default MOUTH",
+        path: "/assets/character/face/mouth/mouth-default.png",
+        enabled: true,
+      },
+      {
+        id: "smile1",
+        name: "Smile1 MOUTH",
+        path: "/assets/character/face/mouth/mouth-smile1.png",
+        enabled: true,
+      }
+    ],
+    defaultAsset: "default",
+    optional: true,
+  },
+  {
+    key: "blush",
+    label: "BLUSH",
+    icon: "😊",
+    category: "Face",
+    assets: [
+      {
+        id: "none",
+        name: "No BLUSH",
+        path: "",
+        enabled: true,
+      },
+      {
+        id: "default",
+        name: "Default BLUSH",
+        path: "/assets/character/face/blush/blush-default.png",
+        enabled: true,
+      }
+    ],
+    defaultAsset: "none",
     optional: true,
   },
   {
@@ -191,11 +259,16 @@ export const CHARACTER_PARTS: PartDefinition[] = [
     assets: [
       {
         id: "none",
-        name: "No Earring",
-        path: "", // Empty path means no asset
+        name: "No EARRING",
+        path: "",
         enabled: true,
       },
-      // Add earring assets here when available
+      {
+        id: "default",
+        name: "Default EARRING",
+        path: "/assets/character/accessories/earring/earring-default.png",
+        enabled: true,
+      }
     ],
     defaultAsset: "none",
     optional: true,
@@ -208,33 +281,39 @@ export const CHARACTER_PARTS: PartDefinition[] = [
     assets: [
       {
         id: "none",
-        name: "No Glasses",
-        path: "", // Empty path means no asset
+        name: "No GLASSES",
+        path: "",
         enabled: true,
       },
-      // Add glasses assets here when available
+      {
+        id: "default",
+        name: "Default GLASSES",
+        path: "/assets/character/accessories/glasses/glasses-default.png",
+        enabled: true,
+      }
     ],
     defaultAsset: "none",
     optional: true,
-  },
-]
+  }
+];;;;;;;;;;;;;;
 
 // Layering order (high to low z-index)
 export const LAYER_ORDER: PartKey[] = [
   "glasses", // Highest layer - glasses go on top
+  "earring", // Earring on top of most elements
   "hairFront",
   "eyebrows",
   "eyes",
   "mouth",
+  "blush", // Blush on cheeks
   "clothes",
   "body",
   "hairBehind", // Lowest layer
-  "earring", // Can be positioned as needed
 ]
 
 // Helper functions for easy asset management
 export function getPartByKey(key: PartKey): PartDefinition | undefined {
-  return CHARACTER_PARTS.find((part) => part.key === key)
+  return CHARACTER_PARTS().find((part) => part.key === key)
 }
 
 export function getAssetPath(partKey: PartKey, assetId: string): string {
@@ -263,4 +342,9 @@ export function addAssetToPart(partKey: PartKey, assetId: string, name: string, 
       enabled,
     })
   }
+}
+
+// Force refresh the asset cache (useful for development)
+export function refreshAssetCache(): void {
+  _cachedParts = null
 }
