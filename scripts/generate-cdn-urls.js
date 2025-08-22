@@ -8,7 +8,7 @@ const GITHUB_CONFIG = {
   username: 'tgen16mgc',
   repo: 'pixselfstudio',
   branch: 'main',
-  basePath: 'my-app/public/assets/character'
+  basePath: 'public/assets/character'
 };
 
 // Generate GitHub CDN URL
