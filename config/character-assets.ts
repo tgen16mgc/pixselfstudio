@@ -43,6 +43,12 @@ const FALLBACK_CHARACTER_PARTS: PartDefinition[] = [
     category: "Body",
     assets: [
     {
+      id: "none",
+      name: "No CLOTHES",
+      path: "",
+      enabled: true,
+    },
+    {
       id: "aotheneu",
       name: "Aotheneu CLOTHES",
       path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/body/clothes/clothes-aotheneu.png",
@@ -71,20 +77,26 @@ const FALLBACK_CHARACTER_PARTS: PartDefinition[] = [
     category: "Hair",
     assets: [
     {
+      id: "none",
+      name: "No HAIR FRONT",
+      path: "",
+      enabled: true,
+    },
+    {
       id: "2side",
-      name: "2side HAIR-FRONT",
+      name: "2side HAIR FRONT",
       path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-front/hair-front-2side.png",
       enabled: true,
     },
     {
       id: "64",
-      name: "64 HAIR-FRONT",
+      name: "64 HAIR FRONT",
       path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-front/hair-front-64.png",
       enabled: true,
     },
     {
       id: "tomboy",
-      name: "Tomboy HAIR-FRONT",
+      name: "Tomboy HAIR FRONT",
       path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-front/hair-front-tomboy.png",
       enabled: true,
     }
@@ -99,14 +111,20 @@ const FALLBACK_CHARACTER_PARTS: PartDefinition[] = [
     category: "Hair",
     assets: [
     {
+      id: "none",
+      name: "No HAIR BEHIND",
+      path: "",
+      enabled: true,
+    },
+    {
       id: "2side",
-      name: "2side HAIR-BEHIND",
+      name: "2side HAIR BEHIND",
       path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-behind/hair-behind-2side.png",
       enabled: true,
     },
     {
       id: "default",
-      name: "Default HAIR-BEHIND",
+      name: "Default HAIR BEHIND",
       path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-behind/hair-behind-default.png",
       enabled: true,
     }

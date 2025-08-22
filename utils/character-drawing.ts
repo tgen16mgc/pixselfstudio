@@ -133,12 +133,22 @@ export function randomizeSelections(): Selections {
   const selections: Selections = {} as Selections
 
   CHARACTER_PARTS().forEach((part) => {
-    const enabledAssets = part.assets.filter((asset) => asset.enabled)
-    const randomAsset = enabledAssets[Math.floor(Math.random() * enabledAssets.length)]
-
-    selections[part.key] = {
-      assetId: randomAsset.id,
-      enabled: randomAsset.id !== "none", // Enable if not "none"
+    // Filter out "none" assets for randomization, but keep them for manual selection
+    const enabledAssets = part.assets.filter((asset) => asset.enabled && asset.id !== "none")
+    
+    // If no assets available (all are "none"), use default
+    if (enabledAssets.length === 0) {
+      selections[part.key] = {
+        assetId: part.defaultAsset,
+        enabled: true,
+      }
+    } else {
+      const randomAsset = enabledAssets[Math.floor(Math.random() * enabledAssets.length)]
+      
+      selections[part.key] = {
+        assetId: randomAsset.id,
+        enabled: true, // Always enable when randomizing
+      }
     }
   })
 

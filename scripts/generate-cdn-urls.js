@@ -117,28 +117,6 @@ const FALLBACK_CHARACTER_PARTS: PartDefinition[] = [
 ${Object.entries(cdnManifest).map(([partKey, assets]) => {
   // Add "none" option for optional parts
   let assetsString = '';
-  if (['hairBehind', 'hairFront', 'eyes', 'eyebrows', 'mouth', 'blush', 'earring', 'glasses'].includes(partKey)) {
-    assetsString += `    {
-      id: "none",
-      name: "No ${partKey.toUpperCase()}",
-      path: "",
-      enabled: true,
-    },\n`;
-  }
-  
-  assetsString += assets.map(asset => {
-    const assetId = asset.filename.replace(/\.png$/, '').replace(`${partKey}-`, '');
-    const assetName = assetId === 'default' ? `Default ${partKey.toUpperCase()}` : 
-      assetId.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') + ` ${partKey.toUpperCase()}`;
-    
-    return `    {
-      id: "${assetId}",
-      name: "${assetName}",
-      path: "${asset.cdnUrl}",
-      enabled: true,
-    }`;
-  }).join(',\n');
-  
   // Map manifest keys to config keys
   const keyMapping = {
     'body': 'body',
@@ -168,6 +146,29 @@ ${Object.entries(cdnManifest).map(([partKey, assets]) => {
   
   const configKey = keyMapping[partKey];
   const config = partConfig[configKey];
+  
+  // Add "none" option for optional parts
+  if (['clothes', 'hairBehind', 'hairFront', 'eyes', 'eyebrows', 'mouth', 'blush', 'earring', 'glasses'].includes(configKey)) {
+    assetsString += `    {
+      id: "none",
+      name: "No ${config.label}",
+      path: "",
+      enabled: true,
+    },\n`;
+  }
+  
+  assetsString += assets.map(asset => {
+    const assetId = asset.filename.replace(/\.png$/, '').replace(`${partKey}-`, '');
+    const assetName = assetId === 'default' ? `Default ${config.label}` : 
+      assetId.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') + ` ${config.label}`;
+    
+    return `    {
+      id: "${assetId}",
+      name: "${assetName}",
+      path: "${asset.cdnUrl}",
+      enabled: true,
+    }`;
+  }).join(',\n');
   
   return `  {
     key: "${configKey}",
