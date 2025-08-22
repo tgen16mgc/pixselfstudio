@@ -98,7 +98,10 @@ function updateConfigWithCDN() {
   console.log('\n⚙️  Updating static config with CDN URLs...');
   
   // Generate the complete config content
-  const configContent = `import type { AssetDefinition, PartDefinition } from "./types/character"
+  const configContent = `import type { AssetDefinition, PartDefinition } from "@/types/character"
+
+// Re-export types for convenience
+export type { AssetDefinition, PartDefinition }
 
 export type PartKey = "body" | "hairBehind" | "clothes" | "mouth" | "eyes" | "eyebrows" | "hairFront" | "earring" | "glasses" | "blush"
 
@@ -228,6 +231,8 @@ export function addAssetToPart(partKey: PartKey, assetId: string, name: string, 
 }
 
 // Force refresh the asset cache (useful for development)
+let _cachedParts: PartDefinition[] | null = null
+
 export function refreshAssetCache(): void {
   _cachedParts = null
 }
