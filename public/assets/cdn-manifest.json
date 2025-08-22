@@ -1,5 +1,5 @@
 {
-  "generated": "2025-08-22T20:07:40.939Z",
+  "generated": "2025-08-22T20:12:36.127Z",
   "github": {
     "username": "tgen16mgc",
     "repo": "pixselfstudio",
@@ -63,9 +63,9 @@
         "localPath": "/assets/character/hair/hair-front/hair-front-tomboy.png"
       },
       {
-        "filename": "hair-tomboy-black.png",
-        "cdnUrl": "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-front/hair-tomboy-black.png",
-        "localPath": "/assets/character/hair/hair-front/hair-tomboy-black.png"
+        "filename": "hair-tomboy-front-black.png",
+        "cdnUrl": "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-front/hair-tomboy-front-black.png",
+        "localPath": "/assets/character/hair/hair-front/hair-tomboy-front-black.png"
       }
     ],
     "hair-behind": [
