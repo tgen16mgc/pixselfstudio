@@ -22,6 +22,7 @@ export interface AssetDefinition {
   name: string
   path: string
   enabled: boolean
+  color?: string
 }
 
 export interface CharacterStats {
