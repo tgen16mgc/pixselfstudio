@@ -53,21 +53,31 @@ function getCachedImage(path: string): HTMLImageElement | null {
 export async function drawCharacterToCanvas(
   canvas: HTMLCanvasElement,
   selections: Selections,
-  scale = 1,
+  size: number | { width: number; height: number } = 1,
 ): Promise<void> {
   const ctx = canvas.getContext("2d")
   if (!ctx) return
 
-  // Set canvas size - using 640x640 as base since that's your asset size
-  const baseSize = 640
-  canvas.width = baseSize * scale
-  canvas.height = baseSize * scale
+  // Determine canvas dimensions
+  let width: number
+  let height: number
+  if (typeof size === "number") {
+    const baseSize = 640
+    width = baseSize * size
+    height = baseSize * size
+  } else {
+    width = size.width
+    height = size.height
+  }
+
+  canvas.width = width
+  canvas.height = height
 
   // Ensure pixel-perfect rendering
   ctx.imageSmoothingEnabled = false
 
   // Clear canvas
-  ctx.clearRect(0, 0, canvas.width, canvas.height)
+  ctx.clearRect(0, 0, width, height)
 
   // Draw layers in order (lowest to highest)
   const reversedOrder = [...LAYER_ORDER].reverse()
@@ -99,7 +109,7 @@ export async function drawCharacterToCanvas(
 
     if (img) {
       // Draw the image scaled to canvas size
-      ctx.drawImage(img, 0, 0, canvas.width, canvas.height)
+      ctx.drawImage(img, 0, 0, width, height)
     }
   }
 }
