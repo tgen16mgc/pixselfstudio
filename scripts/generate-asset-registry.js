@@ -147,7 +147,7 @@ function generateVariantName(baseName, partLabel, colorId) {
   return `${baseNameFormatted} (${colorName})`
 }
 
-function processAssetsForPart(partKey, filenames, config) {
+function processAssetsForPart(folderPath, partKey, filenames, config) {
   const assets = []
   const assetGroups = new Map()
 
@@ -176,7 +176,7 @@ function processAssetsForPart(partKey, filenames, config) {
         id: variantId,
         name: variantName,
         color: colorId || undefined,
-        path: `/assets/character/${FOLDER_STRUCTURE[partKey]}/${filename}`,
+        path: `/assets/character/${folderPath}/${filename}`,
         enabled: true,
       })
     }
@@ -188,7 +188,7 @@ function processAssetsForPart(partKey, filenames, config) {
       const asset = {
         id: baseName,
         name: generateAssetName(baseName, config.label),
-        basePath: `/assets/character/${FOLDER_STRUCTURE[partKey]}`,
+        basePath: `/assets/character/${folderPath}`,
         enabled: true,
         variants,
         defaultVariant: defaultVariant.id,
@@ -254,7 +254,7 @@ function generateAssetRegistry() {
         }
 
         // Process assets for this part
-        const processedAssets = processAssetsForPart(partKey, pngFiles, config)
+        const processedAssets = processAssetsForPart(folderPath, partKey, pngFiles, config)
         assets.push(...processedAssets)
         
         totalAssets += assets.length
