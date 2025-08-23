@@ -125,6 +125,7 @@ export function StyleAndColorSelector({
 }: StyleAndColorSelectorProps) {
   const [availableColorVariants, setAvailableColorVariants] = useState<Record<string, AssetDefinition[]>>({})
   const [selectedBaseStyle, setSelectedBaseStyle] = useState<string>("")
+  const [isLoadingVariants, setIsLoadingVariants] = useState(false)
 
   const part = CHARACTER_PARTS().find((p) => p.key === activePart)
 
@@ -161,7 +162,12 @@ export function StyleAndColorSelector({
   useEffect(() => {
     if (!part || baseStyles.length === 0) return
     
-    const loadColorVariants = async () => {
+    // Clear previous variants first to avoid showing stale data
+    setAvailableColorVariants({})
+    setIsLoadingVariants(true)
+    
+    // Add a small delay to ensure the component has time to re-render
+    const timeoutId = setTimeout(async () => {
       const variants: Record<string, AssetDefinition[]> = {}
       const colorVariantsConfig = COLOR_VARIANTS[activePart as keyof typeof COLOR_VARIANTS] || {}
 
@@ -186,6 +192,7 @@ export function StyleAndColorSelector({
           // Log for debugging tomboy specifically
           if (baseStyle.id === 'tomboy') {
             console.log(`🎯 Tomboy variants loaded:`, existingVariants.length, 'variants')
+            console.log(`🎯 Tomboy variant paths:`, existingVariants.map(v => v.path))
           }
         } catch (error) {
           console.warn(`Failed to load color variants for ${baseStyle.id}:`, error)
@@ -195,10 +202,13 @@ export function StyleAndColorSelector({
 
       console.log(`🎨 Color variants loaded for ${activePart}:`, 
         Object.entries(variants).map(([id, vars]) => `${id}: ${vars.length}`))
+      
       setAvailableColorVariants(variants)
-    }
-
-    loadColorVariants()
+      setIsLoadingVariants(false)
+    }, 300) // Small delay to ensure component stability
+    
+    // Clean up the timeout if the component unmounts
+    return () => clearTimeout(timeoutId)
   }, [baseStyles, activePart, part])
 
   if (!part) return null
@@ -278,6 +288,10 @@ export function StyleAndColorSelector({
                             imageRendering: "pixelated",
                             transform: activePart === "clothes" ? "translateY(-30%)" : "none",
                           }}
+                          onError={(e) => {
+                            console.error(`Failed to load image: ${style.path}`)
+                            e.currentTarget.src = "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/placeholder.svg"
+                          }}
                         />
                       ) : (
                         <span className="text-[10px]">?</span>
@@ -302,18 +316,25 @@ export function StyleAndColorSelector({
         </div>
 
         {/* Color Variants - Mobile */}
-        {showColorVariants && selectedColorVariants.length > 0 && (
+        {showColorVariants && (isLoadingVariants || selectedColorVariants.length > 0) && (
           <div>
             <div className="flex items-center gap-2 mb-3">
               <Palette className="h-3 w-3" style={{ color: PIXSELF_BRAND.colors.primary.gold }} />
               <div className="text-[9px] font-bold tracking-wider" style={{ color: PIXSELF_BRAND.colors.primary.navy }}>
-                COLOR VARIANTS ({selectedColorVariants.length})
+                COLOR VARIANTS {isLoadingVariants ? "(loading...)" : `(${selectedColorVariants.length})`}
               </div>
             </div>
             
             <div className="overflow-x-auto pb-2">
               <div className="flex items-stretch gap-2 min-w-max px-1">
-                {selectedColorVariants.map((variant) => {
+                {isLoadingVariants ? (
+                  <div className="flex items-center justify-center p-3 min-w-[60px]">
+                    <div 
+                      className="w-8 h-8 border-2 border-t-transparent rounded-full animate-spin"
+                      style={{ borderColor: `${PIXSELF_BRAND.colors.primary.gold} transparent transparent transparent` }}
+                    ></div>
+                  </div>
+                ) : selectedColorVariants.map((variant) => {
                   const isSelected = currentAssetId === variant.id
                   
                   return (
@@ -331,12 +352,26 @@ export function StyleAndColorSelector({
                       }}
                     >
                       <div
-                        className="w-8 h-8 border-2 rounded-full"
+                        className="w-8 h-8 border-2 rounded-full relative"
                         style={{
                           backgroundColor: variant.color || "#666",
                           borderColor: PIXSELF_BRAND.colors.primary.navy,
                         }}
-                      />
+                      >
+                        {variant.path && (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img 
+                            src={variant.path}
+                            alt={variant.name}
+                            className="absolute inset-0 w-full h-full object-contain"
+                            style={{ imageRendering: "pixelated" }}
+                            onError={(e) => {
+                              console.error(`Failed to load variant image: ${variant.path}`)
+                              e.currentTarget.style.display = 'none'
+                            }}
+                          />
+                        )}
+                      </div>
                       <span
                         className="text-[6px] font-bold text-center"
                         style={{ color: PIXSELF_BRAND.colors.primary.navy }}
@@ -351,7 +386,8 @@ export function StyleAndColorSelector({
                       )}
                     </button>
                   )
-                })}
+                })
+                }
               </div>
             </div>
           </div>
@@ -412,6 +448,10 @@ export function StyleAndColorSelector({
                         imageRendering: "pixelated",
                         transform: activePart === "clothes" ? "translateY(-30%)" : "none",
                       }}
+                      onError={(e) => {
+                        console.error(`Failed to load image: ${style.path}`)
+                        e.currentTarget.src = "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/placeholder.svg"
+                      }}
                     />
                   ) : (
                     <span className="text-[12px]">?</span>
@@ -435,17 +475,24 @@ export function StyleAndColorSelector({
       </div>
 
       {/* Color Variants - Desktop */}
-      {showColorVariants && selectedColorVariants.length > 0 && (
+      {showColorVariants && (isLoadingVariants || selectedColorVariants.length > 0) && (
         <div>
           <div className="flex items-center gap-2 mb-4">
             <Palette className="h-3.5 w-3.5" style={{ color: PIXSELF_BRAND.colors.primary.gold }} />
             <div className="text-[10px] font-bold tracking-wider" style={{ color: PIXSELF_BRAND.colors.primary.navy }}>
-              COLOR VARIANTS
+              COLOR VARIANTS {isLoadingVariants ? "(loading...)" : `(${selectedColorVariants.length})`}
             </div>
           </div>
           
           <div className="grid grid-cols-3 gap-3">
-            {selectedColorVariants.map((variant) => {
+            {isLoadingVariants ? (
+              <div className="flex items-center justify-center p-3 min-w-[60px]">
+                <div 
+                  className="w-10 h-10 border-2 border-t-transparent rounded-full animate-spin"
+                  style={{ borderColor: `${PIXSELF_BRAND.colors.primary.gold} transparent transparent transparent` }}
+                ></div>
+              </div>
+            ) : selectedColorVariants.map((variant) => {
               const isSelected = currentAssetId === variant.id
               
               return (
@@ -463,12 +510,26 @@ export function StyleAndColorSelector({
                   }}
                 >
                   <div
-                    className="w-10 h-10 border-2 rounded-full"
+                    className="w-10 h-10 border-2 rounded-full relative"
                     style={{
                       backgroundColor: variant.color || "#666",
                       borderColor: PIXSELF_BRAND.colors.primary.navy,
                     }}
-                  />
+                  >
+                    {variant.path && (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img 
+                        src={variant.path}
+                        alt={variant.name}
+                        className="absolute inset-0 w-full h-full object-contain"
+                        style={{ imageRendering: "pixelated" }}
+                        onError={(e) => {
+                          console.error(`Failed to load variant image: ${variant.path}`)
+                          e.currentTarget.style.display = 'none'
+                        }}
+                      />
+                    )}
+                  </div>
                   <span className="text-[8px] font-bold text-center" style={{ color: PIXSELF_BRAND.colors.primary.navy }}>
                     {getColorFromAssetId(variant.id, activePart)?.replace(/([A-Z])/g, ' $1').trim().toUpperCase() || "DEFAULT"}
                   </span>
@@ -480,7 +541,8 @@ export function StyleAndColorSelector({
                   )}
                 </button>
               )
-            })}
+            })
+            }
           </div>
         </div>
       )}

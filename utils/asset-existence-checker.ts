@@ -23,6 +23,7 @@ export async function checkAssetExists(assetPath: string): Promise<boolean> {
       'hair-front-long37.png',
       // Hair front color variants - only include ones that actually exist
       'hair-front-tomboy-brown.png',  // Brown variant (verified to exist)
+      'hair-front-tomboy-black.png',  // Black variant (verified to exist)
       // Hair behind assets
       'hair-behind-curly-black.png',
       'hair-behind-2side.png',
