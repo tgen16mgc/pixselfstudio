@@ -118,7 +118,7 @@ export function StyleAndColorSelector({
     }
     
     return Array.from(styles.values())
-  }, [part?.assets, part])
+  }, [part])
 
   // Determine current selected base style
   useEffect(() => {
@@ -164,9 +164,9 @@ export function StyleAndColorSelector({
     setSelectedBaseStyle(styleId)
     
     // If this style has color variants, select the first available one
-    const colorVariants = availableColorVariants[styleId] || []
-    if (colorVariants.length > 0) {
-      onAssetSelect(colorVariants[0].id)
+    const variants = availableColorVariants[styleId] || []
+    if (variants.length > 0) {
+      onAssetSelect(variants[0].id)
     } else {
       // No color variants, select the base style
       onAssetSelect(styleId)

@@ -54,9 +54,7 @@ export function EnhancedCustomizationPanel({
     currentAssetId === style.id || currentAssetId.startsWith(style.id + '-')
   )
   
-  const colorVariants = currentBaseStyle ? assets.filter(asset => 
-    asset.id.startsWith(currentBaseStyle.id + '-') && asset.id !== currentBaseStyle.id
-  ) : []
+
 
   const colors = RETRO_CHARACTER_PALETTES[activePart as keyof typeof RETRO_CHARACTER_PALETTES] || []
 
