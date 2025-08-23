@@ -147,7 +147,7 @@ function generateVariantName(baseName, partLabel, colorId) {
   return `${baseNameFormatted} (${colorName})`
 }
 
-function processAssetsForPart(folderPath, partKey, filenames, config) {
+function processAssetsForPart(partKey, folderPath, filenames, config) {
   const assets = []
   const assetGroups = new Map()
 
@@ -254,7 +254,7 @@ function generateAssetRegistry() {
         }
 
         // Process assets for this part
-        const processedAssets = processAssetsForPart(folderPath, partKey, pngFiles, config)
+        const processedAssets = processAssetsForPart(partKey, folderPath, pngFiles, config)
         assets.push(...processedAssets)
         
         totalAssets += assets.length
