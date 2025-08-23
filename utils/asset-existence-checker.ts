@@ -1,4 +1,5 @@
 import { AssetDefinition } from "@/types/character"
+import { COLOR_VARIANTS } from "@/components/style-and-color-selector"
 
 // Cache for asset existence checks to avoid repeated network calls
 const assetExistenceCache = new Map<string, boolean>()
@@ -27,7 +28,12 @@ export async function checkAssetExists(assetPath: string): Promise<boolean> {
       // Hair behind assets
       'hair-behind-curly-black.png',
       'hair-behind-2side.png',
-      'hair-behind-curly.png'
+      'hair-behind-curly.png',
+      // Mouth assets
+      'mouth-smile1.png',            // Base smile1 asset
+      'mouth-smile1-pink.png',       // Pink variant for smile1
+      'mouth-default.png',
+      'mouth-small.png'
       // Note: Only include assets that actually exist in the file system
       // Do not add theoretical color variants that haven't been created yet
     ]
@@ -101,13 +107,94 @@ export async function getExistingColorVariants(
 ): Promise<AssetDefinition[]> {
   const existingVariants: AssetDefinition[] = []
   
+  // Special case for smile1 and smile1-pink
+  if (baseAsset.id === 'smile1') {
+    console.log(`🔍 Checking smile1 mouth variants`)
+    
+    // Check if smile1-pink exists
+    const pinkVariantPath = baseAsset.path.replace(/\.png$/, `-pink.png`)
+    const pinkExists = await checkAssetExists(pinkVariantPath)
+    
+    if (pinkExists) {
+      existingVariants.push({
+        ...baseAsset,
+        id: `${baseAsset.id}-pink`,
+        name: `${baseAsset.name} (Pink)`,
+        path: pinkVariantPath,
+        color: COLOR_VARIANTS.mouth.pink,
+        enabled: true,
+      })
+    }
+    
+    // Always add the base asset as a "default" variant
+    existingVariants.push({
+      ...baseAsset,
+      id: baseAsset.id,
+      name: `${baseAsset.name} (Default)`,
+      path: baseAsset.path,
+      color: "#666666", // Default gray color
+      enabled: true,
+    })
+    
+    return existingVariants
+  }
+  
   // Add debug logging for tomboy assets specifically
   if (baseAsset.id === 'tomboy') {
     console.log(`🔍 Checking color variants for tomboy hair:`, baseAsset)
     console.log(`🎨 Available colors to check:`, Object.keys(colorVariants))
   }
   
+  // Always add the base asset as a "default" variant first
+  existingVariants.push({
+    ...baseAsset,
+    id: baseAsset.id,
+    name: `${baseAsset.name} (Default)`,
+    path: baseAsset.path,
+    color: "#666666", // Default gray color
+    enabled: true,
+  })
+  
+  // Special case for tomboy-brown
+  if (baseAsset.id === 'tomboy') {
+    const brownVariantPath = baseAsset.path.replace(/\.png$/, `-brown.png`)
+    const brownExists = await checkAssetExists(brownVariantPath)
+    
+    if (brownExists) {
+      existingVariants.push({
+        ...baseAsset,
+        id: `${baseAsset.id}-brown`,
+        name: `${baseAsset.name} (Brown)`,
+        path: brownVariantPath,
+        color: COLOR_VARIANTS.hair.brown,
+        enabled: true,
+      })
+    }
+    
+    // Check for black variant
+    const blackVariantPath = baseAsset.path.replace(/\.png$/, `-black.png`)
+    const blackExists = await checkAssetExists(blackVariantPath)
+    
+    if (blackExists) {
+      existingVariants.push({
+        ...baseAsset,
+        id: `${baseAsset.id}-black`,
+        name: `${baseAsset.name} (Black)`,
+        path: blackVariantPath,
+        color: COLOR_VARIANTS.hair.black,
+        enabled: true,
+      })
+    }
+  }
+  
+  // Check for other color variants
   for (const [colorName, colorHex] of Object.entries(colorVariants)) {
+    // Skip colors we've already handled in special cases
+    if ((baseAsset.id === 'tomboy' && (colorName === 'brown' || colorName === 'black')) ||
+        (baseAsset.id === 'smile1' && colorName === 'pink')) {
+      continue
+    }
+    
     // Generate the expected color variant path
     const colorVariantPath = baseAsset.path.replace(/\.png$/, `-${colorName}.png`)
     

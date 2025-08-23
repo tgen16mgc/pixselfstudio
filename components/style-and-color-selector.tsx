@@ -16,7 +16,7 @@ interface StyleAndColorSelectorProps {
 }
 
 // Color variants for different parts
-const COLOR_VARIANTS = {
+export const COLOR_VARIANTS = {
   hair: {
     black: "#333333",
     white: "#FAFAFA", 
@@ -90,6 +90,16 @@ const COLOR_VARIANTS = {
 
 // Helper function to extract base style from asset ID
 function getBaseStyleId(assetId: string, partKey?: PartKey): string {
+  // Special case for smile1-pink (and potentially other similar cases)
+  if (assetId === "smile1-pink") {
+    return "smile1"
+  }
+  
+  // Special case for tomboy-brown (when it's a base asset, not a color variant)
+  if (assetId === "tomboy-brown") {
+    return "tomboy"
+  }
+  
   // Get the appropriate color variants for this part
   const colorVariants = partKey ? COLOR_VARIANTS[partKey as keyof typeof COLOR_VARIANTS] : COLOR_VARIANTS.hair
   const colorSuffixes = Object.keys(colorVariants)
@@ -104,6 +114,16 @@ function getBaseStyleId(assetId: string, partKey?: PartKey): string {
 
 // Helper function to get color from asset ID
 function getColorFromAssetId(assetId: string, partKey?: PartKey): string | null {
+  // Special case for smile1-pink
+  if (assetId === "smile1-pink") {
+    return "pink"
+  }
+  
+  // Special case for tomboy-brown (when it's a base asset, not a color variant)
+  if (assetId === "tomboy-brown") {
+    return "brown"
+  }
+  
   // Get the appropriate color variants for this part
   const colorVariants = partKey ? COLOR_VARIANTS[partKey as keyof typeof COLOR_VARIANTS] : COLOR_VARIANTS.hair
   const colorSuffixes = Object.keys(colorVariants)
@@ -113,7 +133,9 @@ function getColorFromAssetId(assetId: string, partKey?: PartKey): string | null 
       return color
     }
   }
-  return null
+  
+  // If no color variant is found, return "default" for non-empty assets
+  return assetId !== "none" && assetId !== "" ? "default" : null
 }
 
 export function StyleAndColorSelector({
