@@ -107,12 +107,6 @@ const FALLBACK_CHARACTER_PARTS: PartDefinition[] = [
       enabled: true,
     },
     {
-      id: "tomboy-brown",
-      name: "Tomboy Brown HAIR FRONT",
-      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-front/hair-front-tomboy-brown.png",
-      enabled: true,
-    },
-    {
       id: "tomboy",
       name: "Tomboy HAIR FRONT",
       path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-front/hair-front-tomboy.png",

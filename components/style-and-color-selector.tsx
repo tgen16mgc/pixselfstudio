@@ -4,7 +4,7 @@ import { useState, useEffect, useMemo } from "react"
 import { Settings, Palette } from "lucide-react"
 import { PIXSELF_BRAND } from "@/config/pixself-brand"
 import { COLOR_VARIANTS } from "@/config/color-variants"
-import { CHARACTER_PARTS } from "@/config/character-assets"
+import { CHARACTER_PARTS_SYNC } from "@/config/character-assets"
 import type { PartKey, AssetDefinition, AssetVariant } from "@/types/character"
 import { getExistingColorVariants } from "@/utils/asset-existence-checker"
 
@@ -79,7 +79,7 @@ export function StyleAndColorSelector({
   const [selectedBaseStyle, setSelectedBaseStyle] = useState<string>("")
   const [isLoadingVariants, setIsLoadingVariants] = useState(false)
 
-  const part = CHARACTER_PARTS().find((p) => p.key === activePart)
+  const part = CHARACTER_PARTS_SYNC().find((p) => p.key === activePart)
 
   // Get base styles (filter out color variants and group by base)
   const baseStyles = useMemo(() => {

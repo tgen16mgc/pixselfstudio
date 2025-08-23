@@ -44,11 +44,19 @@ const COLOR_VARIANTS = {
     orange: "#FF8C00",
     pink: "#FF69B4",
     purple: "#9370DB"
+  },
+  blush: {
+    pink: "#FFB6C1",
+    red: "#FF6347",
+    mutedRed: "#CD5C5C",
+    orange: "#FF8C00",
+    darkRed: "#DC143C",
+    purple: "#9370DB"
   }
 }
 
 // Parts that support color variants
-const COLORABLE_PARTS = ['hairFront', 'hairBehind', 'body', 'clothes', 'eyes', 'mouth']
+const COLORABLE_PARTS = ['hairFront', 'hairBehind', 'body', 'clothes', 'eyes', 'mouth', 'blush']
 
 // GitHub CDN configuration
 const GITHUB_CONFIG = {
