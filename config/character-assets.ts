@@ -1,24 +1,18 @@
 import type { AssetDefinition, PartDefinition } from "@/types/character"
-import { assetRegistry, getCharacterParts, getAssetPath as registryGetAssetPath, getEnabledAssets as registryGetEnabledAssets } from "@/utils/asset-registry"
 
 // Re-export types for convenience
 export type { AssetDefinition, PartDefinition }
 
 export type PartKey = "body" | "hairBehind" | "clothes" | "mouth" | "eyes" | "eyebrows" | "hairFront" | "earring" | "glasses" | "blush"
 
-// Function to get character parts (now uses the new asset registry)
-export async function CHARACTER_PARTS(): Promise<PartDefinition[]> {
-  return await getCharacterParts()
-}
-
-// Synchronous fallback for components that need immediate access
-export function CHARACTER_PARTS_SYNC(): PartDefinition[] {
-  // Return a minimal fallback for SSR/initial render
-  // This will be replaced by the async version once loaded
+// Function to get character parts (now returns fallback for client-side hook)
+export function CHARACTER_PARTS(): PartDefinition[] {
+  // For now, return fallback parts
+  // In the future, this could be enhanced to read from a server-side manifest
   return FALLBACK_CHARACTER_PARTS
 }
 
-// Minimal fallback configuration for initial render
+// Fallback manual configuration in case auto-discovery fails
 const FALLBACK_CHARACTER_PARTS: PartDefinition[] = [
   {
     key: "body",
@@ -26,23 +20,21 @@ const FALLBACK_CHARACTER_PARTS: PartDefinition[] = [
     icon: "👤",
     category: "Body",
     assets: [
-      {
-        id: "default",
-        name: "Default BODY",
-        basePath: "/assets/character/body/body",
-        enabled: true,
-        variants: [{
-          id: "default",
-          name: "Default",
-          path: "/assets/character/body/body/body-default.png",
-          enabled: true,
-        }],
-        defaultVariant: "default",
-      }
+    {
+      id: "default",
+      name: "Default BODY",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/body/body/body-default.png",
+      enabled: true,
+    },
+    {
+      id: "v2",
+      name: "V2 BODY",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/body/body/body-v2.png",
+      enabled: true,
+    }
     ],
     defaultAsset: "default",
     optional: false,
-    colorSupport: true,
   },
   {
     key: "clothes",
@@ -50,23 +42,39 @@ const FALLBACK_CHARACTER_PARTS: PartDefinition[] = [
     icon: "👕",
     category: "Body",
     assets: [
-      {
-        id: "none",
-        name: "No CLOTHES",
-        basePath: "",
-        enabled: true,
-        variants: [{
-          id: "none",
-          name: "None",
-          path: "",
-          enabled: true,
-        }],
-        defaultVariant: "none",
-      }
+    {
+      id: "none",
+      name: "No CLOTHES",
+      path: "",
+      enabled: true,
+    },
+    {
+      id: "aotheneu",
+      name: "Aotheneu CLOTHES",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/body/clothes/clothes-aotheneu.png",
+      enabled: true,
+    },
+    {
+      id: "dress1",
+      name: "Dress1 CLOTHES",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/body/clothes/clothes-dress1.png",
+      enabled: true,
+    },
+    {
+      id: "neu",
+      name: "Neu CLOTHES",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/body/clothes/clothes-neu.png",
+      enabled: true,
+    },
+    {
+      id: "somi",
+      name: "Somi CLOTHES",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/body/clothes/clothes-somi.png",
+      enabled: true,
+    }
     ],
-    defaultAsset: "none",
+    defaultAsset: "default",
     optional: true,
-    colorSupport: true,
   },
   {
     key: "hairFront",
@@ -74,23 +82,45 @@ const FALLBACK_CHARACTER_PARTS: PartDefinition[] = [
     icon: "💇",
     category: "Hair",
     assets: [
-      {
-        id: "none",
-        name: "No HAIR FRONT",
-        basePath: "",
-        enabled: true,
-        variants: [{
-          id: "none",
-          name: "None",
-          path: "",
-          enabled: true,
-        }],
-        defaultVariant: "none",
-      }
+    {
+      id: "none",
+      name: "No HAIR FRONT",
+      path: "",
+      enabled: true,
+    },
+    {
+      id: "2side",
+      name: "2side HAIR FRONT",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-front/hair-front-2side.png",
+      enabled: true,
+    },
+    {
+      id: "64",
+      name: "64 HAIR FRONT",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-front/hair-front-64.png",
+      enabled: true,
+    },
+    {
+      id: "long37",
+      name: "Long37 HAIR FRONT",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-front/hair-front-long37.png",
+      enabled: true,
+    },
+    {
+      id: "tomboy",
+      name: "Tomboy HAIR FRONT",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-front/hair-front-tomboy.png",
+      enabled: true,
+    },
+    {
+      id: "hair-tomboy-black",
+      name: "Hair Tomboy Black HAIR FRONT",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-front/hair-tomboy-black.png",
+      enabled: true,
+    }
     ],
-    defaultAsset: "none",
+    defaultAsset: "default",
     optional: true,
-    colorSupport: true,
   },
   {
     key: "hairBehind",
@@ -98,23 +128,33 @@ const FALLBACK_CHARACTER_PARTS: PartDefinition[] = [
     icon: "🎭",
     category: "Hair",
     assets: [
-      {
-        id: "none",
-        name: "No HAIR BEHIND",
-        basePath: "",
-        enabled: true,
-        variants: [{
-          id: "none",
-          name: "None",
-          path: "",
-          enabled: true,
-        }],
-        defaultVariant: "none",
-      }
+    {
+      id: "none",
+      name: "No HAIR BEHIND",
+      path: "",
+      enabled: true,
+    },
+    {
+      id: "2side",
+      name: "2side HAIR BEHIND",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-behind/hair-behind-2side.png",
+      enabled: true,
+    },
+    {
+      id: "curly",
+      name: "Curly HAIR BEHIND",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-behind/hair-behind-curly.png",
+      enabled: true,
+    },
+    {
+      id: "default",
+      name: "Default HAIR BEHIND",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-behind/hair-behind-default.png",
+      enabled: true,
+    }
     ],
-    defaultAsset: "none",
+    defaultAsset: "default",
     optional: true,
-    colorSupport: true,
   },
   {
     key: "eyes",
@@ -122,23 +162,33 @@ const FALLBACK_CHARACTER_PARTS: PartDefinition[] = [
     icon: "👀",
     category: "Face",
     assets: [
-      {
-        id: "none",
-        name: "No EYES",
-        basePath: "",
-        enabled: true,
-        variants: [{
-          id: "none",
-          name: "None",
-          path: "",
-          enabled: true,
-        }],
-        defaultVariant: "none",
-      }
+    {
+      id: "none",
+      name: "No EYES",
+      path: "",
+      enabled: true,
+    },
+    {
+      id: "basic1",
+      name: "Basic1 EYES",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/eyes/eyes-basic1.png",
+      enabled: true,
+    },
+    {
+      id: "default",
+      name: "Default EYES",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/eyes/eyes-default.png",
+      enabled: true,
+    },
+    {
+      id: "medium",
+      name: "Medium EYES",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/eyes/eyes-medium.png",
+      enabled: true,
+    }
     ],
-    defaultAsset: "none",
+    defaultAsset: "default",
     optional: true,
-    colorSupport: true,
   },
   {
     key: "eyebrows",
@@ -146,23 +196,33 @@ const FALLBACK_CHARACTER_PARTS: PartDefinition[] = [
     icon: "🤨",
     category: "Face",
     assets: [
-      {
-        id: "none",
-        name: "No EYEBROWS",
-        basePath: "",
-        enabled: true,
-        variants: [{
-          id: "none",
-          name: "None",
-          path: "",
-          enabled: true,
-        }],
-        defaultVariant: "none",
-      }
+    {
+      id: "none",
+      name: "No EYEBROWS",
+      path: "",
+      enabled: true,
+    },
+    {
+      id: "curved",
+      name: "Curved EYEBROWS",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/eyebrows/eyebrows-curved.png",
+      enabled: true,
+    },
+    {
+      id: "default",
+      name: "Default EYEBROWS",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/eyebrows/eyebrows-default.png",
+      enabled: true,
+    },
+    {
+      id: "flat",
+      name: "Flat EYEBROWS",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/eyebrows/eyebrows-flat.png",
+      enabled: true,
+    }
     ],
-    defaultAsset: "none",
+    defaultAsset: "default",
     optional: true,
-    colorSupport: false,
   },
   {
     key: "mouth",
@@ -170,23 +230,39 @@ const FALLBACK_CHARACTER_PARTS: PartDefinition[] = [
     icon: "👄",
     category: "Face",
     assets: [
-      {
-        id: "none",
-        name: "No MOUTH",
-        basePath: "",
-        enabled: true,
-        variants: [{
-          id: "none",
-          name: "None",
-          path: "",
-          enabled: true,
-        }],
-        defaultVariant: "none",
-      }
+    {
+      id: "none",
+      name: "No MOUTH",
+      path: "",
+      enabled: true,
+    },
+    {
+      id: "default",
+      name: "Default MOUTH",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/mouth/mouth-default.png",
+      enabled: true,
+    },
+    {
+      id: "small",
+      name: "Small MOUTH",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/mouth/mouth-small.png",
+      enabled: true,
+    },
+    {
+      id: "smile-pink",
+      name: "Smile Pink MOUTH",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/mouth/mouth-smile-pink.png",
+      enabled: true,
+    },
+    {
+      id: "smile1",
+      name: "Smile1 MOUTH",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/mouth/mouth-smile1.png",
+      enabled: true,
+    }
     ],
-    defaultAsset: "none",
+    defaultAsset: "default",
     optional: true,
-    colorSupport: false,
   },
   {
     key: "blush",
@@ -194,23 +270,33 @@ const FALLBACK_CHARACTER_PARTS: PartDefinition[] = [
     icon: "😊",
     category: "Face",
     assets: [
-      {
-        id: "none",
-        name: "No BLUSH",
-        basePath: "",
-        enabled: true,
-        variants: [{
-          id: "none",
-          name: "None",
-          path: "",
-          enabled: true,
-        }],
-        defaultVariant: "none",
-      }
+    {
+      id: "none",
+      name: "No BLUSH",
+      path: "",
+      enabled: true,
+    },
+    {
+      id: "default",
+      name: "Default BLUSH",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/blush/blush-default.png",
+      enabled: true,
+    },
+    {
+      id: "light",
+      name: "Light BLUSH",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/blush/blush-light.png",
+      enabled: true,
+    },
+    {
+      id: "soft",
+      name: "Soft BLUSH",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/blush/blush-soft.png",
+      enabled: true,
+    }
     ],
     defaultAsset: "none",
     optional: true,
-    colorSupport: false,
   },
   {
     key: "earring",
@@ -218,23 +304,27 @@ const FALLBACK_CHARACTER_PARTS: PartDefinition[] = [
     icon: "💎",
     category: "Accessories",
     assets: [
-      {
-        id: "none",
-        name: "No EARRING",
-        basePath: "",
-        enabled: true,
-        variants: [{
-          id: "none",
-          name: "None",
-          path: "",
-          enabled: true,
-        }],
-        defaultVariant: "none",
-      }
+    {
+      id: "none",
+      name: "No EARRING",
+      path: "",
+      enabled: true,
+    },
+    {
+      id: "default",
+      name: "Default EARRING",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/accessories/earring/earring-default.png",
+      enabled: true,
+    },
+    {
+      id: "helixmix",
+      name: "Helixmix EARRING",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/accessories/earring/earring-helixmix.png",
+      enabled: true,
+    }
     ],
     defaultAsset: "none",
     optional: true,
-    colorSupport: true,
   },
   {
     key: "glasses",
@@ -242,23 +332,21 @@ const FALLBACK_CHARACTER_PARTS: PartDefinition[] = [
     icon: "🤓",
     category: "Accessories",
     assets: [
-      {
-        id: "none",
-        name: "No GLASSES",
-        basePath: "",
-        enabled: true,
-        variants: [{
-          id: "none",
-          name: "None",
-          path: "",
-          enabled: true,
-        }],
-        defaultVariant: "none",
-      }
+    {
+      id: "none",
+      name: "No GLASSES",
+      path: "",
+      enabled: true,
+    },
+    {
+      id: "default",
+      name: "Default GLASSES",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/accessories/glasses/glasses-default.png",
+      enabled: true,
+    }
     ],
     defaultAsset: "none",
     optional: true,
-    colorSupport: false,
   }
 ]
 
@@ -277,31 +365,41 @@ export const LAYER_ORDER: PartKey[] = [
 ]
 
 // Helper functions for easy asset management
-export async function getPartByKey(key: PartKey): Promise<PartDefinition | undefined> {
-  return await assetRegistry.getPart(key)
+export function getPartByKey(key: PartKey): PartDefinition | undefined {
+  return CHARACTER_PARTS().find((part) => part.key === key)
 }
 
-// Updated to support variants
-export async function getAssetPath(partKey: PartKey, assetId: string, variantId?: string): Promise<string> {
-  return await registryGetAssetPath(partKey, assetId, variantId)
+export function getAssetPath(partKey: PartKey, assetId: string): string {
+  const part = getPartByKey(partKey)
+  if (!part) return ""
+
+  const asset = part.assets.find((a) => a.id === assetId)
+  return asset?.path || ""
 }
 
-export async function getEnabledAssets(partKey: PartKey): Promise<AssetDefinition[]> {
-  return await registryGetEnabledAssets(partKey)
+export function getEnabledAssets(partKey: PartKey): AssetDefinition[] {
+  const part = getPartByKey(partKey)
+  if (!part) return []
+
+  return part.assets.filter((asset) => asset.enabled)
 }
 
-// Easy way to add new assets - now uses the registry
-export async function addAssetToPart(partKey: PartKey, assetId: string, name: string, basePath: string, enabled = true): Promise<void> {
-  // This would need to be implemented in the registry system
-  // For now, assets should be added by placing files in the correct folders
-  // and running the asset discovery process
-  console.warn('addAssetToPart: Assets should be added by placing files in the correct folders and running asset discovery')
+// Easy way to add new assets - just call this function
+export function addAssetToPart(partKey: PartKey, assetId: string, name: string, path: string, enabled = true): void {
+  const part = getPartByKey(partKey)
+  if (part) {
+    part.assets.push({
+      id: assetId,
+      name,
+      path,
+      enabled,
+    })
+  }
 }
 
 // Force refresh the asset cache (useful for development)
-export async function refreshAssetCache(): Promise<void> {
-  assetRegistry.clearCache()
-}
+let _cachedParts: PartDefinition[] | null = null
 
-// Export the registry for direct access when needed
-export { assetRegistry }
+export function refreshAssetCache(): void {
+  _cachedParts = null
+}

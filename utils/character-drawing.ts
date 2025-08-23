@@ -1,222 +1,156 @@
-import { CHARACTER_PARTS_SYNC, LAYER_ORDER, getAssetPath } from "@/config/character-assets"
-import { assetRegistry } from "@/utils/asset-registry"
-import type { PartKey, Selections } from "@/types/character"
+import { CHARACTER_PARTS, LAYER_ORDER, getAssetPath } from "@/config/character-assets"
+import type { Selections } from "@/types/character"
+
+// Image cache to avoid reloading images
+const imageCache = new Map<string, HTMLImageElement>()
 
 // Preload all character assets
 export async function preloadCharacterAssets(): Promise<void> {
-  try {
-    // Initialize the asset registry
-    await assetRegistry.getRegistry()
-    console.log('✅ Character assets preloaded successfully')
-  } catch (error) {
-    console.error('❌ Failed to preload character assets:', error)
-  }
+  const loadPromises: Promise<void>[] = []
+
+  CHARACTER_PARTS().forEach((part) => {
+    part.assets.forEach((asset) => {
+      if (asset.path && asset.enabled) {
+        loadPromises.push(loadImage(asset.path))
+      }
+    })
+  })
+
+  await Promise.all(loadPromises)
 }
 
-// Draw character to canvas with support for color variants
+// Load and cache an image
+function loadImage(path: string): Promise<void> {
+  return new Promise((resolve, reject) => {
+    if (imageCache.has(path)) {
+      resolve()
+      return
+    }
+
+    const img = new Image()
+    img.crossOrigin = "anonymous"
+
+    img.onload = () => {
+      imageCache.set(path, img)
+      resolve()
+    }
+
+    img.onerror = () => {
+      console.error(`Failed to load image: ${path}`)
+      reject(new Error(`Failed to load image: ${path}`))
+    }
+
+    img.src = path
+  })
+}
+
+// Get cached image
+function getCachedImage(path: string): HTMLImageElement | null {
+  return imageCache.get(path) || null
+}
+
+// Main character drawing function
 export async function drawCharacterToCanvas(
   canvas: HTMLCanvasElement,
   selections: Selections,
-  size: { width: number; height: number } = { width: 512, height: 512 }
+  scale = 1,
 ): Promise<void> {
-  const ctx = canvas.getContext('2d')
-  if (!ctx) {
-    throw new Error('Could not get canvas context')
-  }
+  const ctx = canvas.getContext("2d")
+  if (!ctx) return
 
-  // Set canvas size
-  canvas.width = size.width
-  canvas.height = size.height
+  // Set canvas size - using 640x640 as base since that's your asset size
+  const baseSize = 640
+  canvas.width = baseSize * scale
+  canvas.height = baseSize * scale
+
+  // Ensure pixel-perfect rendering
+  ctx.imageSmoothingEnabled = false
 
   // Clear canvas
   ctx.clearRect(0, 0, canvas.width, canvas.height)
 
-  // Draw layers in order (back to front)
-  for (const partKey of [...LAYER_ORDER].reverse()) {
+  // Draw layers in order (lowest to highest)
+  const reversedOrder = [...LAYER_ORDER].reverse()
+
+  for (const partKey of reversedOrder) {
     const selection = selections[partKey]
+
+    // Skip if part is disabled or not selected
     if (!selection || !selection.enabled) continue
 
-    try {
-      // Get asset path with variant support
-      const assetPath = await getAssetPath(partKey, selection.assetId, selection.colorVariant)
-      if (!assetPath) continue
+    const assetPath = getAssetPath(partKey, selection.assetId)
 
-      // Load and draw the image
-      await drawImageToCanvas(ctx, assetPath, size)
-    } catch (error) {
-      console.error(`Failed to draw ${partKey}:`, error)
-    }
-  }
-}
+    // Skip if no asset path (like "none" option)
+    if (!assetPath) continue
 
-// Helper function to draw an image to canvas
-async function drawImageToCanvas(
-  ctx: CanvasRenderingContext2D,
-  imagePath: string,
-  size: { width: number; height: number }
-): Promise<void> {
-  return new Promise((resolve, reject) => {
-    const img = new Image()
-    img.crossOrigin = 'anonymous'
-    
-    img.onload = () => {
+    // Get cached image
+    let img = getCachedImage(assetPath)
+
+    // If not cached, load it now
+    if (!img) {
       try {
-        // Draw the image to fit the canvas
-        ctx.drawImage(img, 0, 0, size.width, size.height)
-        resolve()
+        await loadImage(assetPath)
+        img = getCachedImage(assetPath)
       } catch (error) {
-        reject(error)
+        console.error(`Failed to load asset for ${partKey}:`, error)
+        continue
       }
     }
-    
-    img.onerror = () => {
-      reject(new Error(`Failed to load image: ${imagePath}`))
+
+    if (img) {
+      // Draw the image scaled to canvas size
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height)
     }
-    
-    // Set the image source
-    img.src = imagePath
-  })
-}
-
-// Get asset information for a specific part and selection
-export async function getAssetInfo(partKey: PartKey, assetId: string, variantId?: string) {
-  try {
-    const asset = await assetRegistry.getAsset(partKey, assetId)
-    if (!asset) return null
-
-    const variant = variantId 
-      ? asset.variants.find(v => v.id === variantId)
-      : asset.variants.find(v => v.id === asset.defaultVariant)
-
-    return {
-      asset,
-      variant,
-      path: variant?.path || '',
-      color: variant?.color || null,
-    }
-  } catch (error) {
-    console.error(`Failed to get asset info for ${partKey}:`, error)
-    return null
   }
 }
 
-// Get all available variants for an asset
-export async function getAssetVariants(partKey: PartKey, assetId: string) {
-  try {
-    const asset = await assetRegistry.getAsset(partKey, assetId)
-    return asset?.variants || []
-  } catch (error) {
-    console.error(`Failed to get variants for ${partKey}:`, error)
-    return []
-  }
+// Generate thumbnail for a character
+export async function generateCharacterThumbnail(selections: Selections, size = 200): Promise<string> {
+  const canvas = document.createElement("canvas")
+  const scale = size / 640 // Scale down from 640x640 to desired size
+
+  await drawCharacterToCanvas(canvas, selections, scale)
+
+  return canvas.toDataURL("image/png")
 }
 
-// Get all available colors for a part
-export async function getAvailableColorsForPart(partKey: PartKey) {
-  try {
-    const part = await assetRegistry.getPart(partKey)
-    return part?.colorPalette || []
-  } catch (error) {
-    console.error(`Failed to get colors for ${partKey}:`, error)
-    return []
-  }
-}
-
-// Validate a selection (check if asset and variant exist)
-export async function validateSelection(partKey: PartKey, assetId: string, variantId?: string): Promise<boolean> {
-  try {
-    const asset = await assetRegistry.getAsset(partKey, assetId)
-    if (!asset) return false
-
-    if (variantId) {
-      const variant = asset.variants.find(v => v.id === variantId)
-      return !!variant
-    }
-
-    return true
-  } catch (error) {
-    console.error(`Failed to validate selection for ${partKey}:`, error)
-    return false
-  }
-}
-
-// Create default selections for all character parts
+// Create default selections
 export function createDefaultSelections(): Selections {
-  const partKeys: PartKey[] = ["body", "hairBehind", "clothes", "mouth", "eyes", "eyebrows", "hairFront", "earring", "glasses", "blush"]
   const selections: Selections = {} as Selections
 
-  for (const partKey of partKeys) {
-    selections[partKey] = {
-      assetId: partKey === "body" ? "default" : "none",
-      enabled: partKey === "body", // Only body is enabled by default
-      colorVariant: undefined
+  CHARACTER_PARTS().forEach((part) => {
+    selections[part.key] = {
+      assetId: part.defaultAsset,
+      enabled: true, // All parts start enabled by default
     }
-  }
+  })
 
   return selections
 }
 
-// Generate a thumbnail image from character selections
-export async function generateCharacterThumbnail(
-  selections: Selections, 
-  size: number = 256
-): Promise<string> {
-  // Create a temporary canvas for thumbnail generation
-  const canvas = document.createElement('canvas')
-  const targetSize = { width: size, height: size }
-  
-  try {
-    // Draw the character to the canvas
-    await drawCharacterToCanvas(canvas, selections, targetSize)
-    
-    // Convert canvas to data URL
-    return canvas.toDataURL('image/png')
-  } catch (error) {
-    console.error('Failed to generate character thumbnail:', error)
-    throw error
-  }
-}
-
-// Create randomized character selections
+// Randomize character selections
 export function randomizeSelections(): Selections {
-  const partKeys: PartKey[] = ["body", "hairBehind", "clothes", "mouth", "eyes", "eyebrows", "hairFront", "earring", "glasses", "blush"]
   const selections: Selections = {} as Selections
 
-  // Helper function to get random choice
-  const getRandomChoice = (options: string[]) => 
-    options[Math.floor(Math.random() * options.length)]
-
-  // Define some basic asset options for randomization
-  const assetOptions = {
-    body: ["default"],
-    hairBehind: ["none", "default"],
-    clothes: ["none", "default"],
-    mouth: ["none", "default"],
-    eyes: ["none", "default"],
-    eyebrows: ["none", "default"],
-    hairFront: ["none", "default"],
-    earring: ["none"],
-    glasses: ["none"],
-    blush: ["none"]
-  }
-
-  // Color variants for randomization
-  const colorVariants = ["default", "black", "white", "pink", "yellow", "red", "blue", "brown", "green"]
-
-  for (const partKey of partKeys) {
-    const availableAssets = assetOptions[partKey] || ["none"]
-    const selectedAsset = getRandomChoice(availableAssets)
-    const shouldEnable = partKey === "body" || (selectedAsset !== "none" && Math.random() > 0.3)
+  CHARACTER_PARTS().forEach((part) => {
+    // Filter out "none" assets for randomization, but keep them for manual selection
+    const enabledAssets = part.assets.filter((asset) => asset.enabled && asset.id !== "none")
     
-    selections[partKey] = {
-      assetId: selectedAsset,
-      enabled: shouldEnable,
-      colorVariant: shouldEnable && Math.random() > 0.5 ? getRandomChoice(colorVariants) : undefined
+    // If no assets available (all are "none"), use default
+    if (enabledAssets.length === 0) {
+      selections[part.key] = {
+        assetId: part.defaultAsset,
+        enabled: true,
+      }
+    } else {
+      const randomAsset = enabledAssets[Math.floor(Math.random() * enabledAssets.length)]
+      
+      selections[part.key] = {
+        assetId: randomAsset.id,
+        enabled: true, // Always enable when randomizing
+      }
     }
-  }
-
-  // Ensure body is always enabled
-  selections.body.enabled = true
+  })
 
   return selections
 }

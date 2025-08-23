@@ -1,48 +1,76 @@
 import { useState, useEffect } from 'react'
 import { PartDefinition } from '@/config/character-assets'
-import { assetRegistry } from '@/utils/asset-registry'
+import { getCharacterPartsFromManifest } from '@/utils/manifest-asset-discovery'
+
+// Debug import
+console.log('🔍 Importing getCharacterPartsFromManifest:', typeof getCharacterPartsFromManifest)
+
+// Check if we're on client side
+const isClient = typeof window !== 'undefined'
 
 export function useDynamicAssets() {
+  console.log('🎯 useDynamicAssets hook called')
   const [parts, setParts] = useState<PartDefinition[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  
+  // Test if useEffect runs
+  console.log('🎯 Hook state - parts:', parts.length, 'loading:', loading, 'error:', error)
 
   useEffect(() => {
-    async function loadAssets() {
+    console.log('🎯 useEffect triggered! isClient:', isClient)
+    
+    if (!isClient) {
+      console.log('🎯 Not on client side, skipping dynamic loading')
+      return
+    }
+    
+    let mounted = true
+
+    const loadAssets = async () => {
       try {
+        console.log('🔄 Loading dynamic assets...')
         setLoading(true)
         setError(null)
+        console.log('🔄 About to call getCharacterPartsFromManifest...')
+        const dynamicParts = await getCharacterPartsFromManifest()
+        console.log('✅ Dynamic assets loaded:', dynamicParts.length, 'parts')
         
-        // Get character parts from the asset registry
-        const registry = await assetRegistry.getRegistry()
-        const partsArray = Object.values(registry.parts)
-        
-        setParts(partsArray)
+        if (mounted) {
+          setParts(dynamicParts)
+        }
       } catch (err) {
-        console.error('Failed to load dynamic assets:', err)
-        setError(err instanceof Error ? err.message : 'Failed to load assets')
+        console.error('❌ Failed to load dynamic assets:', err)
+        if (mounted) {
+          setError('Failed to load assets')
+        }
       } finally {
-        setLoading(false)
+        if (mounted) {
+          setLoading(false)
+        }
       }
     }
 
-    loadAssets()
+    // Use setTimeout to ensure this runs on client side
+    const timer = setTimeout(() => {
+      loadAssets()
+    }, 0)
+
+    return () => {
+      mounted = false
+      clearTimeout(timer)
+    }
   }, [])
 
   const refreshAssets = async () => {
     try {
       setLoading(true)
       setError(null)
-      
-      // Clear cache and reload
-      assetRegistry.clearCache()
-      const registry = await assetRegistry.getRegistry()
-      const partsArray = Object.values(registry.parts)
-      
-      setParts(partsArray)
+      const dynamicParts = await getCharacterPartsFromManifest()
+      setParts(dynamicParts)
     } catch (err) {
       console.error('Failed to refresh assets:', err)
-      setError(err instanceof Error ? err.message : 'Failed to refresh assets')
+      setError('Failed to refresh assets')
     } finally {
       setLoading(false)
     }
@@ -52,6 +80,6 @@ export function useDynamicAssets() {
     parts,
     loading,
     error,
-    refreshAssets,
+    refreshAssets
   }
 }

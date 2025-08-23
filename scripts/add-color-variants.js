@@ -6,15 +6,12 @@ const path = require('path')
 // Color variants for different parts
 const COLOR_VARIANTS = {
   hair: {
-    black: "#333333",
-    white: "#FAFAFA",
-    pink: "#F8BBD0",
-    yellow: "#FFF9C4",
-    red: "#FF8A80",
-    wineRed: "#B56576",
-    purple: "#CE93D8",
-    blue: "#90CAF9",
-    brown: "#8B4513"
+    black: "#2C1810",
+    brown: "#8B4513", 
+    blonde: "#DAA520",
+    red: "#DC143C",
+    purple: "#9370DB",
+    blue: "#00CED1"
   },
   body: {
     fair: "#FDBCB4",
@@ -65,113 +62,29 @@ function generateCDNUrl(assetPath) {
   return `https://raw.githubusercontent.com/${GITHUB_CONFIG.username}/${GITHUB_CONFIG.repo}/${GITHUB_CONFIG.branch}/${assetPath}`
 }
 
-async function checkAssetExists(assetPath) {
-  try {
-    // In development/build environment, be more conservative about what exists
-    // Only allow existing assets that we know are real
-    const knownAssets = [
-      'hair-front-tomboy.png',        // Base tomboy asset
-      'hair-front-tomboy-brown.png',  // Brown variant (the only variant that exists)
-      'hair-behind-curly-black.png',
-      'body-default-fair.png',
-      'body-default-light.png',
-      'body-default-medium.png'
-    ]
-    
-    const filename = assetPath.split('/').pop()
-    if (knownAssets.includes(filename)) {
-      return true
-    }
-    
-    // For network requests, use a short timeout and be conservative
-    const controller = new AbortController()
-    const timeoutId = setTimeout(() => controller.abort(), 2000)
-    
-    const response = await fetch(assetPath, { 
-      method: 'HEAD',
-      signal: controller.signal 
-    })
-    
-    clearTimeout(timeoutId)
-    return response.ok
-  } catch {
-    return false
-  }
-}
-
-async function addColorVariantsToAsset(asset, partKey) {
+function addColorVariantsToAsset(asset, partKey) {
   const colorVariants = COLOR_VARIANTS[partKey] || COLOR_VARIANTS.hair
-  const variants = []
   
-  // For hair parts, make black the default variant
-  if (partKey === 'hairFront' || partKey === 'hairBehind') {
-    // Check which color variants actually exist
-    for (const [colorName, colorHex] of Object.entries(colorVariants)) {
-      const colorVariantPath = generateCDNUrlForColorVariant(asset.path, colorName)
-      const exists = await checkAssetExists(colorVariantPath)
-      
-      if (exists) {
-        const colorVariant = {
-          ...asset,
-          id: `${asset.id}-${colorName}`,
-          name: `${asset.name} (${colorName.charAt(0).toUpperCase() + colorName.slice(1)})`,
-          path: colorVariantPath,
-          color: colorHex,
-          enabled: true
-        }
-        
-        // Add black variant first if it exists
-        if (colorName === 'black') {
-          variants.unshift(colorVariant)
-        } else {
-          variants.push(colorVariant)
-        }
-      }
+  // Keep the original asset
+  const variants = [asset]
+  
+  // Add color variants
+  Object.entries(colorVariants).forEach(([colorName, colorHex]) => {
+    const colorVariant = {
+      ...asset,
+      id: `${asset.id}-${colorName}`,
+      name: `${asset.name} (${colorName.charAt(0).toUpperCase() + colorName.slice(1)})`,
+      path: asset.path.replace('.png', `-${colorName}.png`),
+      color: colorHex,
+      enabled: true
     }
-    
-    return variants
-  } else {
-    // For non-hair parts, check which color variants actually exist
-    const variants = []
-    
-    // First, add the base asset only if no color variants exist
-    let hasColorVariants = false
-    
-    // Check for existing color variants
-    for (const [colorName, colorHex] of Object.entries(colorVariants)) {
-      const colorVariantPath = generateCDNUrlForColorVariant(asset.path, colorName)
-      const exists = await checkAssetExists(colorVariantPath)
-      
-      if (exists) {
-        hasColorVariants = true
-        const colorVariant = {
-          ...asset,
-          id: `${asset.id}-${colorName}`,
-          name: `${asset.name} (${colorName.charAt(0).toUpperCase() + colorName.slice(1)})`,
-          path: colorVariantPath,
-          color: colorHex,
-          enabled: true
-        }
-        variants.push(colorVariant)
-      }
-    }
-    
-    // If no color variants exist, keep the original asset as-is
-    if (!hasColorVariants) {
-      variants.push(asset)
-    }
-    
-    return variants
-  }
+    variants.push(colorVariant)
+  })
+  
+  return variants
 }
 
-function generateCDNUrlForColorVariant(originalPath, colorName) {
-  // Extract the base path from the CDN URL
-  const basePath = originalPath.replace(/\.png$/, '');
-  return `${basePath}-${colorName}.png`;
-}
-
-async function updateCharacterAssetsWithColorVariants() {
+function updateCharacterAssetsWithColorVariants() {
   console.log('🎨 Adding color variants to character assets...')
   
   // Read the current character assets config
@@ -210,10 +123,9 @@ async function updateCharacterAssetsWithColorVariants() {
     
     // Parse assets
     const assetRegex = /\{\s*id:\s*"([^"]+)",\s*name:\s*"([^"]+)",\s*path:\s*"([^"]*)",\s*enabled:\s*(true|false)\s*\}/g
-    const allAssets = []
+    const assets = []
     let assetMatch
     
-    // First pass: collect all assets
     while ((assetMatch = assetRegex.exec(assetsSection)) !== null) {
       const asset = {
         id: assetMatch[1],
@@ -221,55 +133,22 @@ async function updateCharacterAssetsWithColorVariants() {
         path: assetMatch[3],
         enabled: assetMatch[4] === 'true'
       }
-      allAssets.push(asset)
-    }
-    
-    // Second pass: process assets and add color variants
-    const assets = []
-    const processedBaseAssets = new Set()
-    
-    // Sort assets so that base assets come before their color variants
-    allAssets.sort((a, b) => {
-      // Check if either asset is a color variant
-      const aIsColorVariant = Object.keys(COLOR_VARIANTS[partKey] || COLOR_VARIANTS.hair).some(color => 
-        a.id.endsWith(`-${color}`)
-      )
-      const bIsColorVariant = Object.keys(COLOR_VARIANTS[partKey] || COLOR_VARIANTS.hair).some(color => 
-        b.id.endsWith(`-${color}`)
-      )
       
-      // Put base assets before color variants
-      if (aIsColorVariant && !bIsColorVariant) return 1
-      if (!aIsColorVariant && bIsColorVariant) return -1
-      
-      // If both are the same type, maintain original order
-      return 0
-    })
-    
-    for (const asset of allAssets) {
       // Add color variants for colorable parts (except "none" assets)
       if (COLORABLE_PARTS.includes(partKey) && asset.id !== 'none') {
-        // Check if this asset is already a color variant
-        const isColorVariant = Object.keys(COLOR_VARIANTS[partKey] || COLOR_VARIANTS.hair).some(color => 
-          asset.id.endsWith(`-${color}`)
-        )
+        // Check if this asset already has color variants
+        const hasColorVariants = asset.id.includes('-') && 
+          Object.keys(COLOR_VARIANTS[partKey] || COLOR_VARIANTS.hair).some(color => 
+            asset.id.endsWith(`-${color}`)
+          )
         
-        if (!isColorVariant) {
-          // This is a base asset, check if we already processed it
-          if (!processedBaseAssets.has(asset.id)) {
-            // Add the base asset
-            assets.push(asset)
-            processedBaseAssets.add(asset.id)
-            
-            // Add color variants to it
-            const variants = await addColorVariantsToAsset(asset, partKey)
-            assets.push(...variants)
-            console.log(`    ✅ Added ${variants.length} color variants to ${asset.id}`)
-          }
+        if (!hasColorVariants) {
+          const variants = addColorVariantsToAsset(asset, partKey)
+          assets.push(...variants)
+          console.log(`    ✅ Added ${variants.length - 1} color variants to ${asset.id}`)
         } else {
-          // This is already a color variant, just add it as is
           assets.push(asset)
-          console.log(`    ℹ️  ${asset.id} is a color variant, keeping as is`)
+          console.log(`    ℹ️  ${asset.id} already has color variants`)
         }
       } else {
         assets.push(asset)
@@ -386,18 +265,16 @@ function isOptional(partKey) {
 
 // Run the script
 if (require.main === module) {
-  (async () => {
-    try {
-      const success = await updateCharacterAssetsWithColorVariants()
-      if (!success) {
-        console.log('ℹ️  No changes made to character assets.')
-        process.exit(0)
-      }
-    } catch (error) {
-      console.error('❌ Error updating character assets:', error)
-      process.exit(1)
+  try {
+    const success = updateCharacterAssetsWithColorVariants()
+    if (!success) {
+      console.log('ℹ️  No changes made to character assets.')
+      process.exit(0)
     }
-  })()
+  } catch (error) {
+    console.error('❌ Error updating character assets:', error)
+    process.exit(1)
+  }
 }
 
 module.exports = { addColorVariantsToAsset, COLOR_VARIANTS }

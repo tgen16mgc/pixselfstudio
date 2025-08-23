@@ -29,7 +29,8 @@ import { ShareTemplateModal } from "@/components/share-template-modal"
 import { CharacterGalleryModal } from "@/components/character-gallery-modal"
 import { EnhancedTitleSection } from "@/components/enhanced-title-section"
 import { PromotionBanner } from "@/components/promotion-banner"
-import { StyleAndColorSelector } from "@/components/style-and-color-selector"
+import { AssetVariantGrid } from "@/components/asset-variant-grid"
+import { ColorPalettePlaceholder } from "@/components/color-palette-placeholder"
 import { PIXSELF_BRAND } from "@/config/pixself-brand"
 import { isStorageAvailable } from "@/utils/character-storage"
 import {
@@ -39,9 +40,10 @@ import {
   generateCharacterThumbnail,
   preloadCharacterAssets,
 } from "@/utils/character-drawing"
-import { CHARACTER_PARTS_SYNC, type PartDefinition } from "@/config/character-assets"
+import { CHARACTER_PARTS, type PartDefinition } from "@/config/character-assets"
 import type { PartKey, Selections } from "@/types/character"
 import { useDynamicAssets } from "@/hooks/use-dynamic-assets"
+
 
 const press2p = Press_Start_2P({ weight: "400", subsets: ["latin"] })
 
@@ -129,8 +131,7 @@ function PixelCanvasPreview({
     ctx.translate(0, floatY * scale * zoom)
 
     // Draw the actual character (now async)
-    const canvasSize = { width: canvas.width, height: canvas.height }
-    drawCharacterToCanvas(canvas, selections, canvasSize).catch(console.error)
+    drawCharacterToCanvas(canvas, selections, scale * zoom).catch(console.error)
 
     ctx.restore()
   }, [selections, scale, zoom, animationOffset])
@@ -433,10 +434,7 @@ export default function Page() {
       }
 
       // Draw the character to the export canvas
-      const exportSize = { width: 512 * downloadModalData.scale, height: 512 * downloadModalData.scale }
-      exportCanvas.width = exportSize.width
-      exportCanvas.height = exportSize.height
-      await drawCharacterToCanvas(exportCanvas, selections, exportSize)
+      await drawCharacterToCanvas(exportCanvas, selections, downloadModalData.scale)
 
       // Convert canvas to blob and download
       exportCanvas.toBlob((blob) => {
@@ -486,15 +484,13 @@ export default function Page() {
     }
   }
 
-  // Use dynamic parts or fallback to static parts (sync fallback for SSR)
-  const currentParts = (dynamicParts?.length ?? 0) > 0 ? dynamicParts : CHARACTER_PARTS_SYNC()
-
-  // Debug logging (safe guards for build/SSR)
-  const dynamicLen = Array.isArray(dynamicParts) ? dynamicParts.length : 0
-  const currentLen = Array.isArray(currentParts) ? currentParts.length : 0
-  console.log('🔍 Dynamic parts loaded:', dynamicLen)
-  console.log('🔍 Using parts:', currentLen, currentLen > 0 ? '(from ' + (dynamicLen > 0 ? 'DYNAMIC' : 'STATIC') + ')' : '')
-  if (currentLen > 0) {
+  // Use dynamic parts or fallback to static parts
+  const currentParts = dynamicParts.length > 0 ? dynamicParts : CHARACTER_PARTS()
+  
+  // Debug logging
+  console.log('🔍 Dynamic parts loaded:', dynamicParts.length)
+  console.log('🔍 Using parts:', currentParts.length, currentParts.length > 0 ? '(from ' + (dynamicParts.length > 0 ? 'DYNAMIC' : 'STATIC') + ')' : '')
+  if (currentParts.length > 0) {
     const glassesPart = currentParts.find(p => p.key === 'glasses')
     console.log('🤓 Glasses part:', glassesPart ? `${glassesPart.assets.length} assets` : 'NOT FOUND')
   }
@@ -735,14 +731,28 @@ export default function Page() {
                 icon={<Settings className="h-4 w-4" />}
               >
                 <div className="space-y-6">
-                  {/* Style and Color Selection */}
-                  <StyleAndColorSelector
-                    activePart={activePart}
-                    currentAssetId={selections[activePart]?.assetId || "default"}
-                    onAssetSelect={(assetId) => onSelectAsset(activePart, assetId)}
-                    isLoading={loading}
-                    isMobile={false}
-                  />
+                  {/* Asset Selection */}
+                  <div>
+                    <div className="flex items-center gap-2 mb-4">
+                      <Settings className="h-3.5 w-3.5" style={{ color: PIXSELF_BRAND.colors.primary.gold }} />
+                      <div
+                        className="text-[10px] font-bold tracking-wider"
+                        style={{ color: PIXSELF_BRAND.colors.primary.navy }}
+                      >
+                        STYLE OPTIONS
+                      </div>
+                    </div>
+                    <AssetVariantGrid
+                      activePart={activePart}
+                      currentAssetId={selections[activePart]?.assetId || "default"}
+                      onAssetSelect={(assetId) => onSelectAsset(activePart, assetId)}
+                      isLoading={loading}
+                      isMobile={false}
+                    />
+                  </div>
+
+                  {/* Color Variants */}
+                  <ColorPalettePlaceholder activePart={activePart} isMobile={false} />
                 </div>
               </PixselfPanel>
 
@@ -1044,14 +1054,28 @@ export default function Page() {
               icon={<Settings className="h-4 w-4" />}
             >
               <div className="space-y-4">
-                {/* Style and Color Selection - Mobile */}
-                <StyleAndColorSelector
-                  activePart={activePart}
-                  currentAssetId={selections[activePart]?.assetId || "default"}
-                  onAssetSelect={(assetId) => onSelectAsset(activePart, assetId)}
-                  isLoading={loading}
-                  isMobile={true}
-                />
+                {/* Asset Selection - Mobile */}
+                <div>
+                  <div className="flex items-center gap-2 mb-4">
+                    <Settings className="h-3 w-3" style={{ color: PIXSELF_BRAND.colors.primary.gold }} />
+                    <div
+                      className="text-[9px] font-bold tracking-wider"
+                      style={{ color: PIXSELF_BRAND.colors.primary.navy }}
+                    >
+                      STYLE OPTIONS
+                    </div>
+                  </div>
+                  <AssetVariantGrid
+                    activePart={activePart}
+                    currentAssetId={selections[activePart]?.assetId || "default"}
+                    onAssetSelect={(assetId) => onSelectAsset(activePart, assetId)}
+                    isLoading={loading}
+                    isMobile={true}
+                  />
+                </div>
+
+                {/* Color Variants - Mobile */}
+                <ColorPalettePlaceholder activePart={activePart} isMobile={true} />
               </div>
             </PixselfPanel>
 

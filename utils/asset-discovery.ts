@@ -104,10 +104,8 @@ export async function discoverAssets(): Promise<PartDefinition[]> {
       assets.push({
         id: "none",
         name: `No ${config.label}`,
-        basePath: "",
+        path: "",
         enabled: true,
-        variants: [{ id: "none", name: "None", path: "", enabled: true }],
-        defaultVariant: "none",
       })
     }
 
@@ -144,100 +142,80 @@ async function scanFolderForAssets(folderPath: string, partKey: PartKey): Promis
       {
         id: "default",
         name: "Default Body",
-        basePath: "/assets/character/body/body",
+        path: "/assets/character/body/body/body-default.png",
         enabled: true,
-        variants: [{ id: "default", name: "Default", path: "/assets/character/body/body/body-default.png", enabled: true }],
-        defaultVariant: "default",
       }
     ],
     "/assets/character/body/clothes": [
       {
         id: "default", 
         name: "Default Clothes",
-        basePath: "/assets/character/body/clothes",
+        path: "/assets/character/body/clothes/clothes-default.png",
         enabled: true,
-        variants: [{ id: "default", name: "Default", path: "/assets/character/body/clothes/clothes-default.png", enabled: true }],
-        defaultVariant: "default",
       }
     ],
     "/assets/character/hair/hair-behind": [
       {
         id: "default",
         name: "Default Hair Behind", 
-        basePath: "/assets/character/hair/hair-behind",
+        path: "/assets/character/hair/hair-behind/hair-behind-default.png",
         enabled: true,
-        variants: [{ id: "default", name: "Default", path: "/assets/character/hair/hair-behind/hair-behind-default.png", enabled: true }],
-        defaultVariant: "default",
       }
     ],
     "/assets/character/hair/hair-front": [
       {
         id: "default",
         name: "Default Hair Front",
-        basePath: "/assets/character/hair/hair-front", 
+        path: "/assets/character/hair/hair-front/hair-front-default.png", 
         enabled: true,
-        variants: [{ id: "default", name: "Default", path: "/assets/character/hair/hair-front/hair-front-default.png", enabled: true }],
-        defaultVariant: "default",
       }
     ],
     "/assets/character/face/eyes": [
       {
         id: "default",
         name: "Default Eyes",
-        basePath: "/assets/character/face/eyes",
+        path: "/assets/character/face/eyes/eyes-default.png",
         enabled: true,
-        variants: [{ id: "default", name: "Default", path: "/assets/character/face/eyes/eyes-default.png", enabled: true }],
-        defaultVariant: "default",
       }
     ],
     "/assets/character/face/eyebrows": [
       {
         id: "default", 
         name: "Default Eyebrows",
-        basePath: "/assets/character/face/eyebrows",
+        path: "/assets/character/face/eyebrows/eyebrows-default.png",
         enabled: true,
-        variants: [{ id: "default", name: "Default", path: "/assets/character/face/eyebrows/eyebrows-default.png", enabled: true }],
-        defaultVariant: "default",
       }
     ],
     "/assets/character/face/mouth": [
       {
         id: "default",
         name: "Default Mouth",
-        basePath: "/assets/character/face/mouth",
+        path: "/assets/character/face/mouth/mouth-default.png",
         enabled: true,
-        variants: [{ id: "default", name: "Default", path: "/assets/character/face/mouth/mouth-default.png", enabled: true }],
-        defaultVariant: "default",
       }
     ],
     "/assets/character/face/blush": [
       {
         id: "default",
         name: "Default Blush", 
-        basePath: "/assets/character/face/blush",
+        path: "/assets/character/face/blush/blush-default.png",
         enabled: true,
-        variants: [{ id: "default", name: "Default", path: "/assets/character/face/blush/blush-default.png", enabled: true }],
-        defaultVariant: "default",
       }
     ],
     "/assets/character/accessories/earring": [
       {
         id: "default",
         name: "Default Earring",
-        basePath: "/assets/character/accessories/earring",
+        path: "/assets/character/accessories/earring/earring-default.png",
         enabled: true,
-        variants: [{ id: "default", name: "Default", path: "/assets/character/accessories/earring/earring-default.png", enabled: true }],
-        defaultVariant: "default",
       }
     ],
     "/assets/character/accessories/glasses": [
       {
         id: "default",
         name: "Default Glasses",
-        basePath: "/assets/character/accessories/glasses", 
+        path: "/assets/character/accessories/glasses/glasses-default.png", 
         enabled: true,
-        variants: [{ id: "default", name: "Default", path: "/assets/character/accessories/glasses/glasses-default.png", enabled: true }],
-        defaultVariant: "default",
       }
     ],
   }

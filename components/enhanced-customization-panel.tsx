@@ -3,8 +3,6 @@
 import { useState } from "react"
 import { Palette, Settings, Eye, Shuffle, Undo2, Redo2 } from "lucide-react"
 import { RETRO_CHARACTER_PALETTES, RETRO_UI_THEME } from "@/config/8bit-theme"
-import { CHARACTER_PARTS_SYNC } from "@/config/character-assets"
-import type { PartKey } from "@/types/character"
 import {
   EnhancedRetroPixelPanel,
   EnhancedRetroColorSwatch,
@@ -13,11 +11,11 @@ import {
 } from "./enhanced-8bit-ui"
 
 interface EnhancedCustomizationPanelProps {
-  activePart: PartKey
-  currentSelection: { variant: number; color: number }
+  activePart: string
+  selections: Record<string, { variant: number; color: number }>
+  onColorSelect: (part: string, color: number) => void
+  onVariantSelect: (part: string, variant: number) => void
   onRandomizePart: (part: string) => void
-  onColorSelect: (part: PartKey, colorIndex: number) => void
-  onVariantSelect: (part: PartKey, variantIndex: number) => void
   isLoading?: boolean
   canUndo?: boolean
   canRedo?: boolean
@@ -27,10 +25,10 @@ interface EnhancedCustomizationPanelProps {
 
 export function EnhancedCustomizationPanel({
   activePart,
-  currentSelection,
-  onRandomizePart,
+  selections,
   onColorSelect,
   onVariantSelect,
+  onRandomizePart,
   isLoading = false,
   canUndo = false,
   canRedo = false,
@@ -40,13 +38,7 @@ export function EnhancedCustomizationPanel({
   const [previewColor, setPreviewColor] = useState<string | null>(null)
   const [previewVariant, setPreviewVariant] = useState<number | null>(null)
 
-  const part = CHARACTER_PARTS_SYNC().find((p) => p.key === activePart)
-  if (!part) return null
-
-
-  
-
-
+  const currentSelection = selections[activePart]
   const colors = RETRO_CHARACTER_PALETTES[activePart as keyof typeof RETRO_CHARACTER_PALETTES] || []
 
   // Color names for better accessibility
