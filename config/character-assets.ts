@@ -128,24 +128,24 @@ const FALLBACK_CHARACTER_PARTS: PartDefinition[] = [
     icon: "🎭",
     category: "Hair",
     assets: [
-    {
-      id: "none",
-      name: "No HAIR BEHIND",
-      path: "",
-      enabled: true,
-    },
-    {
-      id: "2side",
-      name: "2side HAIR BEHIND",
-      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-behind/hair-behind-2side.png",
-      enabled: true,
-    },
-    {
-      id: "curly",
-      name: "Curly HAIR BEHIND",
-      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-behind/hair-behind-curly.png",
-      enabled: true,
-    }
+      {
+        id: "none",
+        name: "No HAIR BEHIND",
+        path: "",
+        enabled: true,
+      },
+      {
+        id: "2side",
+        name: "2side HAIR BEHIND",
+        path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-behind/hair-behind-2side.png",
+        enabled: true,
+      },
+      {
+        id: "curly",
+        name: "Curly HAIR BEHIND",
+        path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-behind/hair-behind-curly.png",
+        enabled: true,
+      }
     ],
     defaultAsset: "default",
     optional: true,
@@ -156,30 +156,30 @@ const FALLBACK_CHARACTER_PARTS: PartDefinition[] = [
     icon: "👀",
     category: "Face",
     assets: [
-    {
-      id: "none",
-      name: "No EYES",
-      path: "",
-      enabled: true,
-    },
-    {
-      id: "basic1",
-      name: "Basic1 EYES",
-      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/eyes/eyes-basic1.png",
-      enabled: true,
-    },
-    {
-      id: "default",
-      name: "Default EYES",
-      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/eyes/eyes-default.png",
-      enabled: true,
-    },
-    {
-      id: "medium",
-      name: "Medium EYES",
-      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/eyes/eyes-medium.png",
-      enabled: true,
-    }
+      {
+        id: "none",
+        name: "No EYES",
+        path: "",
+        enabled: true,
+      },
+      {
+        id: "basic1",
+        name: "Basic1 EYES",
+        path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/eyes/eyes-basic1.png",
+        enabled: true,
+      },
+      {
+        id: "default",
+        name: "Default EYES",
+        path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/eyes/eyes-default.png",
+        enabled: true,
+      },
+      {
+        id: "medium",
+        name: "Medium EYES",
+        path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/eyes/eyes-medium.png",
+        enabled: true,
+      }
     ],
     defaultAsset: "default",
     optional: true,
@@ -190,30 +190,30 @@ const FALLBACK_CHARACTER_PARTS: PartDefinition[] = [
     icon: "🤨",
     category: "Face",
     assets: [
-    {
-      id: "none",
-      name: "No EYEBROWS",
-      path: "",
-      enabled: true,
-    },
-    {
-      id: "curved",
-      name: "Curved EYEBROWS",
-      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/eyebrows/eyebrows-curved.png",
-      enabled: true,
-    },
-    {
-      id: "default",
-      name: "Default EYEBROWS",
-      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/eyebrows/eyebrows-default.png",
-      enabled: true,
-    },
-    {
-      id: "flat",
-      name: "Flat EYEBROWS",
-      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/eyebrows/eyebrows-flat.png",
-      enabled: true,
-    }
+      {
+        id: "none",
+        name: "No EYEBROWS",
+        path: "",
+        enabled: true,
+      },
+      {
+        id: "curved",
+        name: "Curved EYEBROWS",
+        path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/eyebrows/eyebrows-curved.png",
+        enabled: true,
+      },
+      {
+        id: "default",
+        name: "Default EYEBROWS",
+        path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/eyebrows/eyebrows-default.png",
+        enabled: true,
+      },
+      {
+        id: "flat",
+        name: "Flat EYEBROWS",
+        path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/eyebrows/eyebrows-flat.png",
+        enabled: true,
+      }
     ],
     defaultAsset: "default",
     optional: true,
@@ -224,36 +224,36 @@ const FALLBACK_CHARACTER_PARTS: PartDefinition[] = [
     icon: "👄",
     category: "Face",
     assets: [
-    {
-      id: "none",
-      name: "No MOUTH",
-      path: "",
-      enabled: true,
-    },
-    {
-      id: "default",
-      name: "Default MOUTH",
-      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/mouth/mouth-default.png",
-      enabled: true,
-    },
-    {
-      id: "small",
-      name: "Small MOUTH",
-      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/mouth/mouth-small.png",
-      enabled: true,
-    },
-    {
-      id: "smile-pink",
-      name: "Smile Pink MOUTH",
-      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/mouth/mouth-smile-pink.png",
-      enabled: true,
-    },
-    {
-      id: "smile1",
-      name: "Smile1 MOUTH",
-      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/mouth/mouth-smile1.png",
-      enabled: true,
-    }
+      {
+        id: "none",
+        name: "No MOUTH",
+        path: "",
+        enabled: true,
+      },
+      {
+        id: "default",
+        name: "Default MOUTH",
+        path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/mouth/mouth-default.png",
+        enabled: true,
+      },
+      {
+        id: "small",
+        name: "Small MOUTH",
+        path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/mouth/mouth-small.png",
+        enabled: true,
+      },
+      {
+        id: "smile-pink",
+        name: "Smile Pink MOUTH",
+        path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/mouth/mouth-smile-pink.png",
+        enabled: true,
+      },
+      {
+        id: "smile1",
+        name: "Smile1 MOUTH",
+        path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/mouth/mouth-smile1.png",
+        enabled: true,
+      }
     ],
     defaultAsset: "default",
     optional: true,
@@ -264,30 +264,30 @@ const FALLBACK_CHARACTER_PARTS: PartDefinition[] = [
     icon: "😊",
     category: "Face",
     assets: [
-    {
-      id: "none",
-      name: "No BLUSH",
-      path: "",
-      enabled: true,
-    },
-    {
-      id: "default",
-      name: "Default BLUSH",
-      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/blush/blush-default.png",
-      enabled: true,
-    },
-    {
-      id: "light",
-      name: "Light BLUSH",
-      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/blush/blush-light.png",
-      enabled: true,
-    },
-    {
-      id: "soft",
-      name: "Soft BLUSH",
-      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/blush/blush-soft.png",
-      enabled: true,
-    }
+      {
+        id: "none",
+        name: "No BLUSH",
+        path: "",
+        enabled: true,
+      },
+      {
+        id: "default",
+        name: "Default BLUSH",
+        path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/blush/blush-default.png",
+        enabled: true,
+      },
+      {
+        id: "light",
+        name: "Light BLUSH",
+        path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/blush/blush-light.png",
+        enabled: true,
+      },
+      {
+        id: "soft",
+        name: "Soft BLUSH",
+        path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/blush/blush-soft.png",
+        enabled: true,
+      }
     ],
     defaultAsset: "none",
     optional: true,
@@ -298,24 +298,24 @@ const FALLBACK_CHARACTER_PARTS: PartDefinition[] = [
     icon: "💎",
     category: "Accessories",
     assets: [
-    {
-      id: "none",
-      name: "No EARRING",
-      path: "",
-      enabled: true,
-    },
-    {
-      id: "default",
-      name: "Default EARRING",
-      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/accessories/earring/earring-default.png",
-      enabled: true,
-    },
-    {
-      id: "helixmix",
-      name: "Helixmix EARRING",
-      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/accessories/earring/earring-helixmix.png",
-      enabled: true,
-    }
+      {
+        id: "none",
+        name: "No EARRING",
+        path: "",
+        enabled: true,
+      },
+      {
+        id: "default",
+        name: "Default EARRING",
+        path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/accessories/earring/earring-default.png",
+        enabled: true,
+      },
+      {
+        id: "helixmix",
+        name: "Helixmix EARRING",
+        path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/accessories/earring/earring-helixmix.png",
+        enabled: true,
+      }
     ],
     defaultAsset: "none",
     optional: true,
@@ -326,18 +326,18 @@ const FALLBACK_CHARACTER_PARTS: PartDefinition[] = [
     icon: "🤓",
     category: "Accessories",
     assets: [
-    {
-      id: "none",
-      name: "No GLASSES",
-      path: "",
-      enabled: true,
-    },
-    {
-      id: "default",
-      name: "Default GLASSES",
-      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/accessories/glasses/glasses-default.png",
-      enabled: true,
-    }
+      {
+        id: "none",
+        name: "No GLASSES",
+        path: "",
+        enabled: true,
+      },
+      {
+        id: "default",
+        name: "Default GLASSES",
+        path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/accessories/glasses/glasses-default.png",
+        enabled: true,
+      }
     ],
     defaultAsset: "none",
     optional: true,
