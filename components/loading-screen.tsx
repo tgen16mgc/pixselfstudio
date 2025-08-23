@@ -3,9 +3,9 @@
 import { useEffect, useState } from "react"
 import { PixselfLogo } from "./pixself-logo"
 import { PIXSELF_BRAND } from "@/config/pixself-brand"
-// import { Press_Start_2P } from "next/font/google"
+import { Press_Start_2P } from "next/font/google"
 
-// const press2p = Press_Start_2P({ weight: "400", subsets: ["latin"] })
+const press2p = Press_Start_2P({ weight: "400", subsets: ["latin"] })
 
 interface LoadingScreenProps {
   onComplete: () => void
@@ -102,7 +102,7 @@ export function LoadingScreen({ onComplete }: LoadingScreenProps) {
 
   return (
     <div
-      className={`fixed inset-0 z-50 flex flex-col items-center justify-center ${""}`}
+      className={`fixed inset-0 z-50 flex flex-col items-center justify-center ${press2p.className}`}
       style={{
         background: `linear-gradient(135deg, 
           ${PIXSELF_BRAND.colors.sky.alice} 0%, 

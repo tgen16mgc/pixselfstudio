@@ -16,7 +16,7 @@ import {
   Grid,
   Save,
 } from "lucide-react"
-// import { Press_Start_2P } from "next/font/google"
+import { Press_Start_2P } from "next/font/google"
 import { PixselfFooter } from "@/components/pixself-footer"
 
 // Import Pixself brand components
@@ -43,8 +43,7 @@ import { CHARACTER_PARTS, type PartDefinition } from "@/config/character-assets"
 import type { PartKey, Selections } from "@/types/character"
 import { useDynamicAssets } from "@/hooks/use-dynamic-assets"
 
-
-// const press2p = Press_Start_2P({ weight: "400", subsets: ["latin"] })
+const press2p = Press_Start_2P({ weight: "400", subsets: ["latin"] })
 
 interface HistoryState {
   selections: Selections
@@ -521,7 +520,7 @@ export default function Page() {
   }
 
   return (
-    <main className={`min-h-screen ${""} relative`}>
+    <main className={`min-h-screen ${press2p.className} relative`}>
       <PixselfBackground />
 
       <div className="relative z-10 mx-auto max-w-[1600px] px-4 py-6 lg:py-8">
