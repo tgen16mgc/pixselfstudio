@@ -619,6 +619,13 @@ const FALLBACK_CHARACTER_PARTS: PartDefinition[] = [
       name: "Smile1 MOUTH",
       path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/mouth/mouth-smile1.png",
       enabled: true,
+    },
+    {
+      id: "smile1-pink",
+      name: "Smile1 Pink MOUTH",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/mouth/mouth-smile1-pink.png",
+      enabled: true,
+      color: "#FF69B4",
     }
     ],
     defaultAsset: "default",
