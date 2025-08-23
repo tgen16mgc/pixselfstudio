@@ -16,15 +16,30 @@ export async function checkAssetExists(assetPath: string): Promise<boolean> {
     // In development/build environment, be more conservative about what exists
     // Only allow existing assets that we know are real
     const knownAssets = [
+      // Base hair front assets
       'hair-front-tomboy.png',        // Base tomboy asset
-      'hair-front-tomboy-brown.png',  // Brown variant
-      'hair-front-tomboy-black.png',  // Black variant
-      'hair-behind-curly-black.png'
-      // Note: body color variants removed since they don't exist yet
+      'hair-front-2side.png',
+      'hair-front-64.png', 
+      'hair-front-long37.png',
+      // Hair front color variants - only include ones that actually exist
+      'hair-front-tomboy-brown.png',  // Brown variant (verified to exist)
+      // Hair behind assets
+      'hair-behind-curly-black.png',
+      'hair-behind-2side.png',
+      'hair-behind-curly.png'
+      // Note: Only include assets that actually exist in the file system
+      // Do not add theoretical color variants that haven't been created yet
     ]
     
     const filename = assetPath.split('/').pop() || ''
-    if (knownAssets.includes(filename)) {
+    const exists = knownAssets.includes(filename)
+    
+    // Add debug logging for color variants specifically
+    if (filename.includes('tomboy') && filename.includes('-')) {
+      console.log(`🎨 Color variant check: ${filename} -> ${exists ? 'EXISTS' : 'NOT FOUND'}`)
+    }
+    
+    if (exists) {
       assetExistenceCache.set(assetPath, true)
       return true
     }
@@ -85,11 +100,23 @@ export async function getExistingColorVariants(
 ): Promise<AssetDefinition[]> {
   const existingVariants: AssetDefinition[] = []
   
+  // Add debug logging for tomboy assets specifically
+  if (baseAsset.id === 'tomboy') {
+    console.log(`🔍 Checking color variants for tomboy hair:`, baseAsset)
+    console.log(`🎨 Available colors to check:`, Object.keys(colorVariants))
+  }
+  
   for (const [colorName, colorHex] of Object.entries(colorVariants)) {
     // Generate the expected color variant path
     const colorVariantPath = baseAsset.path.replace(/\.png$/, `-${colorName}.png`)
     
     const exists = await checkAssetExists(colorVariantPath)
+    
+    // Debug logging for tomboy variants
+    if (baseAsset.id === 'tomboy') {
+      console.log(`  ${colorName}: ${colorVariantPath} -> ${exists ? '✅ EXISTS' : '❌ NOT FOUND'}`)
+    }
+    
     if (exists) {
       existingVariants.push({
         ...baseAsset,
@@ -100,6 +127,12 @@ export async function getExistingColorVariants(
         enabled: true,
       })
     }
+  }
+  
+  // Final debug log for tomboy
+  if (baseAsset.id === 'tomboy') {
+    console.log(`🎯 Found ${existingVariants.length} existing color variants for tomboy:`, 
+      existingVariants.map(v => v.id))
   }
   
   return existingVariants

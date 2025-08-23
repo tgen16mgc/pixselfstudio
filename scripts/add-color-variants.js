@@ -70,8 +70,8 @@ async function checkAssetExists(assetPath) {
     // In development/build environment, be more conservative about what exists
     // Only allow existing assets that we know are real
     const knownAssets = [
-      'hair-front-tomboy-brown.png',
-      'hair-front-tomboy-black.png', 
+      'hair-front-tomboy.png',        // Base tomboy asset
+      'hair-front-tomboy-brown.png',  // Brown variant (the only variant that exists)
       'hair-behind-curly-black.png',
       'body-default-fair.png',
       'body-default-light.png',
