@@ -93,36 +93,62 @@ function generateCDNManifest() {
 // Parse existing parts configuration to preserve color variants
 function parseExistingParts(partsSection) {
   const parts = {};
-  const partRegex = /\{\s*key:\s*"([^"]+)",[\s\S]*?assets:\s*\[([\s\S]*?)\],[\s\S]*?\}/g;
-  let match;
   
-  while ((match = partRegex.exec(partsSection)) !== null) {
-    const partKey = match[1];
-    const assetsSection = match[2];
+  // Split the section into individual part objects
+  const partObjects = partsSection.split(/\},\s*\{/).map((part, index) => {
+    if (index === 0) return part;
+    return '{' + part;
+  });
+  
+  partObjects.forEach(partText => {
+    // Extract part key
+    const keyMatch = partText.match(/key:\s*"([^"]+)"/);
+    if (!keyMatch) return;
     
-    // Parse assets including color variants
-    const assetRegex = /\{\s*id:\s*"([^"]+)",\s*name:\s*"([^"]+)",\s*path:\s*"([^"]*)",\s*enabled:\s*(true|false)(?:,\s*color:\s*"([^"]*)")?\s*\}/g;
+    const partKey = keyMatch[1];
+    
+    // Extract assets array
+    const assetsMatch = partText.match(/assets:\s*\[([\s\S]*?)\]/);
+    if (!assetsMatch) return;
+    
+    const assetsText = assetsMatch[1];
+    
+    // Parse individual assets
     const assets = [];
-    let assetMatch;
+    const assetObjects = assetsText.split(/\},\s*\{/).map((asset, index) => {
+      if (index === 0) return asset;
+      return '{' + asset;
+    });
     
-    while ((assetMatch = assetRegex.exec(assetsSection)) !== null) {
-      const asset = {
-        id: assetMatch[1],
-        name: assetMatch[2],
-        path: assetMatch[3],
-        enabled: assetMatch[4] === 'true'
-      };
+    assetObjects.forEach(assetText => {
+      // Extract asset properties
+      const idMatch = assetText.match(/id:\s*"([^"]+)"/);
+      const nameMatch = assetText.match(/name:\s*"([^"]+)"/);
+      const pathMatch = assetText.match(/path:\s*"([^"]*)"/);
+      const enabledMatch = assetText.match(/enabled:\s*(true|false)/);
+      const colorMatch = assetText.match(/color:\s*"([^"]+)"/);
       
-      // Preserve color property if it exists
-      if (assetMatch[5]) {
-        asset.color = assetMatch[5];
+      if (idMatch && nameMatch && pathMatch && enabledMatch) {
+        const asset = {
+          id: idMatch[1],
+          name: nameMatch[1],
+          path: pathMatch[1],
+          enabled: enabledMatch[1] === 'true'
+        };
+        
+        // Add color if present
+        if (colorMatch) {
+          asset.color = colorMatch[1];
+        }
+        
+        assets.push(asset);
       }
-      
-      assets.push(asset);
-    }
+    });
     
-    parts[partKey] = assets;
-  }
+    if (assets.length > 0) {
+      parts[partKey] = assets;
+    }
+  });
   
   return parts;
 }
@@ -260,6 +286,19 @@ function generatePartsFromCDNManifest(cdnManifest) {
     glasses: { label: "GLASSES", icon: "🤓", category: "Accessories", defaultAsset: "none", optional: true },
   };
   
+  // Color variants for hair
+  const hairColorVariants = {
+    black: "#333333",
+    white: "#FAFAFA",
+    pink: "#F8BBD0",
+    yellow: "#FFF9C4",
+    red: "#FF8A80",
+    wineRed: "#B56576",
+    purple: "#CE93D8",
+    blue: "#90CAF9",
+    brown: "#8B4513"
+  };
+  
   Object.entries(cdnManifest).forEach(([manifestKey, assets]) => {
     const configKey = keyMapping[manifestKey] || manifestKey;
     const config = partConfig[configKey];
@@ -284,12 +323,30 @@ function generatePartsFromCDNManifest(cdnManifest) {
       const assetName = assetId === 'default' ? `Default ${config.label}` : 
         assetId.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') + ` ${config.label}`;
       
+      // Add base asset
       partAssets.push({
         id: assetId,
         name: assetName,
         path: asset.cdnUrl,
         enabled: true,
       });
+      
+      // Add color variants for hair parts
+      if ((configKey === 'hairFront' || configKey === 'hairBehind') && assetId !== 'none') {
+        Object.entries(hairColorVariants).forEach(([colorName, colorHex]) => {
+          const colorVariantId = `${assetId}-${colorName}`;
+          const colorVariantName = `${assetName} (${colorName.charAt(0).toUpperCase() + colorName.slice(1)})`;
+          const colorVariantPath = asset.cdnUrl.replace(/\.png$/, `-${colorName}.png`);
+          
+          partAssets.push({
+            id: colorVariantId,
+            name: colorVariantName,
+            path: colorVariantPath,
+            enabled: true,
+            color: colorHex,
+          });
+        });
+      }
     });
     
     parts[configKey] = partAssets;
@@ -328,13 +385,17 @@ function updateConfigWithCDN() {
   const existingPartsSection = existingConfig.substring(startIndex + startMarker.length, endIndex);
   const existingParts = parseExistingParts(existingPartsSection);
   
+  console.log(`Found ${Object.keys(existingParts).length} existing parts with color variants`);
+  
   // Update CDN URLs for existing parts while preserving color variants
   let updatedParts;
   if (Object.keys(existingParts).length === 0) {
     // If no existing parts, generate new parts from CDN manifest
+    console.log('No existing parts found, generating new parts from CDN manifest');
     updatedParts = generatePartsFromCDNManifest(cdnManifest);
   } else {
     // If existing parts found, update their CDN URLs while preserving color variants
+    console.log('Updating existing parts with CDN URLs while preserving color variants');
     updatedParts = updateCDNUrlsInExistingParts(existingParts, cdnManifest);
   }
   
