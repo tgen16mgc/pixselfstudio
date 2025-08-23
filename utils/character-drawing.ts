@@ -32,7 +32,7 @@ export async function drawCharacterToCanvas(
   ctx.clearRect(0, 0, canvas.width, canvas.height)
 
   // Draw layers in order (back to front)
-  for (const partKey of LAYER_ORDER) {
+  for (const partKey of [...LAYER_ORDER].reverse()) {
     const selection = selections[partKey]
     if (!selection || !selection.enabled) continue
 
