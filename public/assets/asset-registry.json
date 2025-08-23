@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "generated": "2025-08-23T12:57:52.775Z",
+  "generated": "2025-08-23T13:30:12.202Z",
   "parts": {
     "body": {
       "key": "body",
@@ -11,13 +11,13 @@
         {
           "id": "default",
           "name": "Default BODY",
-          "basePath": "/assets/character/undefined",
+          "basePath": "/assets/character/body/body",
           "enabled": true,
           "variants": [
             {
               "id": "default",
               "name": "Default BODY",
-              "path": "/assets/character/undefined/body-default.png",
+              "path": "/assets/character/body/body/body-default.png",
               "enabled": true
             }
           ],
@@ -26,13 +26,13 @@
         {
           "id": "v2",
           "name": "V2",
-          "basePath": "/assets/character/undefined",
+          "basePath": "/assets/character/body/body",
           "enabled": true,
           "variants": [
             {
               "id": "v2",
               "name": "V2",
-              "path": "/assets/character/undefined/body-v2.png",
+              "path": "/assets/character/body/body/body-v2.png",
               "enabled": true
             }
           ],
@@ -67,13 +67,13 @@
         {
           "id": "aotheneu",
           "name": "Aotheneu",
-          "basePath": "/assets/character/undefined",
+          "basePath": "/assets/character/body/clothes",
           "enabled": true,
           "variants": [
             {
               "id": "aotheneu",
               "name": "Aotheneu",
-              "path": "/assets/character/undefined/clothes-aotheneu.png",
+              "path": "/assets/character/body/clothes/clothes-aotheneu.png",
               "enabled": true
             }
           ],
@@ -82,13 +82,13 @@
         {
           "id": "dress1",
           "name": "Dress1",
-          "basePath": "/assets/character/undefined",
+          "basePath": "/assets/character/body/clothes",
           "enabled": true,
           "variants": [
             {
               "id": "dress1",
               "name": "Dress1",
-              "path": "/assets/character/undefined/clothes-dress1.png",
+              "path": "/assets/character/body/clothes/clothes-dress1.png",
               "enabled": true
             }
           ],
@@ -97,13 +97,13 @@
         {
           "id": "neu",
           "name": "Neu",
-          "basePath": "/assets/character/undefined",
+          "basePath": "/assets/character/body/clothes",
           "enabled": true,
           "variants": [
             {
               "id": "neu",
               "name": "Neu",
-              "path": "/assets/character/undefined/clothes-neu.png",
+              "path": "/assets/character/body/clothes/clothes-neu.png",
               "enabled": true
             }
           ],
@@ -112,13 +112,13 @@
         {
           "id": "somi",
           "name": "Somi",
-          "basePath": "/assets/character/undefined",
+          "basePath": "/assets/character/body/clothes",
           "enabled": true,
           "variants": [
             {
               "id": "somi",
               "name": "Somi",
-              "path": "/assets/character/undefined/clothes-somi.png",
+              "path": "/assets/character/body/clothes/clothes-somi.png",
               "enabled": true
             }
           ],
@@ -153,13 +153,13 @@
         {
           "id": "2side",
           "name": "2side",
-          "basePath": "/assets/character/undefined",
+          "basePath": "/assets/character/hair/hair-behind",
           "enabled": true,
           "variants": [
             {
               "id": "2side",
               "name": "2side",
-              "path": "/assets/character/undefined/hair-behind-2side.png",
+              "path": "/assets/character/hair/hair-behind/hair-behind-2side.png",
               "enabled": true
             }
           ],
@@ -168,13 +168,13 @@
         {
           "id": "curly",
           "name": "Curly",
-          "basePath": "/assets/character/undefined",
+          "basePath": "/assets/character/hair/hair-behind",
           "enabled": true,
           "variants": [
             {
               "id": "curly",
               "name": "Curly",
-              "path": "/assets/character/undefined/hair-behind-curly.png",
+              "path": "/assets/character/hair/hair-behind/hair-behind-curly.png",
               "enabled": true
             }
           ],
@@ -209,13 +209,13 @@
         {
           "id": "2side",
           "name": "2side",
-          "basePath": "/assets/character/undefined",
+          "basePath": "/assets/character/hair/hair-front",
           "enabled": true,
           "variants": [
             {
               "id": "2side",
               "name": "2side",
-              "path": "/assets/character/undefined/hair-front-2side.png",
+              "path": "/assets/character/hair/hair-front/hair-front-2side.png",
               "enabled": true
             }
           ],
@@ -224,13 +224,13 @@
         {
           "id": "64",
           "name": "64",
-          "basePath": "/assets/character/undefined",
+          "basePath": "/assets/character/hair/hair-front",
           "enabled": true,
           "variants": [
             {
               "id": "64",
               "name": "64",
-              "path": "/assets/character/undefined/hair-front-64.png",
+              "path": "/assets/character/hair/hair-front/hair-front-64.png",
               "enabled": true
             }
           ],
@@ -239,13 +239,13 @@
         {
           "id": "long37",
           "name": "Long37",
-          "basePath": "/assets/character/undefined",
+          "basePath": "/assets/character/hair/hair-front",
           "enabled": true,
           "variants": [
             {
               "id": "long37",
               "name": "Long37",
-              "path": "/assets/character/undefined/hair-front-long37.png",
+              "path": "/assets/character/hair/hair-front/hair-front-long37.png",
               "enabled": true
             }
           ],
@@ -254,20 +254,20 @@
         {
           "id": "tomboy",
           "name": "Tomboy",
-          "basePath": "/assets/character/undefined",
+          "basePath": "/assets/character/hair/hair-front",
           "enabled": true,
           "variants": [
             {
               "id": "tomboy-brown",
               "name": "Tomboy (Brown)",
               "color": "brown",
-              "path": "/assets/character/undefined/hair-front-tomboy-brown.png",
+              "path": "/assets/character/hair/hair-front/hair-front-tomboy-brown.png",
               "enabled": true
             },
             {
               "id": "tomboy",
               "name": "Tomboy",
-              "path": "/assets/character/undefined/hair-front-tomboy.png",
+              "path": "/assets/character/hair/hair-front/hair-front-tomboy.png",
               "enabled": true
             }
           ],
@@ -302,13 +302,13 @@
         {
           "id": "basic1",
           "name": "Basic1",
-          "basePath": "/assets/character/undefined",
+          "basePath": "/assets/character/face/eyes",
           "enabled": true,
           "variants": [
             {
               "id": "basic1",
               "name": "Basic1",
-              "path": "/assets/character/undefined/eyes-basic1.png",
+              "path": "/assets/character/face/eyes/eyes-basic1.png",
               "enabled": true
             }
           ],
@@ -317,13 +317,13 @@
         {
           "id": "default",
           "name": "Default EYES",
-          "basePath": "/assets/character/undefined",
+          "basePath": "/assets/character/face/eyes",
           "enabled": true,
           "variants": [
             {
               "id": "default",
               "name": "Default EYES",
-              "path": "/assets/character/undefined/eyes-default.png",
+              "path": "/assets/character/face/eyes/eyes-default.png",
               "enabled": true
             }
           ],
@@ -332,14 +332,14 @@
         {
           "id": "medium",
           "name": "Medium",
-          "basePath": "/assets/character/undefined",
+          "basePath": "/assets/character/face/eyes",
           "enabled": true,
           "variants": [
             {
               "id": "medium-medium",
               "name": "Medium (Medium)",
               "color": "medium",
-              "path": "/assets/character/undefined/eyes-medium.png",
+              "path": "/assets/character/face/eyes/eyes-medium.png",
               "enabled": true
             }
           ],
@@ -374,13 +374,13 @@
         {
           "id": "curved",
           "name": "Curved",
-          "basePath": "/assets/character/undefined",
+          "basePath": "/assets/character/face/eyebrows",
           "enabled": true,
           "variants": [
             {
               "id": "curved",
               "name": "Curved",
-              "path": "/assets/character/undefined/eyebrows-curved.png",
+              "path": "/assets/character/face/eyebrows/eyebrows-curved.png",
               "enabled": true
             }
           ],
@@ -389,13 +389,13 @@
         {
           "id": "default",
           "name": "Default EYEBROWS",
-          "basePath": "/assets/character/undefined",
+          "basePath": "/assets/character/face/eyebrows",
           "enabled": true,
           "variants": [
             {
               "id": "default",
               "name": "Default EYEBROWS",
-              "path": "/assets/character/undefined/eyebrows-default.png",
+              "path": "/assets/character/face/eyebrows/eyebrows-default.png",
               "enabled": true
             }
           ],
@@ -404,13 +404,13 @@
         {
           "id": "flat",
           "name": "Flat",
-          "basePath": "/assets/character/undefined",
+          "basePath": "/assets/character/face/eyebrows",
           "enabled": true,
           "variants": [
             {
               "id": "flat",
               "name": "Flat",
-              "path": "/assets/character/undefined/eyebrows-flat.png",
+              "path": "/assets/character/face/eyebrows/eyebrows-flat.png",
               "enabled": true
             }
           ],
@@ -445,13 +445,13 @@
         {
           "id": "default",
           "name": "Default MOUTH",
-          "basePath": "/assets/character/undefined",
+          "basePath": "/assets/character/face/mouth",
           "enabled": true,
           "variants": [
             {
               "id": "default",
               "name": "Default MOUTH",
-              "path": "/assets/character/undefined/mouth-default.png",
+              "path": "/assets/character/face/mouth/mouth-default.png",
               "enabled": true
             }
           ],
@@ -460,13 +460,13 @@
         {
           "id": "small",
           "name": "Small",
-          "basePath": "/assets/character/undefined",
+          "basePath": "/assets/character/face/mouth",
           "enabled": true,
           "variants": [
             {
               "id": "small",
               "name": "Small",
-              "path": "/assets/character/undefined/mouth-small.png",
+              "path": "/assets/character/face/mouth/mouth-small.png",
               "enabled": true
             }
           ],
@@ -475,20 +475,20 @@
         {
           "id": "smile1",
           "name": "Smile1",
-          "basePath": "/assets/character/undefined",
+          "basePath": "/assets/character/face/mouth",
           "enabled": true,
           "variants": [
             {
               "id": "smile1-pink",
               "name": "Smile1 (Pink)",
               "color": "pink",
-              "path": "/assets/character/undefined/mouth-smile1-pink.png",
+              "path": "/assets/character/face/mouth/mouth-smile1-pink.png",
               "enabled": true
             },
             {
               "id": "smile1",
               "name": "Smile1",
-              "path": "/assets/character/undefined/mouth-smile1.png",
+              "path": "/assets/character/face/mouth/mouth-smile1.png",
               "enabled": true
             }
           ],
@@ -523,13 +523,13 @@
         {
           "id": "default",
           "name": "Default BLUSH",
-          "basePath": "/assets/character/undefined",
+          "basePath": "/assets/character/face/blush",
           "enabled": true,
           "variants": [
             {
               "id": "default",
               "name": "Default BLUSH",
-              "path": "/assets/character/undefined/blush-default.png",
+              "path": "/assets/character/face/blush/blush-default.png",
               "enabled": true
             }
           ],
@@ -538,14 +538,14 @@
         {
           "id": "light",
           "name": "Light",
-          "basePath": "/assets/character/undefined",
+          "basePath": "/assets/character/face/blush",
           "enabled": true,
           "variants": [
             {
               "id": "light-light",
               "name": "Light (Light)",
               "color": "light",
-              "path": "/assets/character/undefined/blush-light.png",
+              "path": "/assets/character/face/blush/blush-light.png",
               "enabled": true
             }
           ],
@@ -554,13 +554,13 @@
         {
           "id": "soft",
           "name": "Soft",
-          "basePath": "/assets/character/undefined",
+          "basePath": "/assets/character/face/blush",
           "enabled": true,
           "variants": [
             {
               "id": "soft",
               "name": "Soft",
-              "path": "/assets/character/undefined/blush-soft.png",
+              "path": "/assets/character/face/blush/blush-soft.png",
               "enabled": true
             }
           ],
@@ -595,13 +595,13 @@
         {
           "id": "default",
           "name": "Default EARRING",
-          "basePath": "/assets/character/undefined",
+          "basePath": "/assets/character/accessories/earring",
           "enabled": true,
           "variants": [
             {
               "id": "default",
               "name": "Default EARRING",
-              "path": "/assets/character/undefined/earring-default.png",
+              "path": "/assets/character/accessories/earring/earring-default.png",
               "enabled": true
             }
           ],
@@ -610,13 +610,13 @@
         {
           "id": "helixmix",
           "name": "Helixmix",
-          "basePath": "/assets/character/undefined",
+          "basePath": "/assets/character/accessories/earring",
           "enabled": true,
           "variants": [
             {
               "id": "helixmix",
               "name": "Helixmix",
-              "path": "/assets/character/undefined/earring-helixmix.png",
+              "path": "/assets/character/accessories/earring/earring-helixmix.png",
               "enabled": true
             }
           ],
@@ -651,13 +651,13 @@
         {
           "id": "default",
           "name": "Default GLASSES",
-          "basePath": "/assets/character/undefined",
+          "basePath": "/assets/character/accessories/glasses",
           "enabled": true,
           "variants": [
             {
               "id": "default",
               "name": "Default GLASSES",
-              "path": "/assets/character/undefined/glasses-default.png",
+              "path": "/assets/character/accessories/glasses/glasses-default.png",
               "enabled": true
             }
           ],
@@ -672,6 +672,6 @@
   "metadata": {
     "totalAssets": 36,
     "totalVariants": 38,
-    "lastUpdated": "2025-08-23T12:57:52.775Z"
+    "lastUpdated": "2025-08-23T13:30:12.202Z"
   }
 }
