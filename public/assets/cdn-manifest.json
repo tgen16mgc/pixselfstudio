@@ -1,5 +1,5 @@
 {
-  "generated": "2025-08-23T03:45:40.589Z",
+  "generated": "2025-08-23T07:27:18.665Z",
   "github": {
     "username": "tgen16mgc",
     "repo": "pixselfstudio",
@@ -126,9 +126,9 @@
         "localPath": "/assets/character/face/mouth/mouth-small.png"
       },
       {
-        "filename": "mouth-smile-pink.png",
-        "cdnUrl": "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/mouth/mouth-smile-pink.png",
-        "localPath": "/assets/character/face/mouth/mouth-smile-pink.png"
+        "filename": "mouth-smile1-pink.png",
+        "cdnUrl": "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/mouth/mouth-smile1-pink.png",
+        "localPath": "/assets/character/face/mouth/mouth-smile1-pink.png"
       },
       {
         "filename": "mouth-smile1.png",
