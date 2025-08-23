@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from "react"
 import { PIXSELF_BRAND } from "@/config/pixself-brand"
-import { Press_Start_2P } from "next/font/google"
+// import { Press_Start_2P } from "next/font/google"
 
-const press2p = Press_Start_2P({ weight: "400", subsets: ["latin"] })
+// const press2p = Press_Start_2P({ weight: "400", subsets: ["latin"] })
 
 interface PromotionBannerProps {
   message?: string
@@ -93,7 +93,7 @@ export function PromotionBanner({
       {/* Scrolling text with enhanced shadow */}
       <div className="absolute inset-0 flex items-center">
         <div
-          className={`${press2p.className} whitespace-nowrap text-[10px] font-bold tracking-wider`}
+          className={`${""} whitespace-nowrap text-[10px] font-bold tracking-wider`}
           style={{
             color: isActive ? PIXSELF_BRAND.colors.primary.navy : PIXSELF_BRAND.colors.primary.navy,
             textShadow: isActive
