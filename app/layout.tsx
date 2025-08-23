@@ -1,32 +1,16 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
+// import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
-const geistSans = localFont({
-  src: [
-    {
-      path: "../node_modules/next/dist/client/components/react-dev-overlay/font/geist-latin.woff2",
-      weight: "100 900",
-      style: "normal",
-    },
-  ],
-  variable: "--font-geist-sans",
-  display: "swap",
-  fallback: ["system-ui", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "sans-serif"],
-});
+// const geistSans = Geist({
+//   variable: "--font-geist-sans",
+//   subsets: ["latin"],
+// });
 
-const geistMono = localFont({
-  src: [
-    {
-      path: "../node_modules/next/dist/client/components/react-dev-overlay/font/geist-mono-latin.woff2",
-      weight: "100 900",
-      style: "normal",
-    },
-  ],
-  variable: "--font-geist-mono",
-  display: "swap",
-  fallback: ["ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "monospace"],
-});
+// const geistMono = Geist_Mono({
+//   variable: "--font-geist-mono",
+//   subsets: ["latin"],
+// });
 
 export const metadata: Metadata = {
   title: "Pixself: The Studio",
