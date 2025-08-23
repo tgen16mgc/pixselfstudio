@@ -1,5 +1,5 @@
 import { AssetDefinition } from "@/types/character"
-import { COLOR_VARIANTS } from "@/components/style-and-color-selector"
+import { COLOR_VARIANTS } from "@/config/color-variants"
 
 // Cache for asset existence checks to avoid repeated network calls
 const assetExistenceCache = new Map<string, boolean>()
