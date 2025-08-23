@@ -139,3 +139,84 @@ export async function validateSelection(partKey: PartKey, assetId: string, varia
     return false
   }
 }
+
+// Create default selections for all character parts
+export function createDefaultSelections(): Selections {
+  const partKeys: PartKey[] = ["body", "hairBehind", "clothes", "mouth", "eyes", "eyebrows", "hairFront", "earring", "glasses", "blush"]
+  const selections: Selections = {} as Selections
+
+  for (const partKey of partKeys) {
+    selections[partKey] = {
+      assetId: partKey === "body" ? "default" : "none",
+      enabled: partKey === "body", // Only body is enabled by default
+      colorVariant: undefined
+    }
+  }
+
+  return selections
+}
+
+// Generate a thumbnail image from character selections
+export async function generateCharacterThumbnail(
+  selections: Selections, 
+  size: number = 256
+): Promise<string> {
+  // Create a temporary canvas for thumbnail generation
+  const canvas = document.createElement('canvas')
+  const targetSize = { width: size, height: size }
+  
+  try {
+    // Draw the character to the canvas
+    await drawCharacterToCanvas(canvas, selections, targetSize)
+    
+    // Convert canvas to data URL
+    return canvas.toDataURL('image/png')
+  } catch (error) {
+    console.error('Failed to generate character thumbnail:', error)
+    throw error
+  }
+}
+
+// Create randomized character selections
+export function randomizeSelections(): Selections {
+  const partKeys: PartKey[] = ["body", "hairBehind", "clothes", "mouth", "eyes", "eyebrows", "hairFront", "earring", "glasses", "blush"]
+  const selections: Selections = {} as Selections
+
+  // Helper function to get random choice
+  const getRandomChoice = (options: string[]) => 
+    options[Math.floor(Math.random() * options.length)]
+
+  // Define some basic asset options for randomization
+  const assetOptions = {
+    body: ["default"],
+    hairBehind: ["none", "default"],
+    clothes: ["none", "default"],
+    mouth: ["none", "default"],
+    eyes: ["none", "default"],
+    eyebrows: ["none", "default"],
+    hairFront: ["none", "default"],
+    earring: ["none"],
+    glasses: ["none"],
+    blush: ["none"]
+  }
+
+  // Color variants for randomization
+  const colorVariants = ["default", "black", "white", "pink", "yellow", "red", "blue", "brown", "green"]
+
+  for (const partKey of partKeys) {
+    const availableAssets = assetOptions[partKey] || ["none"]
+    const selectedAsset = getRandomChoice(availableAssets)
+    const shouldEnable = partKey === "body" || (selectedAsset !== "none" && Math.random() > 0.3)
+    
+    selections[partKey] = {
+      assetId: selectedAsset,
+      enabled: shouldEnable,
+      colorVariant: shouldEnable && Math.random() > 0.5 ? getRandomChoice(colorVariants) : undefined
+    }
+  }
+
+  // Ensure body is always enabled
+  selections.body.enabled = true
+
+  return selections
+}
