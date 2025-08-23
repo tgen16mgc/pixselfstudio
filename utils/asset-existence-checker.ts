@@ -18,10 +18,8 @@ export async function checkAssetExists(assetPath: string): Promise<boolean> {
     const knownAssets = [
       'hair-front-tomboy-brown.png',
       'hair-front-tomboy-black.png', 
-      'hair-behind-curly-black.png',
-      'body-default-fair.png',
-      'body-default-light.png',
-      'body-default-medium.png'
+      'hair-behind-curly-black.png'
+      // Note: body color variants removed since they don't exist yet
     ]
     
     const filename = assetPath.split('/').pop() || ''
