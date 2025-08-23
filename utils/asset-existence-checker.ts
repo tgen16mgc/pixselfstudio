@@ -32,14 +32,14 @@ export async function checkAssetExists(assetPath: string): Promise<boolean> {
     ]
     
     const filename = assetPath.split('/').pop() || ''
-    const exists = knownAssets.includes(filename)
+    const existsInKnownAssets = knownAssets.includes(filename)
     
     // Add debug logging for color variants specifically
     if (filename.includes('tomboy') && filename.includes('-')) {
-      console.log(`🎨 Color variant check: ${filename} -> ${exists ? 'EXISTS' : 'NOT FOUND'}`)
+      console.log(`🎨 Color variant check: ${filename} -> ${existsInKnownAssets ? 'EXISTS' : 'NOT FOUND'}`)
     }
     
-    if (exists) {
+    if (existsInKnownAssets) {
       assetExistenceCache.set(assetPath, true)
       return true
     }
