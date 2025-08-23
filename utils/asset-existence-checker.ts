@@ -23,8 +23,7 @@ export async function checkAssetExists(assetPath: string): Promise<boolean> {
       'hair-front-64.png', 
       'hair-front-long37.png',
       // Hair front color variants - only include ones that actually exist
-      'hair-front-tomboy-brown.png',  // Brown variant (verified to exist)
-      'hair-front-tomboy-black.png',  // Black variant (verified to exist)
+      'hair-front-tomboy-brown.png'  // Brown variant (verified to exist)
       // Hair behind assets
       'hair-behind-curly-black.png',
       'hair-behind-2side.png',
@@ -170,27 +169,12 @@ export async function getExistingColorVariants(
         enabled: true,
       })
     }
-    
-    // Check for black variant
-    const blackVariantPath = baseAsset.path.replace(/\.png$/, `-black.png`)
-    const blackExists = await checkAssetExists(blackVariantPath)
-    
-    if (blackExists) {
-      existingVariants.push({
-        ...baseAsset,
-        id: `${baseAsset.id}-black`,
-        name: `${baseAsset.name} (Black)`,
-        path: blackVariantPath,
-        color: COLOR_VARIANTS.hair.black,
-        enabled: true,
-      })
-    }
   }
   
   // Check for other color variants
   for (const [colorName, colorHex] of Object.entries(colorVariants)) {
     // Skip colors we've already handled in special cases
-    if ((baseAsset.id === 'tomboy' && (colorName === 'brown' || colorName === 'black')) ||
+    if ((baseAsset.id === 'tomboy' && colorName === 'brown') ||
         (baseAsset.id === 'smile1' && colorName === 'pink')) {
       continue
     }
