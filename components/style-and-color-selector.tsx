@@ -63,9 +63,11 @@ const COLOR_VARIANTS = {
 }
 
 // Helper function to extract base style from asset ID
-function getBaseStyleId(assetId: string): string {
-  // Remove color suffixes to get base style
-  const colorSuffixes = Object.keys(COLOR_VARIANTS.hair) // Use hair as it has most colors
+function getBaseStyleId(assetId: string, partKey?: PartKey): string {
+  // Get the appropriate color variants for this part
+  const colorVariants = partKey ? COLOR_VARIANTS[partKey as keyof typeof COLOR_VARIANTS] : COLOR_VARIANTS.hair
+  const colorSuffixes = Object.keys(colorVariants)
+  
   for (const color of colorSuffixes) {
     if (assetId.endsWith(`-${color}`)) {
       return assetId.slice(0, -(color.length + 1))
@@ -75,8 +77,11 @@ function getBaseStyleId(assetId: string): string {
 }
 
 // Helper function to get color from asset ID
-function getColorFromAssetId(assetId: string): string | null {
-  const colorSuffixes = Object.keys(COLOR_VARIANTS.hair)
+function getColorFromAssetId(assetId: string, partKey?: PartKey): string | null {
+  // Get the appropriate color variants for this part
+  const colorVariants = partKey ? COLOR_VARIANTS[partKey as keyof typeof COLOR_VARIANTS] : COLOR_VARIANTS.hair
+  const colorSuffixes = Object.keys(colorVariants)
+  
   for (const color of colorSuffixes) {
     if (assetId.endsWith(`-${color}`)) {
       return color
@@ -104,10 +109,10 @@ export function StyleAndColorSelector({
     const styles = new Map<string, AssetDefinition>()
     
     for (const asset of part.assets) {
-      const baseId = getBaseStyleId(asset.id)
+      const baseId = getBaseStyleId(asset.id, activePart)
       
       // If this is a base asset (no color suffix) or we haven't seen this base yet
-      if (!getColorFromAssetId(asset.id) || !styles.has(baseId)) {
+      if (!getColorFromAssetId(asset.id, activePart) || !styles.has(baseId)) {
         styles.set(baseId, {
           ...asset,
           id: baseId,
@@ -122,9 +127,9 @@ export function StyleAndColorSelector({
 
   // Determine current selected base style
   useEffect(() => {
-    const currentBaseStyle = getBaseStyleId(currentAssetId)
+    const currentBaseStyle = getBaseStyleId(currentAssetId, activePart)
     setSelectedBaseStyle(currentBaseStyle)
-  }, [currentAssetId])
+  }, [currentAssetId, activePart])
 
   // Load available color variants for each base style
   useEffect(() => {
