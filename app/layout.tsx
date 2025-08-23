@@ -1,22 +1,32 @@
 import type { Metadata } from "next";
-// Temporarily disable Google Fonts to allow builds in restricted environments
-// import { Geist, Geist_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 
-// Temporarily comment out fonts for build compatibility
-// const geistSans = Geist({
-//   variable: "--font-geist-sans",
-//   subsets: ["latin"],
-//   display: "swap",
-//   fallback: ["system-ui", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "sans-serif"],
-// });
+const geistSans = localFont({
+  src: [
+    {
+      path: "../node_modules/next/dist/client/components/react-dev-overlay/font/geist-latin.woff2",
+      weight: "100 900",
+      style: "normal",
+    },
+  ],
+  variable: "--font-geist-sans",
+  display: "swap",
+  fallback: ["system-ui", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "sans-serif"],
+});
 
-// const geistMono = Geist_Mono({
-//   variable: "--font-geist-mono",
-//   subsets: ["latin"],
-//   display: "swap",
-//   fallback: ["ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "monospace"],
-// });
+const geistMono = localFont({
+  src: [
+    {
+      path: "../node_modules/next/dist/client/components/react-dev-overlay/font/geist-mono-latin.woff2",
+      weight: "100 900",
+      style: "normal",
+    },
+  ],
+  variable: "--font-geist-mono",
+  display: "swap",
+  fallback: ["ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "monospace"],
+});
 
 export const metadata: Metadata = {
   title: "Pixself: The Studio",
@@ -39,7 +49,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className="antialiased"
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         suppressHydrationWarning={true}
       >
         {children}
