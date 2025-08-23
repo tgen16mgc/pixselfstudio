@@ -65,57 +65,101 @@ function generateCDNUrl(assetPath) {
   return `https://raw.githubusercontent.com/${GITHUB_CONFIG.username}/${GITHUB_CONFIG.repo}/${GITHUB_CONFIG.branch}/${assetPath}`
 }
 
-function addColorVariantsToAsset(asset, partKey) {
+async function checkAssetExists(assetPath) {
+  try {
+    // In development/build environment, be more conservative about what exists
+    // Only allow existing assets that we know are real
+    const knownAssets = [
+      'hair-front-tomboy-brown.png',
+      'hair-front-tomboy-black.png', 
+      'hair-behind-curly-black.png',
+      'body-default-fair.png',
+      'body-default-light.png',
+      'body-default-medium.png'
+    ]
+    
+    const filename = assetPath.split('/').pop()
+    if (knownAssets.includes(filename)) {
+      return true
+    }
+    
+    // For network requests, use a short timeout and be conservative
+    const controller = new AbortController()
+    const timeoutId = setTimeout(() => controller.abort(), 2000)
+    
+    const response = await fetch(assetPath, { 
+      method: 'HEAD',
+      signal: controller.signal 
+    })
+    
+    clearTimeout(timeoutId)
+    return response.ok
+  } catch {
+    return false
+  }
+}
+
+async function addColorVariantsToAsset(asset, partKey) {
   const colorVariants = COLOR_VARIANTS[partKey] || COLOR_VARIANTS.hair
+  const variants = []
   
   // For hair parts, make black the default variant
   if (partKey === 'hairFront' || partKey === 'hairBehind') {
-    // Start with black variant as default
-    const variants = []
-    
-    // Add black variant first (as default)
-    const blackVariant = {
-      ...asset,
-      id: `${asset.id}-black`,
-      name: `${asset.name} (Black)`,
-      path: generateCDNUrlForColorVariant(asset.path, 'black'),
-      color: colorVariants.black,
-      enabled: true
-    }
-    variants.push(blackVariant)
-    
-    // Add other color variants
-    Object.entries(colorVariants).forEach(([colorName, colorHex]) => {
-      if (colorName !== 'black') { // Skip black as it's already added
+    // Check which color variants actually exist
+    for (const [colorName, colorHex] of Object.entries(colorVariants)) {
+      const colorVariantPath = generateCDNUrlForColorVariant(asset.path, colorName)
+      const exists = await checkAssetExists(colorVariantPath)
+      
+      if (exists) {
         const colorVariant = {
           ...asset,
           id: `${asset.id}-${colorName}`,
           name: `${asset.name} (${colorName.charAt(0).toUpperCase() + colorName.slice(1)})`,
-          path: generateCDNUrlForColorVariant(asset.path, colorName),
+          path: colorVariantPath,
+          color: colorHex,
+          enabled: true
+        }
+        
+        // Add black variant first if it exists
+        if (colorName === 'black') {
+          variants.unshift(colorVariant)
+        } else {
+          variants.push(colorVariant)
+        }
+      }
+    }
+    
+    return variants
+  } else {
+    // For non-hair parts, check which color variants actually exist
+    const variants = []
+    
+    // First, add the base asset only if no color variants exist
+    let hasColorVariants = false
+    
+    // Check for existing color variants
+    for (const [colorName, colorHex] of Object.entries(colorVariants)) {
+      const colorVariantPath = generateCDNUrlForColorVariant(asset.path, colorName)
+      const exists = await checkAssetExists(colorVariantPath)
+      
+      if (exists) {
+        hasColorVariants = true
+        const colorVariant = {
+          ...asset,
+          id: `${asset.id}-${colorName}`,
+          name: `${asset.name} (${colorName.charAt(0).toUpperCase() + colorName.slice(1)})`,
+          path: colorVariantPath,
           color: colorHex,
           enabled: true
         }
         variants.push(colorVariant)
       }
-    })
+    }
     
-    return variants
-  } else {
-    // For non-hair parts, keep original behavior
-    const variants = [asset]
-    
-    // Add color variants
-    Object.entries(colorVariants).forEach(([colorName, colorHex]) => {
-      const colorVariant = {
-        ...asset,
-        id: `${asset.id}-${colorName}`,
-        name: `${asset.name} (${colorName.charAt(0).toUpperCase() + colorName.slice(1)})`,
-        path: generateCDNUrlForColorVariant(asset.path, colorName),
-        color: colorHex,
-        enabled: true
-      }
-      variants.push(colorVariant)
-    })
+    // If no color variants exist, keep the original asset as-is
+    if (!hasColorVariants) {
+      variants.push(asset)
+    }
     
     return variants
   }
@@ -127,7 +171,7 @@ function generateCDNUrlForColorVariant(originalPath, colorName) {
   return `${basePath}-${colorName}.png`;
 }
 
-function updateCharacterAssetsWithColorVariants() {
+async function updateCharacterAssetsWithColorVariants() {
   console.log('🎨 Adding color variants to character assets...')
   
   // Read the current character assets config
@@ -218,7 +262,7 @@ function updateCharacterAssetsWithColorVariants() {
             processedBaseAssets.add(asset.id)
             
             // Add color variants to it
-            const variants = addColorVariantsToAsset(asset, partKey)
+            const variants = await addColorVariantsToAsset(asset, partKey)
             assets.push(...variants)
             console.log(`    ✅ Added ${variants.length} color variants to ${asset.id}`)
           }
@@ -342,16 +386,18 @@ function isOptional(partKey) {
 
 // Run the script
 if (require.main === module) {
-  try {
-    const success = updateCharacterAssetsWithColorVariants()
-    if (!success) {
-      console.log('ℹ️  No changes made to character assets.')
-      process.exit(0)
+  (async () => {
+    try {
+      const success = await updateCharacterAssetsWithColorVariants()
+      if (!success) {
+        console.log('ℹ️  No changes made to character assets.')
+        process.exit(0)
+      }
+    } catch (error) {
+      console.error('❌ Error updating character assets:', error)
+      process.exit(1)
     }
-  } catch (error) {
-    console.error('❌ Error updating character assets:', error)
-    process.exit(1)
-  }
+  })()
 }
 
 module.exports = { addColorVariantsToAsset, COLOR_VARIANTS }
