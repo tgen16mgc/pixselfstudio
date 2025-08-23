@@ -118,7 +118,7 @@ export function StyleAndColorSelector({
     }
     
     return Array.from(styles.values())
-  }, [part?.assets])
+  }, [part?.assets, part])
 
   // Determine current selected base style
   useEffect(() => {
@@ -132,7 +132,7 @@ export function StyleAndColorSelector({
     
     const loadColorVariants = async () => {
       const variants: Record<string, AssetDefinition[]> = {}
-      const colorVariants = COLOR_VARIANTS[activePart as keyof typeof COLOR_VARIANTS] || COLOR_VARIANTS.hair
+      const colorVariantsConfig = COLOR_VARIANTS[activePart as keyof typeof COLOR_VARIANTS] || COLOR_VARIANTS.hair
 
       for (const baseStyle of baseStyles) {
         if (baseStyle.id === "none") {
@@ -141,7 +141,7 @@ export function StyleAndColorSelector({
         }
 
         try {
-          const existingVariants = await getExistingColorVariants(baseStyle, colorVariants)
+          const existingVariants = await getExistingColorVariants(baseStyle, colorVariantsConfig)
           variants[baseStyle.id] = existingVariants
         } catch (error) {
           console.warn(`Failed to load color variants for ${baseStyle.id}:`, error)

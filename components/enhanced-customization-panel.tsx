@@ -36,7 +36,6 @@ export function EnhancedCustomizationPanel({
   onRedo,
 }: EnhancedCustomizationPanelProps) {
   const [previewColor, setPreviewColor] = useState<string | null>(null)
-  const [previewAsset, setPreviewAsset] = useState<string | null>(null)
 
   const part = CHARACTER_PARTS().find((p) => p.key === activePart)
   if (!part) return null
