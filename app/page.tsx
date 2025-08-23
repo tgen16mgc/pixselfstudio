@@ -29,8 +29,7 @@ import { ShareTemplateModal } from "@/components/share-template-modal"
 import { CharacterGalleryModal } from "@/components/character-gallery-modal"
 import { EnhancedTitleSection } from "@/components/enhanced-title-section"
 import { PromotionBanner } from "@/components/promotion-banner"
-import { AssetVariantGrid } from "@/components/asset-variant-grid"
-import { ColorPalettePlaceholder } from "@/components/color-palette-placeholder"
+import { StyleAndColorSelector } from "@/components/style-and-color-selector"
 import { PIXSELF_BRAND } from "@/config/pixself-brand"
 import { isStorageAvailable } from "@/utils/character-storage"
 import {
@@ -731,28 +730,14 @@ export default function Page() {
                 icon={<Settings className="h-4 w-4" />}
               >
                 <div className="space-y-6">
-                  {/* Asset Selection */}
-                  <div>
-                    <div className="flex items-center gap-2 mb-4">
-                      <Settings className="h-3.5 w-3.5" style={{ color: PIXSELF_BRAND.colors.primary.gold }} />
-                      <div
-                        className="text-[10px] font-bold tracking-wider"
-                        style={{ color: PIXSELF_BRAND.colors.primary.navy }}
-                      >
-                        STYLE OPTIONS
-                      </div>
-                    </div>
-                    <AssetVariantGrid
-                      activePart={activePart}
-                      currentAssetId={selections[activePart]?.assetId || "default"}
-                      onAssetSelect={(assetId) => onSelectAsset(activePart, assetId)}
-                      isLoading={loading}
-                      isMobile={false}
-                    />
-                  </div>
-
-                  {/* Color Variants */}
-                  <ColorPalettePlaceholder activePart={activePart} isMobile={false} />
+                  {/* Style and Color Selection */}
+                  <StyleAndColorSelector
+                    activePart={activePart}
+                    currentAssetId={selections[activePart]?.assetId || "default"}
+                    onAssetSelect={(assetId) => onSelectAsset(activePart, assetId)}
+                    isLoading={loading}
+                    isMobile={false}
+                  />
                 </div>
               </PixselfPanel>
 
@@ -1054,28 +1039,14 @@ export default function Page() {
               icon={<Settings className="h-4 w-4" />}
             >
               <div className="space-y-4">
-                {/* Asset Selection - Mobile */}
-                <div>
-                  <div className="flex items-center gap-2 mb-4">
-                    <Settings className="h-3 w-3" style={{ color: PIXSELF_BRAND.colors.primary.gold }} />
-                    <div
-                      className="text-[9px] font-bold tracking-wider"
-                      style={{ color: PIXSELF_BRAND.colors.primary.navy }}
-                    >
-                      STYLE OPTIONS
-                    </div>
-                  </div>
-                  <AssetVariantGrid
-                    activePart={activePart}
-                    currentAssetId={selections[activePart]?.assetId || "default"}
-                    onAssetSelect={(assetId) => onSelectAsset(activePart, assetId)}
-                    isLoading={loading}
-                    isMobile={true}
-                  />
-                </div>
-
-                {/* Color Variants - Mobile */}
-                <ColorPalettePlaceholder activePart={activePart} isMobile={true} />
+                {/* Style and Color Selection - Mobile */}
+                <StyleAndColorSelector
+                  activePart={activePart}
+                  currentAssetId={selections[activePart]?.assetId || "default"}
+                  onAssetSelect={(assetId) => onSelectAsset(activePart, assetId)}
+                  isLoading={loading}
+                  isMobile={true}
+                />
               </div>
             </PixselfPanel>
 
