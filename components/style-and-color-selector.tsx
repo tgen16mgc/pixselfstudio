@@ -28,6 +28,28 @@ const COLOR_VARIANTS = {
     blue: "#90CAF9",
     brown: "#8B4513"
   },
+  hairFront: {
+    black: "#333333",
+    white: "#FAFAFA", 
+    pink: "#F8BBD0",
+    yellow: "#FFF9C4",
+    red: "#FF8A80",
+    wineRed: "#B56576",
+    purple: "#CE93D8",
+    blue: "#90CAF9",
+    brown: "#8B4513"
+  },
+  hairBehind: {
+    black: "#333333",
+    white: "#FAFAFA", 
+    pink: "#F8BBD0",
+    yellow: "#FFF9C4",
+    red: "#FF8A80",
+    wineRed: "#B56576",
+    purple: "#CE93D8",
+    blue: "#90CAF9",
+    brown: "#8B4513"
+  },
   body: {
     fair: "#FDBCB4",
     light: "#EEA990",
@@ -59,7 +81,11 @@ const COLOR_VARIANTS = {
     orange: "#FF8C00",
     pink: "#FF69B4",
     purple: "#9370DB"
-  }
+  },
+  eyebrows: {},
+  blush: {},
+  earring: {},
+  glasses: {}
 }
 
 // Helper function to extract base style from asset ID
@@ -137,10 +163,16 @@ export function StyleAndColorSelector({
     
     const loadColorVariants = async () => {
       const variants: Record<string, AssetDefinition[]> = {}
-      const colorVariantsConfig = COLOR_VARIANTS[activePart as keyof typeof COLOR_VARIANTS] || COLOR_VARIANTS.hair
+      const colorVariantsConfig = COLOR_VARIANTS[activePart as keyof typeof COLOR_VARIANTS] || {}
 
       for (const baseStyle of baseStyles) {
         if (baseStyle.id === "none") {
+          variants[baseStyle.id] = []
+          continue
+        }
+
+        // Skip color variant loading for parts that don't have color variants
+        if (Object.keys(colorVariantsConfig).length === 0) {
           variants[baseStyle.id] = []
           continue
         }
@@ -300,7 +332,7 @@ export function StyleAndColorSelector({
                         className="text-[6px] font-bold text-center"
                         style={{ color: PIXSELF_BRAND.colors.primary.navy }}
                       >
-                        {getColorFromAssetId(variant.id)?.toUpperCase()}
+                        {getColorFromAssetId(variant.id, activePart)?.toUpperCase() || "DEFAULT"}
                       </span>
                       {isSelected && (
                         <div
@@ -429,7 +461,7 @@ export function StyleAndColorSelector({
                     }}
                   />
                   <span className="text-[8px] font-bold text-center" style={{ color: PIXSELF_BRAND.colors.primary.navy }}>
-                    {getColorFromAssetId(variant.id)?.replace(/([A-Z])/g, ' $1').trim().toUpperCase() || "DEFAULT"}
+                    {getColorFromAssetId(variant.id, activePart)?.replace(/([A-Z])/g, ' $1').trim().toUpperCase() || "DEFAULT"}
                   </span>
                   {isSelected && (
                     <div
