@@ -14,7 +14,7 @@ import {
 
 interface EnhancedCustomizationPanelProps {
   activePart: PartKey
-  currentAssetId: string
+  currentSelection: { variant: number; color: number }
   onRandomizePart: (part: string) => void
   isLoading?: boolean
   canUndo?: boolean
@@ -25,7 +25,7 @@ interface EnhancedCustomizationPanelProps {
 
 export function EnhancedCustomizationPanel({
   activePart,
-  currentAssetId,
+  currentSelection,
   onRandomizePart,
   isLoading = false,
   canUndo = false,
@@ -37,15 +37,6 @@ export function EnhancedCustomizationPanel({
 
   const part = CHARACTER_PARTS().find((p) => p.key === activePart)
   if (!part) return null
-
-  const assets = part.assets || []
-  
-  // Separate base styles from color variants
-  const baseStyles = assets.filter(asset => {
-    // Check if this asset is a color variant by looking for color suffixes
-    const colorSuffixes = ['black', 'brown', 'blonde', 'red', 'blue', 'green', 'purple', 'pink', 'white', 'fair', 'light', 'medium', 'dark', 'olive', 'deep']
-    return !colorSuffixes.some(color => asset.id.endsWith(`-${color}`))
-  })
 
 
   
