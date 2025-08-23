@@ -96,10 +96,11 @@ export function StyleAndColorSelector({
   const [selectedBaseStyle, setSelectedBaseStyle] = useState<string>("")
 
   const part = CHARACTER_PARTS().find((p) => p.key === activePart)
-  if (!part) return null
 
   // Get base styles (filter out color variants and group by base)
   const baseStyles = useMemo(() => {
+    if (!part) return []
+    
     const styles = new Map<string, AssetDefinition>()
     
     for (const asset of part.assets) {
@@ -117,7 +118,7 @@ export function StyleAndColorSelector({
     }
     
     return Array.from(styles.values())
-  }, [part.assets])
+  }, [part?.assets])
 
   // Determine current selected base style
   useEffect(() => {
@@ -127,6 +128,8 @@ export function StyleAndColorSelector({
 
   // Load available color variants for each base style
   useEffect(() => {
+    if (!part || baseStyles.length === 0) return
+    
     const loadColorVariants = async () => {
       const variants: Record<string, AssetDefinition[]> = {}
       const colorVariants = COLOR_VARIANTS[activePart as keyof typeof COLOR_VARIANTS] || COLOR_VARIANTS.hair
@@ -149,10 +152,10 @@ export function StyleAndColorSelector({
       setAvailableColorVariants(variants)
     }
 
-    if (baseStyles.length > 0) {
-      loadColorVariants()
-    }
-  }, [baseStyles, activePart])
+    loadColorVariants()
+  }, [baseStyles, activePart, part])
+
+  if (!part) return null
 
   // Don't show color variants for accessories
   const showColorVariants = !["earring", "glasses", "eyebrows", "blush"].includes(activePart)
