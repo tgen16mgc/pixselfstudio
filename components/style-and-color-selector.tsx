@@ -4,8 +4,8 @@ import { useState, useEffect, useMemo } from "react"
 import { Settings, Palette } from "lucide-react"
 import { PIXSELF_BRAND } from "@/config/pixself-brand"
 import { COLOR_VARIANTS } from "@/config/color-variants"
-import { CHARACTER_PARTS } from "@/config/character-assets"
-import type { PartKey, AssetDefinition } from "@/types/character"
+import { CHARACTER_PARTS_SYNC } from "@/config/character-assets"
+import type { PartKey, AssetDefinition, AssetVariant } from "@/types/character"
 import { getExistingColorVariants } from "@/utils/asset-existence-checker"
 
 interface StyleAndColorSelectorProps {
@@ -75,11 +75,11 @@ export function StyleAndColorSelector({
   isLoading = false,
   isMobile = false,
 }: StyleAndColorSelectorProps) {
-  const [availableColorVariants, setAvailableColorVariants] = useState<Record<string, AssetDefinition[]>>({})
+  const [availableColorVariants, setAvailableColorVariants] = useState<Record<string, AssetVariant[]>>({})
   const [selectedBaseStyle, setSelectedBaseStyle] = useState<string>("")
   const [isLoadingVariants, setIsLoadingVariants] = useState(false)
 
-  const part = CHARACTER_PARTS().find((p) => p.key === activePart)
+  const part = CHARACTER_PARTS_SYNC().find((p) => p.key === activePart)
 
   // Get base styles (filter out color variants and group by base)
   const baseStyles = useMemo(() => {
@@ -131,7 +131,7 @@ export function StyleAndColorSelector({
     
     // Add a small delay to ensure the component has time to re-render
     const timeoutId = setTimeout(async () => {
-      const variants: Record<string, AssetDefinition[]> = {}
+      const variants: Record<string, AssetVariant[]> = {}
       const colorVariantsConfig = COLOR_VARIANTS[activePart as keyof typeof COLOR_VARIANTS] || {}
 
       console.log(`🎨 Loading color variants for ${activePart} part with ${baseStyles.length} base styles`)
@@ -247,10 +247,10 @@ export function StyleAndColorSelector({
                     >
                       {style.id === "none" ? (
                         <span className="text-[10px]">✕</span>
-                      ) : style.path ? (
+                      ) : (style.variants.find(v => v.id === style.defaultVariant) || style.variants[0])?.path ? (
                         // eslint-disable-next-line @next/next/no-img-element
                         <img
-                          src={style.path || "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/placeholder.svg"}
+                          src={(style.variants.find(v => v.id === style.defaultVariant) || style.variants[0])?.path || "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/placeholder.svg"}
                           alt={style.name}
                           className="w-full h-full object-contain"
                           style={{
@@ -258,7 +258,8 @@ export function StyleAndColorSelector({
                             transform: activePart === "clothes" ? "translateY(-30%)" : "none",
                           }}
                           onError={(e) => {
-                            console.error(`Failed to load image: ${style.path}`)
+                            const p = (style.variants.find(v => v.id === style.defaultVariant) || style.variants[0])?.path
+                            console.error(`Failed to load image: ${p}`)
                             e.currentTarget.src = "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/placeholder.svg"
                           }}
                         />
@@ -407,10 +408,10 @@ export function StyleAndColorSelector({
                 >
                   {style.id === "none" ? (
                     <span className="text-[12px]">✕</span>
-                  ) : style.path ? (
+                  ) : (style.variants.find(v => v.id === style.defaultVariant) || style.variants[0])?.path ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img
-                      src={style.path || "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/placeholder.svg"}
+                      src={(style.variants.find(v => v.id === style.defaultVariant) || style.variants[0])?.path || "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/placeholder.svg"}
                       alt={style.name}
                       className="w-full h-full object-contain"
                       style={{
@@ -418,7 +419,8 @@ export function StyleAndColorSelector({
                         transform: activePart === "clothes" ? "translateY(-30%)" : "none",
                       }}
                       onError={(e) => {
-                        console.error(`Failed to load image: ${style.path}`)
+                        const p = (style.variants.find(v => v.id === style.defaultVariant) || style.variants[0])?.path
+                        console.error(`Failed to load image: ${p}`)
                         e.currentTarget.src = "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/placeholder.svg"
                       }}
                     />

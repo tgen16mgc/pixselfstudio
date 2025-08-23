@@ -1,5 +1,5 @@
 import type { AssetDefinition, PartDefinition } from "@/types/character"
-import { assetRegistry, getCharacterParts, getAssetPath, getEnabledAssets } from "@/utils/asset-registry"
+import { assetRegistry, getCharacterParts, getAssetPath as registryGetAssetPath, getEnabledAssets as registryGetEnabledAssets } from "@/utils/asset-registry"
 
 // Re-export types for convenience
 export type { AssetDefinition, PartDefinition }
@@ -283,11 +283,11 @@ export async function getPartByKey(key: PartKey): Promise<PartDefinition | undef
 
 // Updated to support variants
 export async function getAssetPath(partKey: PartKey, assetId: string, variantId?: string): Promise<string> {
-  return await getAssetPath(partKey, assetId, variantId)
+  return await registryGetAssetPath(partKey, assetId, variantId)
 }
 
 export async function getEnabledAssets(partKey: PartKey): Promise<AssetDefinition[]> {
-  return await getEnabledAssets(partKey)
+  return await registryGetEnabledAssets(partKey)
 }
 
 // Easy way to add new assets - now uses the registry

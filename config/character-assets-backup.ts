@@ -1,3 +1,4 @@
+// @ts-nocheck
 import type { AssetDefinition, PartDefinition } from "@/types/character"
 
 // Re-export types for convenience

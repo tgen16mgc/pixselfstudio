@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { PIXSELF_BRAND } from "@/config/pixself-brand"
-import { CHARACTER_PARTS } from "@/config/character-assets"
+import { CHARACTER_PARTS_SYNC } from "@/config/character-assets"
 import type { PartKey } from "@/types/character"
 
 interface AssetVariantGridProps {
@@ -22,10 +22,15 @@ export function AssetVariantGrid({
 }: AssetVariantGridProps) {
   const [, setPreviewAsset] = useState<string | null>(null)
 
-  const part = CHARACTER_PARTS().find((p) => p.key === activePart)
+  const part = CHARACTER_PARTS_SYNC().find((p) => p.key === activePart)
   if (!part) return null
 
   const assets = part.assets || []
+
+  const getPreviewPath = (asset: { variants: { id: string; path: string }[]; defaultVariant: string }) => {
+    const variant = asset.variants.find(v => v.id === asset.defaultVariant) || asset.variants[0]
+    return variant?.path || ""
+  }
 
   if (isMobile) {
     // Mobile: Horizontal scrollable
@@ -68,10 +73,10 @@ export function AssetVariantGrid({
                   >
                     {asset.id === "none" ? (
                       <span className="text-[10px]">✕</span>
-                    ) : asset.path ? (
+                    ) : getPreviewPath(asset) ? (
                       // eslint-disable-next-line @next/next/no-img-element
                       <img
-                        src={asset.path || "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/placeholder.svg"}
+                        src={getPreviewPath(asset) || "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/placeholder.svg"}
                         alt={asset.name}
                         className="w-full h-full object-contain"
                         style={{
@@ -152,10 +157,10 @@ export function AssetVariantGrid({
                 </div>
               </div>
             ) : (
-              asset.path && (
+              getPreviewPath(asset) && (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
-                  src={asset.path || "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/placeholder.svg"}
+                  src={getPreviewPath(asset) || "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/placeholder.svg"}
                   alt={asset.name}
                   className="w-full h-full object-contain"
                   style={{

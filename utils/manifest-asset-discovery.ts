@@ -127,8 +127,10 @@ export async function getCharacterPartsFromManifest(): Promise<PartDefinition[]>
         assets.push({
           id: "none",
           name: `No ${config.label}`,
-          path: "",
+          basePath: "",
           enabled: true,
+          variants: [{ id: "none", name: "None", path: "", enabled: true }],
+          defaultVariant: "none",
         })
       }
 
@@ -142,8 +144,10 @@ export async function getCharacterPartsFromManifest(): Promise<PartDefinition[]>
         assets.push({
           id: assetId,
           name: assetName,
-          path: assetPath,
+          basePath: `/assets/character/${config.folderPath}`,
           enabled: true,
+          variants: [{ id: assetId, name: assetName, path: assetPath, enabled: true }],
+          defaultVariant: assetId,
         })
       }
 
@@ -162,7 +166,7 @@ export async function getCharacterPartsFromManifest(): Promise<PartDefinition[]>
         console.log('🤓 Glasses part generated:', {
           key: partKey,
           assetsCount: assets.length,
-          assets: assets.map(a => ({ id: a.id, name: a.name, path: a.path }))
+          assets: assets.map(a => ({ id: a.id, name: a.name, path: a.variants.find(v => v.id === a.defaultVariant)?.path || a.variants[0]?.path }))
         })
       }
     }
@@ -180,8 +184,10 @@ export async function getCharacterPartsFromManifest(): Promise<PartDefinition[]>
       assets: config.optional ? [{
         id: "none",
         name: `No ${config.label}`,
-        path: "",
+        basePath: "",
         enabled: true,
+        variants: [{ id: "none", name: "None", path: "", enabled: true }],
+        defaultVariant: "none",
       }] : [],
       defaultAsset: config.defaultAsset,
       optional: config.optional,

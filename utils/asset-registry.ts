@@ -166,74 +166,24 @@ class AssetRegistryManager {
     let discoveredVariants = 0
 
     try {
-      // Fetch the asset manifest
-      const manifestUrl = typeof window !== 'undefined'
-        ? `${window.location.origin}/assets/asset-manifest.json`
-        : '/assets/asset-manifest.json'
+      // Fetch the asset registry
+      const registryUrl = typeof window !== 'undefined'
+        ? `${window.location.origin}/assets/asset-registry.json`
+        : 'http://localhost:3000/assets/asset-registry.json'
 
-      const response = await fetch(manifestUrl)
+      const response = await fetch(registryUrl)
       if (!response.ok) {
-        throw new Error(`Failed to fetch manifest: ${response.status}`)
+        throw new Error(`Failed to fetch registry: ${response.status}`)
       }
 
-      const manifest: Record<string, string[]> = await response.json()
+      const registry: AssetRegistry = await response.json()
 
-      // Process each part
-      for (const [partKey, config] of Object.entries(PART_CONFIGS)) {
+      // Use the registry directly since it's already in the correct format
+      for (const [partKey, partDefinition] of Object.entries(registry.parts)) {
         scannedFolders++
-        
-        try {
-          const partAssets = manifest[partKey] || []
-          const assets: AssetDefinition[] = []
-
-          // Add "none" option for optional parts
-          if (config.optional) {
-            assets.push({
-              id: "none",
-              name: `No ${config.label}`,
-              basePath: "",
-              enabled: true,
-              variants: [{
-                id: "none",
-                name: "None",
-                path: "",
-                enabled: true,
-              }],
-              defaultVariant: "none",
-            })
-          }
-
-          // Process assets for this part
-          const processedAssets = this.processAssetsForPart(
-            partKey as PartKey,
-            partAssets,
-            config
-          )
-          
-          assets.push(...processedAssets)
-          discoveredAssets += assets.length
-          discoveredVariants += assets.reduce((sum, asset) => sum + asset.variants.length, 0)
-
-          // Create part definition
-          const part: PartDefinition = {
-            key: partKey as PartKey,
-            label: config.label,
-            icon: config.icon,
-            category: config.category,
-            assets,
-            defaultAsset: config.defaultAsset,
-            optional: config.optional,
-            colorSupport: config.colorSupport,
-            colorPalette: config.colorSupport ? getAvailableColors(partKey) : undefined,
-          }
-
-          parts.push(part)
-
-        } catch (error) {
-          const errorMsg = `Failed to process part ${partKey}: ${error}`
-          errors.push(errorMsg)
-          console.error(errorMsg)
-        }
+        discoveredAssets += partDefinition.assets.length
+        discoveredVariants += partDefinition.assets.reduce((sum, asset) => sum + asset.variants.length, 0)
+        parts.push(partDefinition)
       }
 
     } catch (error) {

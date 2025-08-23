@@ -39,7 +39,7 @@ import {
   generateCharacterThumbnail,
   preloadCharacterAssets,
 } from "@/utils/character-drawing"
-import { CHARACTER_PARTS, type PartDefinition } from "@/config/character-assets"
+import { CHARACTER_PARTS_SYNC, type PartDefinition } from "@/config/character-assets"
 import type { PartKey, Selections } from "@/types/character"
 import { useDynamicAssets } from "@/hooks/use-dynamic-assets"
 
@@ -486,13 +486,15 @@ export default function Page() {
     }
   }
 
-  // Use dynamic parts or fallback to static parts
-  const currentParts = dynamicParts.length > 0 ? dynamicParts : CHARACTER_PARTS()
-  
-  // Debug logging
-  console.log('🔍 Dynamic parts loaded:', dynamicParts.length)
-  console.log('🔍 Using parts:', currentParts.length, currentParts.length > 0 ? '(from ' + (dynamicParts.length > 0 ? 'DYNAMIC' : 'STATIC') + ')' : '')
-  if (currentParts.length > 0) {
+  // Use dynamic parts or fallback to static parts (sync fallback for SSR)
+  const currentParts = (dynamicParts?.length ?? 0) > 0 ? dynamicParts : CHARACTER_PARTS_SYNC()
+
+  // Debug logging (safe guards for build/SSR)
+  const dynamicLen = Array.isArray(dynamicParts) ? dynamicParts.length : 0
+  const currentLen = Array.isArray(currentParts) ? currentParts.length : 0
+  console.log('🔍 Dynamic parts loaded:', dynamicLen)
+  console.log('🔍 Using parts:', currentLen, currentLen > 0 ? '(from ' + (dynamicLen > 0 ? 'DYNAMIC' : 'STATIC') + ')' : '')
+  if (currentLen > 0) {
     const glassesPart = currentParts.find(p => p.key === 'glasses')
     console.log('🤓 Glasses part:', glassesPart ? `${glassesPart.assets.length} assets` : 'NOT FOUND')
   }

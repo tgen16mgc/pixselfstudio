@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { Palette, Settings, Eye, Shuffle, Undo2, Redo2 } from "lucide-react"
 import { RETRO_CHARACTER_PALETTES, RETRO_UI_THEME } from "@/config/8bit-theme"
-import { CHARACTER_PARTS } from "@/config/character-assets"
+import { CHARACTER_PARTS_SYNC } from "@/config/character-assets"
 import type { PartKey } from "@/types/character"
 import {
   EnhancedRetroPixelPanel,
@@ -40,7 +40,7 @@ export function EnhancedCustomizationPanel({
   const [previewColor, setPreviewColor] = useState<string | null>(null)
   const [previewVariant, setPreviewVariant] = useState<number | null>(null)
 
-  const part = CHARACTER_PARTS().find((p) => p.key === activePart)
+  const part = CHARACTER_PARTS_SYNC().find((p) => p.key === activePart)
   if (!part) return null
 
 

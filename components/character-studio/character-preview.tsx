@@ -12,11 +12,18 @@ export function CharacterPreview({ selections, zoom, onZoomChange }: CharacterPr
   // Unused parameters for now
   void onZoomChange
   
+  // Adapter: match expected signature (canvas, selections, scale) => void
+  const drawAdapter = (canvas: HTMLCanvasElement, sel: Selections, scale: number) => {
+    const width = Math.max(1, Math.round(64 * scale))
+    const height = Math.max(1, Math.round(80 * scale))
+    void drawCharacterToCanvas(canvas, sel, { width, height })
+  }
+
   const canvasRef = useOptimizedCanvas({
     selections,
     scale: 6,
     zoom,
-    drawFunction: drawCharacterToCanvas,
+    drawFunction: drawAdapter,
   })
 
   return (

@@ -115,8 +115,10 @@ export async function getCharacterPartsWithAutoScan(): Promise<PartDefinition[]>
       assets.push({
         id: "none",
         name: `No ${config.label}`,
-        path: "",
+        basePath: "",
         enabled: true,
+        variants: [{ id: "none", name: "None", path: "", enabled: true }],
+        defaultVariant: "none",
       })
     }
 
@@ -136,8 +138,10 @@ export async function getCharacterPartsWithAutoScan(): Promise<PartDefinition[]>
         assets.push({
           id: assetId,
           name: assetName,
-          path: assetPath,
+          basePath: `/assets/character/${config.folderPath}`,
           enabled: true,
+          variants: [{ id: assetId, name: assetName, path: assetPath, enabled: true }],
+          defaultVariant: assetId,
         })
       }
     }

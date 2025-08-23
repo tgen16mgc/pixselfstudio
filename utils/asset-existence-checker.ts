@@ -1,4 +1,4 @@
-import { AssetDefinition } from "@/types/character"
+import { AssetDefinition, AssetVariant } from "@/types/character"
 import { COLOR_VARIANTS } from "@/config/color-variants"
 
 // Cache for asset existence checks to avoid repeated network calls
@@ -86,16 +86,23 @@ export async function filterExistingAssets(assets: AssetDefinition[]): Promise<A
   
   for (const asset of assets) {
     // Skip "none" assets as they don't need files
-    if (asset.id === 'none' || !asset.path) {
+    if (asset.id === 'none') {
       existingAssets.push(asset)
       continue
     }
-    
-    const exists = await checkAssetExists(asset.path)
+
+    // Check default variant path if available
+    const variantPath = asset.variants.find(v => v.id === asset.defaultVariant)?.path || asset.variants[0]?.path || ""
+    if (!variantPath) {
+      existingAssets.push(asset)
+      continue
+    }
+
+    const exists = await checkAssetExists(variantPath)
     if (exists) {
       existingAssets.push(asset)
     } else {
-      console.warn(`Asset not found: ${asset.path}`)
+      console.warn(`Asset not found: ${variantPath}`)
     }
   }
   
@@ -108,22 +115,24 @@ export async function filterExistingAssets(assets: AssetDefinition[]): Promise<A
 export async function getExistingColorVariants(
   baseAsset: AssetDefinition, 
   colorVariants: Record<string, string>
-): Promise<AssetDefinition[]> {
-  const existingVariants: AssetDefinition[] = []
+): Promise<AssetVariant[]> {
+  const existingVariants: AssetVariant[] = []
   
   // Special case for smile1 and smile1-pink
   if (baseAsset.id === 'smile1') {
     console.log(`🔍 Checking smile1 mouth variants`)
     
+    // Determine base variant path
+    const basePath = baseAsset.variants.find(v => v.id === baseAsset.defaultVariant)?.path || baseAsset.variants[0]?.path || ""
+    
     // Check if smile1-pink exists
-    const pinkVariantPath = baseAsset.path.replace(/\.png$/, `-pink.png`)
+    const pinkVariantPath = basePath.replace(/\.png$/, `-pink.png`)
     const pinkExists = await checkAssetExists(pinkVariantPath)
     
     console.log(`👄 smile1-pink check: ${pinkVariantPath} -> ${pinkExists ? 'EXISTS' : 'NOT FOUND'}`)
     
     if (pinkExists) {
       existingVariants.push({
-        ...baseAsset,
         id: `${baseAsset.id}-pink`,
         name: `${baseAsset.name} (Pink)`,
         path: pinkVariantPath,
@@ -134,10 +143,9 @@ export async function getExistingColorVariants(
     
     // Always add the base asset as a "default" variant
     existingVariants.push({
-      ...baseAsset,
       id: baseAsset.id,
       name: `${baseAsset.name} (Default)`,
-      path: baseAsset.path,
+      path: basePath,
       color: "#666666", // Default gray color
       enabled: true,
     })
@@ -156,22 +164,21 @@ export async function getExistingColorVariants(
   
   // Always add the base asset as a "default" variant first
   existingVariants.push({
-    ...baseAsset,
     id: baseAsset.id,
     name: `${baseAsset.name} (Default)`,
-    path: baseAsset.path,
+    path: (baseAsset.variants.find(v => v.id === baseAsset.defaultVariant) || baseAsset.variants[0])?.path,
     color: "#666666", // Default gray color
     enabled: true,
   })
   
   // Special case for tomboy-brown
   if (baseAsset.id === 'tomboy') {
-    const brownVariantPath = baseAsset.path.replace(/\.png$/, `-brown.png`)
+    const basePath = (baseAsset.variants.find(v => v.id === baseAsset.defaultVariant) || baseAsset.variants[0])?.path || ""
+    const brownVariantPath = basePath.replace(/\.png$/, `-brown.png`)
     const brownExists = await checkAssetExists(brownVariantPath)
     
     if (brownExists) {
       existingVariants.push({
-        ...baseAsset,
         id: `${baseAsset.id}-brown`,
         name: `${baseAsset.name} (Brown)`,
         path: brownVariantPath,
@@ -190,7 +197,8 @@ export async function getExistingColorVariants(
     }
     
     // Generate the expected color variant path
-    const colorVariantPath = baseAsset.path.replace(/\.png$/, `-${colorName}.png`)
+    const basePath = (baseAsset.variants.find(v => v.id === baseAsset.defaultVariant) || baseAsset.variants[0])?.path || ""
+    const colorVariantPath = basePath.replace(/\.png$/, `-${colorName}.png`)
     
     const exists = await checkAssetExists(colorVariantPath)
     
@@ -201,7 +209,6 @@ export async function getExistingColorVariants(
     
     if (exists) {
       existingVariants.push({
-        ...baseAsset,
         id: `${baseAsset.id}-${colorName}`,
         name: `${baseAsset.name} (${colorName.charAt(0).toUpperCase() + colorName.slice(1)})`,
         path: colorVariantPath,
