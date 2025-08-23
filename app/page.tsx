@@ -129,7 +129,8 @@ function PixelCanvasPreview({
     ctx.translate(0, floatY * scale * zoom)
 
     // Draw the actual character (now async)
-    drawCharacterToCanvas(canvas, selections, scale * zoom).catch(console.error)
+    const canvasSize = { width: canvas.width, height: canvas.height }
+    drawCharacterToCanvas(canvas, selections, canvasSize).catch(console.error)
 
     ctx.restore()
   }, [selections, scale, zoom, animationOffset])
@@ -432,7 +433,10 @@ export default function Page() {
       }
 
       // Draw the character to the export canvas
-      await drawCharacterToCanvas(exportCanvas, selections, downloadModalData.scale)
+      const exportSize = { width: 512 * downloadModalData.scale, height: 512 * downloadModalData.scale }
+      exportCanvas.width = exportSize.width
+      exportCanvas.height = exportSize.height
+      await drawCharacterToCanvas(exportCanvas, selections, exportSize)
 
       // Convert canvas to blob and download
       exportCanvas.toBlob((blob) => {
