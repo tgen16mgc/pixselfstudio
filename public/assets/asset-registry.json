@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "generated": "2025-08-23T13:31:01.012Z",
+  "generated": "2025-08-23T13:32:35.615Z",
   "parts": {
     "body": {
       "key": "body",
@@ -672,6 +672,6 @@
   "metadata": {
     "totalAssets": 36,
     "totalVariants": 38,
-    "lastUpdated": "2025-08-23T13:31:01.012Z"
+    "lastUpdated": "2025-08-23T13:32:35.616Z"
   }
 }
