@@ -89,9 +89,20 @@ export function StyleAndColorSelector({
     
     for (const asset of part.assets) {
       const baseId = getBaseStyleId(asset.id, activePart)
+      const colorFromId = getColorFromAssetId(asset.id, activePart)
+      const isColorVariant = colorFromId && colorFromId !== "default"
       
-      // If this is a base asset (no color suffix) or we haven't seen this base yet
-      if (!getColorFromAssetId(asset.id, activePart) || !styles.has(baseId)) {
+      // Always prioritize base assets over color variants
+      if (!isColorVariant) {
+        // This is a base asset, always include it (overriding any color variant)
+        styles.set(baseId, {
+          ...asset,
+          id: baseId,
+          // Remove color information from the name if present
+          name: asset.name.replace(/\s*\([^)]+\)$/, "")
+        })
+      } else if (!styles.has(baseId)) {
+        // This is a color variant, only include if we haven't seen the base yet
         styles.set(baseId, {
           ...asset,
           id: baseId,

@@ -45,6 +45,11 @@ export async function checkAssetExists(assetPath: string): Promise<boolean> {
       console.log(`🎨 Color variant check: ${filename} -> ${existsInKnownAssets ? 'EXISTS' : 'NOT FOUND'}`)
     }
     
+    // Add debug logging for mouth variants specifically
+    if (filename.includes('mouth-smile1')) {
+      console.log(`👄 Mouth variant check: ${filename} -> ${existsInKnownAssets ? 'EXISTS' : 'NOT FOUND'}`)
+    }
+    
     if (existsInKnownAssets) {
       assetExistenceCache.set(assetPath, true)
       return true
@@ -114,6 +119,8 @@ export async function getExistingColorVariants(
     const pinkVariantPath = baseAsset.path.replace(/\.png$/, `-pink.png`)
     const pinkExists = await checkAssetExists(pinkVariantPath)
     
+    console.log(`👄 smile1-pink check: ${pinkVariantPath} -> ${pinkExists ? 'EXISTS' : 'NOT FOUND'}`)
+    
     if (pinkExists) {
       existingVariants.push({
         ...baseAsset,
@@ -134,6 +141,9 @@ export async function getExistingColorVariants(
       color: "#666666", // Default gray color
       enabled: true,
     })
+    
+    console.log(`🎯 Found ${existingVariants.length} existing variants for smile1:`, 
+      existingVariants.map(v => v.id))
     
     return existingVariants
   }
