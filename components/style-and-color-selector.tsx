@@ -157,6 +157,12 @@ export function StyleAndColorSelector({
             console.log(`🎯 Tomboy variants loaded:`, existingVariants.length, 'variants')
             console.log(`🎯 Tomboy variant paths:`, existingVariants.map(v => v.path))
           }
+          
+          // Log for debugging smile1 specifically
+          if (baseStyle.id === 'smile1') {
+            console.log(`🎯 Smile1 variants loaded:`, existingVariants.length, 'variants')
+            console.log(`🎯 Smile1 variant paths:`, existingVariants.map(v => v.path))
+          }
         } catch (error) {
           console.warn(`Failed to load color variants for ${baseStyle.id}:`, error)
           variants[baseStyle.id] = []
