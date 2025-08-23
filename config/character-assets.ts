@@ -42,36 +42,36 @@ const FALLBACK_CHARACTER_PARTS: PartDefinition[] = [
     icon: "👕",
     category: "Body",
     assets: [
-    {
-      id: "none",
-      name: "No CLOTHES",
-      path: "",
-      enabled: true,
-    },
-    {
-      id: "aotheneu",
-      name: "Aotheneu CLOTHES",
-      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/body/clothes/clothes-aotheneu.png",
-      enabled: true,
-    },
-    {
-      id: "dress1",
-      name: "Dress1 CLOTHES",
-      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/body/clothes/clothes-dress1.png",
-      enabled: true,
-    },
-    {
-      id: "neu",
-      name: "Neu CLOTHES",
-      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/body/clothes/clothes-neu.png",
-      enabled: true,
-    },
-    {
-      id: "somi",
-      name: "Somi CLOTHES",
-      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/body/clothes/clothes-somi.png",
-      enabled: true,
-    }
+      {
+        id: "none",
+        name: "No CLOTHES",
+        path: "",
+        enabled: true,
+      },
+      {
+        id: "aotheneu",
+        name: "Aotheneu CLOTHES",
+        path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/body/clothes/clothes-aotheneu.png",
+        enabled: true,
+      },
+      {
+        id: "dress1",
+        name: "Dress1 CLOTHES",
+        path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/body/clothes/clothes-dress1.png",
+        enabled: true,
+      },
+      {
+        id: "neu",
+        name: "Neu CLOTHES",
+        path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/body/clothes/clothes-neu.png",
+        enabled: true,
+      },
+      {
+        id: "somi",
+        name: "Somi CLOTHES",
+        path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/body/clothes/clothes-somi.png",
+        enabled: true,
+      }
     ],
     defaultAsset: "default",
     optional: true,
@@ -82,42 +82,42 @@ const FALLBACK_CHARACTER_PARTS: PartDefinition[] = [
     icon: "💇",
     category: "Hair",
     assets: [
-    {
-      id: "none",
-      name: "No HAIR FRONT",
-      path: "",
-      enabled: true,
-    },
-    {
-      id: "2side",
-      name: "2side HAIR FRONT",
-      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-front/hair-front-2side.png",
-      enabled: true,
-    },
-    {
-      id: "64",
-      name: "64 HAIR FRONT",
-      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-front/hair-front-64.png",
-      enabled: true,
-    },
-    {
-      id: "long37",
-      name: "Long37 HAIR FRONT",
-      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-front/hair-front-long37.png",
-      enabled: true,
-    },
-    {
-      id: "tomboy-brown",
-      name: "Tomboy Brown HAIR FRONT",
-      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-front/hair-front-tomboy-brown.png",
-      enabled: true,
-    },
-    {
-      id: "tomboy",
-      name: "Tomboy HAIR FRONT",
-      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-front/hair-front-tomboy.png",
-      enabled: true,
-    }
+      {
+        id: "none",
+        name: "No HAIR FRONT",
+        path: "",
+        enabled: true,
+      },
+      {
+        id: "2side",
+        name: "2side HAIR FRONT",
+        path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-front/hair-front-2side.png",
+        enabled: true,
+      },
+      {
+        id: "64",
+        name: "64 HAIR FRONT",
+        path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-front/hair-front-64.png",
+        enabled: true,
+      },
+      {
+        id: "long37",
+        name: "Long37 HAIR FRONT",
+        path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-front/hair-front-long37.png",
+        enabled: true,
+      },
+      {
+        id: "tomboy-brown",
+        name: "Tomboy Brown HAIR FRONT",
+        path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-front/hair-front-tomboy-brown.png",
+        enabled: true,
+      },
+      {
+        id: "tomboy",
+        name: "Tomboy HAIR FRONT",
+        path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-front/hair-front-tomboy.png",
+        enabled: true,
+      }
     ],
     defaultAsset: "default",
     optional: true,
