@@ -15,7 +15,6 @@ import {
 interface EnhancedCustomizationPanelProps {
   activePart: PartKey
   currentAssetId: string
-  onAssetSelect: (assetId: string) => void
   onRandomizePart: (part: string) => void
   isLoading?: boolean
   canUndo?: boolean
@@ -27,7 +26,6 @@ interface EnhancedCustomizationPanelProps {
 export function EnhancedCustomizationPanel({
   activePart,
   currentAssetId,
-  onAssetSelect,
   onRandomizePart,
   isLoading = false,
   canUndo = false,
@@ -49,10 +47,7 @@ export function EnhancedCustomizationPanel({
     return !colorSuffixes.some(color => asset.id.endsWith(`-${color}`))
   })
 
-  // Get color variants for the currently selected base style
-  const currentBaseStyle = baseStyles.find(style => 
-    currentAssetId === style.id || currentAssetId.startsWith(style.id + '-')
-  )
+
   
 
 
