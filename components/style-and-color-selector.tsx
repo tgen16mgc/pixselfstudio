@@ -149,7 +149,7 @@ export function StyleAndColorSelector({
     }
     
     return Array.from(styles.values())
-  }, [part])
+  }, [part, activePart])
 
   // Determine current selected base style
   useEffect(() => {

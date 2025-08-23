@@ -91,25 +91,25 @@ const FALLBACK_CHARACTER_PARTS: PartDefinition[] = [
       {
         id: "2side",
         name: "2side HAIR FRONT",
-        path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-front/hair-front-2side.png",
+        path: "/assets/character/hair/hair-front/hair-front-2side.png",
         enabled: true,
       },
       {
         id: "64",
         name: "64 HAIR FRONT",
-        path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-front/hair-front-64.png",
+        path: "/assets/character/hair/hair-front/hair-front-64.png",
         enabled: true,
       },
       {
         id: "long37",
         name: "Long37 HAIR FRONT",
-        path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-front/hair-front-long37.png",
+        path: "/assets/character/hair/hair-front/hair-front-long37.png",
         enabled: true,
       },
       {
         id: "tomboy",
         name: "Tomboy HAIR FRONT",
-        path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-front/hair-front-tomboy.png",
+        path: "/assets/character/hair/hair-front/hair-front-tomboy.png",
         enabled: true,
       }
     ],
@@ -131,13 +131,13 @@ const FALLBACK_CHARACTER_PARTS: PartDefinition[] = [
       {
         id: "2side",
         name: "2side HAIR BEHIND",
-        path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-behind/hair-behind-2side.png",
+        path: "/assets/character/hair/hair-behind/hair-behind-2side.png",
         enabled: true,
       },
       {
         id: "curly",
         name: "Curly HAIR BEHIND",
-        path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-behind/hair-behind-curly.png",
+        path: "/assets/character/hair/hair-behind/hair-behind-curly.png",
         enabled: true,
       }
     ],
