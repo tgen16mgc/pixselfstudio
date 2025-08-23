@@ -16,6 +16,8 @@ interface EnhancedCustomizationPanelProps {
   activePart: PartKey
   currentSelection: { variant: number; color: number }
   onRandomizePart: (part: string) => void
+  onColorSelect: (part: PartKey, colorIndex: number) => void
+  onVariantSelect: (part: PartKey, variantIndex: number) => void
   isLoading?: boolean
   canUndo?: boolean
   canRedo?: boolean
@@ -27,6 +29,8 @@ export function EnhancedCustomizationPanel({
   activePart,
   currentSelection,
   onRandomizePart,
+  onColorSelect,
+  onVariantSelect,
   isLoading = false,
   canUndo = false,
   canRedo = false,
@@ -34,6 +38,7 @@ export function EnhancedCustomizationPanel({
   onRedo,
 }: EnhancedCustomizationPanelProps) {
   const [previewColor, setPreviewColor] = useState<string | null>(null)
+  const [previewVariant, setPreviewVariant] = useState<number | null>(null)
 
   const part = CHARACTER_PARTS().find((p) => p.key === activePart)
   if (!part) return null
