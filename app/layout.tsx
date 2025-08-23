@@ -1,16 +1,5 @@
 import type { Metadata } from "next";
-// import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-
-// const geistSans = Geist({
-//   variable: "--font-geist-sans",
-//   subsets: ["latin"],
-// });
-
-// const geistMono = Geist_Mono({
-//   variable: "--font-geist-mono",
-//   subsets: ["latin"],
-// });
 
 export const metadata: Metadata = {
   title: "Pixself: The Studio",
@@ -35,6 +24,10 @@ export default function RootLayout({
       <body
         className="antialiased"
         suppressHydrationWarning={true}
+        style={{
+          "--font-geist-sans": "'Inter', 'system-ui', 'sans-serif'",
+          "--font-geist-mono": "'JetBrains Mono', 'Menlo', 'Monaco', 'Consolas', 'monospace'"
+        } as React.CSSProperties}
       >
         {children}
       </body>
