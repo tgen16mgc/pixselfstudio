@@ -1,156 +1,141 @@
-import { CHARACTER_PARTS, LAYER_ORDER, getAssetPath } from "@/config/character-assets"
-import type { Selections } from "@/types/character"
-
-// Image cache to avoid reloading images
-const imageCache = new Map<string, HTMLImageElement>()
+import { CHARACTER_PARTS_SYNC, LAYER_ORDER, getAssetPath } from "@/config/character-assets"
+import { assetRegistry } from "@/utils/asset-registry"
+import type { PartKey, Selections } from "@/types/character"
 
 // Preload all character assets
 export async function preloadCharacterAssets(): Promise<void> {
-  const loadPromises: Promise<void>[] = []
-
-  CHARACTER_PARTS().forEach((part) => {
-    part.assets.forEach((asset) => {
-      if (asset.path && asset.enabled) {
-        loadPromises.push(loadImage(asset.path))
-      }
-    })
-  })
-
-  await Promise.all(loadPromises)
+  try {
+    // Initialize the asset registry
+    await assetRegistry.getRegistry()
+    console.log('✅ Character assets preloaded successfully')
+  } catch (error) {
+    console.error('❌ Failed to preload character assets:', error)
+  }
 }
 
-// Load and cache an image
-function loadImage(path: string): Promise<void> {
-  return new Promise((resolve, reject) => {
-    if (imageCache.has(path)) {
-      resolve()
-      return
-    }
-
-    const img = new Image()
-    img.crossOrigin = "anonymous"
-
-    img.onload = () => {
-      imageCache.set(path, img)
-      resolve()
-    }
-
-    img.onerror = () => {
-      console.error(`Failed to load image: ${path}`)
-      reject(new Error(`Failed to load image: ${path}`))
-    }
-
-    img.src = path
-  })
-}
-
-// Get cached image
-function getCachedImage(path: string): HTMLImageElement | null {
-  return imageCache.get(path) || null
-}
-
-// Main character drawing function
+// Draw character to canvas with support for color variants
 export async function drawCharacterToCanvas(
   canvas: HTMLCanvasElement,
   selections: Selections,
-  scale = 1,
+  size: { width: number; height: number } = { width: 512, height: 512 }
 ): Promise<void> {
-  const ctx = canvas.getContext("2d")
-  if (!ctx) return
+  const ctx = canvas.getContext('2d')
+  if (!ctx) {
+    throw new Error('Could not get canvas context')
+  }
 
-  // Set canvas size - using 640x640 as base since that's your asset size
-  const baseSize = 640
-  canvas.width = baseSize * scale
-  canvas.height = baseSize * scale
-
-  // Ensure pixel-perfect rendering
-  ctx.imageSmoothingEnabled = false
+  // Set canvas size
+  canvas.width = size.width
+  canvas.height = size.height
 
   // Clear canvas
   ctx.clearRect(0, 0, canvas.width, canvas.height)
 
-  // Draw layers in order (lowest to highest)
-  const reversedOrder = [...LAYER_ORDER].reverse()
-
-  for (const partKey of reversedOrder) {
+  // Draw layers in order (back to front)
+  for (const partKey of [...LAYER_ORDER].reverse()) {
     const selection = selections[partKey]
-
-    // Skip if part is disabled or not selected
     if (!selection || !selection.enabled) continue
 
-    const assetPath = getAssetPath(partKey, selection.assetId)
+    try {
+      // Get asset path with variant support
+      const assetPath = await getAssetPath(partKey, selection.assetId, selection.colorVariant)
+      if (!assetPath) continue
 
-    // Skip if no asset path (like "none" option)
-    if (!assetPath) continue
-
-    // Get cached image
-    let img = getCachedImage(assetPath)
-
-    // If not cached, load it now
-    if (!img) {
-      try {
-        await loadImage(assetPath)
-        img = getCachedImage(assetPath)
-      } catch (error) {
-        console.error(`Failed to load asset for ${partKey}:`, error)
-        continue
-      }
-    }
-
-    if (img) {
-      // Draw the image scaled to canvas size
-      ctx.drawImage(img, 0, 0, canvas.width, canvas.height)
+      // Load and draw the image
+      await drawImageToCanvas(ctx, assetPath, size)
+    } catch (error) {
+      console.error(`Failed to draw ${partKey}:`, error)
     }
   }
 }
 
-// Generate thumbnail for a character
-export async function generateCharacterThumbnail(selections: Selections, size = 200): Promise<string> {
-  const canvas = document.createElement("canvas")
-  const scale = size / 640 // Scale down from 640x640 to desired size
-
-  await drawCharacterToCanvas(canvas, selections, scale)
-
-  return canvas.toDataURL("image/png")
-}
-
-// Create default selections
-export function createDefaultSelections(): Selections {
-  const selections: Selections = {} as Selections
-
-  CHARACTER_PARTS().forEach((part) => {
-    selections[part.key] = {
-      assetId: part.defaultAsset,
-      enabled: true, // All parts start enabled by default
-    }
-  })
-
-  return selections
-}
-
-// Randomize character selections
-export function randomizeSelections(): Selections {
-  const selections: Selections = {} as Selections
-
-  CHARACTER_PARTS().forEach((part) => {
-    // Filter out "none" assets for randomization, but keep them for manual selection
-    const enabledAssets = part.assets.filter((asset) => asset.enabled && asset.id !== "none")
+// Helper function to draw an image to canvas
+async function drawImageToCanvas(
+  ctx: CanvasRenderingContext2D,
+  imagePath: string,
+  size: { width: number; height: number }
+): Promise<void> {
+  return new Promise((resolve, reject) => {
+    const img = new Image()
+    img.crossOrigin = 'anonymous'
     
-    // If no assets available (all are "none"), use default
-    if (enabledAssets.length === 0) {
-      selections[part.key] = {
-        assetId: part.defaultAsset,
-        enabled: true,
-      }
-    } else {
-      const randomAsset = enabledAssets[Math.floor(Math.random() * enabledAssets.length)]
-      
-      selections[part.key] = {
-        assetId: randomAsset.id,
-        enabled: true, // Always enable when randomizing
+    img.onload = () => {
+      try {
+        // Draw the image to fit the canvas
+        ctx.drawImage(img, 0, 0, size.width, size.height)
+        resolve()
+      } catch (error) {
+        reject(error)
       }
     }
+    
+    img.onerror = () => {
+      reject(new Error(`Failed to load image: ${imagePath}`))
+    }
+    
+    // Set the image source
+    img.src = imagePath
   })
+}
 
-  return selections
+// Get asset information for a specific part and selection
+export async function getAssetInfo(partKey: PartKey, assetId: string, variantId?: string) {
+  try {
+    const asset = await assetRegistry.getAsset(partKey, assetId)
+    if (!asset) return null
+
+    const variant = variantId 
+      ? asset.variants.find(v => v.id === variantId)
+      : asset.variants.find(v => v.id === asset.defaultVariant)
+
+    return {
+      asset,
+      variant,
+      path: variant?.path || '',
+      color: variant?.color || null,
+    }
+  } catch (error) {
+    console.error(`Failed to get asset info for ${partKey}:`, error)
+    return null
+  }
+}
+
+// Get all available variants for an asset
+export async function getAssetVariants(partKey: PartKey, assetId: string) {
+  try {
+    const asset = await assetRegistry.getAsset(partKey, assetId)
+    return asset?.variants || []
+  } catch (error) {
+    console.error(`Failed to get variants for ${partKey}:`, error)
+    return []
+  }
+}
+
+// Get all available colors for a part
+export async function getAvailableColorsForPart(partKey: PartKey) {
+  try {
+    const part = await assetRegistry.getPart(partKey)
+    return part?.colorPalette || []
+  } catch (error) {
+    console.error(`Failed to get colors for ${partKey}:`, error)
+    return []
+  }
+}
+
+// Validate a selection (check if asset and variant exist)
+export async function validateSelection(partKey: PartKey, assetId: string, variantId?: string): Promise<boolean> {
+  try {
+    const asset = await assetRegistry.getAsset(partKey, assetId)
+    if (!asset) return false
+
+    if (variantId) {
+      const variant = asset.variants.find(v => v.id === variantId)
+      return !!variant
+    }
+
+    return true
+  } catch (error) {
+    console.error(`Failed to validate selection for ${partKey}:`, error)
+    return false
+  }
 }
