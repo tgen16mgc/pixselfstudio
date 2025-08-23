@@ -24,6 +24,14 @@ export interface AssetDefinition {
   enabled: boolean
 }
 
+export interface AssetVariant {
+  id: string
+  name: string
+  path: string
+  color: string
+  enabled: boolean
+}
+
 export interface CharacterStats {
   Strength: number
   Magic: number
