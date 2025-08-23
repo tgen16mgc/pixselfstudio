@@ -17,10 +17,10 @@ export async function checkAssetExists(assetPath: string): Promise<boolean> {
     // Only allow existing assets that we know are real
     const knownAssets = [
       'hair-front-tomboy.png',        // Base tomboy asset
-      'hair-front-tomboy-brown.png',  // Brown variant
-      'hair-front-tomboy-black.png',  // Black variant
+      'hair-front-tomboy-brown.png',  // Brown variant (the only variant that exists)
       'hair-behind-curly-black.png'
       // Note: body color variants removed since they don't exist yet
+      // Note: hair-front-tomboy-black.png removed since it doesn't exist
     ]
     
     const filename = assetPath.split('/').pop() || ''
