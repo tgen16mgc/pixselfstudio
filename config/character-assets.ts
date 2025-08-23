@@ -14,25 +14,8 @@ export function CHARACTER_PARTS(): PartDefinition[] {
 
 // Fallback manual configuration in case auto-discovery fails
 const FALLBACK_CHARACTER_PARTS: PartDefinition[] = [
-  {
-    key: "body",
-    label: "BODY",
-    icon: "👤",
-    category: "Body",
-    assets: [
-    {
-      id: "default",
-      name: "Default BODY",
-      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/body/body/body-default.png",
-      enabled: true,
-    },
-    {
-      id: "v2",
-      name: "V2 BODY",
-      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/body/body/body-v2.png",
-      enabled: true,
-    }
-    ],
+
+],
     defaultAsset: "default",
     optional: false,
   },

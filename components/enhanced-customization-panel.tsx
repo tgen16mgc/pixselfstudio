@@ -3,6 +3,8 @@
 import { useState } from "react"
 import { Palette, Settings, Eye, Shuffle, Undo2, Redo2 } from "lucide-react"
 import { RETRO_CHARACTER_PALETTES, RETRO_UI_THEME } from "@/config/8bit-theme"
+import { CHARACTER_PARTS } from "@/config/character-assets"
+import type { PartKey } from "@/types/character"
 import {
   EnhancedRetroPixelPanel,
   EnhancedRetroColorSwatch,
@@ -11,10 +13,9 @@ import {
 } from "./enhanced-8bit-ui"
 
 interface EnhancedCustomizationPanelProps {
-  activePart: string
-  selections: Record<string, { variant: number; color: number }>
-  onColorSelect: (part: string, color: number) => void
-  onVariantSelect: (part: string, variant: number) => void
+  activePart: PartKey
+  currentAssetId: string
+  onAssetSelect: (assetId: string) => void
   onRandomizePart: (part: string) => void
   isLoading?: boolean
   canUndo?: boolean
@@ -25,9 +26,8 @@ interface EnhancedCustomizationPanelProps {
 
 export function EnhancedCustomizationPanel({
   activePart,
-  selections,
-  onColorSelect,
-  onVariantSelect,
+  currentAssetId,
+  onAssetSelect,
   onRandomizePart,
   isLoading = false,
   canUndo = false,
@@ -36,9 +36,29 @@ export function EnhancedCustomizationPanel({
   onRedo,
 }: EnhancedCustomizationPanelProps) {
   const [previewColor, setPreviewColor] = useState<string | null>(null)
-  const [previewVariant, setPreviewVariant] = useState<number | null>(null)
+  const [previewAsset, setPreviewAsset] = useState<string | null>(null)
 
-  const currentSelection = selections[activePart]
+  const part = CHARACTER_PARTS().find((p) => p.key === activePart)
+  if (!part) return null
+
+  const assets = part.assets || []
+  
+  // Separate base styles from color variants
+  const baseStyles = assets.filter(asset => {
+    // Check if this asset is a color variant by looking for color suffixes
+    const colorSuffixes = ['black', 'brown', 'blonde', 'red', 'blue', 'green', 'purple', 'pink', 'white', 'fair', 'light', 'medium', 'dark', 'olive', 'deep']
+    return !colorSuffixes.some(color => asset.id.endsWith(`-${color}`))
+  })
+
+  // Get color variants for the currently selected base style
+  const currentBaseStyle = baseStyles.find(style => 
+    currentAssetId === style.id || currentAssetId.startsWith(style.id + '-')
+  )
+  
+  const colorVariants = currentBaseStyle ? assets.filter(asset => 
+    asset.id.startsWith(currentBaseStyle.id + '-') && asset.id !== currentBaseStyle.id
+  ) : []
+
   const colors = RETRO_CHARACTER_PALETTES[activePart as keyof typeof RETRO_CHARACTER_PALETTES] || []
 
   // Color names for better accessibility

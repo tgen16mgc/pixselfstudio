@@ -13,10 +13,26 @@ export async function checkAssetExists(assetPath: string): Promise<boolean> {
   }
 
   try {
-    // For browser environment, try to fetch the asset
-    // Use a timeout to avoid hanging on slow requests
+    // In development/build environment, be more conservative about what exists
+    // Only allow existing assets that we know are real
+    const knownAssets = [
+      'hair-front-tomboy-brown.png',
+      'hair-front-tomboy-black.png', 
+      'hair-behind-curly-black.png',
+      'body-default-fair.png',
+      'body-default-light.png',
+      'body-default-medium.png'
+    ]
+    
+    const filename = assetPath.split('/').pop() || ''
+    if (knownAssets.includes(filename)) {
+      assetExistenceCache.set(assetPath, true)
+      return true
+    }
+    
+    // For network requests in browser, use a timeout to avoid hanging
     const controller = new AbortController()
-    const timeoutId = setTimeout(() => controller.abort(), 5000) // 5 second timeout
+    const timeoutId = setTimeout(() => controller.abort(), 3000) // 3 second timeout
     
     const response = await fetch(assetPath, { 
       method: 'HEAD',
