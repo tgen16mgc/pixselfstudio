@@ -254,7 +254,7 @@ function generateAssetRegistry() {
         }
 
         // Process assets for this part
-        const processedAssets = processAssetsForPart(folderPath, pngFiles, config)
+        const processedAssets = processAssetsForPart(partKey, pngFiles, config)
         assets.push(...processedAssets)
         
         totalAssets += assets.length
