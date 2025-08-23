@@ -16,8 +16,9 @@ export async function checkAssetExists(assetPath: string): Promise<boolean> {
     // In development/build environment, be more conservative about what exists
     // Only allow existing assets that we know are real
     const knownAssets = [
-      'hair-front-tomboy-brown.png',
-      'hair-front-tomboy-black.png', 
+      'hair-front-tomboy.png',        // Base tomboy asset
+      'hair-front-tomboy-brown.png',  // Brown variant
+      'hair-front-tomboy-black.png',  // Black variant
       'hair-behind-curly-black.png'
       // Note: body color variants removed since they don't exist yet
     ]
