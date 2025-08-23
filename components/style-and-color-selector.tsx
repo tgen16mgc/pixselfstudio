@@ -165,6 +165,8 @@ export function StyleAndColorSelector({
       const variants: Record<string, AssetDefinition[]> = {}
       const colorVariantsConfig = COLOR_VARIANTS[activePart as keyof typeof COLOR_VARIANTS] || {}
 
+      console.log(`🎨 Loading color variants for ${activePart} part with ${baseStyles.length} base styles`)
+
       for (const baseStyle of baseStyles) {
         if (baseStyle.id === "none") {
           variants[baseStyle.id] = []
@@ -180,12 +182,19 @@ export function StyleAndColorSelector({
         try {
           const existingVariants = await getExistingColorVariants(baseStyle, colorVariantsConfig)
           variants[baseStyle.id] = existingVariants
+          
+          // Log for debugging tomboy specifically
+          if (baseStyle.id === 'tomboy') {
+            console.log(`🎯 Tomboy variants loaded:`, existingVariants.length, 'variants')
+          }
         } catch (error) {
           console.warn(`Failed to load color variants for ${baseStyle.id}:`, error)
           variants[baseStyle.id] = []
         }
       }
 
+      console.log(`🎨 Color variants loaded for ${activePart}:`, 
+        Object.entries(variants).map(([id, vars]) => `${id}: ${vars.length}`))
       setAvailableColorVariants(variants)
     }
 
@@ -298,7 +307,7 @@ export function StyleAndColorSelector({
             <div className="flex items-center gap-2 mb-3">
               <Palette className="h-3 w-3" style={{ color: PIXSELF_BRAND.colors.primary.gold }} />
               <div className="text-[9px] font-bold tracking-wider" style={{ color: PIXSELF_BRAND.colors.primary.navy }}>
-                COLOR VARIANTS
+                COLOR VARIANTS ({selectedColorVariants.length})
               </div>
             </div>
             
