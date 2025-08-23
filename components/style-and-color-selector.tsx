@@ -194,8 +194,8 @@ export function StyleAndColorSelector({
 
   if (!part) return null
 
-  // Don't show color variants for accessories
-  const showColorVariants = !["earring", "glasses", "eyebrows", "blush"].includes(activePart)
+  // Don't show color variants for accessories and body (body has different body types, not color variants)
+  const showColorVariants = !["earring", "glasses", "eyebrows", "blush", "body"].includes(activePart)
 
   const handleBaseStyleSelect = (styleId: string) => {
     setSelectedBaseStyle(styleId)
