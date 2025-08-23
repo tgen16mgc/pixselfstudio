@@ -5,9 +5,9 @@ import { Volume2, VolumeX, Undo2, Redo2, RotateCcw, RefreshCw, Share2, Download 
 import { PixselfLogo } from "./pixself-logo"
 import { PixselfButton } from "./pixself-ui-components"
 import { PIXSELF_BRAND } from "@/config/pixself-brand"
-import { Press_Start_2P } from "next/font/google"
+// import { Press_Start_2P } from "next/font/google"
 
-const press2p = Press_Start_2P({ weight: "400", subsets: ["latin"] })
+// const press2p = Press_Start_2P({ weight: "400", subsets: ["latin"] })
 
 interface EnhancedTitleSectionProps {
   soundEnabled: boolean
@@ -150,7 +150,7 @@ export function EnhancedTitleSection({
             {/* Title centered below logo - removed underline */}
             <div className="text-center space-y-2 min-w-0">
               <div
-                className={`text-[10px] sm:text-[12px] lg:text-[14px] leading-relaxed relative ${press2p.className}`}
+                className={`text-[10px] sm:text-[12px] lg:text-[14px] leading-relaxed relative ${""}`}
                 style={{
                   color: PIXSELF_BRAND.colors.primary.navy,
                   textShadow: `
