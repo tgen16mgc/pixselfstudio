@@ -11,15 +11,14 @@
   ],
   "hairBehind": [
     "hair-behind-2side.png",
-    "hair-behind-curly.png",
-    "hair-behind-default.png"
+    "hair-behind-curly.png"
   ],
   "hairFront": [
     "hair-front-2side.png",
     "hair-front-64.png",
     "hair-front-long37.png",
-    "hair-front-tomboy.png",
-    "hair-tomboy-black.png"
+    "hair-front-tomboy-brown.png",
+    "hair-front-tomboy.png"
   ],
   "eyes": [
     "eyes-basic1.png",
@@ -34,7 +33,7 @@
   "mouth": [
     "mouth-default.png",
     "mouth-small.png",
-    "mouth-smile-pink.png",
+    "mouth-smile1-pink.png",
     "mouth-smile1.png"
   ],
   "blush": [

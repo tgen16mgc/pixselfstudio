@@ -107,15 +107,15 @@ const FALLBACK_CHARACTER_PARTS: PartDefinition[] = [
       enabled: true,
     },
     {
-      id: "tomboy",
-      name: "Tomboy HAIR FRONT",
-      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-front/hair-front-tomboy.png",
+      id: "tomboy-brown",
+      name: "Tomboy Brown HAIR FRONT",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-front/hair-front-tomboy-brown.png",
       enabled: true,
     },
     {
-      id: "hair-tomboy-black",
-      name: "Hair Tomboy Black HAIR FRONT",
-      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-front/hair-tomboy-black.png",
+      id: "tomboy",
+      name: "Tomboy HAIR FRONT",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-front/hair-front-tomboy.png",
       enabled: true,
     }
     ],
@@ -144,12 +144,6 @@ const FALLBACK_CHARACTER_PARTS: PartDefinition[] = [
       id: "curly",
       name: "Curly HAIR BEHIND",
       path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-behind/hair-behind-curly.png",
-      enabled: true,
-    },
-    {
-      id: "default",
-      name: "Default HAIR BEHIND",
-      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-behind/hair-behind-default.png",
       enabled: true,
     }
     ],
@@ -249,9 +243,9 @@ const FALLBACK_CHARACTER_PARTS: PartDefinition[] = [
       enabled: true,
     },
     {
-      id: "smile-pink",
-      name: "Smile Pink MOUTH",
-      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/mouth/mouth-smile-pink.png",
+      id: "smile1-pink",
+      name: "Smile1 Pink MOUTH",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/mouth/mouth-smile1-pink.png",
       enabled: true,
     },
     {
