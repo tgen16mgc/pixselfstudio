@@ -103,6 +103,7 @@ const PART_CONFIG = {
 const COLOR_MAPPING = {
   black: '#333333',
   brown: '#8B4513',
+  choco: '#D2691E',
   blonde: '#DAA520',
   red: '#FF8A80',
   purple: '#CE93D8',

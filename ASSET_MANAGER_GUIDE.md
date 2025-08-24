@@ -111,11 +111,12 @@ public/assets/character/
 |-------|----------|-------|----------|
 | `black` | `#333333` | `white` | `#FFFFFF` |
 | `brown` | `#8B4513` | `yellow` | `#FFF59D` |
-| `blonde` | `#DAA520` | `green` | `#4ECDC4` |
-| `red` | `#FF8A80` | `orange` | `#FFB74D` |
-| `purple` | `#CE93D8` | `gray` | `#9E9E9E` |
-| `blue` | `#90CAF9` | `gold` | `#FFD700` |
-| `pink` | `#F8BBD0` | `silver` | `#C0C0C0` |
+| `choco` | `#D2691E` | `green` | `#4ECDC4` |
+| `blonde` | `#DAA520` | `orange` | `#FFB74D` |
+| `red` | `#FF8A80` | `gray` | `#9E9E9E` |
+| `purple` | `#CE93D8` | `gold` | `#FFD700` |
+| `blue` | `#90CAF9` | `silver` | `#C0C0C0` |
+| `pink` | `#F8BBD0` | | |
 
 ## 🔧 How It Works
 
