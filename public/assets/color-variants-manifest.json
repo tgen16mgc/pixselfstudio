@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2025-08-24T14:46:55.195Z",
+  "generatedAt": "2025-08-24T15:02:00.769Z",
   "assets": [
     {
       "baseId": "earring-default",
@@ -31,7 +31,38 @@
       "subpart": "",
       "style": "default",
       "basePath": "/assets/character/body/body/body-default.png",
-      "variants": []
+      "variants": [
+        {
+          "id": "default-black",
+          "name": "default (Black)",
+          "path": "/assets/character/body/body/body-default-black.png",
+          "color": "#333333"
+        },
+        {
+          "id": "default-brown",
+          "name": "default (Brown)",
+          "path": "/assets/character/body/body/body-default-brown.png",
+          "color": "#8B4513"
+        },
+        {
+          "id": "default-choco",
+          "name": "default (Choco)",
+          "path": "/assets/character/body/body/body-default-choco.png",
+          "color": "#666666"
+        },
+        {
+          "id": "default-white",
+          "name": "default (White)",
+          "path": "/assets/character/body/body/body-default-white.png",
+          "color": "#FAFAFA"
+        },
+        {
+          "id": "default-yellow",
+          "name": "default (Yellow)",
+          "path": "/assets/character/body/body/body-default-yellow.png",
+          "color": "#FFF9C4"
+        }
+      ]
     },
     {
       "baseId": "body-v2",
