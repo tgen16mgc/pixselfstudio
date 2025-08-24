@@ -1,5 +1,10 @@
 {
   "body": [
+    "body-default-black.png",
+    "body-default-brown.png",
+    "body-default-choco.png",
+    "body-default-white.png",
+    "body-default-yellow.png",
     "body-default.png",
     "body-v2.png"
   ],
@@ -12,7 +17,8 @@
   ],
   "hairBehind": [
     "hair-behind-2side.png",
-    "hair-behind-curly.png"
+    "hair-behind-curly.png",
+    "hair-behind-default.png"
   ],
   "hairFront": [
     "hair-front-2side-blue.png",

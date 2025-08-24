@@ -220,6 +220,27 @@
       "baseFile": "mouth-default.png",
       "variants": []
     },
+    "noemo": {
+      "baseFile": "mouth-noemo.png",
+      "variants": [
+        {
+          "file": "mouth-noemo-pink.png",
+          "color": "pink",
+          "colorHex": "#FF69B4",
+          "displayName": "Pink"
+        },
+        {
+          "file": "mouth-noemo-red.png",
+          "color": "red",
+          "colorHex": "#FF6347",
+          "displayName": "Red"
+        }
+      ]
+    },
+    "rabbit": {
+      "baseFile": "mouth-rabbit.png",
+      "variants": []
+    },
     "small": {
       "baseFile": "mouth-small.png",
       "variants": []
@@ -232,8 +253,18 @@
           "color": "pink",
           "colorHex": "#FF69B4",
           "displayName": "Pink"
+        },
+        {
+          "file": "mouth-smile-red.png",
+          "color": "red",
+          "colorHex": "#FF6347",
+          "displayName": "Red"
         }
       ]
+    },
+    "wow": {
+      "baseFile": "mouth-wow.png",
+      "variants": []
     }
   },
   "blush": {
