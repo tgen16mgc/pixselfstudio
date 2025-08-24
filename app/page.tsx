@@ -487,14 +487,6 @@ export default function Page() {
 
   // Use dynamic parts or fallback to static parts
   const currentParts = dynamicParts.length > 0 ? dynamicParts : CHARACTER_PARTS()
-  
-  // Debug logging
-  console.log('🔍 Dynamic parts loaded:', dynamicParts.length)
-  console.log('🔍 Using parts:', currentParts.length, currentParts.length > 0 ? '(from ' + (dynamicParts.length > 0 ? 'DYNAMIC' : 'STATIC') + ')' : '')
-  if (currentParts.length > 0) {
-    const glassesPart = currentParts.find(p => p.key === 'glasses')
-    console.log('🤓 Glasses part:', glassesPart ? `${glassesPart.assets.length} assets` : 'NOT FOUND')
-  }
 
   // Group parts by category
   const partsByCategory = currentParts.reduce(
