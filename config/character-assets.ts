@@ -146,7 +146,7 @@ const FALLBACK_CHARACTER_PARTS: PartDefinition[] = [
       enabled: true,
     }
     ],
-    defaultAsset: "default",
+    defaultAsset: "none",
     optional: true,
   },
   {
