@@ -518,6 +518,7 @@ async function updateColorVariantsManifest() {
   
   try {
     // Run the existing script to update the manifest
+    const { execSync } = require('child_process');
     execSync('npm run scan', { stdio: 'inherit' });
     console.log('✅ Color variants manifest updated');
   } catch (error) {
