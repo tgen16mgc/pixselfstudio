@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2025-08-24T15:17:08.521Z",
+  "generatedAt": "2025-08-24T15:24:23.965Z",
   "assets": [
     {
       "baseId": "earring-default",
@@ -174,7 +174,38 @@
       "subpart": "",
       "style": "boy",
       "basePath": "/assets/character/face/eyes/eyes-boy.png",
-      "variants": []
+      "variants": [
+        {
+          "id": "boy-blue",
+          "name": "boy (Blue)",
+          "path": "/assets/character/face/eyes/eyes-boy-blue.png",
+          "color": "#90CAF9"
+        },
+        {
+          "id": "boy-brown",
+          "name": "boy (Brown)",
+          "path": "/assets/character/face/eyes/eyes-boy-brown.png",
+          "color": "#8B4513"
+        },
+        {
+          "id": "boy-choco",
+          "name": "boy (Choco)",
+          "path": "/assets/character/face/eyes/eyes-boy-choco.png",
+          "color": "#666666"
+        },
+        {
+          "id": "boy-green",
+          "name": "boy (Green)",
+          "path": "/assets/character/face/eyes/eyes-boy-green.png",
+          "color": "#4ECDC4"
+        },
+        {
+          "id": "boy-purple",
+          "name": "boy (Purple)",
+          "path": "/assets/character/face/eyes/eyes-boy-purple.png",
+          "color": "#CE93D8"
+        }
+      ]
     },
     {
       "baseId": "eyes-closed",
@@ -297,7 +328,38 @@
       "subpart": "",
       "style": "wink",
       "basePath": "/assets/character/face/eyes/eyes-wink.png",
-      "variants": []
+      "variants": [
+        {
+          "id": "wink-blue",
+          "name": "wink (Blue)",
+          "path": "/assets/character/face/eyes/eyes-wink-blue.png",
+          "color": "#90CAF9"
+        },
+        {
+          "id": "wink-brown",
+          "name": "wink (Brown)",
+          "path": "/assets/character/face/eyes/eyes-wink-brown.png",
+          "color": "#8B4513"
+        },
+        {
+          "id": "wink-choco",
+          "name": "wink (Choco)",
+          "path": "/assets/character/face/eyes/eyes-wink-choco.png",
+          "color": "#666666"
+        },
+        {
+          "id": "wink-green",
+          "name": "wink (Green)",
+          "path": "/assets/character/face/eyes/eyes-wink-green.png",
+          "color": "#4ECDC4"
+        },
+        {
+          "id": "wink-purple",
+          "name": "wink (Purple)",
+          "path": "/assets/character/face/eyes/eyes-wink-purple.png",
+          "color": "#CE93D8"
+        }
+      ]
     },
     {
       "baseId": "eyes-xech",
@@ -311,6 +373,30 @@
           "name": "xech (Blue)",
           "path": "/assets/character/face/eyes/eyes-xech-blue.png",
           "color": "#90CAF9"
+        },
+        {
+          "id": "xech-brown",
+          "name": "xech (Brown)",
+          "path": "/assets/character/face/eyes/eyes-xech-brown.png",
+          "color": "#8B4513"
+        },
+        {
+          "id": "xech-choco",
+          "name": "xech (Choco)",
+          "path": "/assets/character/face/eyes/eyes-xech-choco.png",
+          "color": "#666666"
+        },
+        {
+          "id": "xech-green",
+          "name": "xech (Green)",
+          "path": "/assets/character/face/eyes/eyes-xech-green.png",
+          "color": "#4ECDC4"
+        },
+        {
+          "id": "xech-purple",
+          "name": "xech (Purple)",
+          "path": "/assets/character/face/eyes/eyes-xech-purple.png",
+          "color": "#CE93D8"
         }
       ]
     },
