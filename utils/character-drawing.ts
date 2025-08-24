@@ -2,6 +2,26 @@ import { CHARACTER_PARTS, LAYER_ORDER, getAssetPath } from "@/config/character-a
 import type { Selections } from "@/types/character"
 import { resolveAssetPath } from "./asset-path-resolver"
 
+// Global manifest cache for color variants
+let colorVariantsManifest: any = null;
+
+// Load the color variants manifest
+async function loadColorVariantsManifest() {
+  if (colorVariantsManifest) return colorVariantsManifest;
+  
+  try {
+    const response = await fetch('/assets/color-variants-manifest.json');
+    if (response.ok) {
+      colorVariantsManifest = await response.json();
+      console.log('📋 Color variants manifest loaded for character drawing');
+    }
+  } catch (error) {
+    console.warn('Failed to load color variants manifest for drawing:', error);
+  }
+  
+  return colorVariantsManifest;
+}
+
 // Image cache to avoid reloading images
 const imageCache = new Map<string, HTMLImageElement>()
 
@@ -79,8 +99,37 @@ export async function drawCharacterToCanvas(
     // Skip if part is disabled or not selected
     if (!selection || !selection.enabled) continue
 
-    // Try first with our improved asset path resolver (handles color variants)
-    let assetPath = resolveAssetPath(partKey, selection.assetId)
+    // Try to get the path from the color variants manifest first
+    let assetPath: string | null = null;
+    
+    // Load manifest if needed
+    const manifest = await loadColorVariantsManifest();
+    
+    // Check if this is a color variant in the manifest
+    if (manifest && selection.assetId.includes('-')) {
+      // Find the matching asset in the manifest
+      for (const asset of manifest.assets) {
+        // Check if this variant exists in the asset's variants array
+        const variant = asset.variants.find((v: any) => v.id === selection.assetId);
+        if (variant) {
+          assetPath = `https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public${variant.path}`;
+          // console.log(`🎯 Found variant path in manifest: ${assetPath}`);
+          break;
+        }
+        
+        // Also check if the selection.assetId matches the base asset
+        if (asset.baseId.endsWith(`-${selection.assetId}`) && asset.basePath) {
+          assetPath = `https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public${asset.basePath}`;
+          // console.log(`🎯 Found base asset path in manifest: ${assetPath}`);
+          break;
+        }
+      }
+    }
+    
+    // Try our improved asset path resolver if manifest didn't have it
+    if (!assetPath) {
+      assetPath = resolveAssetPath(partKey, selection.assetId)
+    }
     
     // Fallback to the original path resolver if needed
     if (!assetPath) {
@@ -92,6 +141,8 @@ export async function drawCharacterToCanvas(
       console.warn(`⚠️ No asset path found for ${partKey}:${selection.assetId}`)
       continue
     }
+
+    // console.log(`🎨 Drawing ${partKey}:${selection.assetId} with path: ${assetPath}`)
 
     // Get cached image
     let img = getCachedImage(assetPath)

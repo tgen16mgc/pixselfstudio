@@ -1,0 +1,269 @@
+{
+  "body": {
+    "default": {
+      "baseFile": "body-default.png",
+      "variants": []
+    },
+    "v2": {
+      "baseFile": "body-v2.png",
+      "variants": []
+    }
+  },
+  "clothes": {
+    "aotheneu": {
+      "baseFile": "clothes-aotheneu.png",
+      "variants": []
+    },
+    "default": {
+      "baseFile": "clothes-default.png",
+      "variants": []
+    },
+    "dress1": {
+      "baseFile": "clothes-dress1.png",
+      "variants": []
+    },
+    "neu": {
+      "baseFile": "clothes-neu.png",
+      "variants": []
+    },
+    "somi": {
+      "baseFile": "clothes-somi.png",
+      "variants": []
+    }
+  },
+  "hairBehind": {
+    "behind": {
+      "baseFile": null,
+      "variants": [
+        {
+          "file": "hair-behind-2side.png",
+          "color": "2side",
+          "colorHex": "#666666",
+          "displayName": "2side"
+        },
+        {
+          "file": "hair-behind-curly.png",
+          "color": "curly",
+          "colorHex": "#666666",
+          "displayName": "Curly"
+        },
+        {
+          "file": "hair-behind-default.png",
+          "color": "default",
+          "colorHex": "#666666",
+          "displayName": "Default"
+        }
+      ]
+    }
+  },
+  "hairFront": {
+    "front-2side": {
+      "baseFile": null,
+      "variants": [
+        {
+          "file": "hair-front-2side-blue.png",
+          "color": "blue",
+          "colorHex": "#4169E1",
+          "displayName": "Blue"
+        },
+        {
+          "file": "hair-front-2side-purple.png",
+          "color": "purple",
+          "colorHex": "#9370DB",
+          "displayName": "Purple"
+        },
+        {
+          "file": "hair-front-2side-red.png",
+          "color": "red",
+          "colorHex": "#FF6347",
+          "displayName": "Red"
+        }
+      ]
+    },
+    "front": {
+      "baseFile": null,
+      "variants": [
+        {
+          "file": "hair-front-2side.png",
+          "color": "2side",
+          "colorHex": "#666666",
+          "displayName": "2side"
+        },
+        {
+          "file": "hair-front-64.png",
+          "color": "64",
+          "colorHex": "#666666",
+          "displayName": "64"
+        },
+        {
+          "file": "hair-front-default.png",
+          "color": "default",
+          "colorHex": "#666666",
+          "displayName": "Default"
+        },
+        {
+          "file": "hair-front-long37.png",
+          "color": "long37",
+          "colorHex": "#666666",
+          "displayName": "Long37"
+        },
+        {
+          "file": "hair-front-tomboy.png",
+          "color": "tomboy",
+          "colorHex": "#666666",
+          "displayName": "Tomboy"
+        }
+      ]
+    },
+    "front-tomboy": {
+      "baseFile": null,
+      "variants": [
+        {
+          "file": "hair-front-tomboy-black.png",
+          "color": "black",
+          "colorHex": "#333333",
+          "displayName": "Black"
+        },
+        {
+          "file": "hair-front-tomboy-blonde.png",
+          "color": "blonde",
+          "colorHex": "#F0E68C",
+          "displayName": "Blonde"
+        },
+        {
+          "file": "hair-front-tomboy-brown.png",
+          "color": "brown",
+          "colorHex": "#8B4513",
+          "displayName": "Brown"
+        }
+      ]
+    }
+  },
+  "eyes": {
+    "basic1": {
+      "baseFile": "eyes-basic1.png",
+      "variants": []
+    },
+    "cun": {
+      "baseFile": "eyes-cun.png",
+      "variants": [
+        {
+          "file": "eyes-cun-black.png",
+          "color": "black",
+          "colorHex": "#333333",
+          "displayName": "Black"
+        },
+        {
+          "file": "eyes-cun-blue.png",
+          "color": "blue",
+          "colorHex": "#4169E1",
+          "displayName": "Blue"
+        },
+        {
+          "file": "eyes-cun-brown.png",
+          "color": "brown",
+          "colorHex": "#8B4513",
+          "displayName": "Brown"
+        },
+        {
+          "file": "eyes-cun-green.png",
+          "color": "green",
+          "colorHex": "#228B22",
+          "displayName": "Green"
+        },
+        {
+          "file": "eyes-cun-purple.png",
+          "color": "purple",
+          "colorHex": "#9370DB",
+          "displayName": "Purple"
+        }
+      ]
+    },
+    "default": {
+      "baseFile": "eyes-default.png",
+      "variants": [
+        {
+          "file": "eyes-default-blue.png",
+          "color": "blue",
+          "colorHex": "#4169E1",
+          "displayName": "Blue"
+        },
+        {
+          "file": "eyes-default-green.png",
+          "color": "green",
+          "colorHex": "#228B22",
+          "displayName": "Green"
+        }
+      ]
+    },
+    "medium": {
+      "baseFile": "eyes-medium.png",
+      "variants": []
+    }
+  },
+  "eyebrows": {
+    "curved": {
+      "baseFile": "eyebrows-curved.png",
+      "variants": []
+    },
+    "default": {
+      "baseFile": "eyebrows-default.png",
+      "variants": []
+    },
+    "flat": {
+      "baseFile": "eyebrows-flat.png",
+      "variants": []
+    }
+  },
+  "mouth": {
+    "default": {
+      "baseFile": "mouth-default.png",
+      "variants": []
+    },
+    "small": {
+      "baseFile": "mouth-small.png",
+      "variants": []
+    },
+    "smile": {
+      "baseFile": "mouth-smile.png",
+      "variants": [
+        {
+          "file": "mouth-smile-pink.png",
+          "color": "pink",
+          "colorHex": "#FF69B4",
+          "displayName": "Pink"
+        }
+      ]
+    }
+  },
+  "blush": {
+    "default": {
+      "baseFile": "blush-default.png",
+      "variants": []
+    },
+    "light": {
+      "baseFile": "blush-light.png",
+      "variants": []
+    },
+    "soft": {
+      "baseFile": "blush-soft.png",
+      "variants": []
+    }
+  },
+  "earring": {
+    "default": {
+      "baseFile": "earring-default.png",
+      "variants": []
+    },
+    "helixmix": {
+      "baseFile": "earring-helixmix.png",
+      "variants": []
+    }
+  },
+  "glasses": {
+    "default": {
+      "baseFile": "glasses-default.png",
+      "variants": []
+    }
+  }
+}

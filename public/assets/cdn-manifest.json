@@ -1,5 +1,5 @@
 {
-  "generated": "2025-08-24T12:25:23.945Z",
+  "generated": "2025-08-24T13:18:18.499Z",
   "github": {
     "username": "tgen16mgc",
     "repo": "pixselfstudio",
@@ -83,16 +83,6 @@
         "localPath": "/assets/character/hair/hair-front/hair-front-long37.png"
       },
       {
-        "filename": "hair-front-test-new-red.png",
-        "cdnUrl": "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-front/hair-front-test-new-red.png",
-        "localPath": "/assets/character/hair/hair-front/hair-front-test-new-red.png"
-      },
-      {
-        "filename": "hair-front-test-new.png",
-        "cdnUrl": "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-front/hair-front-test-new.png",
-        "localPath": "/assets/character/hair/hair-front/hair-front-test-new.png"
-      },
-      {
         "filename": "hair-front-tomboy-black.png",
         "cdnUrl": "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-front/hair-front-tomboy-black.png",
         "localPath": "/assets/character/hair/hair-front/hair-front-tomboy-black.png"
@@ -135,6 +125,36 @@
         "filename": "eyes-basic1.png",
         "cdnUrl": "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/eyes/eyes-basic1.png",
         "localPath": "/assets/character/face/eyes/eyes-basic1.png"
+      },
+      {
+        "filename": "eyes-cun-black.png",
+        "cdnUrl": "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/eyes/eyes-cun-black.png",
+        "localPath": "/assets/character/face/eyes/eyes-cun-black.png"
+      },
+      {
+        "filename": "eyes-cun-blue.png",
+        "cdnUrl": "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/eyes/eyes-cun-blue.png",
+        "localPath": "/assets/character/face/eyes/eyes-cun-blue.png"
+      },
+      {
+        "filename": "eyes-cun-brown.png",
+        "cdnUrl": "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/eyes/eyes-cun-brown.png",
+        "localPath": "/assets/character/face/eyes/eyes-cun-brown.png"
+      },
+      {
+        "filename": "eyes-cun-green.png",
+        "cdnUrl": "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/eyes/eyes-cun-green.png",
+        "localPath": "/assets/character/face/eyes/eyes-cun-green.png"
+      },
+      {
+        "filename": "eyes-cun-purple.png",
+        "cdnUrl": "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/eyes/eyes-cun-purple.png",
+        "localPath": "/assets/character/face/eyes/eyes-cun-purple.png"
+      },
+      {
+        "filename": "eyes-cun.png",
+        "cdnUrl": "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/eyes/eyes-cun.png",
+        "localPath": "/assets/character/face/eyes/eyes-cun.png"
       },
       {
         "filename": "eyes-default-blue.png",

@@ -14,6 +14,9 @@ The PixSelf Asset Manager handles the complex dual-system architecture for manag
 # Add a new hairstyle called "pixie"
 npm run add-asset -- --file /path/to/your/pixie-hair.png --part hairFront --style pixie
 
+# Add a new eye style called "sleepy"
+npm run add-asset -- --file /path/to/sleepy-eyes.png --part eyes --style sleepy
+
 # Add a new mouth expression called "wink"  
 npm run add-asset -- --file /path/to/wink.png --part mouth --style wink
 ```
@@ -23,8 +26,11 @@ npm run add-asset -- --file /path/to/wink.png --part mouth --style wink
 # Add purple variant for existing "pixie" hairstyle
 npm run add-asset -- --file /path/to/pixie-purple.png --part hairFront --style pixie --color purple
 
-# Add blue variant for existing "wink" mouth
-npm run add-asset -- --file /path/to/wink-blue.png --part mouth --style wink --color blue
+# Add blue variant for existing "sleepy" eyes
+npm run add-asset -- --file /path/to/sleepy-blue.png --part eyes --style sleepy --color blue
+
+# Add pink variant for existing "wink" mouth
+npm run add-asset -- --file /path/to/wink-pink.png --part mouth --style wink --color pink
 ```
 
 ### Auto-Process Everything
@@ -287,9 +293,16 @@ npm run dev
 
 After running the script, your new assets will be available in the character creator:
 
-1. **Base styles** appear in the **Style Options grid**
-2. **Color variants** appear as **round color buttons**
-3. **Character updates** immediately when selected
+1. **Base styles** appear in the **Style Options grid** (powered by `character-assets.ts`)
+2. **Color variants** appear as **round color buttons** (powered by `color-variants-manifest.json`)
+3. **Character canvas updates** immediately when selected (uses GitHub raw URLs)
 4. **No duplicate entries** or system conflicts
+
+## ✅ **Verified Working System:**
+
+- ✅ **Character Drawing**: Uses manifest data to load correct variant PNGs
+- ✅ **Color Variants**: Each color shows unique visual appearance  
+- ✅ **Asset Management**: Script handles dual-system architecture automatically
+- ✅ **GitHub Integration**: All assets served from GitHub raw URLs for reliability
 
 The script handles all the complexity of the dual-system architecture automatically! 🎨✨

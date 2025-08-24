@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2025-08-23T22:46:56.077Z",
+  "generatedAt": "2025-08-24T13:26:23.888Z",
   "assets": [
     {
       "baseId": "earring-default",
@@ -47,6 +47,14 @@
       "subpart": "",
       "style": "aotheneu",
       "basePath": "/assets/character/body/clothes/clothes-aotheneu.png",
+      "variants": []
+    },
+    {
+      "baseId": "clothes-default",
+      "part": "clothes",
+      "subpart": "",
+      "style": "default",
+      "basePath": "/assets/character/body/clothes/clothes-default.png",
       "variants": []
     },
     {
@@ -130,6 +138,45 @@
       "variants": []
     },
     {
+      "baseId": "eyes-cun",
+      "part": "eyes",
+      "subpart": "",
+      "style": "cun",
+      "basePath": "/assets/character/face/eyes/eyes-cun.png",
+      "variants": [
+        {
+          "id": "cun-black",
+          "name": "cun (Black)",
+          "path": "/assets/character/face/eyes/eyes-cun-black.png",
+          "color": "#333333"
+        },
+        {
+          "id": "cun-blue",
+          "name": "cun (Blue)",
+          "path": "/assets/character/face/eyes/eyes-cun-blue.png",
+          "color": "#90CAF9"
+        },
+        {
+          "id": "cun-brown",
+          "name": "cun (Brown)",
+          "path": "/assets/character/face/eyes/eyes-cun-brown.png",
+          "color": "#8B4513"
+        },
+        {
+          "id": "cun-green",
+          "name": "cun (Green)",
+          "path": "/assets/character/face/eyes/eyes-cun-green.png",
+          "color": "#4ECDC4"
+        },
+        {
+          "id": "cun-purple",
+          "name": "cun (Purple)",
+          "path": "/assets/character/face/eyes/eyes-cun-purple.png",
+          "color": "#CE93D8"
+        }
+      ]
+    },
+    {
       "baseId": "eyes-default",
       "part": "eyes",
       "subpart": "",
@@ -206,6 +253,14 @@
       "variants": []
     },
     {
+      "baseId": "hair-behind-default",
+      "part": "hair",
+      "subpart": "behind",
+      "style": "default",
+      "basePath": "/assets/character/hair/hair-behind/hair-behind-default.png",
+      "variants": []
+    },
+    {
       "baseId": "hair-front-2side",
       "part": "hair",
       "subpart": "front",
@@ -238,6 +293,14 @@
       "subpart": "front",
       "style": "64",
       "basePath": "/assets/character/hair/hair-front/hair-front-64.png",
+      "variants": []
+    },
+    {
+      "baseId": "hair-front-default",
+      "part": "hair",
+      "subpart": "front",
+      "style": "default",
+      "basePath": "/assets/character/hair/hair-front/hair-front-default.png",
       "variants": []
     },
     {
