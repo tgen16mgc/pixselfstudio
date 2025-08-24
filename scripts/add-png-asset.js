@@ -518,9 +518,15 @@ async function updateColorVariantsManifest() {
   console.log('\n🎨 Updating color variants manifest...');
   
   try {
-    // Run the existing script to update the manifest
+    // Run both asset manifest and color variants manifest updates
     const { execSync } = require('child_process');
+    
+    // First update the asset manifest
     execSync('npm run scan', { stdio: 'inherit' });
+    
+    // Then update the color variants manifest specifically
+    execSync('node scripts/create-test-assets.js', { stdio: 'inherit' });
+    
     console.log('✅ Color variants manifest updated');
   } catch (error) {
     console.error('❌ Failed to update color variants manifest:', error.message);

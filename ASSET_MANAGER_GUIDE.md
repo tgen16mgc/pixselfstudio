@@ -305,5 +305,13 @@ After running the script, your new assets will be available in the character cre
 - ✅ **Color Variants**: Each color shows unique visual appearance  
 - ✅ **Asset Management**: Script handles dual-system architecture automatically
 - ✅ **GitHub Integration**: All assets served from GitHub raw URLs for reliability
+- ✅ **Automatic Manifest Updates**: Both asset manifest AND color variants manifest update automatically
+
+## 🔧 **Recent Fix Applied:**
+
+**Issue:** Color variants didn't show initially after adding assets
+- **Problem**: Script was only updating asset manifest, not color variants manifest
+- **Fix**: Script now updates BOTH manifests automatically
+- **Result**: Color variants appear immediately after running the script
 
 The script handles all the complexity of the dual-system architecture automatically! 🎨✨
