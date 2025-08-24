@@ -21,12 +21,6 @@ const FALLBACK_CHARACTER_PARTS: PartDefinition[] = [
     category: "Body",
     assets: [
     {
-      id: "default",
-      name: "Default BODY",
-      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/body/body/body-default.png",
-      enabled: true,
-    },
-    {
       id: "v2",
       name: "V2 BODY",
       path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/body/body/body-v2.png",
@@ -52,12 +46,6 @@ const FALLBACK_CHARACTER_PARTS: PartDefinition[] = [
       id: "aotheneu",
       name: "Aotheneu CLOTHES",
       path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/body/clothes/clothes-aotheneu.png",
-      enabled: true,
-    },
-    {
-      id: "default",
-      name: "Default CLOTHES",
-      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/body/clothes/clothes-default.png",
       enabled: true,
     },
     {
@@ -108,12 +96,6 @@ const FALLBACK_CHARACTER_PARTS: PartDefinition[] = [
       enabled: true,
     },
     {
-      id: "default",
-      name: "Default HAIR FRONT",
-      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-front/hair-front-default.png",
-      enabled: true,
-    },
-    {
       id: "long37",
       name: "Long37 HAIR FRONT",
       path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-front/hair-front-long37.png",
@@ -156,12 +138,6 @@ const FALLBACK_CHARACTER_PARTS: PartDefinition[] = [
       name: "Curly HAIR BEHIND",
       path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-behind/hair-behind-curly.png",
       enabled: true,
-    },
-    {
-      id: "default",
-      name: "Default HAIR BEHIND",
-      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-behind/hair-behind-default.png",
-      enabled: true,
     }
     ],
     defaultAsset: "default",
@@ -183,13 +159,6 @@ const FALLBACK_CHARACTER_PARTS: PartDefinition[] = [
       id: "basic1",
       name: "Basic1 EYES",
       path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/eyes/eyes-basic1.png",
-      enabled: true,
-    },
-
-    {
-      id: "default",
-      name: "Default EYES",
-      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/eyes/eyes-default.png",
       enabled: true,
     },
     {
@@ -227,12 +196,6 @@ const FALLBACK_CHARACTER_PARTS: PartDefinition[] = [
       enabled: true,
     },
     {
-      id: "default",
-      name: "Default EYEBROWS",
-      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/eyebrows/eyebrows-default.png",
-      enabled: true,
-    },
-    {
       id: "flat",
       name: "Flat EYEBROWS",
       path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/eyebrows/eyebrows-flat.png",
@@ -252,12 +215,6 @@ const FALLBACK_CHARACTER_PARTS: PartDefinition[] = [
       id: "none",
       name: "No MOUTH",
       path: "",
-      enabled: true,
-    },
-    {
-      id: "default",
-      name: "Default MOUTH",
-      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/mouth/mouth-default.png",
       enabled: true,
     },
     {
@@ -290,12 +247,6 @@ const FALLBACK_CHARACTER_PARTS: PartDefinition[] = [
       enabled: true,
     },
     {
-      id: "default",
-      name: "Default BLUSH",
-      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/blush/blush-default.png",
-      enabled: true,
-    },
-    {
       id: "light",
       name: "Light BLUSH",
       path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/blush/blush-light.png",
@@ -324,12 +275,6 @@ const FALLBACK_CHARACTER_PARTS: PartDefinition[] = [
       enabled: true,
     },
     {
-      id: "default",
-      name: "Default EARRING",
-      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/accessories/earring/earring-default.png",
-      enabled: true,
-    },
-    {
       id: "helixmix",
       name: "Helixmix EARRING",
       path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/accessories/earring/earring-helixmix.png",
@@ -349,12 +294,6 @@ const FALLBACK_CHARACTER_PARTS: PartDefinition[] = [
       id: "none",
       name: "No GLASSES",
       path: "",
-      enabled: true,
-    },
-    {
-      id: "default",
-      name: "Default GLASSES",
-      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/accessories/glasses/glasses-default.png",
       enabled: true,
     }
     ],
