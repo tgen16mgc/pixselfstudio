@@ -40,6 +40,7 @@ import {
   drawCharacterToCanvas,
   generateCharacterThumbnail,
   preloadCharacterAssets,
+  preloadAssetVariants,
 } from "@/utils/character-drawing"
 import { CHARACTER_PARTS, type PartDefinition } from "@/config/character-assets"
 import type { PartKey, Selections } from "@/types/character"
@@ -107,6 +108,8 @@ function PixelCanvasPreview({
 }: { selections: Selections; scale?: number; zoom?: number }) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [animationOffset, setAnimationOffset] = useState(0)
+  const [isDrawing, setIsDrawing] = useState(false)
+  const [lastSelections, setLastSelections] = useState<Selections | null>(null)
 
   useEffect(() => {
     const animate = () => {
@@ -125,25 +128,78 @@ function PixelCanvasPreview({
     canvas.height = baseSize * scale * zoom
 
     const ctx = canvas.getContext("2d")!
-    ctx.save()
 
-    // Apply subtle floating animation
-    const floatY = Math.sin(animationOffset) * 2
-    ctx.translate(0, floatY * scale * zoom)
-
-    // Draw the actual character (now async)
-    drawCharacterToCanvas(canvas, selections, scale * zoom).catch(console.error)
-
-    ctx.restore()
-  }, [selections, scale, zoom, animationOffset])
+    // Only redraw if selections actually changed (not just animation)
+    const selectionsChanged = JSON.stringify(selections) !== JSON.stringify(lastSelections)
+    
+    if (selectionsChanged) {
+      setIsDrawing(true)
+      setLastSelections(selections)
+      
+      // Create an offscreen canvas for smooth transition
+      const offscreenCanvas = document.createElement('canvas')
+      offscreenCanvas.width = canvas.width
+      offscreenCanvas.height = canvas.height
+      
+      // Draw to offscreen canvas first
+      drawCharacterToCanvas(offscreenCanvas, selections, scale * zoom)
+        .then(() => {
+          if (!canvasRef.current) return
+          
+          // Apply floating animation to the main canvas
+          ctx.save()
+          const floatY = Math.sin(animationOffset) * 2
+          ctx.translate(0, floatY * scale * zoom)
+          
+          // Clear and draw the offscreen canvas to main canvas
+          ctx.clearRect(0, 0, canvas.width, canvas.height)
+          ctx.drawImage(offscreenCanvas, 0, 0)
+          
+          ctx.restore()
+          setIsDrawing(false)
+        })
+        .catch((error) => {
+          console.error('Character drawing error:', error)
+          setIsDrawing(false)
+        })
+    } else {
+      // Only apply animation if selections haven't changed
+      ctx.save()
+      
+      // Apply subtle floating animation
+      const floatY = Math.sin(animationOffset) * 2
+      ctx.translate(0, floatY * scale * zoom)
+      
+      // Redraw existing content with animation
+      if (lastSelections) {
+        drawCharacterToCanvas(canvas, selections, scale * zoom).catch(console.error)
+      }
+      
+      ctx.restore()
+    }
+  }, [selections, scale, zoom, animationOffset, lastSelections])
 
   return (
-    <canvas
-      ref={canvasRef}
-      className="h-full w-auto max-w-full"
-      style={{ imageRendering: "pixelated" }}
-      aria-label="Pixel character preview"
-    />
+    <div className="relative">
+      <canvas
+        ref={canvasRef}
+        className="h-full w-auto max-w-full"
+        style={{ 
+          imageRendering: "pixelated",
+          transition: isDrawing ? 'opacity 0.1s ease-in-out' : 'none',
+          opacity: isDrawing ? 0.9 : 1
+        }}
+        aria-label="Pixel character preview"
+      />
+      {isDrawing && (
+        <div 
+          className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-10 rounded"
+          style={{ backdropFilter: 'blur(1px)' }}
+        >
+          <div className="w-4 h-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+        </div>
+      )}
+    </div>
   )
 }
 
@@ -374,6 +430,12 @@ export default function Page() {
 
   function onSelectAsset(part: PartKey, assetId: string) {
     setLoading(true)
+    
+    // Preload color variants for this asset to prevent flashing
+    if (assetId !== "none") {
+      preloadAssetVariants(part, assetId).catch(console.error);
+    }
+    
     setTimeout(() => {
       const newSelections = {
         ...selections,

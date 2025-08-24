@@ -70,6 +70,54 @@ function getCachedImage(path: string): HTMLImageElement | null {
   return imageCache.get(path) || null
 }
 
+// Preload a specific image path
+export async function preloadImage(path: string): Promise<HTMLImageElement> {
+  // Check if already cached
+  const cached = getCachedImage(path)
+  if (cached) {
+    return cached
+  }
+  
+  // Load and cache the image
+  return loadImage(path)
+}
+
+// Preload all color variants for a specific asset to prevent flashing
+export async function preloadAssetVariants(partKey: PartKey, baseAssetId: string): Promise<void> {
+  try {
+    // Load the color variants manifest
+    const manifest = await loadColorVariantsManifest()
+    if (!manifest) return
+    
+    // Find all variants for this asset
+    const variantPaths: string[] = []
+    
+    for (const asset of manifest.assets) {
+      // Check if this is the base asset we're looking for
+      if (asset.baseId.includes(baseAssetId)) {
+        // Add base path
+        if (asset.basePath) {
+          variantPaths.push(`https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public${asset.basePath}`)
+        }
+        
+        // Add all variant paths
+        for (const variant of asset.variants) {
+          variantPaths.push(`https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public${variant.path}`)
+        }
+        break
+      }
+    }
+    
+    // Preload all found paths in parallel
+    if (variantPaths.length > 0) {
+      await Promise.all(variantPaths.map(path => preloadImage(path).catch(console.error)))
+      console.log(`🚀 Preloaded ${variantPaths.length} variants for ${partKey}:${baseAssetId}`)
+    }
+  } catch (error) {
+    console.error(`Failed to preload variants for ${partKey}:${baseAssetId}:`, error)
+  }
+}
+
 // Main character drawing function
 export async function drawCharacterToCanvas(
   canvas: HTMLCanvasElement,

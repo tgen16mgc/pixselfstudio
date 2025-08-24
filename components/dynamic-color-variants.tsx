@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import { Palette } from "lucide-react"
 import { PIXSELF_BRAND } from "@/config/pixself-brand"
+import { preloadAssetVariants } from "@/utils/character-drawing"
 import type { PartKey, AssetVariant } from "@/types/character"
 import { useDynamicAssetVariants, DynamicAssetOptions } from "@/utils/dynamic-asset-manager"
 
@@ -52,6 +53,11 @@ export function DynamicColorVariants({
             setIsLoadingVariants(false);
             setVariantError(null);
             console.log(`🎨 Loaded ${variants.length} color variants for ${currentAssetId}`);
+            
+            // Preload all variant images to prevent flashing
+            if (variants.length > 0) {
+              preloadAssetVariants(activePart, currentAssetId).catch(console.error);
+            }
           }
         } catch (error) {
           console.error("Error loading color variants:", error);
