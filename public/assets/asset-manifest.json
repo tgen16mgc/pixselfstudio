@@ -47,9 +47,15 @@
   ],
   "mouth": [
     "mouth-default.png",
+    "mouth-noemo-pink.png",
+    "mouth-noemo-red.png",
+    "mouth-noemo.png",
+    "mouth-rabbit.png",
     "mouth-small.png",
     "mouth-smile-pink.png",
-    "mouth-smile.png"
+    "mouth-smile-red.png",
+    "mouth-smile.png",
+    "mouth-wow.png"
   ],
   "blush": [
     "blush-default.png",

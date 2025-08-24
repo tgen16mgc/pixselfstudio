@@ -235,6 +235,24 @@ const FALLBACK_CHARACTER_PARTS: PartDefinition[] = [
       name: "Smile MOUTH",
       path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/mouth/mouth-smile.png",
       enabled: true,
+    },
+    {
+      id: "noemo",
+      name: "Noemo MOUTH",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/mouth/mouth-noemo.png",
+      enabled: true,
+    },
+    {
+      id: "rabbit",
+      name: "Rabbit MOUTH",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/mouth/mouth-rabbit.png",
+      enabled: true,
+    },
+    {
+      id: "wow",
+      name: "Wow MOUTH",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/mouth/mouth-wow.png",
+      enabled: true,
     }
     ],
     defaultAsset: "default",
