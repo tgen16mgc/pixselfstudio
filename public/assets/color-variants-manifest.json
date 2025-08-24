@@ -1,12 +1,28 @@
 {
-  "generatedAt": "2025-08-24T15:52:17.550Z",
+  "generatedAt": "2025-08-24T16:12:29.490Z",
   "assets": [
+    {
+      "baseId": "earring-circle",
+      "part": "earring",
+      "subpart": "",
+      "style": "circle",
+      "basePath": "/assets/character/accessories/earring/earring-circle.png",
+      "variants": []
+    },
     {
       "baseId": "earring-default",
       "part": "earring",
       "subpart": "",
       "style": "default",
       "basePath": "/assets/character/accessories/earring/earring-default.png",
+      "variants": []
+    },
+    {
+      "baseId": "earring-helix",
+      "part": "earring",
+      "subpart": "",
+      "style": "helix",
+      "basePath": "/assets/character/accessories/earring/earring-helix.png",
       "variants": []
     },
     {

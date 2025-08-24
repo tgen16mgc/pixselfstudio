@@ -363,6 +363,18 @@ const FALLBACK_CHARACTER_PARTS: PartDefinition[] = [
       name: "Helixmix EARRING",
       path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/accessories/earring/earring-helixmix.png",
       enabled: true,
+    },
+    {
+      id: "circle",
+      name: "Circle EARRING",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/accessories/earring/earring-circle.png",
+      enabled: true,
+    },
+    {
+      id: "helix",
+      name: "Helix EARRING",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/accessories/earring/earring-helix.png",
+      enabled: true,
     }
     ],
     defaultAsset: "none",
