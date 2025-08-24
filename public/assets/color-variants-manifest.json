@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2025-08-24T13:26:23.888Z",
+  "generatedAt": "2025-08-24T14:46:55.195Z",
   "assets": [
     {
       "baseId": "earring-default",
@@ -214,6 +214,35 @@
       "variants": []
     },
     {
+      "baseId": "mouth-noemo",
+      "part": "mouth",
+      "subpart": "",
+      "style": "noemo",
+      "basePath": "/assets/character/face/mouth/mouth-noemo.png",
+      "variants": [
+        {
+          "id": "noemo-pink",
+          "name": "noemo (Pink)",
+          "path": "/assets/character/face/mouth/mouth-noemo-pink.png",
+          "color": "#F8BBD0"
+        },
+        {
+          "id": "noemo-red",
+          "name": "noemo (Red)",
+          "path": "/assets/character/face/mouth/mouth-noemo-red.png",
+          "color": "#FF8A80"
+        }
+      ]
+    },
+    {
+      "baseId": "mouth-rabbit",
+      "part": "mouth",
+      "subpart": "",
+      "style": "rabbit",
+      "basePath": "/assets/character/face/mouth/mouth-rabbit.png",
+      "variants": []
+    },
+    {
       "baseId": "mouth-small",
       "part": "mouth",
       "subpart": "",
@@ -233,8 +262,22 @@
           "name": "smile (Pink)",
           "path": "/assets/character/face/mouth/mouth-smile-pink.png",
           "color": "#F8BBD0"
+        },
+        {
+          "id": "smile-red",
+          "name": "smile (Red)",
+          "path": "/assets/character/face/mouth/mouth-smile-red.png",
+          "color": "#FF8A80"
         }
       ]
+    },
+    {
+      "baseId": "mouth-wow",
+      "part": "mouth",
+      "subpart": "",
+      "style": "wow",
+      "basePath": "/assets/character/face/mouth/mouth-wow.png",
+      "variants": []
     },
     {
       "baseId": "hair-behind-2side",
