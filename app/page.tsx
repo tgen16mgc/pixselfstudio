@@ -107,10 +107,7 @@ function PixelCanvasPreview({
   zoom = 1,
 }: { selections: Selections; scale?: number; zoom?: number }) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const bufferCanvasRef = useRef<HTMLCanvasElement | null>(null)
   const [animationOffset, setAnimationOffset] = useState(0)
-  const [lastSelections, setLastSelections] = useState<string>("")
-  const renderingRef = useRef(false)
 
   useEffect(() => {
     const animate = () => {
@@ -123,55 +120,26 @@ function PixelCanvasPreview({
   useEffect(() => {
     if (!canvasRef.current) return
     const canvas = canvasRef.current
-    const ctx = canvas.getContext("2d")!
 
     const baseSize = 640
     canvas.width = baseSize * scale * zoom
     canvas.height = baseSize * scale * zoom
 
-    // Create buffer canvas if it doesn't exist
-    if (!bufferCanvasRef.current) {
-      bufferCanvasRef.current = document.createElement('canvas')
-    }
-    const bufferCanvas = bufferCanvasRef.current
-    bufferCanvas.width = canvas.width
-    bufferCanvas.height = canvas.height
-
-    // Check if selections actually changed
-    const selectionsString = JSON.stringify(selections)
-    const selectionsChanged = selectionsString !== lastSelections
+    const ctx = canvas.getContext("2d")!
     
-    if (selectionsChanged && !renderingRef.current) {
-      renderingRef.current = true
-      setLastSelections(selectionsString)
-      
-      // Draw to buffer canvas in background
-      drawCharacterToCanvas(bufferCanvas, selections, scale * zoom)
-        .then(() => {
-          renderingRef.current = false
-        })
-        .catch((error) => {
-          console.error('Character drawing error:', error)
-          renderingRef.current = false
-        })
-    }
-
-    // Always apply floating animation (independent of character updates)
-    const animateFrame = () => {
-      if (!canvasRef.current || !bufferCanvasRef.current) return
-      
-      const mainCtx = canvasRef.current.getContext("2d")!
-      const floatY = Math.sin(animationOffset) * 2
-      
-      mainCtx.save()
-      mainCtx.clearRect(0, 0, canvas.width, canvas.height)
-      mainCtx.translate(0, floatY * scale * zoom)
-      mainCtx.drawImage(bufferCanvasRef.current, 0, 0)
-      mainCtx.restore()
-    }
+    // Clear canvas and apply animation
+    ctx.save()
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
     
-    animateFrame()
-  }, [selections, scale, zoom, animationOffset, lastSelections])
+    // Apply subtle floating animation
+    const floatY = Math.sin(animationOffset) * 2
+    ctx.translate(0, floatY * scale * zoom)
+
+    // Draw the actual character
+    drawCharacterToCanvas(canvas, selections, scale * zoom).catch(console.error)
+    
+    ctx.restore()
+  }, [selections, scale, zoom, animationOffset])
 
   return (
     <canvas
