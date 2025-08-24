@@ -202,6 +202,12 @@ const FALLBACK_CHARACTER_PARTS: PartDefinition[] = [
       enabled: true,
     },
     {
+      id: "default",
+      name: "Default EYEBROWS",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/eyebrows/eyebrows-default.png",
+      enabled: true,
+    },
+    {
       id: "curved",
       name: "Curved EYEBROWS",
       path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/eyebrows/eyebrows-curved.png",
@@ -283,6 +289,12 @@ const FALLBACK_CHARACTER_PARTS: PartDefinition[] = [
       enabled: true,
     },
     {
+      id: "default",
+      name: "Default BLUSH",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/blush/blush-default.png",
+      enabled: true,
+    },
+    {
       id: "light",
       name: "Light BLUSH",
       path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/blush/blush-light.png",
@@ -311,6 +323,12 @@ const FALLBACK_CHARACTER_PARTS: PartDefinition[] = [
       enabled: true,
     },
     {
+      id: "default",
+      name: "Default EARRING",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/accessories/earring/earring-default.png",
+      enabled: true,
+    },
+    {
       id: "helixmix",
       name: "Helixmix EARRING",
       path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/accessories/earring/earring-helixmix.png",
@@ -330,6 +348,12 @@ const FALLBACK_CHARACTER_PARTS: PartDefinition[] = [
       id: "none",
       name: "No GLASSES",
       path: "",
+      enabled: true,
+    },
+    {
+      id: "default",
+      name: "Default GLASSES",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/accessories/glasses/glasses-default.png",
       enabled: true,
     }
     ],
