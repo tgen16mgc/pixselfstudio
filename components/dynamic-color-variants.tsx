@@ -118,7 +118,7 @@ export function DynamicColorVariants({
   }
 
   if (
-    ["earring", "glasses", "eyebrows", "blush"].includes(activePart) || 
+    ["earring", "glasses", "eyebrows"].includes(activePart) || 
     (colorVariants.length === 0 && !isLoadingVariants && !manifestLoading && !variantError) || 
     currentAssetId === "none"
   ) {
