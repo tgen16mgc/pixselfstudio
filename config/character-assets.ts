@@ -162,6 +162,12 @@ const FALLBACK_CHARACTER_PARTS: PartDefinition[] = [
       enabled: true,
     },
     {
+      id: "default",
+      name: "Default EYES",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/eyes/eyes-default.png",
+      enabled: true,
+    },
+    {
       id: "basic1",
       name: "Basic1 EYES",
       path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/eyes/eyes-basic1.png",
@@ -221,6 +227,12 @@ const FALLBACK_CHARACTER_PARTS: PartDefinition[] = [
       id: "none",
       name: "No MOUTH",
       path: "",
+      enabled: true,
+    },
+    {
+      id: "default",
+      name: "Default MOUTH",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/mouth/mouth-default.png",
       enabled: true,
     },
     {
