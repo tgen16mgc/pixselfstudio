@@ -1,0 +1,670 @@
+{
+  "version": "2.0.0",
+  "generated": "2025-08-23T21:28:04.359Z",
+  "parts": {
+    "body": {
+      "key": "body",
+      "label": "BODY",
+      "icon": "👤",
+      "category": "Body",
+      "assets": [
+        {
+          "id": "default",
+          "name": "Default BODY",
+          "basePath": "/assets/character/body/body",
+          "enabled": true,
+          "variants": [
+            {
+              "id": "default",
+              "name": "Default BODY",
+              "path": "/assets/character/body/body/body-default.png",
+              "enabled": true
+            }
+          ],
+          "defaultVariant": "default"
+        },
+        {
+          "id": "v2",
+          "name": "V2",
+          "basePath": "/assets/character/body/body",
+          "enabled": true,
+          "variants": [
+            {
+              "id": "v2",
+              "name": "V2",
+              "path": "/assets/character/body/body/body-v2.png",
+              "enabled": true
+            }
+          ],
+          "defaultVariant": "v2"
+        }
+      ],
+      "defaultAsset": "default",
+      "optional": false,
+      "colorSupport": true
+    },
+    "clothes": {
+      "key": "clothes",
+      "label": "CLOTHES",
+      "icon": "👕",
+      "category": "Body",
+      "assets": [
+        {
+          "id": "none",
+          "name": "No CLOTHES",
+          "basePath": "",
+          "enabled": true,
+          "variants": [
+            {
+              "id": "none",
+              "name": "None",
+              "path": "",
+              "enabled": true
+            }
+          ],
+          "defaultVariant": "none"
+        },
+        {
+          "id": "aotheneu",
+          "name": "Aotheneu",
+          "basePath": "/assets/character/body/clothes",
+          "enabled": true,
+          "variants": [
+            {
+              "id": "aotheneu",
+              "name": "Aotheneu",
+              "path": "/assets/character/body/clothes/clothes-aotheneu.png",
+              "enabled": true
+            }
+          ],
+          "defaultVariant": "aotheneu"
+        },
+        {
+          "id": "dress1",
+          "name": "Dress1",
+          "basePath": "/assets/character/body/clothes",
+          "enabled": true,
+          "variants": [
+            {
+              "id": "dress1",
+              "name": "Dress1",
+              "path": "/assets/character/body/clothes/clothes-dress1.png",
+              "enabled": true
+            }
+          ],
+          "defaultVariant": "dress1"
+        },
+        {
+          "id": "neu",
+          "name": "Neu",
+          "basePath": "/assets/character/body/clothes",
+          "enabled": true,
+          "variants": [
+            {
+              "id": "neu",
+              "name": "Neu",
+              "path": "/assets/character/body/clothes/clothes-neu.png",
+              "enabled": true
+            }
+          ],
+          "defaultVariant": "neu"
+        },
+        {
+          "id": "somi",
+          "name": "Somi",
+          "basePath": "/assets/character/body/clothes",
+          "enabled": true,
+          "variants": [
+            {
+              "id": "somi",
+              "name": "Somi",
+              "path": "/assets/character/body/clothes/clothes-somi.png",
+              "enabled": true
+            }
+          ],
+          "defaultVariant": "somi"
+        }
+      ],
+      "defaultAsset": "default",
+      "optional": true,
+      "colorSupport": true
+    },
+    "hairBehind": {
+      "key": "hairBehind",
+      "label": "HAIR BEHIND",
+      "icon": "🎭",
+      "category": "Hair",
+      "assets": [
+        {
+          "id": "none",
+          "name": "No HAIR BEHIND",
+          "basePath": "",
+          "enabled": true,
+          "variants": [
+            {
+              "id": "none",
+              "name": "None",
+              "path": "",
+              "enabled": true
+            }
+          ],
+          "defaultVariant": "none"
+        },
+        {
+          "id": "2side",
+          "name": "2side",
+          "basePath": "/assets/character/hair/hair-behind",
+          "enabled": true,
+          "variants": [
+            {
+              "id": "2side",
+              "name": "2side",
+              "path": "/assets/character/hair/hair-behind/hair-behind-2side.png",
+              "enabled": true
+            }
+          ],
+          "defaultVariant": "2side"
+        },
+        {
+          "id": "curly",
+          "name": "Curly",
+          "basePath": "/assets/character/hair/hair-behind",
+          "enabled": true,
+          "variants": [
+            {
+              "id": "curly",
+              "name": "Curly",
+              "path": "/assets/character/hair/hair-behind/hair-behind-curly.png",
+              "enabled": true
+            }
+          ],
+          "defaultVariant": "curly"
+        }
+      ],
+      "defaultAsset": "default",
+      "optional": true,
+      "colorSupport": true
+    },
+    "hairFront": {
+      "key": "hairFront",
+      "label": "HAIR FRONT",
+      "icon": "💇",
+      "category": "Hair",
+      "assets": [
+        {
+          "id": "none",
+          "name": "No HAIR FRONT",
+          "basePath": "",
+          "enabled": true,
+          "variants": [
+            {
+              "id": "none",
+              "name": "None",
+              "path": "",
+              "enabled": true
+            }
+          ],
+          "defaultVariant": "none"
+        },
+        {
+          "id": "2side",
+          "name": "2side",
+          "basePath": "/assets/character/hair/hair-front",
+          "enabled": true,
+          "variants": [
+            {
+              "id": "2side",
+              "name": "2side",
+              "path": "/assets/character/hair/hair-front/hair-front-2side.png",
+              "enabled": true
+            }
+          ],
+          "defaultVariant": "2side"
+        },
+        {
+          "id": "64",
+          "name": "64",
+          "basePath": "/assets/character/hair/hair-front",
+          "enabled": true,
+          "variants": [
+            {
+              "id": "64",
+              "name": "64",
+              "path": "/assets/character/hair/hair-front/hair-front-64.png",
+              "enabled": true
+            }
+          ],
+          "defaultVariant": "64"
+        },
+        {
+          "id": "long37",
+          "name": "Long37",
+          "basePath": "/assets/character/hair/hair-front",
+          "enabled": true,
+          "variants": [
+            {
+              "id": "long37",
+              "name": "Long37",
+              "path": "/assets/character/hair/hair-front/hair-front-long37.png",
+              "enabled": true
+            }
+          ],
+          "defaultVariant": "long37"
+        },
+        {
+          "id": "tomboy",
+          "name": "Tomboy",
+          "basePath": "/assets/character/hair/hair-front",
+          "enabled": true,
+          "variants": [
+            {
+              "id": "tomboy",
+              "name": "Tomboy",
+              "path": "/assets/character/hair/hair-front/hair-front-tomboy.png",
+              "enabled": true
+            }
+          ],
+          "defaultVariant": "tomboy"
+        }
+      ],
+      "defaultAsset": "default",
+      "optional": true,
+      "colorSupport": true
+    },
+    "eyes": {
+      "key": "eyes",
+      "label": "EYES",
+      "icon": "👀",
+      "category": "Face",
+      "assets": [
+        {
+          "id": "none",
+          "name": "No EYES",
+          "basePath": "",
+          "enabled": true,
+          "variants": [
+            {
+              "id": "none",
+              "name": "None",
+              "path": "",
+              "enabled": true
+            }
+          ],
+          "defaultVariant": "none"
+        },
+        {
+          "id": "basic1",
+          "name": "Basic1",
+          "basePath": "/assets/character/face/eyes",
+          "enabled": true,
+          "variants": [
+            {
+              "id": "basic1",
+              "name": "Basic1",
+              "path": "/assets/character/face/eyes/eyes-basic1.png",
+              "enabled": true
+            }
+          ],
+          "defaultVariant": "basic1"
+        },
+        {
+          "id": "default",
+          "name": "Default EYES",
+          "basePath": "/assets/character/face/eyes",
+          "enabled": true,
+          "variants": [
+            {
+              "id": "default",
+              "name": "Default EYES",
+              "path": "/assets/character/face/eyes/eyes-default.png",
+              "enabled": true
+            }
+          ],
+          "defaultVariant": "default"
+        },
+        {
+          "id": "medium",
+          "name": "Medium",
+          "basePath": "/assets/character/face/eyes",
+          "enabled": true,
+          "variants": [
+            {
+              "id": "medium-medium",
+              "name": "Medium (Medium)",
+              "color": "medium",
+              "path": "/assets/character/face/eyes/eyes-medium.png",
+              "enabled": true
+            }
+          ],
+          "defaultVariant": "medium-medium"
+        }
+      ],
+      "defaultAsset": "default",
+      "optional": true,
+      "colorSupport": true
+    },
+    "eyebrows": {
+      "key": "eyebrows",
+      "label": "EYEBROWS",
+      "icon": "🤨",
+      "category": "Face",
+      "assets": [
+        {
+          "id": "none",
+          "name": "No EYEBROWS",
+          "basePath": "",
+          "enabled": true,
+          "variants": [
+            {
+              "id": "none",
+              "name": "None",
+              "path": "",
+              "enabled": true
+            }
+          ],
+          "defaultVariant": "none"
+        },
+        {
+          "id": "curved",
+          "name": "Curved",
+          "basePath": "/assets/character/face/eyebrows",
+          "enabled": true,
+          "variants": [
+            {
+              "id": "curved",
+              "name": "Curved",
+              "path": "/assets/character/face/eyebrows/eyebrows-curved.png",
+              "enabled": true
+            }
+          ],
+          "defaultVariant": "curved"
+        },
+        {
+          "id": "default",
+          "name": "Default EYEBROWS",
+          "basePath": "/assets/character/face/eyebrows",
+          "enabled": true,
+          "variants": [
+            {
+              "id": "default",
+              "name": "Default EYEBROWS",
+              "path": "/assets/character/face/eyebrows/eyebrows-default.png",
+              "enabled": true
+            }
+          ],
+          "defaultVariant": "default"
+        },
+        {
+          "id": "flat",
+          "name": "Flat",
+          "basePath": "/assets/character/face/eyebrows",
+          "enabled": true,
+          "variants": [
+            {
+              "id": "flat",
+              "name": "Flat",
+              "path": "/assets/character/face/eyebrows/eyebrows-flat.png",
+              "enabled": true
+            }
+          ],
+          "defaultVariant": "flat"
+        }
+      ],
+      "defaultAsset": "default",
+      "optional": true,
+      "colorSupport": false
+    },
+    "mouth": {
+      "key": "mouth",
+      "label": "MOUTH",
+      "icon": "👄",
+      "category": "Face",
+      "assets": [
+        {
+          "id": "none",
+          "name": "No MOUTH",
+          "basePath": "",
+          "enabled": true,
+          "variants": [
+            {
+              "id": "none",
+              "name": "None",
+              "path": "",
+              "enabled": true
+            }
+          ],
+          "defaultVariant": "none"
+        },
+        {
+          "id": "default",
+          "name": "Default MOUTH",
+          "basePath": "/assets/character/face/mouth",
+          "enabled": true,
+          "variants": [
+            {
+              "id": "default",
+              "name": "Default MOUTH",
+              "path": "/assets/character/face/mouth/mouth-default.png",
+              "enabled": true
+            }
+          ],
+          "defaultVariant": "default"
+        },
+        {
+          "id": "small",
+          "name": "Small",
+          "basePath": "/assets/character/face/mouth",
+          "enabled": true,
+          "variants": [
+            {
+              "id": "small",
+              "name": "Small",
+              "path": "/assets/character/face/mouth/mouth-small.png",
+              "enabled": true
+            }
+          ],
+          "defaultVariant": "small"
+        },
+        {
+          "id": "smile",
+          "name": "Smile",
+          "basePath": "/assets/character/face/mouth",
+          "enabled": true,
+          "variants": [
+            {
+              "id": "smile-pink",
+              "name": "Smile (Pink)",
+              "color": "pink",
+              "path": "/assets/character/face/mouth/mouth-smile-pink.png",
+              "enabled": true
+            },
+            {
+              "id": "smile",
+              "name": "Smile",
+              "path": "/assets/character/face/mouth/mouth-smile.png",
+              "enabled": true
+            }
+          ],
+          "defaultVariant": "smile"
+        }
+      ],
+      "defaultAsset": "default",
+      "optional": true,
+      "colorSupport": false
+    },
+    "blush": {
+      "key": "blush",
+      "label": "BLUSH",
+      "icon": "😊",
+      "category": "Face",
+      "assets": [
+        {
+          "id": "none",
+          "name": "No BLUSH",
+          "basePath": "",
+          "enabled": true,
+          "variants": [
+            {
+              "id": "none",
+              "name": "None",
+              "path": "",
+              "enabled": true
+            }
+          ],
+          "defaultVariant": "none"
+        },
+        {
+          "id": "default",
+          "name": "Default BLUSH",
+          "basePath": "/assets/character/face/blush",
+          "enabled": true,
+          "variants": [
+            {
+              "id": "default",
+              "name": "Default BLUSH",
+              "path": "/assets/character/face/blush/blush-default.png",
+              "enabled": true
+            }
+          ],
+          "defaultVariant": "default"
+        },
+        {
+          "id": "light",
+          "name": "Light",
+          "basePath": "/assets/character/face/blush",
+          "enabled": true,
+          "variants": [
+            {
+              "id": "light-light",
+              "name": "Light (Light)",
+              "color": "light",
+              "path": "/assets/character/face/blush/blush-light.png",
+              "enabled": true
+            }
+          ],
+          "defaultVariant": "light-light"
+        },
+        {
+          "id": "soft",
+          "name": "Soft",
+          "basePath": "/assets/character/face/blush",
+          "enabled": true,
+          "variants": [
+            {
+              "id": "soft",
+              "name": "Soft",
+              "path": "/assets/character/face/blush/blush-soft.png",
+              "enabled": true
+            }
+          ],
+          "defaultVariant": "soft"
+        }
+      ],
+      "defaultAsset": "none",
+      "optional": true,
+      "colorSupport": false
+    },
+    "earring": {
+      "key": "earring",
+      "label": "EARRING",
+      "icon": "💎",
+      "category": "Accessories",
+      "assets": [
+        {
+          "id": "none",
+          "name": "No EARRING",
+          "basePath": "",
+          "enabled": true,
+          "variants": [
+            {
+              "id": "none",
+              "name": "None",
+              "path": "",
+              "enabled": true
+            }
+          ],
+          "defaultVariant": "none"
+        },
+        {
+          "id": "default",
+          "name": "Default EARRING",
+          "basePath": "/assets/character/accessories/earring",
+          "enabled": true,
+          "variants": [
+            {
+              "id": "default",
+              "name": "Default EARRING",
+              "path": "/assets/character/accessories/earring/earring-default.png",
+              "enabled": true
+            }
+          ],
+          "defaultVariant": "default"
+        },
+        {
+          "id": "helixmix",
+          "name": "Helixmix",
+          "basePath": "/assets/character/accessories/earring",
+          "enabled": true,
+          "variants": [
+            {
+              "id": "helixmix",
+              "name": "Helixmix",
+              "path": "/assets/character/accessories/earring/earring-helixmix.png",
+              "enabled": true
+            }
+          ],
+          "defaultVariant": "helixmix"
+        }
+      ],
+      "defaultAsset": "none",
+      "optional": true,
+      "colorSupport": true
+    },
+    "glasses": {
+      "key": "glasses",
+      "label": "GLASSES",
+      "icon": "🤓",
+      "category": "Accessories",
+      "assets": [
+        {
+          "id": "none",
+          "name": "No GLASSES",
+          "basePath": "",
+          "enabled": true,
+          "variants": [
+            {
+              "id": "none",
+              "name": "None",
+              "path": "",
+              "enabled": true
+            }
+          ],
+          "defaultVariant": "none"
+        },
+        {
+          "id": "default",
+          "name": "Default GLASSES",
+          "basePath": "/assets/character/accessories/glasses",
+          "enabled": true,
+          "variants": [
+            {
+              "id": "default",
+              "name": "Default GLASSES",
+              "path": "/assets/character/accessories/glasses/glasses-default.png",
+              "enabled": true
+            }
+          ],
+          "defaultVariant": "default"
+        }
+      ],
+      "defaultAsset": "none",
+      "optional": true,
+      "colorSupport": false
+    }
+  },
+  "metadata": {
+    "totalAssets": 36,
+    "totalVariants": 37,
+    "lastUpdated": "2025-08-23T21:28:04.364Z"
+  }
+}

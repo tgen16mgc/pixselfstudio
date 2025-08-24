@@ -1,0 +1,279 @@
+{
+  "generatedAt": "2025-08-23T22:46:56.077Z",
+  "assets": [
+    {
+      "baseId": "earring-default",
+      "part": "earring",
+      "subpart": "",
+      "style": "default",
+      "basePath": "/assets/character/accessories/earring/earring-default.png",
+      "variants": []
+    },
+    {
+      "baseId": "earring-helixmix",
+      "part": "earring",
+      "subpart": "",
+      "style": "helixmix",
+      "basePath": "/assets/character/accessories/earring/earring-helixmix.png",
+      "variants": []
+    },
+    {
+      "baseId": "glasses-default",
+      "part": "glasses",
+      "subpart": "",
+      "style": "default",
+      "basePath": "/assets/character/accessories/glasses/glasses-default.png",
+      "variants": []
+    },
+    {
+      "baseId": "body-default",
+      "part": "body",
+      "subpart": "",
+      "style": "default",
+      "basePath": "/assets/character/body/body/body-default.png",
+      "variants": []
+    },
+    {
+      "baseId": "body-v2",
+      "part": "body",
+      "subpart": "",
+      "style": "v2",
+      "basePath": "/assets/character/body/body/body-v2.png",
+      "variants": []
+    },
+    {
+      "baseId": "clothes-aotheneu",
+      "part": "clothes",
+      "subpart": "",
+      "style": "aotheneu",
+      "basePath": "/assets/character/body/clothes/clothes-aotheneu.png",
+      "variants": []
+    },
+    {
+      "baseId": "clothes-dress1",
+      "part": "clothes",
+      "subpart": "",
+      "style": "dress1",
+      "basePath": "/assets/character/body/clothes/clothes-dress1.png",
+      "variants": []
+    },
+    {
+      "baseId": "clothes-neu",
+      "part": "clothes",
+      "subpart": "",
+      "style": "neu",
+      "basePath": "/assets/character/body/clothes/clothes-neu.png",
+      "variants": []
+    },
+    {
+      "baseId": "clothes-somi",
+      "part": "clothes",
+      "subpart": "",
+      "style": "somi",
+      "basePath": "/assets/character/body/clothes/clothes-somi.png",
+      "variants": []
+    },
+    {
+      "baseId": "blush-default",
+      "part": "blush",
+      "subpart": "",
+      "style": "default",
+      "basePath": "/assets/character/face/blush/blush-default.png",
+      "variants": []
+    },
+    {
+      "baseId": "blush-light",
+      "part": "blush",
+      "subpart": "",
+      "style": "light",
+      "basePath": "/assets/character/face/blush/blush-light.png",
+      "variants": []
+    },
+    {
+      "baseId": "blush-soft",
+      "part": "blush",
+      "subpart": "",
+      "style": "soft",
+      "basePath": "/assets/character/face/blush/blush-soft.png",
+      "variants": []
+    },
+    {
+      "baseId": "eyebrows-curved",
+      "part": "eyebrows",
+      "subpart": "",
+      "style": "curved",
+      "basePath": "/assets/character/face/eyebrows/eyebrows-curved.png",
+      "variants": []
+    },
+    {
+      "baseId": "eyebrows-default",
+      "part": "eyebrows",
+      "subpart": "",
+      "style": "default",
+      "basePath": "/assets/character/face/eyebrows/eyebrows-default.png",
+      "variants": []
+    },
+    {
+      "baseId": "eyebrows-flat",
+      "part": "eyebrows",
+      "subpart": "",
+      "style": "flat",
+      "basePath": "/assets/character/face/eyebrows/eyebrows-flat.png",
+      "variants": []
+    },
+    {
+      "baseId": "eyes-basic1",
+      "part": "eyes",
+      "subpart": "",
+      "style": "basic1",
+      "basePath": "/assets/character/face/eyes/eyes-basic1.png",
+      "variants": []
+    },
+    {
+      "baseId": "eyes-default",
+      "part": "eyes",
+      "subpart": "",
+      "style": "default",
+      "basePath": "/assets/character/face/eyes/eyes-default.png",
+      "variants": [
+        {
+          "id": "default-blue",
+          "name": "default (Blue)",
+          "path": "/assets/character/face/eyes/eyes-default-blue.png",
+          "color": "#90CAF9"
+        },
+        {
+          "id": "default-green",
+          "name": "default (Green)",
+          "path": "/assets/character/face/eyes/eyes-default-green.png",
+          "color": "#4ECDC4"
+        }
+      ]
+    },
+    {
+      "baseId": "eyes-medium",
+      "part": "eyes",
+      "subpart": "",
+      "style": "medium",
+      "basePath": "/assets/character/face/eyes/eyes-medium.png",
+      "variants": []
+    },
+    {
+      "baseId": "mouth-default",
+      "part": "mouth",
+      "subpart": "",
+      "style": "default",
+      "basePath": "/assets/character/face/mouth/mouth-default.png",
+      "variants": []
+    },
+    {
+      "baseId": "mouth-small",
+      "part": "mouth",
+      "subpart": "",
+      "style": "small",
+      "basePath": "/assets/character/face/mouth/mouth-small.png",
+      "variants": []
+    },
+    {
+      "baseId": "mouth-smile",
+      "part": "mouth",
+      "subpart": "",
+      "style": "smile",
+      "basePath": "/assets/character/face/mouth/mouth-smile.png",
+      "variants": [
+        {
+          "id": "smile-pink",
+          "name": "smile (Pink)",
+          "path": "/assets/character/face/mouth/mouth-smile-pink.png",
+          "color": "#F8BBD0"
+        }
+      ]
+    },
+    {
+      "baseId": "hair-behind-2side",
+      "part": "hair",
+      "subpart": "behind",
+      "style": "2side",
+      "basePath": "/assets/character/hair/hair-behind/hair-behind-2side.png",
+      "variants": []
+    },
+    {
+      "baseId": "hair-behind-curly",
+      "part": "hair",
+      "subpart": "behind",
+      "style": "curly",
+      "basePath": "/assets/character/hair/hair-behind/hair-behind-curly.png",
+      "variants": []
+    },
+    {
+      "baseId": "hair-front-2side",
+      "part": "hair",
+      "subpart": "front",
+      "style": "2side",
+      "basePath": "/assets/character/hair/hair-front/hair-front-2side.png",
+      "variants": [
+        {
+          "id": "2side-blue",
+          "name": "2side (Blue)",
+          "path": "/assets/character/hair/hair-front/hair-front-2side-blue.png",
+          "color": "#90CAF9"
+        },
+        {
+          "id": "2side-purple",
+          "name": "2side (Purple)",
+          "path": "/assets/character/hair/hair-front/hair-front-2side-purple.png",
+          "color": "#CE93D8"
+        },
+        {
+          "id": "2side-red",
+          "name": "2side (Red)",
+          "path": "/assets/character/hair/hair-front/hair-front-2side-red.png",
+          "color": "#FF8A80"
+        }
+      ]
+    },
+    {
+      "baseId": "hair-front-64",
+      "part": "hair",
+      "subpart": "front",
+      "style": "64",
+      "basePath": "/assets/character/hair/hair-front/hair-front-64.png",
+      "variants": []
+    },
+    {
+      "baseId": "hair-front-long37",
+      "part": "hair",
+      "subpart": "front",
+      "style": "long37",
+      "basePath": "/assets/character/hair/hair-front/hair-front-long37.png",
+      "variants": []
+    },
+    {
+      "baseId": "hair-front-tomboy",
+      "part": "hair",
+      "subpart": "front",
+      "style": "tomboy",
+      "basePath": "/assets/character/hair/hair-front/hair-front-tomboy.png",
+      "variants": [
+        {
+          "id": "tomboy-black",
+          "name": "tomboy (Black)",
+          "path": "/assets/character/hair/hair-front/hair-front-tomboy-black.png",
+          "color": "#333333"
+        },
+        {
+          "id": "tomboy-blonde",
+          "name": "tomboy (Blonde)",
+          "path": "/assets/character/hair/hair-front/hair-front-tomboy-blonde.png",
+          "color": "#DAA520"
+        },
+        {
+          "id": "tomboy-brown",
+          "name": "tomboy (Brown)",
+          "path": "/assets/character/hair/hair-front/hair-front-tomboy-brown.png",
+          "color": "#8B4513"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "body": [
+    "body-default.png",
+    "body-v2.png"
+  ],
+  "clothes": [
+    "clothes-aotheneu.png",
+    "clothes-default.png",
+    "clothes-dress1.png",
+    "clothes-neu.png",
+    "clothes-somi.png"
+  ],
+  "hairBehind": [
+    "hair-behind-2side.png",
+    "hair-behind-curly.png",
+    "hair-behind-default.png"
+  ],
+  "hairFront": [
+    "hair-front-2side-blue.png",
+    "hair-front-2side-purple.png",
+    "hair-front-2side-red.png",
+    "hair-front-2side.png",
+    "hair-front-64.png",
+    "hair-front-default.png",
+    "hair-front-long37.png",
+    "hair-front-tomboy-black.png",
+    "hair-front-tomboy-blonde.png",
+    "hair-front-tomboy-brown.png",
+    "hair-front-tomboy.png"
+  ],
+  "eyes": [
+    "eyes-basic1.png",
+    "eyes-cun.png",
+    "eyes-default-blue.png",
+    "eyes-default-green.png",
+    "eyes-default.png",
+    "eyes-medium.png"
+  ],
+  "eyebrows": [
+    "eyebrows-curved.png",
+    "eyebrows-default.png",
+    "eyebrows-flat.png"
+  ],
+  "mouth": [
+    "mouth-default.png",
+    "mouth-small.png",
+    "mouth-smile-pink.png",
+    "mouth-smile.png"
+  ],
+  "blush": [
+    "blush-default.png",
+    "blush-light.png",
+    "blush-soft.png"
+  ],
+  "earring": [
+    "earring-default.png",
+    "earring-helixmix.png"
+  ],
+  "glasses": [
+    "glasses-default.png"
+  ]
+}

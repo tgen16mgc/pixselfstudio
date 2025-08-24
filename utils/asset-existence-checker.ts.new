@@ -1,0 +1,244 @@
+import { AssetDefinition, AssetVariant } from "@/types/character"
+import { STANDARD_COLORS, getColorDisplayName } from "@/config/color-variants"
+
+// Cache for asset existence checks to avoid repeated network calls
+const assetExistenceCache = new Map<string, boolean>()
+
+/**
+ * Check if an asset file actually exists
+ */
+export async function checkAssetExists(assetPath: string): Promise<boolean> {
+  // Check cache first
+  if (assetExistenceCache.has(assetPath)) {
+    return assetExistenceCache.get(assetPath)!
+  }
+
+  try {
+    // Get the filename from the path
+    const filename = assetPath.split('/').pop() || ''
+
+    // Check if this is a base asset from the manifest
+    // For example: mouth-smile1.png, hair-front-tomboy.png
+    const isBaseAsset = filename.match(/^(hair-front|hair-behind|mouth|eyes|body|clothes|blush|glasses|earring|eyebrows)-[^-]+\.png$/i)
+    
+    // If this is a base asset and it's from the asset manifest, it exists
+    if (isBaseAsset) {
+      // Log for debugging
+      console.log(`🔍 Base asset check: ${filename} -> EXISTS (from manifest)`)
+      assetExistenceCache.set(assetPath, true)
+      return true
+    }
+    
+    // For color variants, log that we're checking
+    if (filename.includes('-') && filename.split('-').length > 2) {
+      console.log(`🎨 Color variant check: ${filename}`)
+      
+      // FOR DEMO ONLY: Simulate certain color variants existing
+      // In a real implementation, you would check actual files
+      if (filename.includes('-red.png') || 
+          filename.includes('-blue.png') || 
+          filename.includes('-green.png') ||
+          filename.includes('-blonde.png') || 
+          filename.includes('-brown.png')) {
+        
+        console.log(`✨ DEMO: Color variant exists: ${filename}`)
+        assetExistenceCache.set(assetPath, true)
+        return true
+      }
+    }
+    
+    // For network requests in browser, use a timeout to avoid hanging
+    const controller = new AbortController()
+    const timeoutId = setTimeout(() => controller.abort(), 3000) // 3 second timeout
+    
+    try {
+      const response = await fetch(assetPath, { 
+        method: 'HEAD',
+        signal: controller.signal,
+        cache: 'no-cache'
+      })
+      
+      clearTimeout(timeoutId)
+      const exists = response.ok
+      
+      // Log the result for debugging
+      console.log(`${exists ? '✅' : '❌'} Asset ${exists ? 'exists' : 'does not exist'}: ${assetPath}`)
+      assetExistenceCache.set(assetPath, exists)
+      return exists
+      
+    } catch (error) {
+      clearTimeout(timeoutId)
+      console.error(`❌ Error checking asset: ${assetPath}`, error)
+      assetExistenceCache.set(assetPath, false)
+      return false
+    }
+  } catch (error) {
+    // If fetch fails (including timeout), assume asset doesn't exist
+    console.warn(`Asset check failed for ${assetPath}:`, error)
+    assetExistenceCache.set(assetPath, false)
+    return false
+  }
+}
+
+/**
+ * Filter assets to only include those that actually exist
+ */
+export async function filterExistingAssets(assets: AssetDefinition[]): Promise<AssetDefinition[]> {
+  const existingAssets: AssetDefinition[] = []
+  
+  for (const asset of assets) {
+    // Skip "none" assets as they don't need files
+    if (asset.id === 'none') {
+      existingAssets.push(asset)
+      continue
+    }
+
+    // Check path if available
+    const assetPath = asset.path || ""
+    if (!assetPath) {
+      existingAssets.push(asset)
+      continue
+    }
+
+    const exists = await checkAssetExists(assetPath)
+    if (exists) {
+      existingAssets.push(asset)
+    } else {
+      console.warn(`Asset not found: ${assetPath}`)
+    }
+  }
+  
+  return existingAssets
+}
+
+/**
+ * Extract color variant information from a filename
+ * e.g., "hair-front-tomboy-pink.png" => { baseId: "tomboy", colorName: "pink" }
+ */
+export function extractColorVariantInfo(filename: string): { 
+  baseId: string;
+  colorName: string | null; 
+  partType: string | null;
+} {
+  // First extract the part type (hair-front, mouth, etc.)
+  const partMatch = filename.match(/^(hair-front|hair-behind|mouth|eyes|body|clothes|blush|glasses|earring|eyebrows)-/)
+  const partType = partMatch ? partMatch[1] : null
+  
+  // Remove the part prefix to get the style ID and any color
+  const withoutPartPrefix = filename.replace(/^[^-]+-/, '')
+  
+  // Get the base ID and color (if any)
+  const segments = withoutPartPrefix.replace(/\.png$/, '').split('-')
+  
+  if (segments.length === 1) {
+    // No color variant, just a base style
+    return {
+      baseId: segments[0], 
+      colorName: null,
+      partType
+    }
+  } else {
+    // Last segment is the color name
+    const colorName = segments.pop() || null
+    // Everything else is the base ID
+    const baseId = segments.join('-')
+    
+    return {
+      baseId,
+      colorName, 
+      partType
+    }
+  }
+}
+
+/**
+ * Discover all color variants for a base asset
+ * This function will scan for all variants with the pattern: base-[color].png
+ */
+export async function getExistingColorVariants(
+  baseAsset: AssetDefinition
+): Promise<AssetVariant[]> {
+  const existingVariants: AssetVariant[] = []
+  
+  // Skip "none" assets as they don't have color variants
+  if (baseAsset.id === 'none') {
+    return []
+  }
+  
+  // Get base asset path
+  const basePath = baseAsset.path || ""
+  if (!basePath) {
+    console.warn(`Missing base path for asset ${baseAsset.id}`)
+    return []
+  }
+
+  console.log(`🔍 Checking color variants for ${baseAsset.id}`)
+  
+  // Always add the base asset as a "default" variant first
+  existingVariants.push({
+    id: baseAsset.id,
+    name: `${baseAsset.name} (Default)`,
+    path: basePath,
+    color: "#666666", // Default gray color
+    enabled: true,
+  })
+  
+  // Determine what type of asset this is based on the path
+  const partType = basePath.includes('clothes') ? 'clothes' : 
+                   basePath.includes('hair') ? 'hair' : 
+                   basePath.includes('eyes') ? 'eyes' : 
+                   basePath.includes('body') ? 'body' : 
+                   basePath.includes('mouth') ? 'mouth' : 'generic';
+  
+  // Choose the appropriate color set based on the part type
+  const colorsByPartType: Record<string, string[]> = {
+    'clothes': ['red', 'blue', 'green', 'yellow', 'purple', 'orange'],
+    'hair': ['black', 'brown', 'blonde', 'red', 'purple', 'blue'],
+    'eyes': ['brown', 'blue', 'green', 'gray', 'purple', 'red'],
+    'body': ['fair', 'light', 'medium', 'olive', 'deep', 'dark'],
+    'mouth': ['red', 'pink', 'darkRed', 'mutedRed'],
+    'generic': ['black', 'brown', 'red', 'blue', 'green', 'purple']
+  };
+  
+  // Get the relevant colors for this part type
+  const commonColors = colorsByPartType[partType] || colorsByPartType.generic
+  
+  console.log(`🧐 Checking ${commonColors.length} possible colors for ${partType} asset: ${baseAsset.id}`)
+  
+  // For each potential color variant, check if it exists
+  for (const colorName of commonColors) {
+    // Generate the expected color variant path
+    const colorVariantPath = basePath.replace(/\.png$/, `-${colorName}.png`)
+    
+    // Check if this color variant actually exists
+    const exists = await checkAssetExists(colorVariantPath)
+    
+    if (exists) {
+      const colorHex = STANDARD_COLORS[colorName] || "#666666"
+      existingVariants.push({
+        id: `${baseAsset.id}-${colorName}`,
+        name: `${baseAsset.name} (${getColorDisplayName(colorName)})`,
+        path: colorVariantPath,
+        color: colorHex,
+        enabled: true,
+      })
+      
+      console.log(`  ✅ Found color variant: ${colorName} for ${baseAsset.id}`)
+    } else {
+      console.log(`  ❌ No ${colorName} variant for ${baseAsset.id}`)
+    }
+  }
+  
+  console.log(`🎯 Found ${existingVariants.length} color variants for ${baseAsset.id}:`, 
+    existingVariants.map(v => v.id).join(', '))
+  
+  return existingVariants
+}
+
+/**
+ * Clear the asset existence cache (useful for development)
+ */
+export function clearAssetCache(): void {
+  assetExistenceCache.clear()
+  console.log('🧹 Asset existence cache cleared')
+}

@@ -1,0 +1,688 @@
+  // These functions are used in the JSX below
+  // const updateCharacter = (part: PartKey, assetId: string) => {
+  //   recordHistory()
+  //   setSelections((prev) => ({
+  //     ...prev,
+  //     [part]: { ...prev[part], assetId },
+  //   }))
+  // }
+
+  // const togglePartEnabled = (part: PartKey) => {
+  //   recordHistory()
+  //   setSelections((prev) => ({
+  //     ...prev,
+  //     [part]: { ...prev[part], enabled: !prev[part].enabled },
+  //   }))
+  // }
+
+  // Debug logging
+  console.log('🔍 Dynamic parts loaded:', dynamicParts.length)
+  console.log('🔍 Using parts:', currentParts.length, currentParts.length > 0 ? '(from ' + (dynamicParts.length > 0 ? 'DYNAMIC' : 'STATIC') + ')' : '')
+  if (currentParts.length > 0) {
+    const glassesPart = currentParts.find(p => p.key === 'glasses')
+    console.log('🤓 Glasses part:', glassesPart ? `${glassesPart.assets.length} assets` : 'NOT FOUND')
+  }
+
+  // Group parts by category
+  const partsByCategory = currentParts.reduce(
+    (acc, part) => {
+      if (!acc[part.category]) acc[part.category] = []
+      acc[part.category].push(part)
+      return acc
+    },
+    {} as Record<string, PartDefinition[]>,
+  )
+
+  return (
+    <main className={`min-h-screen ${press2p.className} relative`}>
+      <PixselfBackground />
+
+      <div className="relative z-10 mx-auto max-w-[1600px] px-4 py-6 lg:py-8">
+        {/* Enhanced Header */}
+        <header className="mb-6">
+          <EnhancedTitleSection
+            soundEnabled={soundEnabled}
+            onToggleSound={() => setSoundEnabled(!soundEnabled)}
+            onUndo={undo}
+            onRedo={redo}
+            onReset={resetAll}
+            onRandomize={randomize}
+            onShare={shareCharacter}
+            onDownload={() => showDownloadConfirmation()}
+            canUndo={historyIndex > 0}
+            canRedo={historyIndex < history.length - 1}
+            isLoading={loading}
+            isDownloadLoading={downloadLoading}
+            isDesktop={isDesktop}
+          />
+        </header>
+
+        {/* Promotion Banner */}
+        <div className="mb-8">
+          <PromotionBanner
+            message="🎮 NO ACTIVE PROMOTIONS • STAY TUNED FOR AMAZING DEALS • FOLLOW US FOR UPDATES 🎮"
+            isActive={false}
+          />
+        </div>
+
+        {isDesktop ? (
+          <div className="grid grid-cols-12 gap-8">
+            {/* Left Sidebar - Parts Navigation */}
+            <div className="col-span-3 space-y-6">
+              <PixselfPanel title="CHARACTER PARTS" icon={<Layers className="h-4 w-4" />}>
+                {Object.entries(partsByCategory).map(([category, parts]) => (
+                  <div key={category} className="mb-6 last:mb-0">
+                    <div className="flex items-center gap-2 mb-3">
+                      <div
+                        className="text-[10px] font-bold tracking-wider"
+                        style={{ color: PIXSELF_BRAND.colors.primary.navy }}
+                      >
+                        {category}
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      {parts.map((p) => {
+                        const active = activePart === p.key
+                        const partSelection = selections[p.key]
+                        const isEnabled = partSelection?.enabled ?? true
+
+                        return (
+                          <button
+                            key={p.key}
+                            onClick={() => {
+                              setActivePart(p.key)
+                              play8BitSound("click", soundEnabled)
+                            }}
+                            className={`w-full flex items-center gap-3 px-4 py-3 text-left transition-all duration-200 border-4 backdrop-blur-sm ${
+                              active
+                                ? "active:translate-x-1 active:translate-y-1"
+                                : "hover:translate-x-0.5 hover:translate-y-0.5"
+                            }`}
+                            style={{
+                              backgroundColor: active
+                                ? PIXSELF_BRAND.colors.primary.gold
+                                : PIXSELF_BRAND.colors.cloud.light,
+                              color: PIXSELF_BRAND.colors.primary.navy,
+                              borderColor: active
+                                ? PIXSELF_BRAND.colors.primary.navy
+                                : PIXSELF_BRAND.colors.primary.navyLight,
+                              boxShadow: active ? PIXSELF_BRAND.shadows.pixelLarge : PIXSELF_BRAND.shadows.pixel,
+                              opacity: isEnabled ? 1 : 0.6,
+                            }}
+                          >
+                            <span className="text-[8px] font-mono leading-none">{p.icon}</span>
+                            <span className="text-[10px] tracking-wide font-bold flex-1">{p.label}</span>
+                            {!isEnabled && <span className="text-[6px] opacity-60">OFF</span>}
+                            <ChevronRight
+                              className={`h-3.5 w-3.5 transition-all duration-200 ${
+                                active ? "opacity-100 translate-x-1" : "opacity-0"
+                              }`}
+                            />
+                          </button>
+                        )
+                      })}
+                    </div>
+                  </div>
+                ))}
+              </PixselfPanel>
+
+              {/* Gallery Panel */}
+              {storageAvailable && (
+                <PixselfPanel title="CHARACTER GALLERY" icon={<Grid className="h-4 w-4" />}>
+                  <div className="space-y-4">
+                    <div className="text-[9px] mb-3" style={{ color: PIXSELF_BRAND.colors.primary.navy }}>
+                      Save and manage your characters:
+                    </div>
+                    <PixselfButton
+                      onClick={() => setShowGalleryModal(true)}
+                      variant="accent"
+                      size="sm"
+                      fullWidth
+                      icon={<Grid className="h-3.5 w-3.5" />}
+                    >
+                      OPEN GALLERY
+                    </PixselfButton>
+                    <div className="text-[8px] text-center" style={{ color: PIXSELF_BRAND.colors.primary.navyLight }}>
+                      Ctrl+G to open gallery
+                    </div>
+                  </div>
+                </PixselfPanel>
+              )}
+            </div>
+
+            {/* Center - Preview */}
+            <div className="col-span-6">
+              <PixselfPanel title="LIVE PREVIEW" variant="primary">
+                <div className="space-y-6">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div
+                        className="text-[10px] font-bold tracking-wider"
+                        style={{ color: PIXSELF_BRAND.colors.primary.navy }}
+                      >
+                        ZOOM CONTROLS
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <button
+                          onClick={() => setZoom(Math.max(0.5, zoom - 0.25))}
+                          disabled={zoom <= 0.5}
+                          className="w-8 h-8 border-2 flex items-center justify-center text-[10px] font-bold transition-all duration-200 active:translate-x-0.5 active:translate-y-0.5 disabled:opacity-50 backdrop-blur-sm"
+                          style={{
+                            backgroundColor: PIXSELF_BRAND.colors.cloud.light,
+                            borderColor: PIXSELF_BRAND.colors.primary.navy,
+                            color: PIXSELF_BRAND.colors.primary.navy,
+                          }}
+                        >
+                          <ZoomOut className="h-3.5 w-3.5" />
+                        </button>
+                        <span
+                          className="text-[9px] min-w-[4ch] text-center font-bold"
+                          style={{ color: PIXSELF_BRAND.colors.primary.navyLight }}
+                        >
+                          {Math.round(zoom * 100)}%
+                        </span>
+                        <button
+                          onClick={() => setZoom(Math.min(2, zoom + 0.25))}
+                          disabled={zoom >= 2}
+                          className="w-8 h-8 border-2 flex items-center justify-center text-[10px] font-bold transition-all duration-200 active:translate-x-0.5 active:translate-y-0.5 disabled:opacity-50 backdrop-blur-sm"
+                          style={{
+                            backgroundColor: PIXSELF_BRAND.colors.cloud.light,
+                            borderColor: PIXSELF_BRAND.colors.primary.navy,
+                            color: PIXSELF_BRAND.colors.primary.navy,
+                          }}
+                        >
+                          <ZoomIn className="h-3.5 w-3.5" />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <PixselfCharacterFrame zoom={zoom}>
+                    <PixelCanvasPreview selections={selections} scale={0.6} zoom={1} />
+                  </PixselfCharacterFrame>
+
+                  {/* Action Controls */}
+                  <div className="flex items-center justify-center gap-4">
+                    <div className="flex items-center gap-3">
+                      <PixselfButton
+                        onClick={randomize}
+                        disabled={loading}
+                        loading={loading}
+                        icon={<RefreshCw className="h-4 w-4" />}
+                      >
+                        RANDOMIZE
+                      </PixselfButton>
+                      <PixselfButton
+                        onClick={() => showDownloadConfirmation()}
+                        disabled={downloadLoading}
+                        loading={downloadLoading}
+                        variant="accent"
+                        icon={<Download className="h-4 w-4" />}
+                      >
+                        DOWNLOAD
+                      </PixselfButton>
+                      {storageAvailable && (
+                        <PixselfButton
+                          onClick={() => setShowGalleryModal(true)}
+                          variant="secondary"
+                          icon={<Save className="h-4 w-4" />}
+                        >
+                          SAVE
+                        </PixselfButton>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </PixselfPanel>
+            </div>
+
+            {/* Right Sidebar - Customization */}
+            <div className="col-span-3 space-y-6">
+              <PixselfPanel
+                title={`CUSTOMIZE ${currentParts.find((p) => p.key === activePart)?.label}`}
+                icon={<Settings className="h-4 w-4" />}
+              >
+                <div className="space-y-6">
+                  {/* Asset Selection */}
+                  <div>
+                    <div className="flex items-center gap-2 mb-4">
+                      <Settings className="h-3.5 w-3.5" style={{ color: PIXSELF_BRAND.colors.primary.gold }} />
+                      <div
+                        className="text-[10px] font-bold tracking-wider"
+                        style={{ color: PIXSELF_BRAND.colors.primary.navy }}
+                      >
+                        STYLE OPTIONS
+                      </div>
+                    </div>
+                    {/* Asset selection controls removed */}
+                  </div>
+                </div>
+              </PixselfPanel>
+
+              <PixselfPanel title="EXPORT OPTIONS">
+                <div className="space-y-4">
+                  <div className="text-[9px] mb-3" style={{ color: PIXSELF_BRAND.colors.primary.navy }}>
+                    Choose your export size:
+                  </div>
+                  <div className="grid grid-cols-1 gap-3">
+                    <PixselfButton
+                      onClick={() => showDownloadConfirmation(0.5)}
+                      disabled={downloadLoading}
+                      loading={downloadLoading}
+                      size="sm"
+                      icon={<Download className="h-3.5 w-3.5" />}
+                    >
+                      SMALL (320×320)
+                    </PixselfButton>
+                    <PixselfButton
+                      onClick={() => showDownloadConfirmation(1)}
+                      disabled={downloadLoading}
+                      loading={downloadLoading}
+                      size="sm"
+                      icon={<Download className="h-3.5 w-3.5" />}
+                    >
+                      MEDIUM (640×640)
+                    </PixselfButton>
+                    <PixselfButton
+                      onClick={() => showDownloadConfirmation(2)}
+                      disabled={downloadLoading}
+                      loading={downloadLoading}
+                      size="sm"
+                      icon={<Download className="h-3.5 w-3.5" />}
+                    >
+                      LARGE (1280×1280)
+                    </PixselfButton>
+                  </div>
+                  <div className="pt-3 border-t-4" style={{ borderTopColor: PIXSELF_BRAND.colors.primary.navy }}>
+                    <PixselfButton
+                      onClick={shareCharacter}
+                      variant="secondary"
+                      size="sm"
+                      fullWidth
+                      icon={<Share2 className="h-3.5 w-3.5" />}
+                    >
+                      SHARE CHARACTER
+                    </PixselfButton>
+                  </div>
+                </div>
+              </PixselfPanel>
+            </div>
+          </div>
+        ) : (
+          // Mobile Layout
+          <div className="space-y-6">
+            {/* Mobile Preview */}
+            <PixselfPanel title="LIVE PREVIEW" variant="primary">
+              <div className="space-y-3">
+                {/* Compact Mobile Controls */}
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <div
+                      className="text-[8px] font-bold tracking-wider"
+                      style={{ color: PIXSELF_BRAND.colors.primary.navy }}
+                    >
+                      ZOOM:
+                    </div>
+                    <button
+                      onClick={() => setZoom(Math.max(0.5, zoom - 0.25))}
+                      disabled={zoom <= 0.5}
+                      className="w-6 h-6 border-2 flex items-center justify-center text-[8px] font-bold transition-all duration-200 active:translate-x-0.5 active:translate-y-0.5 disabled:opacity-50"
+                      style={{
+                        backgroundColor: PIXSELF_BRAND.colors.cloud.light,
+                        borderColor: PIXSELF_BRAND.colors.primary.navy,
+                        color: PIXSELF_BRAND.colors.primary.navy,
+                      }}
+                    >
+                      <ZoomOut className="h-2.5 w-2.5" />
+                    </button>
+                    <span
+                      className="text-[7px] min-w-[3ch] text-center font-bold"
+                      style={{ color: PIXSELF_BRAND.colors.primary.navyLight }}
+                    >
+                      {Math.round(zoom * 100)}%
+                    </span>
+                    <button
+                      onClick={() => setZoom(Math.min(2, zoom + 0.25))}
+                      disabled={zoom >= 2}
+                      className="w-6 h-6 border-2 flex items-center justify-center text-[8px] font-bold transition-all duration-200 active:translate-x-0.5 active:translate-y-0.5 disabled:opacity-50"
+                      style={{
+                        backgroundColor: PIXSELF_BRAND.colors.cloud.light,
+                        borderColor: PIXSELF_BRAND.colors.primary.navy,
+                        color: PIXSELF_BRAND.colors.primary.navy,
+                      }}
+                    >
+                      <ZoomIn className="h-2.5 w-2.5" />
+                    </button>
+                  </div>
+
+                  {/* Compact Action Buttons */}
+                  <div className="flex items-center gap-1">
+                    <button
+                      onClick={undo}
+                      disabled={historyIndex <= 0}
+                      className="w-6 h-6 border-2 flex items-center justify-center transition-all duration-200 disabled:opacity-50"
+                      style={{
+                        backgroundColor: PIXSELF_BRAND.colors.cloud.light,
+                        borderColor: PIXSELF_BRAND.colors.primary.navy,
+                        color: PIXSELF_BRAND.colors.primary.navy,
+                      }}
+                      title="Undo"
+                    >
+                      <Undo2 className="h-2.5 w-2.5" />
+                    </button>
+                    <button
+                      onClick={redo}
+                      disabled={historyIndex >= history.length - 1}
+                      className="w-6 h-6 border-2 flex items-center justify-center transition-all duration-200 disabled:opacity-50"
+                      style={{
+                        backgroundColor: PIXSELF_BRAND.colors.cloud.light,
+                        borderColor: PIXSELF_BRAND.colors.primary.navy,
+                        color: PIXSELF_BRAND.colors.primary.navy,
+                      }}
+                      title="Redo"
+                    >
+                      <Redo2 className="h-2.5 w-2.5" />
+                    </button>
+                    {storageAvailable && (
+                      <button
+                        onClick={() => setShowGalleryModal(true)}
+                        className="w-6 h-6 border-2 flex items-center justify-center transition-all duration-200"
+                        style={{
+                          backgroundColor: PIXSELF_BRAND.colors.cloud.light,
+                          borderColor: PIXSELF_BRAND.colors.primary.navy,
+                          color: PIXSELF_BRAND.colors.primary.navy,
+                        }}
+                        title="Gallery"
+                      >
+                        <Grid className="h-2.5 w-2.5" />
+                      </button>
+                    )}
+                  </div>
+                </div>
+
+                {/* Compact Character Frame */}
+                <div className="flex justify-center">
+                  <div
+                    className="relative border-4 overflow-hidden backdrop-blur-sm"
+                    style={{
+                      backgroundColor: "rgba(240, 248, 255, 0.85)",
+                      borderColor: PIXSELF_BRAND.colors.primary.navy,
+                      boxShadow: PIXSELF_BRAND.shadows.glowStrong,
+                      width: "min(100%, 280px)",
+                      aspectRatio: "1/1",
+                    }}
+                  >
+                    <div
+                      className="absolute inset-2 opacity-20"
+                      style={{
+                        backgroundImage: `
+        repeating-linear-gradient(
+          0deg,
+          ${PIXSELF_BRAND.colors.primary.gold}80 0px,
+          ${PIXSELF_BRAND.colors.primary.gold}80 2px,
+          transparent 2px,
+          transparent 4px
+        ),
+        repeating-linear-gradient(
+          90deg,
+          ${PIXSELF_BRAND.colors.primary.gold}80 0px,
+          ${PIXSELF_BRAND.colors.primary.gold}80 2px,
+          transparent 2px,
+          transparent 4px
+        )
+      `,
+                      }}
+                    />
+                    <div className="absolute inset-3 flex items-center justify-center overflow-hidden">
+                      <div style={{ transform: `scale(${zoom})`, transformOrigin: "center" }}>
+                        <PixelCanvasPreview selections={selections} scale={0.35} zoom={1} />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Compact Quick Actions */}
+                <div className="flex items-center justify-center gap-2">
+                  <PixselfButton
+                    onClick={randomize}
+                    disabled={loading}
+                    loading={loading}
+                    size="sm"
+                    icon={<RefreshCw className="h-3 w-3" />}
+                  >
+                    RANDOM
+                  </PixselfButton>
+                  <PixselfButton
+                    onClick={() => showDownloadConfirmation()}
+                    disabled={downloadLoading}
+                    loading={downloadLoading}
+                    variant="accent"
+                    size="sm"
+                    icon={<Download className="h-3 w-3" />}
+                  >
+                    SAVE
+                  </PixselfButton>
+                  {storageAvailable && (
+                    <PixselfButton
+                      onClick={() => setShowGalleryModal(true)}
+                      variant="secondary"
+                      size="sm"
+                      icon={<Grid className="h-3 w-3" />}
+                    >
+                      GALLERY
+                    </PixselfButton>
+                  )}
+                </div>
+              </div>
+            </PixselfPanel>
+
+            {/* Mobile Parts Navigation - Horizontal Scroll */}
+            <PixselfPanel title="CHARACTER PARTS" icon={<Layers className="h-4 w-4" />}>
+              <div className="space-y-4">
+                <div className="overflow-x-auto pb-2">
+                  <div className="flex items-stretch gap-2 min-w-max px-1">
+                    {Object.entries(partsByCategory).map(([category, parts]) => (
+                      <div key={category} className="flex items-stretch gap-2">
+                        {/* Inline category badge */}
+                        <div className="flex items-center">
+                          <div
+                            className="px-2 py-2 border-2 text-[8px] font-bold rounded-sm whitespace-nowrap"
+                            style={{
+                              backgroundColor: PIXSELF_BRAND.colors.sky.light,
+                              borderColor: PIXSELF_BRAND.colors.primary.navyLight,
+                              color: PIXSELF_BRAND.colors.primary.navy,
+                            }}
+                          >
+                            {category}
+                          </div>
+                        </div>
+
+                        {/* Category parts inline */}
+                        {parts.map((p) => {
+                          const active = activePart === p.key
+                          const partSelection = selections[p.key]
+                          const isEnabled = partSelection?.enabled ?? true
+
+                          return (
+                            <button
+                              key={p.key}
+                              onClick={() => {
+                                setActivePart(p.key)
+                                play8BitSound("click", soundEnabled)
+                              }}
+                              className="flex flex-col items-center gap-1 px-3 py-2 border-2 text-[8px] font-bold backdrop-blur-sm transition-all duration-200 min-w-[70px]"
+                              style={{
+                                backgroundColor: active
+                                  ? PIXSELF_BRAND.colors.primary.gold
+                                  : PIXSELF_BRAND.colors.cloud.light,
+                                borderColor: active
+                                  ? PIXSELF_BRAND.colors.primary.navy
+                                  : PIXSELF_BRAND.colors.primary.navyLight,
+                                color: PIXSELF_BRAND.colors.primary.navy,
+                                opacity: isEnabled ? 1 : 0.6,
+                              }}
+                            >
+                              <span className="text-[6px] font-mono leading-none">{p.icon}</span>
+                              <span className="text-center leading-tight">{p.label}</span>
+                              {active && (
+                                <div
+                                  className="w-1 h-1 rounded-full"
+                                  style={{ backgroundColor: PIXSELF_BRAND.colors.primary.navy }}
+                                />
+                              )}
+                              {!isEnabled && <span className="text-[5px] opacity-60">OFF</span>}
+                            </button>
+                          )
+                        })}
+
+                        {/* Group separator spacer */}
+                        <div className="w-2" />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Single swipe hint for the unified row */}
+                <div className="text-center">
+                  <div className="text-[6px] font-bold" style={{ color: PIXSELF_BRAND.colors.primary.navyLight }}>
+                    ← SWIPE →
+                  </div>
+                </div>
+              </div>
+            </PixselfPanel>
+
+            {/* Mobile Customization Panel - Compact */}
+            <PixselfPanel
+              title={`CUSTOMIZE ${currentParts.find((p) => p.key === activePart)?.label}`}
+              icon={<Settings className="h-4 w-4" />}
+            >
+              <div className="space-y-4">
+                {/* Asset Selection - Mobile */}
+                <div>
+                  <div className="flex items-center gap-2 mb-4">
+                    <Settings className="h-3 w-3" style={{ color: PIXSELF_BRAND.colors.primary.gold }} />
+                    <div
+                      className="text-[9px] font-bold tracking-wider"
+                      style={{ color: PIXSELF_BRAND.colors.primary.navy }}
+                    >
+                      STYLE OPTIONS
+                    </div>
+                  </div>
+                  {/* Asset selection controls removed */}
+                </div>
+
+                {/* Color Variants - Mobile */}
+                {/* 
+                  <h3 className="text-md font-semibold mb-2 text-gray-600">Color Variants</h3>
+                  <AssetVariantGrid
+                    partKey={activePart}
+                    baseAssetId={selections[activePart]?.assetId}
+                    onVariantSelect={(variantId) => updateCharacter(activePart, variantId)}
+                    currentVariantId={selections[activePart]?.assetId}
+                  />
+                */}
+              </div>
+            </PixselfPanel>
+
+            {/* Mobile Export Options */}
+            <PixselfPanel title="EXPORT OPTIONS" icon={<Download className="h-4 w-4" />}>
+              <div className="space-y-4">
+                <div className="text-[9px] mb-3" style={{ color: PIXSELF_BRAND.colors.primary.navy }}>
+                  Choose your export size:
+                </div>
+                <div className="grid grid-cols-1 gap-3">
+                  <PixselfButton
+                    onClick={() => showDownloadConfirmation(0.5)}
+                    disabled={downloadLoading}
+                    loading={downloadLoading}
+                    size="sm"
+                    fullWidth
+                    icon={<Download className="h-3.5 w-3.5" />}
+                  >
+                    SMALL (320×320)
+                  </PixselfButton>
+                  <PixselfButton
+                    onClick={() => showDownloadConfirmation(1)}
+                    disabled={downloadLoading}
+                    loading={downloadLoading}
+                    size="sm"
+                    fullWidth
+                    icon={<Download className="h-3.5 w-3.5" />}
+                  >
+                    MEDIUM (640×640)
+                  </PixselfButton>
+                  <PixselfButton
+                    onClick={() => showDownloadConfirmation(2)}
+                    disabled={downloadLoading}
+                    loading={downloadLoading}
+                    size="sm"
+                    fullWidth
+                    icon={<Download className="h-3.5 w-3.5" />}
+                  >
+                    LARGE (1280×1280)
+                  </PixselfButton>
+                </div>
+                <div className="pt-3 border-t-4" style={{ borderTopColor: PIXSELF_BRAND.colors.primary.navy }}>
+                  <PixselfButton
+                    onClick={shareCharacter}
+                    variant="secondary"
+                    size="sm"
+                    fullWidth
+                    icon={<Share2 className="h-3.5 w-3.5" />}
+                  >
+                    SHARE CHARACTER
+                  </PixselfButton>
+                </div>
+              </div>
+            </PixselfPanel>
+          </div>
+        )}
+      </div>
+
+      {/* Download Confirmation Modal */}
+      {downloadModalData && (
+        <DownloadConfirmationModal
+          isOpen={showDownloadModal}
+          onClose={() => {
+            setShowDownloadModal(false)
+            setDownloadModalData(null)
+          }}
+          onConfirm={downloadPng}
+          characterPreview={downloadModalData.preview}
+          fileName={downloadModalData.fileName}
+          fileSize={downloadModalData.fileSize}
+          isLoading={downloadLoading}
+        />
+      )}
+
+      {/* Share Template Modal */}
+      {sharePreviewData && (
+        <ShareTemplateModal
+          isOpen={showShareModal}
+          onClose={() => {
+            setShowShareModal(false)
+            setSharePreviewData("")
+          }}
+          characterPreview={sharePreviewData}
+          isLoading={false}
+        />
+      )}
+
+      {/* Character Gallery Modal */}
+      {storageAvailable && (
+        <CharacterGalleryModal
+          isOpen={showGalleryModal}
+          onClose={() => setShowGalleryModal(false)}
+          currentSelections={selections}
+          onLoadCharacter={handleLoadCharacter}
+          onSaveCharacter={handleSaveCharacter}
+          soundEnabled={soundEnabled}
+          onPlaySound={(type) => play8BitSound(type, soundEnabled)}
+        />
+      )}
+
+      {/* Pixself Footer */}
+      <PixselfFooter />
+    </main>
+  )
+}

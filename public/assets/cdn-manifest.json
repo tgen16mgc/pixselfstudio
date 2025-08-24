@@ -1,0 +1,236 @@
+{
+  "generated": "2025-08-24T12:25:23.945Z",
+  "github": {
+    "username": "tgen16mgc",
+    "repo": "pixselfstudio",
+    "branch": "main",
+    "basePath": "public/assets/character"
+  },
+  "assets": {
+    "body": [
+      {
+        "filename": "body-default.png",
+        "cdnUrl": "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/body/body/body-default.png",
+        "localPath": "/assets/character/body/body/body-default.png"
+      },
+      {
+        "filename": "body-v2.png",
+        "cdnUrl": "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/body/body/body-v2.png",
+        "localPath": "/assets/character/body/body/body-v2.png"
+      }
+    ],
+    "clothes": [
+      {
+        "filename": "clothes-aotheneu.png",
+        "cdnUrl": "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/body/clothes/clothes-aotheneu.png",
+        "localPath": "/assets/character/body/clothes/clothes-aotheneu.png"
+      },
+      {
+        "filename": "clothes-default.png",
+        "cdnUrl": "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/body/clothes/clothes-default.png",
+        "localPath": "/assets/character/body/clothes/clothes-default.png"
+      },
+      {
+        "filename": "clothes-dress1.png",
+        "cdnUrl": "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/body/clothes/clothes-dress1.png",
+        "localPath": "/assets/character/body/clothes/clothes-dress1.png"
+      },
+      {
+        "filename": "clothes-neu.png",
+        "cdnUrl": "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/body/clothes/clothes-neu.png",
+        "localPath": "/assets/character/body/clothes/clothes-neu.png"
+      },
+      {
+        "filename": "clothes-somi.png",
+        "cdnUrl": "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/body/clothes/clothes-somi.png",
+        "localPath": "/assets/character/body/clothes/clothes-somi.png"
+      }
+    ],
+    "hair-front": [
+      {
+        "filename": "hair-front-2side-blue.png",
+        "cdnUrl": "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-front/hair-front-2side-blue.png",
+        "localPath": "/assets/character/hair/hair-front/hair-front-2side-blue.png"
+      },
+      {
+        "filename": "hair-front-2side-purple.png",
+        "cdnUrl": "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-front/hair-front-2side-purple.png",
+        "localPath": "/assets/character/hair/hair-front/hair-front-2side-purple.png"
+      },
+      {
+        "filename": "hair-front-2side-red.png",
+        "cdnUrl": "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-front/hair-front-2side-red.png",
+        "localPath": "/assets/character/hair/hair-front/hair-front-2side-red.png"
+      },
+      {
+        "filename": "hair-front-2side.png",
+        "cdnUrl": "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-front/hair-front-2side.png",
+        "localPath": "/assets/character/hair/hair-front/hair-front-2side.png"
+      },
+      {
+        "filename": "hair-front-64.png",
+        "cdnUrl": "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-front/hair-front-64.png",
+        "localPath": "/assets/character/hair/hair-front/hair-front-64.png"
+      },
+      {
+        "filename": "hair-front-default.png",
+        "cdnUrl": "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-front/hair-front-default.png",
+        "localPath": "/assets/character/hair/hair-front/hair-front-default.png"
+      },
+      {
+        "filename": "hair-front-long37.png",
+        "cdnUrl": "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-front/hair-front-long37.png",
+        "localPath": "/assets/character/hair/hair-front/hair-front-long37.png"
+      },
+      {
+        "filename": "hair-front-test-new-red.png",
+        "cdnUrl": "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-front/hair-front-test-new-red.png",
+        "localPath": "/assets/character/hair/hair-front/hair-front-test-new-red.png"
+      },
+      {
+        "filename": "hair-front-test-new.png",
+        "cdnUrl": "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-front/hair-front-test-new.png",
+        "localPath": "/assets/character/hair/hair-front/hair-front-test-new.png"
+      },
+      {
+        "filename": "hair-front-tomboy-black.png",
+        "cdnUrl": "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-front/hair-front-tomboy-black.png",
+        "localPath": "/assets/character/hair/hair-front/hair-front-tomboy-black.png"
+      },
+      {
+        "filename": "hair-front-tomboy-blonde.png",
+        "cdnUrl": "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-front/hair-front-tomboy-blonde.png",
+        "localPath": "/assets/character/hair/hair-front/hair-front-tomboy-blonde.png"
+      },
+      {
+        "filename": "hair-front-tomboy-brown.png",
+        "cdnUrl": "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-front/hair-front-tomboy-brown.png",
+        "localPath": "/assets/character/hair/hair-front/hair-front-tomboy-brown.png"
+      },
+      {
+        "filename": "hair-front-tomboy.png",
+        "cdnUrl": "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-front/hair-front-tomboy.png",
+        "localPath": "/assets/character/hair/hair-front/hair-front-tomboy.png"
+      }
+    ],
+    "hair-behind": [
+      {
+        "filename": "hair-behind-2side.png",
+        "cdnUrl": "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-behind/hair-behind-2side.png",
+        "localPath": "/assets/character/hair/hair-behind/hair-behind-2side.png"
+      },
+      {
+        "filename": "hair-behind-curly.png",
+        "cdnUrl": "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-behind/hair-behind-curly.png",
+        "localPath": "/assets/character/hair/hair-behind/hair-behind-curly.png"
+      },
+      {
+        "filename": "hair-behind-default.png",
+        "cdnUrl": "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-behind/hair-behind-default.png",
+        "localPath": "/assets/character/hair/hair-behind/hair-behind-default.png"
+      }
+    ],
+    "eyes": [
+      {
+        "filename": "eyes-basic1.png",
+        "cdnUrl": "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/eyes/eyes-basic1.png",
+        "localPath": "/assets/character/face/eyes/eyes-basic1.png"
+      },
+      {
+        "filename": "eyes-default-blue.png",
+        "cdnUrl": "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/eyes/eyes-default-blue.png",
+        "localPath": "/assets/character/face/eyes/eyes-default-blue.png"
+      },
+      {
+        "filename": "eyes-default-green.png",
+        "cdnUrl": "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/eyes/eyes-default-green.png",
+        "localPath": "/assets/character/face/eyes/eyes-default-green.png"
+      },
+      {
+        "filename": "eyes-default.png",
+        "cdnUrl": "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/eyes/eyes-default.png",
+        "localPath": "/assets/character/face/eyes/eyes-default.png"
+      },
+      {
+        "filename": "eyes-medium.png",
+        "cdnUrl": "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/eyes/eyes-medium.png",
+        "localPath": "/assets/character/face/eyes/eyes-medium.png"
+      }
+    ],
+    "eyebrows": [
+      {
+        "filename": "eyebrows-curved.png",
+        "cdnUrl": "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/eyebrows/eyebrows-curved.png",
+        "localPath": "/assets/character/face/eyebrows/eyebrows-curved.png"
+      },
+      {
+        "filename": "eyebrows-default.png",
+        "cdnUrl": "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/eyebrows/eyebrows-default.png",
+        "localPath": "/assets/character/face/eyebrows/eyebrows-default.png"
+      },
+      {
+        "filename": "eyebrows-flat.png",
+        "cdnUrl": "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/eyebrows/eyebrows-flat.png",
+        "localPath": "/assets/character/face/eyebrows/eyebrows-flat.png"
+      }
+    ],
+    "mouth": [
+      {
+        "filename": "mouth-default.png",
+        "cdnUrl": "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/mouth/mouth-default.png",
+        "localPath": "/assets/character/face/mouth/mouth-default.png"
+      },
+      {
+        "filename": "mouth-small.png",
+        "cdnUrl": "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/mouth/mouth-small.png",
+        "localPath": "/assets/character/face/mouth/mouth-small.png"
+      },
+      {
+        "filename": "mouth-smile-pink.png",
+        "cdnUrl": "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/mouth/mouth-smile-pink.png",
+        "localPath": "/assets/character/face/mouth/mouth-smile-pink.png"
+      },
+      {
+        "filename": "mouth-smile.png",
+        "cdnUrl": "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/mouth/mouth-smile.png",
+        "localPath": "/assets/character/face/mouth/mouth-smile.png"
+      }
+    ],
+    "blush": [
+      {
+        "filename": "blush-default.png",
+        "cdnUrl": "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/blush/blush-default.png",
+        "localPath": "/assets/character/face/blush/blush-default.png"
+      },
+      {
+        "filename": "blush-light.png",
+        "cdnUrl": "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/blush/blush-light.png",
+        "localPath": "/assets/character/face/blush/blush-light.png"
+      },
+      {
+        "filename": "blush-soft.png",
+        "cdnUrl": "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/blush/blush-soft.png",
+        "localPath": "/assets/character/face/blush/blush-soft.png"
+      }
+    ],
+    "earring": [
+      {
+        "filename": "earring-default.png",
+        "cdnUrl": "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/accessories/earring/earring-default.png",
+        "localPath": "/assets/character/accessories/earring/earring-default.png"
+      },
+      {
+        "filename": "earring-helixmix.png",
+        "cdnUrl": "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/accessories/earring/earring-helixmix.png",
+        "localPath": "/assets/character/accessories/earring/earring-helixmix.png"
+      }
+    ],
+    "glasses": [
+      {
+        "filename": "glasses-default.png",
+        "cdnUrl": "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/accessories/glasses/glasses-default.png",
+        "localPath": "/assets/character/accessories/glasses/glasses-default.png"
+      }
+    ]
+  }
+}

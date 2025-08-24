@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Debug Manifest</title>
+</head>
+<body>
+    <h1>Debug Asset Manifest</h1>
+    <div id="output"></div>
+    
+    <script>
+        async function testManifest() {
+            const output = document.getElementById('output');
+            
+            try {
+                console.log('🔍 Testing manifest fetch...');
+                output.innerHTML += '<p>🔍 Testing manifest fetch...</p>';
+                
+                const manifestUrl = `${window.location.origin}/assets/asset-manifest.json`;
+                console.log('🔍 URL:', manifestUrl);
+                output.innerHTML += `<p>🔍 URL: ${manifestUrl}</p>`;
+                
+                const response = await fetch(manifestUrl);
+                console.log('🔍 Response:', response.status, response.statusText);
+                output.innerHTML += `<p>🔍 Response: ${response.status} ${response.statusText}</p>`;
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const manifest = await response.json();
+                console.log('✅ Manifest loaded:', manifest);
+                output.innerHTML += `<p>✅ Manifest loaded: ${JSON.stringify(manifest, null, 2)}</p>`;
+                
+                // Test glasses specifically
+                if (manifest.glasses) {
+                    console.log('🤓 Glasses found:', manifest.glasses);
+                    output.innerHTML += `<p>🤓 Glasses found: ${JSON.stringify(manifest.glasses)}</p>`;
+                } else {
+                    console.log('❌ No glasses in manifest');
+                    output.innerHTML += '<p>❌ No glasses in manifest</p>';
+                }
+                
+            } catch (error) {
+                console.error('❌ Error:', error);
+                output.innerHTML += `<p>❌ Error: ${error.message}</p>`;
+            }
+        }
+        
+        // Run test when page loads
+        testManifest();
+    </script>
+</body>
+</html>
