@@ -35,6 +35,8 @@
   ],
   "eyes": [
     "eyes-basic1.png",
+    "eyes-boy.png",
+    "eyes-closed.png",
     "eyes-cun-black.png",
     "eyes-cun-blue.png",
     "eyes-cun-brown.png",
@@ -44,7 +46,16 @@
     "eyes-default-blue.png",
     "eyes-default-green.png",
     "eyes-default.png",
-    "eyes-medium.png"
+    "eyes-le-blue.png",
+    "eyes-le-brown.png",
+    "eyes-le-choco.png",
+    "eyes-le-green.png",
+    "eyes-le-purple.png",
+    "eyes-le.png",
+    "eyes-medium.png",
+    "eyes-wink.png",
+    "eyes-xech-blue.png",
+    "eyes-xech.png"
   ],
   "eyebrows": [
     "eyebrows-curved.png",

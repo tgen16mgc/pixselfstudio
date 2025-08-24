@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2025-08-24T15:02:00.769Z",
+  "generatedAt": "2025-08-24T15:17:08.521Z",
   "assets": [
     {
       "baseId": "earring-default",
@@ -169,6 +169,22 @@
       "variants": []
     },
     {
+      "baseId": "eyes-boy",
+      "part": "eyes",
+      "subpart": "",
+      "style": "boy",
+      "basePath": "/assets/character/face/eyes/eyes-boy.png",
+      "variants": []
+    },
+    {
+      "baseId": "eyes-closed",
+      "part": "eyes",
+      "subpart": "",
+      "style": "closed",
+      "basePath": "/assets/character/face/eyes/eyes-closed.png",
+      "variants": []
+    },
+    {
       "baseId": "eyes-cun",
       "part": "eyes",
       "subpart": "",
@@ -229,12 +245,74 @@
       ]
     },
     {
+      "baseId": "eyes-le",
+      "part": "eyes",
+      "subpart": "",
+      "style": "le",
+      "basePath": "/assets/character/face/eyes/eyes-le.png",
+      "variants": [
+        {
+          "id": "le-blue",
+          "name": "le (Blue)",
+          "path": "/assets/character/face/eyes/eyes-le-blue.png",
+          "color": "#90CAF9"
+        },
+        {
+          "id": "le-brown",
+          "name": "le (Brown)",
+          "path": "/assets/character/face/eyes/eyes-le-brown.png",
+          "color": "#8B4513"
+        },
+        {
+          "id": "le-choco",
+          "name": "le (Choco)",
+          "path": "/assets/character/face/eyes/eyes-le-choco.png",
+          "color": "#666666"
+        },
+        {
+          "id": "le-green",
+          "name": "le (Green)",
+          "path": "/assets/character/face/eyes/eyes-le-green.png",
+          "color": "#4ECDC4"
+        },
+        {
+          "id": "le-purple",
+          "name": "le (Purple)",
+          "path": "/assets/character/face/eyes/eyes-le-purple.png",
+          "color": "#CE93D8"
+        }
+      ]
+    },
+    {
       "baseId": "eyes-medium",
       "part": "eyes",
       "subpart": "",
       "style": "medium",
       "basePath": "/assets/character/face/eyes/eyes-medium.png",
       "variants": []
+    },
+    {
+      "baseId": "eyes-wink",
+      "part": "eyes",
+      "subpart": "",
+      "style": "wink",
+      "basePath": "/assets/character/face/eyes/eyes-wink.png",
+      "variants": []
+    },
+    {
+      "baseId": "eyes-xech",
+      "part": "eyes",
+      "subpart": "",
+      "style": "xech",
+      "basePath": "/assets/character/face/eyes/eyes-xech.png",
+      "variants": [
+        {
+          "id": "xech-blue",
+          "name": "xech (Blue)",
+          "path": "/assets/character/face/eyes/eyes-xech-blue.png",
+          "color": "#90CAF9"
+        }
+      ]
     },
     {
       "baseId": "mouth-default",

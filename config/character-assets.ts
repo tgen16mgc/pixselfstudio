@@ -184,6 +184,36 @@ const FALLBACK_CHARACTER_PARTS: PartDefinition[] = [
       name: "Cun EYES",
       path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/eyes/eyes-cun.png",
       enabled: true,
+    },
+    {
+      id: "le",
+      name: "Le EYES",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/eyes/eyes-le.png",
+      enabled: true,
+    },
+    {
+      id: "xech",
+      name: "Xech EYES",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/eyes/eyes-xech.png",
+      enabled: true,
+    },
+    {
+      id: "closed",
+      name: "Closed EYES",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/eyes/eyes-closed.png",
+      enabled: true,
+    },
+    {
+      id: "wink",
+      name: "Wink EYES",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/eyes/eyes-wink.png",
+      enabled: true,
+    },
+    {
+      id: "boy",
+      name: "Boy EYES",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/eyes/eyes-boy.png",
+      enabled: true,
     }
     ],
     defaultAsset: "default",
