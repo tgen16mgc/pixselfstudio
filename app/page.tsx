@@ -373,7 +373,6 @@ export default function Page() {
   }, [historyIndex, history, soundEnabled, storageAvailable, randomize, undo, redo, showDownloadConfirmation])
 
   function onSelectAsset(part: PartKey, assetId: string) {
-    console.log(`🔧 onSelectAsset called: ${part} -> ${assetId}`)
     setLoading(true)
     setTimeout(() => {
       const newSelections = {

@@ -82,7 +82,6 @@ export function DynamicColorVariants({
   }, [currentAssetId])
 
   const handleVariantSelect = (variant: AssetVariant) => {
-    console.log(`🎨 Color variant selected:`, variant)
     setSelectedVariant(variant.id)
     onColorVariantSelect(variant.id)
   }
