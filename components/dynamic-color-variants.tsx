@@ -52,8 +52,6 @@ export function DynamicColorVariants({
             setColorVariants(variants);
             setIsLoadingVariants(false);
             setVariantError(null);
-            console.log(`🎨 Loaded ${variants.length} color variants for ${currentAssetId}`);
-            
             // Preload all variant images to prevent flashing
             if (variants.length > 0) {
               preloadAssetVariants(activePart, currentAssetId).catch(console.error);
