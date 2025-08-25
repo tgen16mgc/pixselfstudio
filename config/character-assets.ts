@@ -71,6 +71,12 @@ const FALLBACK_CHARACTER_PARTS: PartDefinition[] = [
       name: "Somi CLOTHES",
       path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/body/clothes/clothes-somi.png",
       enabled: true,
+    },
+    {
+      id: "2day",
+      name: "2day CLOTHES",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/body/clothes/clothes-2day.png",
+      enabled: true,
     }
     ],
     defaultAsset: "default",

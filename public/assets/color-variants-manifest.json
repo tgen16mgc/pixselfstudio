@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2025-08-25T02:22:47.231Z",
+  "generatedAt": "2025-08-25T03:14:15.950Z",
   "assets": [
     {
       "baseId": "earring-circle",
@@ -86,6 +86,14 @@
       "subpart": "",
       "style": "v2",
       "basePath": "/assets/character/body/body/body-v2.png",
+      "variants": []
+    },
+    {
+      "baseId": "clothes-2day",
+      "part": "clothes",
+      "subpart": "",
+      "style": "2day",
+      "basePath": "/assets/character/body/clothes/clothes-2day.png",
       "variants": []
     },
     {
