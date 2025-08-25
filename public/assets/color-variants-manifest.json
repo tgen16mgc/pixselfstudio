@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2025-08-25T00:14:32.625Z",
+  "generatedAt": "2025-08-25T00:28:27.244Z",
   "assets": [
     {
       "baseId": "earring-circle",
@@ -511,7 +511,44 @@
       "subpart": "behind",
       "style": "curly",
       "basePath": "/assets/character/hair/hair-behind/hair-behind-curly.png",
-      "variants": []
+      "variants": [
+        {
+          "id": "curly-blue",
+          "name": "curly (Blue)",
+          "path": "/assets/character/hair/hair-behind/hair-behind-curly-blue.png",
+          "color": "#90CAF9"
+        },
+        {
+          "id": "curly-brown",
+          "name": "curly (Brown)",
+          "path": "/assets/character/hair/hair-behind/hair-behind-curly-brown.png",
+          "color": "#8B4513"
+        },
+        {
+          "id": "curly-pink",
+          "name": "curly (Pink)",
+          "path": "/assets/character/hair/hair-behind/hair-behind-curly-pink.png",
+          "color": "#F8BBD0"
+        },
+        {
+          "id": "curly-red",
+          "name": "curly (Red)",
+          "path": "/assets/character/hair/hair-behind/hair-behind-curly-red.png",
+          "color": "#FF8A80"
+        },
+        {
+          "id": "curly-white",
+          "name": "curly (White)",
+          "path": "/assets/character/hair/hair-behind/hair-behind-curly-white.png",
+          "color": "#FAFAFA"
+        },
+        {
+          "id": "curly-yellow",
+          "name": "curly (Yellow)",
+          "path": "/assets/character/hair/hair-behind/hair-behind-curly-yellow.png",
+          "color": "#FFF9C4"
+        }
+      ]
     },
     {
       "baseId": "hair-behind-default",
