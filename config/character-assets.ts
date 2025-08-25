@@ -153,6 +153,12 @@ const FALLBACK_CHARACTER_PARTS: PartDefinition[] = [
       name: "Sidepart64 HAIR FRONT",
       path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-front/hair-front-sidepart64.png",
       enabled: true,
+    },
+    {
+      id: "layered",
+      name: "Layered HAIR FRONT",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-front/hair-front-layered.png",
+      enabled: true,
     }
 
     ],

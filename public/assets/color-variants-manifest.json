@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2025-08-25T09:03:51.350Z",
+  "generatedAt": "2025-08-25T09:48:06.694Z",
   "assets": [
     {
       "baseId": "earring-circle",
@@ -798,6 +798,51 @@
       "style": "default",
       "basePath": "/assets/character/hair/hair-front/hair-front-default.png",
       "variants": []
+    },
+    {
+      "baseId": "hair-front-layered",
+      "part": "hair",
+      "subpart": "front",
+      "style": "layered",
+      "basePath": "/assets/character/hair/hair-front/hair-front-layered.png",
+      "variants": [
+        {
+          "id": "layered-blue",
+          "name": "layered (Blue)",
+          "path": "/assets/character/hair/hair-front/hair-front-layered-blue.png",
+          "color": "#90CAF9"
+        },
+        {
+          "id": "layered-brown",
+          "name": "layered (Brown)",
+          "path": "/assets/character/hair/hair-front/hair-front-layered-brown.png",
+          "color": "#8B4513"
+        },
+        {
+          "id": "layered-pink",
+          "name": "layered (Pink)",
+          "path": "/assets/character/hair/hair-front/hair-front-layered-pink.png",
+          "color": "#F8BBD0"
+        },
+        {
+          "id": "layered-red",
+          "name": "layered (Red)",
+          "path": "/assets/character/hair/hair-front/hair-front-layered-red.png",
+          "color": "#FF8A80"
+        },
+        {
+          "id": "layered-white",
+          "name": "layered (White)",
+          "path": "/assets/character/hair/hair-front/hair-front-layered-white.png",
+          "color": "#FAFAFA"
+        },
+        {
+          "id": "layered-yellow",
+          "name": "layered (Yellow)",
+          "path": "/assets/character/hair/hair-front/hair-front-layered-yellow.png",
+          "color": "#FFF9C4"
+        }
+      ]
     },
     {
       "baseId": "hair-front-messy",
