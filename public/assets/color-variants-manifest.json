@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2025-08-25T02:13:20.542Z",
+  "generatedAt": "2025-08-25T02:22:47.231Z",
   "assets": [
     {
       "baseId": "earring-circle",
@@ -742,6 +742,51 @@
           "id": "park-yellow",
           "name": "park (Yellow)",
           "path": "/assets/character/hair/hair-front/hair-front-park-yellow.png",
+          "color": "#FFF9C4"
+        }
+      ]
+    },
+    {
+      "baseId": "hair-front-thin",
+      "part": "hair",
+      "subpart": "front",
+      "style": "thin",
+      "basePath": "/assets/character/hair/hair-front/hair-front-thin.png",
+      "variants": [
+        {
+          "id": "thin-blue",
+          "name": "thin (Blue)",
+          "path": "/assets/character/hair/hair-front/hair-front-thin-blue.png",
+          "color": "#90CAF9"
+        },
+        {
+          "id": "thin-brown",
+          "name": "thin (Brown)",
+          "path": "/assets/character/hair/hair-front/hair-front-thin-brown.png",
+          "color": "#8B4513"
+        },
+        {
+          "id": "thin-pink",
+          "name": "thin (Pink)",
+          "path": "/assets/character/hair/hair-front/hair-front-thin-pink.png",
+          "color": "#F8BBD0"
+        },
+        {
+          "id": "thin-red",
+          "name": "thin (Red)",
+          "path": "/assets/character/hair/hair-front/hair-front-thin-red.png",
+          "color": "#FF8A80"
+        },
+        {
+          "id": "thin-white",
+          "name": "thin (White)",
+          "path": "/assets/character/hair/hair-front/hair-front-thin-white.png",
+          "color": "#FAFAFA"
+        },
+        {
+          "id": "thin-yellow",
+          "name": "thin (Yellow)",
+          "path": "/assets/character/hair/hair-front/hair-front-thin-yellow.png",
           "color": "#FFF9C4"
         }
       ]
