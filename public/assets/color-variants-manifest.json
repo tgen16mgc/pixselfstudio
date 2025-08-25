@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2025-08-25T11:06:34.924Z",
+  "generatedAt": "2025-08-25T11:33:22.834Z",
   "assets": [
     {
       "baseId": "earring-circle",
@@ -86,7 +86,38 @@
       "subpart": "",
       "style": "2day",
       "basePath": "/assets/character/body/clothes/clothes-2day.png",
-      "variants": []
+      "variants": [
+        {
+          "id": "2day-black",
+          "name": "2day (Black)",
+          "path": "/assets/character/body/clothes/clothes-2day-black.png",
+          "color": "#333333"
+        },
+        {
+          "id": "2day-blue",
+          "name": "2day (Blue)",
+          "path": "/assets/character/body/clothes/clothes-2day-blue.png",
+          "color": "#90CAF9"
+        },
+        {
+          "id": "2day-pink",
+          "name": "2day (Pink)",
+          "path": "/assets/character/body/clothes/clothes-2day-pink.png",
+          "color": "#F8BBD0"
+        },
+        {
+          "id": "2day-red",
+          "name": "2day (Red)",
+          "path": "/assets/character/body/clothes/clothes-2day-red.png",
+          "color": "#FF8A80"
+        },
+        {
+          "id": "2day-yellow",
+          "name": "2day (Yellow)",
+          "path": "/assets/character/body/clothes/clothes-2day-yellow.png",
+          "color": "#FFF9C4"
+        }
+      ]
     },
     {
       "baseId": "clothes-aotheneu",
@@ -160,6 +191,33 @@
       "variants": []
     },
     {
+      "baseId": "clothes-sexy",
+      "part": "clothes",
+      "subpart": "",
+      "style": "sexy",
+      "basePath": "/assets/character/body/clothes/clothes-sexy.png",
+      "variants": [
+        {
+          "id": "sexy-black",
+          "name": "sexy (Black)",
+          "path": "/assets/character/body/clothes/clothes-sexy-black.png",
+          "color": "#333333"
+        },
+        {
+          "id": "sexy-red",
+          "name": "sexy (Red)",
+          "path": "/assets/character/body/clothes/clothes-sexy-red.png",
+          "color": "#FF8A80"
+        },
+        {
+          "id": "sexy-yellow",
+          "name": "sexy (Yellow)",
+          "path": "/assets/character/body/clothes/clothes-sexy-yellow.png",
+          "color": "#FFF9C4"
+        }
+      ]
+    },
+    {
       "baseId": "clothes-somi",
       "part": "clothes",
       "subpart": "",
@@ -185,6 +243,60 @@
           "name": "sweater (Red)",
           "path": "/assets/character/body/clothes/clothes-sweater-red.png",
           "color": "#FF8A80"
+        }
+      ]
+    },
+    {
+      "baseId": "clothes-tre1vai",
+      "part": "clothes",
+      "subpart": "",
+      "style": "tre1vai",
+      "basePath": "/assets/character/body/clothes/clothes-tre1vai.png",
+      "variants": [
+        {
+          "id": "tre1vai-red",
+          "name": "tre1vai (Red)",
+          "path": "/assets/character/body/clothes/clothes-tre1vai-red.png",
+          "color": "#FF8A80"
+        },
+        {
+          "id": "tre1vai-white",
+          "name": "tre1vai (White)",
+          "path": "/assets/character/body/clothes/clothes-tre1vai-white.png",
+          "color": "#FAFAFA"
+        },
+        {
+          "id": "tre1vai-yellow",
+          "name": "tre1vai (Yellow)",
+          "path": "/assets/character/body/clothes/clothes-tre1vai-yellow.png",
+          "color": "#FFF9C4"
+        }
+      ]
+    },
+    {
+      "baseId": "clothes-tre2vai",
+      "part": "clothes",
+      "subpart": "",
+      "style": "tre2vai",
+      "basePath": "/assets/character/body/clothes/clothes-tre2vai.png",
+      "variants": [
+        {
+          "id": "tre2vai-red",
+          "name": "tre2vai (Red)",
+          "path": "/assets/character/body/clothes/clothes-tre2vai-red.png",
+          "color": "#FF8A80"
+        },
+        {
+          "id": "tre2vai-white",
+          "name": "tre2vai (White)",
+          "path": "/assets/character/body/clothes/clothes-tre2vai-white.png",
+          "color": "#FAFAFA"
+        },
+        {
+          "id": "tre2vai-yellow",
+          "name": "tre2vai (Yellow)",
+          "path": "/assets/character/body/clothes/clothes-tre2vai-yellow.png",
+          "color": "#FFF9C4"
         }
       ]
     },

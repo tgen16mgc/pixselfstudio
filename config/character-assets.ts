@@ -89,6 +89,24 @@ const FALLBACK_CHARACTER_PARTS: PartDefinition[] = [
       name: "Hoodie CLOTHES",
       path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/body/clothes/clothes-hoodie.png",
       enabled: true,
+    },
+    {
+      id: "tre2vai",
+      name: "Tre2vai CLOTHES",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/body/clothes/clothes-tre2vai.png",
+      enabled: true,
+    },
+    {
+      id: "tre1vai",
+      name: "Tre1vai CLOTHES",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/body/clothes/clothes-tre1vai.png",
+      enabled: true,
+    },
+    {
+      id: "sexy",
+      name: "Sexy CLOTHES",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/body/clothes/clothes-sexy.png",
+      enabled: true,
     }
     ],
     defaultAsset: "default",
