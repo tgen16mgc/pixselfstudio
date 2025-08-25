@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2025-08-25T01:39:49.882Z",
+  "generatedAt": "2025-08-25T02:13:20.542Z",
   "assets": [
     {
       "baseId": "earring-circle",
@@ -559,12 +559,147 @@
       "variants": []
     },
     {
+      "baseId": "hair-front-3seven",
+      "part": "hair",
+      "subpart": "front",
+      "style": "3seven",
+      "basePath": "/assets/character/hair/hair-front/hair-front-3seven.png",
+      "variants": [
+        {
+          "id": "3seven-blue",
+          "name": "3seven (Blue)",
+          "path": "/assets/character/hair/hair-front/hair-front-3seven-blue.png",
+          "color": "#90CAF9"
+        },
+        {
+          "id": "3seven-brown",
+          "name": "3seven (Brown)",
+          "path": "/assets/character/hair/hair-front/hair-front-3seven-brown.png",
+          "color": "#8B4513"
+        },
+        {
+          "id": "3seven-pink",
+          "name": "3seven (Pink)",
+          "path": "/assets/character/hair/hair-front/hair-front-3seven-pink.png",
+          "color": "#F8BBD0"
+        },
+        {
+          "id": "3seven-red",
+          "name": "3seven (Red)",
+          "path": "/assets/character/hair/hair-front/hair-front-3seven-red.png",
+          "color": "#FF8A80"
+        },
+        {
+          "id": "3seven-white",
+          "name": "3seven (White)",
+          "path": "/assets/character/hair/hair-front/hair-front-3seven-white.png",
+          "color": "#FAFAFA"
+        },
+        {
+          "id": "3seven-yellow",
+          "name": "3seven (Yellow)",
+          "path": "/assets/character/hair/hair-front/hair-front-3seven-yellow.png",
+          "color": "#FFF9C4"
+        }
+      ]
+    },
+    {
+      "baseId": "hair-front-blunt",
+      "part": "hair",
+      "subpart": "front",
+      "style": "blunt",
+      "basePath": "/assets/character/hair/hair-front/hair-front-blunt.png",
+      "variants": [
+        {
+          "id": "blunt-blue",
+          "name": "blunt (Blue)",
+          "path": "/assets/character/hair/hair-front/hair-front-blunt-blue.png",
+          "color": "#90CAF9"
+        },
+        {
+          "id": "blunt-brown",
+          "name": "blunt (Brown)",
+          "path": "/assets/character/hair/hair-front/hair-front-blunt-brown.png",
+          "color": "#8B4513"
+        },
+        {
+          "id": "blunt-pink",
+          "name": "blunt (Pink)",
+          "path": "/assets/character/hair/hair-front/hair-front-blunt-pink.png",
+          "color": "#F8BBD0"
+        },
+        {
+          "id": "blunt-red",
+          "name": "blunt (Red)",
+          "path": "/assets/character/hair/hair-front/hair-front-blunt-red.png",
+          "color": "#FF8A80"
+        },
+        {
+          "id": "blunt-white",
+          "name": "blunt (White)",
+          "path": "/assets/character/hair/hair-front/hair-front-blunt-white.png",
+          "color": "#FAFAFA"
+        },
+        {
+          "id": "blunt-yellow",
+          "name": "blunt (Yellow)",
+          "path": "/assets/character/hair/hair-front/hair-front-blunt-yellow.png",
+          "color": "#FFF9C4"
+        }
+      ]
+    },
+    {
       "baseId": "hair-front-default",
       "part": "hair",
       "subpart": "front",
       "style": "default",
       "basePath": "/assets/character/hair/hair-front/hair-front-default.png",
       "variants": []
+    },
+    {
+      "baseId": "hair-front-messy",
+      "part": "hair",
+      "subpart": "front",
+      "style": "messy",
+      "basePath": "/assets/character/hair/hair-front/hair-front-messy.png",
+      "variants": [
+        {
+          "id": "messy-blue",
+          "name": "messy (Blue)",
+          "path": "/assets/character/hair/hair-front/hair-front-messy-blue.png",
+          "color": "#90CAF9"
+        },
+        {
+          "id": "messy-brown",
+          "name": "messy (Brown)",
+          "path": "/assets/character/hair/hair-front/hair-front-messy-brown.png",
+          "color": "#8B4513"
+        },
+        {
+          "id": "messy-pink",
+          "name": "messy (Pink)",
+          "path": "/assets/character/hair/hair-front/hair-front-messy-pink.png",
+          "color": "#F8BBD0"
+        },
+        {
+          "id": "messy-red",
+          "name": "messy (Red)",
+          "path": "/assets/character/hair/hair-front/hair-front-messy-red.png",
+          "color": "#FF8A80"
+        },
+        {
+          "id": "messy-white",
+          "name": "messy (White)",
+          "path": "/assets/character/hair/hair-front/hair-front-messy-white.png",
+          "color": "#FAFAFA"
+        },
+        {
+          "id": "messy-yellow",
+          "name": "messy (Yellow)",
+          "path": "/assets/character/hair/hair-front/hair-front-messy-yellow.png",
+          "color": "#FFF9C4"
+        }
+      ]
     },
     {
       "baseId": "hair-front-park",
@@ -660,6 +795,51 @@
           "id": "twosides-yellow",
           "name": "twosides (Yellow)",
           "path": "/assets/character/hair/hair-front/hair-front-twosides-yellow.png",
+          "color": "#FFF9C4"
+        }
+      ]
+    },
+    {
+      "baseId": "hair-front-wispy",
+      "part": "hair",
+      "subpart": "front",
+      "style": "wispy",
+      "basePath": "/assets/character/hair/hair-front/hair-front-wispy.png",
+      "variants": [
+        {
+          "id": "wispy-blue",
+          "name": "wispy (Blue)",
+          "path": "/assets/character/hair/hair-front/hair-front-wispy-blue.png",
+          "color": "#90CAF9"
+        },
+        {
+          "id": "wispy-brown",
+          "name": "wispy (Brown)",
+          "path": "/assets/character/hair/hair-front/hair-front-wispy-brown.png",
+          "color": "#8B4513"
+        },
+        {
+          "id": "wispy-pink",
+          "name": "wispy (Pink)",
+          "path": "/assets/character/hair/hair-front/hair-front-wispy-pink.png",
+          "color": "#F8BBD0"
+        },
+        {
+          "id": "wispy-red",
+          "name": "wispy (Red)",
+          "path": "/assets/character/hair/hair-front/hair-front-wispy-red.png",
+          "color": "#FF8A80"
+        },
+        {
+          "id": "wispy-white",
+          "name": "wispy (White)",
+          "path": "/assets/character/hair/hair-front/hair-front-wispy-white.png",
+          "color": "#FAFAFA"
+        },
+        {
+          "id": "wispy-yellow",
+          "name": "wispy (Yellow)",
+          "path": "/assets/character/hair/hair-front/hair-front-wispy-yellow.png",
           "color": "#FFF9C4"
         }
       ]

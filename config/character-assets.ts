@@ -105,6 +105,30 @@ const FALLBACK_CHARACTER_PARTS: PartDefinition[] = [
       name: "Park HAIR FRONT",
       path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-front/hair-front-park.png",
       enabled: true,
+    },
+    {
+      id: "3seven",
+      name: "3seven HAIR FRONT",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-front/hair-front-3seven.png",
+      enabled: true,
+    },
+    {
+      id: "blunt",
+      name: "Blunt HAIR FRONT",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-front/hair-front-blunt.png",
+      enabled: true,
+    },
+    {
+      id: "messy",
+      name: "Messy HAIR FRONT",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-front/hair-front-messy.png",
+      enabled: true,
+    },
+    {
+      id: "wispy",
+      name: "Wispy HAIR FRONT",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-front/hair-front-wispy.png",
+      enabled: true,
     }
 
     ],
