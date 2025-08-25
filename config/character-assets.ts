@@ -71,6 +71,24 @@ const FALLBACK_CHARACTER_PARTS: PartDefinition[] = [
       name: "2day CLOTHES",
       path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/body/clothes/clothes-2day.png",
       enabled: true,
+    },
+    {
+      id: "tshirt",
+      name: "Tshirt CLOTHES",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/body/clothes/clothes-tshirt.png",
+      enabled: true,
+    },
+    {
+      id: "sweater",
+      name: "Sweater CLOTHES",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/body/clothes/clothes-sweater.png",
+      enabled: true,
+    },
+    {
+      id: "hoodie",
+      name: "Hoodie CLOTHES",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/body/clothes/clothes-hoodie.png",
+      enabled: true,
     }
     ],
     defaultAsset: "default",

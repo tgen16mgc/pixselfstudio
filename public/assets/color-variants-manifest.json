@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2025-08-25T10:55:34.562Z",
+  "generatedAt": "2025-08-25T11:06:34.924Z",
   "assets": [
     {
       "baseId": "earring-circle",
@@ -113,6 +113,45 @@
       "variants": []
     },
     {
+      "baseId": "clothes-hoodie",
+      "part": "clothes",
+      "subpart": "",
+      "style": "hoodie",
+      "basePath": "/assets/character/body/clothes/clothes-hoodie.png",
+      "variants": [
+        {
+          "id": "hoodie-blue",
+          "name": "hoodie (Blue)",
+          "path": "/assets/character/body/clothes/clothes-hoodie-blue.png",
+          "color": "#90CAF9"
+        },
+        {
+          "id": "hoodie-pink",
+          "name": "hoodie (Pink)",
+          "path": "/assets/character/body/clothes/clothes-hoodie-pink.png",
+          "color": "#F8BBD0"
+        },
+        {
+          "id": "hoodie-red",
+          "name": "hoodie (Red)",
+          "path": "/assets/character/body/clothes/clothes-hoodie-red.png",
+          "color": "#FF8A80"
+        },
+        {
+          "id": "hoodie-white",
+          "name": "hoodie (White)",
+          "path": "/assets/character/body/clothes/clothes-hoodie-white.png",
+          "color": "#FAFAFA"
+        },
+        {
+          "id": "hoodie-yellow",
+          "name": "hoodie (Yellow)",
+          "path": "/assets/character/body/clothes/clothes-hoodie-yellow.png",
+          "color": "#FFF9C4"
+        }
+      ]
+    },
+    {
       "baseId": "clothes-neu",
       "part": "clothes",
       "subpart": "",
@@ -127,6 +166,48 @@
       "style": "somi",
       "basePath": "/assets/character/body/clothes/clothes-somi.png",
       "variants": []
+    },
+    {
+      "baseId": "clothes-sweater",
+      "part": "clothes",
+      "subpart": "",
+      "style": "sweater",
+      "basePath": "/assets/character/body/clothes/clothes-sweater.png",
+      "variants": [
+        {
+          "id": "sweater-black",
+          "name": "sweater (Black)",
+          "path": "/assets/character/body/clothes/clothes-sweater-black.png",
+          "color": "#333333"
+        },
+        {
+          "id": "sweater-red",
+          "name": "sweater (Red)",
+          "path": "/assets/character/body/clothes/clothes-sweater-red.png",
+          "color": "#FF8A80"
+        }
+      ]
+    },
+    {
+      "baseId": "clothes-tshirt",
+      "part": "clothes",
+      "subpart": "",
+      "style": "tshirt",
+      "basePath": "/assets/character/body/clothes/clothes-tshirt.png",
+      "variants": [
+        {
+          "id": "tshirt-black",
+          "name": "tshirt (Black)",
+          "path": "/assets/character/body/clothes/clothes-tshirt-black.png",
+          "color": "#333333"
+        },
+        {
+          "id": "tshirt-red",
+          "name": "tshirt (Red)",
+          "path": "/assets/character/body/clothes/clothes-tshirt-red.png",
+          "color": "#FF8A80"
+        }
+      ]
     },
     {
       "baseId": "blush-default",
