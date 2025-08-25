@@ -28,7 +28,14 @@
   ],
   "hairFront": [
     "hair-front-default.png",
-    "hair-front-tomboy.png"
+    "hair-front-tomboy.png",
+    "hair-front-twosides-blue.png",
+    "hair-front-twosides-brown.png",
+    "hair-front-twosides-pink.png",
+    "hair-front-twosides-red.png",
+    "hair-front-twosides-silver.png",
+    "hair-front-twosides-yellow.png",
+    "hair-front-twosides.png"
   ],
   "eyes": [
     "eyes-basic1.png",

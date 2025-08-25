@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2025-08-25T00:53:36.305Z",
+  "generatedAt": "2025-08-25T01:04:25.894Z",
   "assets": [
     {
       "baseId": "earring-circle",
@@ -573,6 +573,51 @@
       "style": "tomboy",
       "basePath": "/assets/character/hair/hair-front/hair-front-tomboy.png",
       "variants": []
+    },
+    {
+      "baseId": "hair-front-twosides",
+      "part": "hair",
+      "subpart": "front",
+      "style": "twosides",
+      "basePath": "/assets/character/hair/hair-front/hair-front-twosides.png",
+      "variants": [
+        {
+          "id": "twosides-blue",
+          "name": "twosides (Blue)",
+          "path": "/assets/character/hair/hair-front/hair-front-twosides-blue.png",
+          "color": "#90CAF9"
+        },
+        {
+          "id": "twosides-brown",
+          "name": "twosides (Brown)",
+          "path": "/assets/character/hair/hair-front/hair-front-twosides-brown.png",
+          "color": "#8B4513"
+        },
+        {
+          "id": "twosides-pink",
+          "name": "twosides (Pink)",
+          "path": "/assets/character/hair/hair-front/hair-front-twosides-pink.png",
+          "color": "#F8BBD0"
+        },
+        {
+          "id": "twosides-red",
+          "name": "twosides (Red)",
+          "path": "/assets/character/hair/hair-front/hair-front-twosides-red.png",
+          "color": "#FF8A80"
+        },
+        {
+          "id": "twosides-silver",
+          "name": "twosides (Silver)",
+          "path": "/assets/character/hair/hair-front/hair-front-twosides-silver.png",
+          "color": "#666666"
+        },
+        {
+          "id": "twosides-yellow",
+          "name": "twosides (Yellow)",
+          "path": "/assets/character/hair/hair-front/hair-front-twosides-yellow.png",
+          "color": "#FFF9C4"
+        }
+      ]
     }
   ]
 }
