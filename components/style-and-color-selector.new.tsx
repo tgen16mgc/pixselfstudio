@@ -148,8 +148,12 @@ export function StyleAndColorSelector({
           </div>
         </div>
         
-        <div className="grid grid-cols-3 gap-3">
-          {baseStyles.map((style) => {
+        <div className="max-h-[400px] overflow-y-auto pr-2" style={{
+          scrollbarWidth: 'thin',
+          scrollbarColor: '#9CA3AF #F3F4F6'
+        }}>
+          <div className="grid grid-cols-3 gap-3 pb-2">
+            {baseStyles.map((style) => {
             const isSelected = selectedBaseStyle === style.id
             
             return (
@@ -202,6 +206,7 @@ export function StyleAndColorSelector({
               </button>
             )
           })}
+          </div>
         </div>
       </div>
     </div>

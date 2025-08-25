@@ -110,10 +110,18 @@ export function AssetVariantGrid({
     )
   }
 
-  // Desktop: Grid layout
+  // Desktop: Grid layout with scrollable container
   return (
-    <div className="grid grid-cols-2 gap-3">
-      {assets.map((asset) => {
+    <div className="max-h-[400px] overflow-y-auto pr-2 relative" style={{
+      scrollbarWidth: 'thin',
+      scrollbarColor: '#9CA3AF #F3F4F6'
+    }}>
+      {/* Scroll indicator when content overflows */}
+      {assets.length > 8 && (
+        <div className="absolute top-0 right-1 w-1 h-2 bg-gray-300 rounded-full opacity-60" />
+      )}
+      <div className="grid grid-cols-2 gap-3 pb-2">
+        {assets.map((asset) => {
         const isSelected = currentAssetId === asset.id
         // const isPreview = previewAsset === asset.id
 
@@ -200,6 +208,7 @@ export function AssetVariantGrid({
           </button>
         )
       })}
+      </div>
     </div>
   )
 }

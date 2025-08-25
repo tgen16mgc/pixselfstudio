@@ -259,8 +259,12 @@ export function EnhancedAssetSelector({
           </div>
         </div>
         
-        <div className="grid grid-cols-2 gap-3">
-          {styleOptions.map((style) => {
+        <div className="max-h-[400px] overflow-y-auto pr-2" style={{
+          scrollbarWidth: 'thin',
+          scrollbarColor: '#9CA3AF #F3F4F6'
+        }}>
+          <div className="grid grid-cols-2 gap-3 pb-2">
+            {styleOptions.map((style) => {
             const isSelected = selectedStyle === style.id;
             
             return (
@@ -322,6 +326,7 @@ export function EnhancedAssetSelector({
               </button>
             );
           })}
+          </div>
         </div>
       </div>
 
