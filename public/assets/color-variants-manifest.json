@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2025-08-25T09:48:06.694Z",
+  "generatedAt": "2025-08-25T10:14:38.142Z",
   "assets": [
     {
       "baseId": "earring-circle",
@@ -798,6 +798,51 @@
       "style": "default",
       "basePath": "/assets/character/hair/hair-front/hair-front-default.png",
       "variants": []
+    },
+    {
+      "baseId": "hair-front-ivy",
+      "part": "hair",
+      "subpart": "front",
+      "style": "ivy",
+      "basePath": "/assets/character/hair/hair-front/hair-front-ivy.png",
+      "variants": [
+        {
+          "id": "ivy-blue",
+          "name": "ivy (Blue)",
+          "path": "/assets/character/hair/hair-front/hair-front-ivy-blue.png",
+          "color": "#90CAF9"
+        },
+        {
+          "id": "ivy-brown",
+          "name": "ivy (Brown)",
+          "path": "/assets/character/hair/hair-front/hair-front-ivy-brown.png",
+          "color": "#8B4513"
+        },
+        {
+          "id": "ivy-pink",
+          "name": "ivy (Pink)",
+          "path": "/assets/character/hair/hair-front/hair-front-ivy-pink.png",
+          "color": "#F8BBD0"
+        },
+        {
+          "id": "ivy-red",
+          "name": "ivy (Red)",
+          "path": "/assets/character/hair/hair-front/hair-front-ivy-red.png",
+          "color": "#FF8A80"
+        },
+        {
+          "id": "ivy-silver",
+          "name": "ivy (Silver)",
+          "path": "/assets/character/hair/hair-front/hair-front-ivy-silver.png",
+          "color": "#666666"
+        },
+        {
+          "id": "ivy-yellow",
+          "name": "ivy (Yellow)",
+          "path": "/assets/character/hair/hair-front/hair-front-ivy-yellow.png",
+          "color": "#FFF9C4"
+        }
+      ]
     },
     {
       "baseId": "hair-front-layered",
