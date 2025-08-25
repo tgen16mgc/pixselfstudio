@@ -20,14 +20,6 @@ async function createTestAssets() {
   // Define our test cases (base assets and their color variants)
   const testCases = [
     {
-      source: 'hair/hair-front/hair-front-tomboy.png',
-      variants: [
-        { color: 'brown', path: 'hair/hair-front/hair-front-tomboy-brown.png' },
-        { color: 'blonde', path: 'hair/hair-front/hair-front-tomboy-blonde.png' },
-        { color: 'black', path: 'hair/hair-front/hair-front-tomboy-black.png' }
-      ]
-    },
-    {
       source: 'hair/hair-front/hair-front-2side.png',
       variants: [
         { color: 'red', path: 'hair/hair-front/hair-front-2side-red.png' },
