@@ -17,6 +17,20 @@
     "clothes-somi.png"
   ],
   "hairBehind": [
+    "hair-behind-1braid-blue.png",
+    "hair-behind-1braid-brown.png",
+    "hair-behind-1braid-pink.png",
+    "hair-behind-1braid-red.png",
+    "hair-behind-1braid-white.png",
+    "hair-behind-1braid-yellow.png",
+    "hair-behind-1braid.png",
+    "hair-behind-2braid-blue.png",
+    "hair-behind-2braid-brown.png",
+    "hair-behind-2braid-pink.png",
+    "hair-behind-2braid-red.png",
+    "hair-behind-2braid-white.png",
+    "hair-behind-2braid-yellow.png",
+    "hair-behind-2braid.png",
     "hair-behind-2side.png",
     "hair-behind-curly-blue.png",
     "hair-behind-curly-brown.png",
@@ -25,7 +39,14 @@
     "hair-behind-curly-white.png",
     "hair-behind-curly-yellow.png",
     "hair-behind-curly.png",
-    "hair-behind-default.png"
+    "hair-behind-default.png",
+    "hair-behind-straight-blue.png",
+    "hair-behind-straight-brown.png",
+    "hair-behind-straight-pink.png",
+    "hair-behind-straight-red.png",
+    "hair-behind-straight-white.png",
+    "hair-behind-straight-yellow.png",
+    "hair-behind-straight.png"
   ],
   "hairFront": [
     "hair-front-3seven-blue.png",

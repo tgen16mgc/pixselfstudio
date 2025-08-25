@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2025-08-25T03:14:15.950Z",
+  "generatedAt": "2025-08-25T03:30:31.541Z",
   "assets": [
     {
       "baseId": "earring-circle",
@@ -506,6 +506,96 @@
       "variants": []
     },
     {
+      "baseId": "hair-behind-1braid",
+      "part": "hair",
+      "subpart": "behind",
+      "style": "1braid",
+      "basePath": "/assets/character/hair/hair-behind/hair-behind-1braid.png",
+      "variants": [
+        {
+          "id": "1braid-blue",
+          "name": "1braid (Blue)",
+          "path": "/assets/character/hair/hair-behind/hair-behind-1braid-blue.png",
+          "color": "#90CAF9"
+        },
+        {
+          "id": "1braid-brown",
+          "name": "1braid (Brown)",
+          "path": "/assets/character/hair/hair-behind/hair-behind-1braid-brown.png",
+          "color": "#8B4513"
+        },
+        {
+          "id": "1braid-pink",
+          "name": "1braid (Pink)",
+          "path": "/assets/character/hair/hair-behind/hair-behind-1braid-pink.png",
+          "color": "#F8BBD0"
+        },
+        {
+          "id": "1braid-red",
+          "name": "1braid (Red)",
+          "path": "/assets/character/hair/hair-behind/hair-behind-1braid-red.png",
+          "color": "#FF8A80"
+        },
+        {
+          "id": "1braid-white",
+          "name": "1braid (White)",
+          "path": "/assets/character/hair/hair-behind/hair-behind-1braid-white.png",
+          "color": "#FAFAFA"
+        },
+        {
+          "id": "1braid-yellow",
+          "name": "1braid (Yellow)",
+          "path": "/assets/character/hair/hair-behind/hair-behind-1braid-yellow.png",
+          "color": "#FFF9C4"
+        }
+      ]
+    },
+    {
+      "baseId": "hair-behind-2braid",
+      "part": "hair",
+      "subpart": "behind",
+      "style": "2braid",
+      "basePath": "/assets/character/hair/hair-behind/hair-behind-2braid.png",
+      "variants": [
+        {
+          "id": "2braid-blue",
+          "name": "2braid (Blue)",
+          "path": "/assets/character/hair/hair-behind/hair-behind-2braid-blue.png",
+          "color": "#90CAF9"
+        },
+        {
+          "id": "2braid-brown",
+          "name": "2braid (Brown)",
+          "path": "/assets/character/hair/hair-behind/hair-behind-2braid-brown.png",
+          "color": "#8B4513"
+        },
+        {
+          "id": "2braid-pink",
+          "name": "2braid (Pink)",
+          "path": "/assets/character/hair/hair-behind/hair-behind-2braid-pink.png",
+          "color": "#F8BBD0"
+        },
+        {
+          "id": "2braid-red",
+          "name": "2braid (Red)",
+          "path": "/assets/character/hair/hair-behind/hair-behind-2braid-red.png",
+          "color": "#FF8A80"
+        },
+        {
+          "id": "2braid-white",
+          "name": "2braid (White)",
+          "path": "/assets/character/hair/hair-behind/hair-behind-2braid-white.png",
+          "color": "#FAFAFA"
+        },
+        {
+          "id": "2braid-yellow",
+          "name": "2braid (Yellow)",
+          "path": "/assets/character/hair/hair-behind/hair-behind-2braid-yellow.png",
+          "color": "#FFF9C4"
+        }
+      ]
+    },
+    {
       "baseId": "hair-behind-2side",
       "part": "hair",
       "subpart": "behind",
@@ -565,6 +655,51 @@
       "style": "default",
       "basePath": "/assets/character/hair/hair-behind/hair-behind-default.png",
       "variants": []
+    },
+    {
+      "baseId": "hair-behind-straight",
+      "part": "hair",
+      "subpart": "behind",
+      "style": "straight",
+      "basePath": "/assets/character/hair/hair-behind/hair-behind-straight.png",
+      "variants": [
+        {
+          "id": "straight-blue",
+          "name": "straight (Blue)",
+          "path": "/assets/character/hair/hair-behind/hair-behind-straight-blue.png",
+          "color": "#90CAF9"
+        },
+        {
+          "id": "straight-brown",
+          "name": "straight (Brown)",
+          "path": "/assets/character/hair/hair-behind/hair-behind-straight-brown.png",
+          "color": "#8B4513"
+        },
+        {
+          "id": "straight-pink",
+          "name": "straight (Pink)",
+          "path": "/assets/character/hair/hair-behind/hair-behind-straight-pink.png",
+          "color": "#F8BBD0"
+        },
+        {
+          "id": "straight-red",
+          "name": "straight (Red)",
+          "path": "/assets/character/hair/hair-behind/hair-behind-straight-red.png",
+          "color": "#FF8A80"
+        },
+        {
+          "id": "straight-white",
+          "name": "straight (White)",
+          "path": "/assets/character/hair/hair-behind/hair-behind-straight-white.png",
+          "color": "#FAFAFA"
+        },
+        {
+          "id": "straight-yellow",
+          "name": "straight (Yellow)",
+          "path": "/assets/character/hair/hair-behind/hair-behind-straight-yellow.png",
+          "color": "#FFF9C4"
+        }
+      ]
     },
     {
       "baseId": "hair-front-3seven",
