@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2025-08-25T00:28:27.244Z",
+  "generatedAt": "2025-08-25T00:40:10.513Z",
   "assets": [
     {
       "baseId": "earring-circle",
@@ -559,82 +559,12 @@
       "variants": []
     },
     {
-      "baseId": "hair-front-2side",
-      "part": "hair",
-      "subpart": "front",
-      "style": "2side",
-      "basePath": "/assets/character/hair/hair-front/hair-front-2side.png",
-      "variants": [
-        {
-          "id": "2side-blue",
-          "name": "2side (Blue)",
-          "path": "/assets/character/hair/hair-front/hair-front-2side-blue.png",
-          "color": "#90CAF9"
-        },
-        {
-          "id": "2side-purple",
-          "name": "2side (Purple)",
-          "path": "/assets/character/hair/hair-front/hair-front-2side-purple.png",
-          "color": "#CE93D8"
-        },
-        {
-          "id": "2side-red",
-          "name": "2side (Red)",
-          "path": "/assets/character/hair/hair-front/hair-front-2side-red.png",
-          "color": "#FF8A80"
-        }
-      ]
-    },
-    {
-      "baseId": "hair-front-64",
-      "part": "hair",
-      "subpart": "front",
-      "style": "64",
-      "basePath": "/assets/character/hair/hair-front/hair-front-64.png",
-      "variants": []
-    },
-    {
       "baseId": "hair-front-default",
       "part": "hair",
       "subpart": "front",
       "style": "default",
       "basePath": "/assets/character/hair/hair-front/hair-front-default.png",
       "variants": []
-    },
-    {
-      "baseId": "hair-front-long37",
-      "part": "hair",
-      "subpart": "front",
-      "style": "long37",
-      "basePath": "/assets/character/hair/hair-front/hair-front-long37.png",
-      "variants": []
-    },
-    {
-      "baseId": "hair-front-tomboy",
-      "part": "hair",
-      "subpart": "front",
-      "style": "tomboy",
-      "basePath": "/assets/character/hair/hair-front/hair-front-tomboy.png",
-      "variants": [
-        {
-          "id": "tomboy-black",
-          "name": "tomboy (Black)",
-          "path": "/assets/character/hair/hair-front/hair-front-tomboy-black.png",
-          "color": "#333333"
-        },
-        {
-          "id": "tomboy-blonde",
-          "name": "tomboy (Blonde)",
-          "path": "/assets/character/hair/hair-front/hair-front-tomboy-blonde.png",
-          "color": "#DAA520"
-        },
-        {
-          "id": "tomboy-brown",
-          "name": "tomboy (Brown)",
-          "path": "/assets/character/hair/hair-front/hair-front-tomboy-brown.png",
-          "color": "#8B4513"
-        }
-      ]
     }
   ]
 }
