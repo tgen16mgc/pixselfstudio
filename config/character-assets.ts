@@ -99,6 +99,12 @@ const FALLBACK_CHARACTER_PARTS: PartDefinition[] = [
       name: "Twosides HAIR FRONT",
       path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-front/hair-front-twosides.png",
       enabled: true,
+    },
+    {
+      id: "park",
+      name: "Park HAIR FRONT",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-front/hair-front-park.png",
+      enabled: true,
     }
 
     ],
