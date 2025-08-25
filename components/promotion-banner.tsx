@@ -12,7 +12,7 @@ interface PromotionBannerProps {
 }
 
 export function PromotionBanner({
-  message = "🎮 NO ACTIVE PROMOTIONS • STAY TUNED FOR AMAZING DEALS • FOLLOW US FOR UPDATES 🎮",
+  message = "🎮 PREORDERING IS OPEN FROM 25TH TO 27TH AUG • INCLUDES LIMITED GIFTS • DON'T MISS OUT! 🎮",
   isActive = false,
 }: PromotionBannerProps) {
   const [sparkles, setSparkles] = useState<

@@ -507,8 +507,8 @@ export default function Page() {
         {/* Promotion Banner */}
         <div className="mb-8">
           <PromotionBanner
-            message="🎮 NO ACTIVE PROMOTIONS • STAY TUNED FOR AMAZING DEALS • FOLLOW US FOR UPDATES 🎮"
-            isActive={false}
+            message="🎮 PREORDERING IS OPEN FROM 25TH TO 27TH AUG • INCLUDES LIMITED GIFTS • DON'T MISS OUT! 🎮"
+            isActive={true}
           />
         </div>
 
