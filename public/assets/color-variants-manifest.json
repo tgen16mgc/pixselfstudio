@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2025-08-25T10:14:38.142Z",
+  "generatedAt": "2025-08-25T10:55:34.562Z",
   "assets": [
     {
       "baseId": "earring-circle",
@@ -79,14 +79,6 @@
           "color": "#FFF9C4"
         }
       ]
-    },
-    {
-      "baseId": "body-v2",
-      "part": "body",
-      "subpart": "",
-      "style": "v2",
-      "basePath": "/assets/character/body/body/body-v2.png",
-      "variants": []
     },
     {
       "baseId": "clothes-2day",
