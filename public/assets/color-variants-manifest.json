@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2025-08-25T03:30:31.541Z",
+  "generatedAt": "2025-08-25T04:37:16.888Z",
   "assets": [
     {
       "baseId": "earring-circle",
@@ -885,6 +885,45 @@
           "id": "park-yellow",
           "name": "park (Yellow)",
           "path": "/assets/character/hair/hair-front/hair-front-park-yellow.png",
+          "color": "#FFF9C4"
+        }
+      ]
+    },
+    {
+      "baseId": "hair-front-sidepart37",
+      "part": "hair",
+      "subpart": "front",
+      "style": "sidepart37",
+      "basePath": "/assets/character/hair/hair-front/hair-front-sidepart37.png",
+      "variants": [
+        {
+          "id": "sidepart37-blue",
+          "name": "sidepart37 (Blue)",
+          "path": "/assets/character/hair/hair-front/hair-front-sidepart37-blue.png",
+          "color": "#90CAF9"
+        },
+        {
+          "id": "sidepart37-pink",
+          "name": "sidepart37 (Pink)",
+          "path": "/assets/character/hair/hair-front/hair-front-sidepart37-pink.png",
+          "color": "#F8BBD0"
+        },
+        {
+          "id": "sidepart37-red",
+          "name": "sidepart37 (Red)",
+          "path": "/assets/character/hair/hair-front/hair-front-sidepart37-red.png",
+          "color": "#FF8A80"
+        },
+        {
+          "id": "sidepart37-silver",
+          "name": "sidepart37 (Silver)",
+          "path": "/assets/character/hair/hair-front/hair-front-sidepart37-silver.png",
+          "color": "#666666"
+        },
+        {
+          "id": "sidepart37-yellow",
+          "name": "sidepart37 (Yellow)",
+          "path": "/assets/character/hair/hair-front/hair-front-sidepart37-yellow.png",
           "color": "#FFF9C4"
         }
       ]
