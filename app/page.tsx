@@ -5,7 +5,6 @@ import { useState, useRef, useCallback, useEffect } from "react"
 import {
   ChevronRight,
   Download,
-  RefreshCw,
   ZoomIn,
   ZoomOut,
   Layers,
@@ -35,7 +34,6 @@ import { PIXSELF_BRAND } from "@/config/pixself-brand"
 import { isStorageAvailable } from "@/utils/character-storage"
 import {
   createDefaultSelections,
-  randomizeSelections,
   drawCharacterToCanvas,
   generateCharacterThumbnail,
   preloadCharacterAssets,
@@ -332,16 +330,7 @@ export default function Page() {
     }
   }, [selections, soundEnabled, setDownloadModalData, setShowDownloadModal])
 
-  const randomize = useCallback(() => {
-    setLoading(true)
-    setTimeout(() => {
-      const newSelections = randomizeSelections()
-      setSelections(newSelections)
-      addToHistory(newSelections)
-      setLoading(false)
-      play8BitSound("success", soundEnabled)
-    }, 100)
-  }, [addToHistory, soundEnabled, setLoading, setSelections])
+
 
   // Add keyboard shortcuts for undo/redo
   useEffect(() => {
@@ -358,22 +347,16 @@ export default function Page() {
         } else if (e.key === "s") {
           e.preventDefault()
           showDownloadConfirmation()
-        } else if (e.key === " ") {
-          e.preventDefault()
-          randomize()
         } else if (e.key === "g") {
           e.preventDefault()
           if (storageAvailable) setShowGalleryModal(true)
         }
-      } else if (e.key === " " && !e.ctrlKey && !e.metaKey) {
-        e.preventDefault()
-        randomize()
       }
     }
 
     window.addEventListener("keydown", handleKeyDown)
     return () => window.removeEventListener("keydown", handleKeyDown)
-  }, [historyIndex, history, soundEnabled, storageAvailable, randomize, undo, redo, showDownloadConfirmation])
+  }, [historyIndex, history, soundEnabled, storageAvailable, undo, redo, showDownloadConfirmation])
 
   function onSelectAsset(part: PartKey, assetId: string) {
     // Immediate selection update for seamless experience
@@ -396,7 +379,7 @@ export default function Page() {
     }
   }
 
-  // randomize function moved above
+
 
   function resetAll() {
     const newSelections = createDefaultSelections()
@@ -510,7 +493,7 @@ export default function Page() {
             onUndo={undo}
             onRedo={redo}
             onReset={resetAll}
-            onRandomize={randomize}
+
 
             onDownload={() => showDownloadConfirmation()}
             canUndo={historyIndex > 0}
@@ -668,14 +651,6 @@ export default function Page() {
                   {/* Action Controls */}
                   <div className="flex items-center justify-center gap-4">
                     <div className="flex items-center gap-3">
-                      <PixselfButton
-                        onClick={randomize}
-                        disabled={loading}
-                        loading={loading}
-                        icon={<RefreshCw className="h-4 w-4" />}
-                      >
-                        RANDOMIZE
-                      </PixselfButton>
                       <PixselfButton
                         onClick={() => showDownloadConfirmation()}
                         disabled={downloadLoading}
@@ -914,15 +889,6 @@ export default function Page() {
 
                 {/* Compact Quick Actions */}
                 <div className="flex items-center justify-center gap-2">
-                  <PixselfButton
-                    onClick={randomize}
-                    disabled={loading}
-                    loading={loading}
-                    size="sm"
-                    icon={<RefreshCw className="h-3 w-3" />}
-                  >
-                    RANDOM
-                  </PixselfButton>
                   <PixselfButton
                     onClick={() => showDownloadConfirmation()}
                     disabled={downloadLoading}

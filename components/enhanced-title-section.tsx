@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { Volume2, VolumeX, Undo2, Redo2, RotateCcw, RefreshCw, Download } from "lucide-react"
+import { Volume2, VolumeX, Undo2, Redo2, RotateCcw, Download } from "lucide-react"
 import { PixselfLogo } from "./pixself-logo"
 import { PixselfButton } from "./pixself-ui-components"
 import { PIXSELF_BRAND } from "@/config/pixself-brand"
@@ -15,7 +15,6 @@ interface EnhancedTitleSectionProps {
   onUndo: () => void
   onRedo: () => void
   onReset: () => void
-  onRandomize: () => void
   onDownload: () => void
   canUndo: boolean
   canRedo: boolean
@@ -30,7 +29,6 @@ export function EnhancedTitleSection({
   onUndo,
   onRedo,
   onReset,
-  onRandomize,
   onDownload,
   canUndo,
   canRedo,
@@ -240,17 +238,6 @@ export function EnhancedTitleSection({
                 RESET
               </PixselfButton>
 
-              <PixselfButton
-                onClick={onRandomize}
-                disabled={isLoading}
-                loading={isLoading}
-                size="sm"
-                icon={<RefreshCw className="h-3.5 w-3.5" />}
-                className="hover:scale-110 transition-transform duration-200"
-              >
-                RANDOM
-              </PixselfButton>
-
 
 
               <PixselfButton
@@ -268,16 +255,6 @@ export function EnhancedTitleSection({
 
             {/* Mobile Action Buttons with enhanced styling */}
             <div className="flex lg:hidden items-center gap-2">
-              <PixselfButton
-                onClick={onRandomize}
-                disabled={isLoading}
-                loading={isLoading}
-                size="sm"
-                icon={<RefreshCw className="h-3.5 w-3.5" />}
-                className="hover:scale-110 transition-transform duration-200"
-              >
-                RANDOM
-              </PixselfButton>
               <PixselfButton
                 onClick={onDownload}
                 disabled={isDownloadLoading}
