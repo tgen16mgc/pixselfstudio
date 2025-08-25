@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { Volume2, VolumeX, Undo2, Redo2, RotateCcw, RefreshCw, Share2, Download } from "lucide-react"
+import { Volume2, VolumeX, Undo2, Redo2, RotateCcw, RefreshCw, Download } from "lucide-react"
 import { PixselfLogo } from "./pixself-logo"
 import { PixselfButton } from "./pixself-ui-components"
 import { PIXSELF_BRAND } from "@/config/pixself-brand"
@@ -16,7 +16,6 @@ interface EnhancedTitleSectionProps {
   onRedo: () => void
   onReset: () => void
   onRandomize: () => void
-  onShare: () => void
   onDownload: () => void
   canUndo: boolean
   canRedo: boolean
@@ -32,7 +31,6 @@ export function EnhancedTitleSection({
   onRedo,
   onReset,
   onRandomize,
-  onShare,
   onDownload,
   canUndo,
   canRedo,
@@ -253,15 +251,7 @@ export function EnhancedTitleSection({
                 RANDOM
               </PixselfButton>
 
-              <PixselfButton
-                onClick={onShare}
-                variant="secondary"
-                size="sm"
-                icon={<Share2 className="h-3.5 w-3.5" />}
-                className="hover:scale-110 transition-transform duration-200"
-              >
-                SHARE
-              </PixselfButton>
+
 
               <PixselfButton
                 onClick={onDownload}

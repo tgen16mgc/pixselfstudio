@@ -8,7 +8,6 @@ import {
   RefreshCw,
   ZoomIn,
   ZoomOut,
-  Share2,
   Layers,
   Settings,
   Undo2,
@@ -26,7 +25,7 @@ import { PixselfButton, PixselfPanel } from "@/components/pixself-ui-components"
 import { LoadingScreen } from "@/components/loading-screen"
 import { DownloadConfirmationModal } from "@/components/download-confirmation-modal"
 
-import { ShareTemplateModal } from "@/components/share-template-modal"
+
 import { CharacterGalleryModal } from "@/components/character-gallery-modal"
 import { EnhancedTitleSection } from "@/components/enhanced-title-section"
 import { PromotionBanner } from "@/components/promotion-banner"
@@ -216,10 +215,10 @@ export default function Page() {
   const [soundEnabled, setSoundEnabled] = useState(true)
   const [loading, setLoading] = useState(false)
   const [downloadLoading, setDownloadLoading] = useState(false)
-  // const [, setShareLoading] = useState(false)
+
   const [showDownloadModal, setShowDownloadModal] = useState(false)
 
-  const [showShareModal, setShowShareModal] = useState(false)
+
   const [showGalleryModal, setShowGalleryModal] = useState(false)
   const [downloadModalData, setDownloadModalData] = useState<{
     preview: string
@@ -227,7 +226,7 @@ export default function Page() {
     fileSize: string
     scale: number
   } | null>(null)
-  const [sharePreviewData, setSharePreviewData] = useState<string>("")
+
   const [storageAvailable, setStorageAvailable] = useState(false)
 
   // Preload assets on mount
@@ -478,19 +477,7 @@ export default function Page() {
     }
   }
 
-  async function shareCharacter() {
-    try {
-      // Generate preview using the thumbnail function
-      const previewDataUrl = await generateCharacterThumbnail(selections, 500)
-      setSharePreviewData(previewDataUrl)
-      setShowShareModal(true)
-      play8BitSound("click", soundEnabled)
-    } catch (error) {
-      console.error("Share preview generation failed:", error)
-      play8BitSound("error", soundEnabled)
-      alert("Share preview generation failed. Please try again.")
-    }
-  }
+
 
   // Use dynamic parts or fallback to static parts
   const currentParts = dynamicParts.length > 0 ? dynamicParts : CHARACTER_PARTS()
@@ -524,7 +511,7 @@ export default function Page() {
             onRedo={redo}
             onReset={resetAll}
             onRandomize={randomize}
-            onShare={shareCharacter}
+
             onDownload={() => showDownloadConfirmation()}
             canUndo={historyIndex > 0}
             canRedo={historyIndex < history.length - 1}
@@ -787,17 +774,7 @@ export default function Page() {
                       LARGE (1280×1280)
                     </PixselfButton>
                   </div>
-                  <div className="pt-3 border-t-4" style={{ borderTopColor: PIXSELF_BRAND.colors.primary.navy }}>
-                    <PixselfButton
-                      onClick={shareCharacter}
-                      variant="secondary"
-                      size="sm"
-                      fullWidth
-                      icon={<Share2 className="h-3.5 w-3.5" />}
-                    >
-                      SHARE CHARACTER
-                    </PixselfButton>
-                  </div>
+
                 </div>
               </PixselfPanel>
             </div>
@@ -1122,17 +1099,7 @@ export default function Page() {
                     LARGE (1280×1280)
                   </PixselfButton>
                 </div>
-                <div className="pt-3 border-t-4" style={{ borderTopColor: PIXSELF_BRAND.colors.primary.navy }}>
-                  <PixselfButton
-                    onClick={shareCharacter}
-                    variant="secondary"
-                    size="sm"
-                    fullWidth
-                    icon={<Share2 className="h-3.5 w-3.5" />}
-                  >
-                    SHARE CHARACTER
-                  </PixselfButton>
-                </div>
+
               </div>
             </PixselfPanel>
           </div>
@@ -1155,18 +1122,7 @@ export default function Page() {
         />
       )}
 
-      {/* Share Template Modal */}
-      {sharePreviewData && (
-        <ShareTemplateModal
-          isOpen={showShareModal}
-          onClose={() => {
-            setShowShareModal(false)
-            setSharePreviewData("")
-          }}
-          characterPreview={sharePreviewData}
-          isLoading={false}
-        />
-      )}
+
 
       {/* Character Gallery Modal */}
       {storageAvailable && (
