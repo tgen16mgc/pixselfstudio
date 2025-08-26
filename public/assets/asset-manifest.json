@@ -234,6 +234,8 @@
     "eyebrows-flat.png"
   ],
   "mouth": [
+    "mouth-default-pink.png",
+    "mouth-default-red.png",
     "mouth-default.png",
     "mouth-noemo-pink.png",
     "mouth-noemo-red.png",

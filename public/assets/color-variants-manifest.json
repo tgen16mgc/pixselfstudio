@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2025-08-26T07:21:22.616Z",
+  "generatedAt": "2025-08-26T07:39:13.903Z",
   "assets": [
     {
       "baseId": "earring-circle",
@@ -622,7 +622,20 @@
       "subpart": "",
       "style": "default",
       "basePath": "/assets/character/face/mouth/mouth-default.png",
-      "variants": []
+      "variants": [
+        {
+          "id": "default-pink",
+          "name": "default (Pink)",
+          "path": "/assets/character/face/mouth/mouth-default-pink.png",
+          "color": "#F8BBD0"
+        },
+        {
+          "id": "default-red",
+          "name": "default (Red)",
+          "path": "/assets/character/face/mouth/mouth-default-red.png",
+          "color": "#FF8A80"
+        }
+      ]
     },
     {
       "baseId": "mouth-noemo",
