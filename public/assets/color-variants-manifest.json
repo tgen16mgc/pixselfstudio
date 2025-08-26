@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2025-08-25T11:33:22.834Z",
+  "generatedAt": "2025-08-26T07:21:22.616Z",
   "assets": [
     {
       "baseId": "earring-circle",
@@ -789,6 +789,90 @@
       "variants": []
     },
     {
+      "baseId": "hair-behind-2tail",
+      "part": "hair",
+      "subpart": "behind",
+      "style": "2tail",
+      "basePath": "/assets/character/hair/hair-behind/hair-behind-2tail.png",
+      "variants": [
+        {
+          "id": "2tail-blue",
+          "name": "2tail (Blue)",
+          "path": "/assets/character/hair/hair-behind/hair-behind-2tail-blue.png",
+          "color": "#90CAF9"
+        },
+        {
+          "id": "2tail-brown",
+          "name": "2tail (Brown)",
+          "path": "/assets/character/hair/hair-behind/hair-behind-2tail-brown.png",
+          "color": "#8B4513"
+        },
+        {
+          "id": "2tail-pink",
+          "name": "2tail (Pink)",
+          "path": "/assets/character/hair/hair-behind/hair-behind-2tail-pink.png",
+          "color": "#F8BBD0"
+        },
+        {
+          "id": "2tail-red",
+          "name": "2tail (Red)",
+          "path": "/assets/character/hair/hair-behind/hair-behind-2tail-red.png",
+          "color": "#FF8A80"
+        },
+        {
+          "id": "2tail-white",
+          "name": "2tail (White)",
+          "path": "/assets/character/hair/hair-behind/hair-behind-2tail-white.png",
+          "color": "#FAFAFA"
+        },
+        {
+          "id": "2tail-yellow",
+          "name": "2tail (Yellow)",
+          "path": "/assets/character/hair/hair-behind/hair-behind-2tail-yellow.png",
+          "color": "#FFF9C4"
+        }
+      ]
+    },
+    {
+      "baseId": "hair-behind-balay",
+      "part": "hair",
+      "subpart": "behind",
+      "style": "balay",
+      "basePath": "/assets/character/hair/hair-behind/hair-behind-balay.png",
+      "variants": [
+        {
+          "id": "balay-blue",
+          "name": "balay (Blue)",
+          "path": "/assets/character/hair/hair-behind/hair-behind-balay-blue.png",
+          "color": "#90CAF9"
+        },
+        {
+          "id": "balay-brown",
+          "name": "balay (Brown)",
+          "path": "/assets/character/hair/hair-behind/hair-behind-balay-brown.png",
+          "color": "#8B4513"
+        },
+        {
+          "id": "balay-pink",
+          "name": "balay (Pink)",
+          "path": "/assets/character/hair/hair-behind/hair-behind-balay-pink.png",
+          "color": "#F8BBD0"
+        },
+        {
+          "id": "balay-red",
+          "name": "balay (Red)",
+          "path": "/assets/character/hair/hair-behind/hair-behind-balay-red.png",
+          "color": "#FF8A80"
+        },
+        {
+          "id": "balay-white",
+          "name": "balay (White)",
+          "path": "/assets/character/hair/hair-behind/hair-behind-balay-white.png",
+          "color": "#FAFAFA"
+        }
+      ]
+    },
+    {
       "baseId": "hair-behind-curly",
       "part": "hair",
       "subpart": "behind",
@@ -834,12 +918,147 @@
       ]
     },
     {
+      "baseId": "hair-behind-cute",
+      "part": "hair",
+      "subpart": "behind",
+      "style": "cute",
+      "basePath": "/assets/character/hair/hair-behind/hair-behind-cute.png",
+      "variants": [
+        {
+          "id": "cute-blue",
+          "name": "cute (Blue)",
+          "path": "/assets/character/hair/hair-behind/hair-behind-cute-blue.png",
+          "color": "#90CAF9"
+        },
+        {
+          "id": "cute-brown",
+          "name": "cute (Brown)",
+          "path": "/assets/character/hair/hair-behind/hair-behind-cute-brown.png",
+          "color": "#8B4513"
+        },
+        {
+          "id": "cute-pink",
+          "name": "cute (Pink)",
+          "path": "/assets/character/hair/hair-behind/hair-behind-cute-pink.png",
+          "color": "#F8BBD0"
+        },
+        {
+          "id": "cute-red",
+          "name": "cute (Red)",
+          "path": "/assets/character/hair/hair-behind/hair-behind-cute-red.png",
+          "color": "#FF8A80"
+        },
+        {
+          "id": "cute-white",
+          "name": "cute (White)",
+          "path": "/assets/character/hair/hair-behind/hair-behind-cute-white.png",
+          "color": "#FAFAFA"
+        },
+        {
+          "id": "cute-yellow",
+          "name": "cute (Yellow)",
+          "path": "/assets/character/hair/hair-behind/hair-behind-cute-yellow.png",
+          "color": "#FFF9C4"
+        }
+      ]
+    },
+    {
       "baseId": "hair-behind-default",
       "part": "hair",
       "subpart": "behind",
       "style": "default",
       "basePath": "/assets/character/hair/hair-behind/hair-behind-default.png",
       "variants": []
+    },
+    {
+      "baseId": "hair-behind-permshort",
+      "part": "hair",
+      "subpart": "behind",
+      "style": "permshort",
+      "basePath": "/assets/character/hair/hair-behind/hair-behind-permshort.png",
+      "variants": [
+        {
+          "id": "permshort-blue",
+          "name": "permshort (Blue)",
+          "path": "/assets/character/hair/hair-behind/hair-behind-permshort-blue.png",
+          "color": "#90CAF9"
+        },
+        {
+          "id": "permshort-brown",
+          "name": "permshort (Brown)",
+          "path": "/assets/character/hair/hair-behind/hair-behind-permshort-brown.png",
+          "color": "#8B4513"
+        },
+        {
+          "id": "permshort-pink",
+          "name": "permshort (Pink)",
+          "path": "/assets/character/hair/hair-behind/hair-behind-permshort-pink.png",
+          "color": "#F8BBD0"
+        },
+        {
+          "id": "permshort-red",
+          "name": "permshort (Red)",
+          "path": "/assets/character/hair/hair-behind/hair-behind-permshort-red.png",
+          "color": "#FF8A80"
+        },
+        {
+          "id": "permshort-white",
+          "name": "permshort (White)",
+          "path": "/assets/character/hair/hair-behind/hair-behind-permshort-white.png",
+          "color": "#FAFAFA"
+        },
+        {
+          "id": "permshort-yellow",
+          "name": "permshort (Yellow)",
+          "path": "/assets/character/hair/hair-behind/hair-behind-permshort-yellow.png",
+          "color": "#FFF9C4"
+        }
+      ]
+    },
+    {
+      "baseId": "hair-behind-short",
+      "part": "hair",
+      "subpart": "behind",
+      "style": "short",
+      "basePath": "/assets/character/hair/hair-behind/hair-behind-short.png",
+      "variants": [
+        {
+          "id": "short-blue",
+          "name": "short (Blue)",
+          "path": "/assets/character/hair/hair-behind/hair-behind-short-blue.png",
+          "color": "#90CAF9"
+        },
+        {
+          "id": "short-brown",
+          "name": "short (Brown)",
+          "path": "/assets/character/hair/hair-behind/hair-behind-short-brown.png",
+          "color": "#8B4513"
+        },
+        {
+          "id": "short-pink",
+          "name": "short (Pink)",
+          "path": "/assets/character/hair/hair-behind/hair-behind-short-pink.png",
+          "color": "#F8BBD0"
+        },
+        {
+          "id": "short-red",
+          "name": "short (Red)",
+          "path": "/assets/character/hair/hair-behind/hair-behind-short-red.png",
+          "color": "#FF8A80"
+        },
+        {
+          "id": "short-white",
+          "name": "short (White)",
+          "path": "/assets/character/hair/hair-behind/hair-behind-short-white.png",
+          "color": "#FAFAFA"
+        },
+        {
+          "id": "short-yellow",
+          "name": "short (Yellow)",
+          "path": "/assets/character/hair/hair-behind/hair-behind-short-yellow.png",
+          "color": "#FFF9C4"
+        }
+      ]
     },
     {
       "baseId": "hair-behind-straight",

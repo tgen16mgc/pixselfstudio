@@ -236,6 +236,36 @@ const FALLBACK_CHARACTER_PARTS: PartDefinition[] = [
       name: "Straight HAIR BEHIND",
       path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-behind/hair-behind-straight.png",
       enabled: true,
+    },
+    {
+      id: "2tail",
+      name: "2tail HAIR BEHIND",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-behind/hair-behind-2tail.png",
+      enabled: true,
+    },
+    {
+      id: "balay",
+      name: "Balay HAIR BEHIND",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-behind/hair-behind-balay.png",
+      enabled: true,
+    },
+    {
+      id: "cute",
+      name: "Cute HAIR BEHIND",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-behind/hair-behind-cute.png",
+      enabled: true,
+    },
+    {
+      id: "permshort",
+      name: "Permshort HAIR BEHIND",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-behind/hair-behind-permshort.png",
+      enabled: true,
+    },
+    {
+      id: "short",
+      name: "Short HAIR BEHIND",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/hair/hair-behind/hair-behind-short.png",
+      enabled: true,
     }
     ],
     defaultAsset: "none",
