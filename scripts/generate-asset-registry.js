@@ -103,7 +103,7 @@ const PART_CONFIGS = {
     category: "Accessories",
     defaultAsset: "none",
     optional: true,
-    colorSupport: false,
+    colorSupport: true,
   },
 }
 

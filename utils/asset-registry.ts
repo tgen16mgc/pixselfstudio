@@ -106,7 +106,7 @@ const PART_CONFIGS: Record<PartKey, {
     folderPath: "accessories/glasses",
     defaultAsset: "none",
     optional: true,
-    colorSupport: false,
+    colorSupport: true,
   },
 }
 

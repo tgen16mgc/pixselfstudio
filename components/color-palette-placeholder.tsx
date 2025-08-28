@@ -27,7 +27,7 @@ export function ColorPalettePlaceholder({
   const [loading, setLoading] = useState(true);
 
   // Skip rendering for parts that don't typically have color variants
-  if (["earring", "glasses", "eyebrows", "blush"].includes(activePart)) {
+  if (["earring", "eyebrows", "blush"].includes(activePart)) {
     return null;
   }
 
