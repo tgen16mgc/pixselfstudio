@@ -4,7 +4,6 @@ import { useRef, useEffect, useState } from "react"
 import { Download, X, ShoppingCart, RefreshCw } from "lucide-react"
 import { PixselfButton } from "./pixself-ui-components"
 import { PIXSELF_BRAND } from "@/config/pixself-brand"
-import { trackPurchaseIntent } from "./meta-pixel"
 
 interface DownloadConfirmationModalProps {
   isOpen: boolean
@@ -79,9 +78,6 @@ export function DownloadConfirmationModal({
   }
 
   const handleBuyNow = () => {
-    // Track purchase intent event
-    trackPurchaseIntent('Custom Character Keychain', 15.00, 'USD')
-    
     // Open the order form
     window.open("https://forms.gle/kBTQL5uMEQ1qp9xP9", "_blank")
     onClose()

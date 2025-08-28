@@ -63,22 +63,3 @@ export const trackDownload = (format: string) => {
     download_format: format
   });
 };
-
-export const trackPurchaseIntent = (productName: string, price: number, currency: string = 'USD') => {
-  // Track InitiateCheckout event (standard Meta Pixel event)
-  trackEvent('InitiateCheckout', {
-    content_name: productName,
-    content_category: 'Physical Product',
-    value: price,
-    currency: currency
-  });
-  
-  // Track custom event for detailed analytics
-  trackEvent('CustomEvent', {
-    event_name: 'BuyNowClicked',
-    product_name: productName,
-    product_category: 'Physical Product',
-    price: price,
-    currency: currency
-  });
-};
