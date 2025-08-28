@@ -4,6 +4,7 @@ import { useRef, useEffect, useState } from "react"
 import { Download, X, ShoppingCart, RefreshCw } from "lucide-react"
 import { PixselfButton } from "./pixself-ui-components"
 import { PIXSELF_BRAND } from "@/config/pixself-brand"
+import { trackEvent } from "@/components/meta-pixel"
 
 interface DownloadConfirmationModalProps {
   isOpen: boolean
@@ -78,6 +79,14 @@ export function DownloadConfirmationModal({
   }
 
   const handleBuyNow = () => {
+    // Track InitiateCheckout event
+    trackEvent('InitiateCheckout', {
+      content_name: 'PixSelf Keychain',
+      content_category: 'Physical Product',
+      value: 19.99,
+      currency: 'USD'
+    })
+    
     // Open the order form
     window.open("https://forms.gle/kBTQL5uMEQ1qp9xP9", "_blank")
     onClose()
