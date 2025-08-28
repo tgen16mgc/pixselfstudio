@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2025-08-28T16:49:43.615Z",
+  "generatedAt": "2025-08-28T17:09:56.096Z",
   "assets": [
     {
       "baseId": "earring-circle",
@@ -1243,6 +1243,12 @@
           "color": "#F8BBD0"
         },
         {
+          "id": "3seven-purple",
+          "name": "3seven (Purple)",
+          "path": "/assets/character/hair/hair-front/hair-front-3seven-purple.png",
+          "color": "#CE93D8"
+        },
+        {
           "id": "3seven-red",
           "name": "3seven (Red)",
           "path": "/assets/character/hair/hair-front/hair-front-3seven-red.png",
@@ -1286,6 +1292,12 @@
           "name": "blunt (Pink)",
           "path": "/assets/character/hair/hair-front/hair-front-blunt-pink.png",
           "color": "#F8BBD0"
+        },
+        {
+          "id": "blunt-purple",
+          "name": "blunt (Purple)",
+          "path": "/assets/character/hair/hair-front/hair-front-blunt-purple.png",
+          "color": "#CE93D8"
         },
         {
           "id": "blunt-red",
@@ -1429,6 +1441,12 @@
           "name": "messy (Pink)",
           "path": "/assets/character/hair/hair-front/hair-front-messy-pink.png",
           "color": "#F8BBD0"
+        },
+        {
+          "id": "messy-purple",
+          "name": "messy (Purple)",
+          "path": "/assets/character/hair/hair-front/hair-front-messy-purple.png",
+          "color": "#CE93D8"
         },
         {
           "id": "messy-red",
@@ -1605,6 +1623,12 @@
           "color": "#F8BBD0"
         },
         {
+          "id": "thin-purple",
+          "name": "thin (Purple)",
+          "path": "/assets/character/hair/hair-front/hair-front-thin-purple.png",
+          "color": "#CE93D8"
+        },
+        {
           "id": "thin-red",
           "name": "thin (Red)",
           "path": "/assets/character/hair/hair-front/hair-front-thin-red.png",
@@ -1658,6 +1682,12 @@
           "color": "#F8BBD0"
         },
         {
+          "id": "twosides-purple",
+          "name": "twosides (Purple)",
+          "path": "/assets/character/hair/hair-front/hair-front-twosides-purple.png",
+          "color": "#CE93D8"
+        },
+        {
           "id": "twosides-red",
           "name": "twosides (Red)",
           "path": "/assets/character/hair/hair-front/hair-front-twosides-red.png",
@@ -1701,6 +1731,12 @@
           "name": "wispy (Pink)",
           "path": "/assets/character/hair/hair-front/hair-front-wispy-pink.png",
           "color": "#F8BBD0"
+        },
+        {
+          "id": "wispy-purple",
+          "name": "wispy (Purple)",
+          "path": "/assets/character/hair/hair-front/hair-front-wispy-purple.png",
+          "color": "#CE93D8"
         },
         {
           "id": "wispy-red",
