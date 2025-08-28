@@ -51,10 +51,14 @@ npm run add-asset -- --remove --part hairFront --style tomboy --color purple
 ### Update Existing Assets
 ```bash
 # Update an existing base style image (keeps same part/style, replaces PNG file)
-npm run add-asset -- --file /path/to/new-image.png --part hairFront --style pixie --update
+# Note: --update flag not yet implemented, manually copy files:
+cp /path/to/new-image.png public/assets/character/[part]/[subfolder]/[filename].png
 
 # Update an existing color variant image
-npm run add-asset -- --file /path/to/new-variant.png --part hairFront --style pixie --color purple --update
+cp /path/to/new-variant.png public/assets/character/[part]/[subfolder]/[filename].png
+
+# Example: Update hair-behind-2tail assets
+cp add34/hair-behind-2tail*.png public/assets/character/hair/hair-behind/
 ```
 
 ## 📁 File Organization
@@ -287,8 +291,8 @@ npm run add-asset -- --remove --part PART --style STYLE
 # Remove specific color variant
 npm run add-asset -- --remove --part PART --style STYLE --color COLOR
 
-# Update existing asset image
-npm run add-asset -- --file FILE --part PART --style STYLE [--color COLOR] --update
+# Update existing asset image (manual copy)
+cp FILE public/assets/character/[part]/[subfolder]/[filename].png
 
 # Auto-process all files
 npm run add-asset -- --scan
