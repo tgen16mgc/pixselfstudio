@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2025-08-26T07:39:13.903Z",
+  "generatedAt": "2025-08-28T01:59:53.974Z",
   "assets": [
     {
       "baseId": "earring-circle",
@@ -40,6 +40,21 @@
       "style": "default",
       "basePath": "/assets/character/accessories/glasses/glasses-default.png",
       "variants": []
+    },
+    {
+      "baseId": "glasses-square",
+      "part": "glasses",
+      "subpart": "",
+      "style": "square",
+      "basePath": "/assets/character/accessories/glasses/glasses-square.png",
+      "variants": [
+        {
+          "id": "square-white",
+          "name": "square (White)",
+          "path": "/assets/character/accessories/glasses/glasses-square-white.png",
+          "color": "#FAFAFA"
+        }
+      ]
     },
     {
       "baseId": "body-default",

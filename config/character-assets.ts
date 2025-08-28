@@ -519,6 +519,12 @@ const FALLBACK_CHARACTER_PARTS: PartDefinition[] = [
       name: "Default GLASSES",
       path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/accessories/glasses/glasses-default.png",
       enabled: true,
+    },
+    {
+      id: "square",
+      name: "Square GLASSES",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/accessories/glasses/glasses-square.png",
+      enabled: true,
     }
     ],
     defaultAsset: "none",

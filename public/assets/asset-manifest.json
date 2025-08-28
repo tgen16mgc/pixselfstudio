@@ -260,6 +260,8 @@
     "earring-helixmix.png"
   ],
   "glasses": [
-    "glasses-default.png"
+    "glasses-default.png",
+    "glasses-square-white.png",
+    "glasses-square.png"
   ]
 }
