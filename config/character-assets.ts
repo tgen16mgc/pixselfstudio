@@ -525,6 +525,12 @@ const FALLBACK_CHARACTER_PARTS: PartDefinition[] = [
       name: "Square GLASSES",
       path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/accessories/glasses/glasses-square.png",
       enabled: true,
+    },
+    {
+      id: "matmeo",
+      name: "Matmeo GLASSES",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/accessories/glasses/glasses-matmeo.png",
+      enabled: true,
     }
     ],
     defaultAsset: "none",
