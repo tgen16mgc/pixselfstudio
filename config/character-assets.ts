@@ -370,6 +370,12 @@ const FALLBACK_CHARACTER_PARTS: PartDefinition[] = [
       name: "Flat EYEBROWS",
       path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/eyebrows/eyebrows-flat.png",
       enabled: true,
+    },
+    {
+      id: "xeo",
+      name: "Xeo EYEBROWS",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/eyebrows/eyebrows-xeo.png",
+      enabled: true,
     }
     ],
     defaultAsset: "default",

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2025-08-28T16:48:16.381Z",
+  "generatedAt": "2025-08-28T16:49:43.615Z",
   "assets": [
     {
       "baseId": "earring-circle",
@@ -411,6 +411,14 @@
       "subpart": "",
       "style": "flat",
       "basePath": "/assets/character/face/eyebrows/eyebrows-flat.png",
+      "variants": []
+    },
+    {
+      "baseId": "eyebrows-xeo",
+      "part": "eyebrows",
+      "subpart": "",
+      "style": "xeo",
+      "basePath": "/assets/character/face/eyebrows/eyebrows-xeo.png",
       "variants": []
     },
     {
