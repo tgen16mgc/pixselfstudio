@@ -228,6 +228,15 @@ export default function Page() {
 
   const [storageAvailable, setStorageAvailable] = useState(false)
 
+  // Test Meta Pixel tracking
+  const testMetaPixel = () => {
+    console.log('🧪 Testing Meta Pixel...');
+    trackEvent('TestEvent', { test: true, timestamp: Date.now() });
+    trackAssetSelected('test', 'test-asset');
+    trackDownload('test');
+    trackCharacterCreated({ test: true });
+  };
+
   // Preload assets on mount
   useEffect(() => {
     preloadCharacterAssets().catch(console.error)
@@ -514,6 +523,16 @@ export default function Page() {
             isDesktop={isDesktop}
           />
         </header>
+
+        {/* Meta Pixel Test Button */}
+        <div className="mb-4 text-center">
+          <button
+            onClick={testMetaPixel}
+            className="px-4 py-2 bg-red-500 text-white text-xs rounded hover:bg-red-600"
+          >
+            🧪 Test Meta Pixel
+          </button>
+        </div>
 
         {/* Promotion Banner */}
         <div className="mb-8">
