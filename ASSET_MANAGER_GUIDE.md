@@ -48,6 +48,15 @@ npm run add-asset -- --remove --part hairFront --style pixie
 npm run add-asset -- --remove --part hairFront --style tomboy --color purple
 ```
 
+### Update Existing Assets
+```bash
+# Update an existing base style image (keeps same part/style, replaces PNG file)
+npm run add-asset -- --file /path/to/new-image.png --part hairFront --style pixie --update
+
+# Update an existing color variant image
+npm run add-asset -- --file /path/to/new-variant.png --part hairFront --style pixie --color purple --update
+```
+
 ## 📁 File Organization
 
 ### Proper File Naming Convention
@@ -251,6 +260,7 @@ The script validates:
 ### Always use the script for:
 - ✅ Adding new base styles
 - ✅ Adding color variants
+- ✅ Updating existing asset images
 - ✅ Updating configurations
 
 ### File Requirements:
@@ -277,14 +287,17 @@ npm run add-asset -- --remove --part PART --style STYLE
 # Remove specific color variant
 npm run add-asset -- --remove --part PART --style STYLE --color COLOR
 
+# Update existing asset image
+npm run add-asset -- --file FILE --part PART --style STYLE [--color COLOR] --update
+
 # Auto-process all files
 npm run add-asset -- --scan
 
 # Manual manifest update
 npm run scan
 
-# Full system update
-npm run all
+
+
 
 # Start development server
 npm run dev
