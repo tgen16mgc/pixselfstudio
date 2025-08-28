@@ -34,10 +34,17 @@ export default function MetaPixel() {
   );
 }
 
-// Helper function to track custom events
+// Helper function to track custom events with error handling
 export const trackEvent = (eventName: string, parameters?: Record<string, any>) => {
-  if (typeof window !== 'undefined' && (window as any).fbq) {
-    (window as any).fbq('track', eventName, parameters);
+  try {
+    if (typeof window !== 'undefined' && (window as any).fbq) {
+      (window as any).fbq('track', eventName, parameters);
+      console.log('📊 Meta Pixel Event Tracked:', eventName, parameters);
+    } else {
+      console.warn('⚠️ Meta Pixel not available for tracking:', eventName);
+    }
+  } catch (error) {
+    console.error('❌ Meta Pixel tracking error:', error);
   }
 };
 

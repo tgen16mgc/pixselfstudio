@@ -42,6 +42,7 @@ import {
 import { CHARACTER_PARTS, type PartDefinition } from "@/config/character-assets"
 import type { PartKey, Selections } from "@/types/character"
 import { useDynamicAssets } from "@/hooks/use-dynamic-assets"
+import { trackEvent, trackAssetSelected, trackDownload, trackCharacterCreated } from "@/components/meta-pixel"
 
 
 const press2p = Press_Start_2P({ weight: "400", subsets: ["latin"] })
@@ -373,6 +374,11 @@ export default function Page() {
     addToHistory(newSelections)
     play8BitSound("select", soundEnabled)
     
+    // Track asset selection
+    if (assetId !== "none") {
+      trackAssetSelected(part, assetId)
+    }
+    
     // Preload color variants for this asset in background (no blocking)
     if (assetId !== "none") {
       preloadAssetVariants(part, assetId).catch(console.error);
@@ -402,8 +408,10 @@ export default function Page() {
   const handleSaveCharacter = useCallback(
     () => {
       play8BitSound("success", soundEnabled)
+      // Track character creation
+      trackCharacterCreated(selections)
     },
-    [soundEnabled],
+    [soundEnabled, selections],
   )
 
   // Show download confirmation modal (moved above)
@@ -451,6 +459,9 @@ export default function Page() {
         // setShowDownloadModal(false)
         // setDownloadModalData(null)
         play8BitSound("success", soundEnabled)
+        
+        // Track download event
+        trackDownload("png")
       }, "image/png")
     } catch (error) {
       console.error("Download failed:", error)
