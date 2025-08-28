@@ -82,9 +82,8 @@ export function DownloadConfirmationModal({
     // Track InitiateCheckout event
     trackEvent('InitiateCheckout', {
       content_name: 'PixSelf Keychain',
-      content_category: 'Physical Product',
-      value: 19.99,
-      currency: 'USD'
+      value: 49000,
+      currency: 'VND'
     })
     
     // Open the order form
