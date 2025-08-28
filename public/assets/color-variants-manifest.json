@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2025-08-28T05:16:01.580Z",
+  "generatedAt": "2025-08-28T16:48:16.381Z",
   "assets": [
     {
       "baseId": "earring-circle",
@@ -766,6 +766,12 @@
           "color": "#F8BBD0"
         },
         {
+          "id": "1braid-purple",
+          "name": "1braid (Purple)",
+          "path": "/assets/character/hair/hair-behind/hair-behind-1braid-purple.png",
+          "color": "#CE93D8"
+        },
+        {
           "id": "1braid-red",
           "name": "1braid (Red)",
           "path": "/assets/character/hair/hair-behind/hair-behind-1braid-red.png",
@@ -809,6 +815,12 @@
           "name": "2braid (Pink)",
           "path": "/assets/character/hair/hair-behind/hair-behind-2braid-pink.png",
           "color": "#F8BBD0"
+        },
+        {
+          "id": "2braid-purple",
+          "name": "2braid (Purple)",
+          "path": "/assets/character/hair/hair-behind/hair-behind-2braid-purple.png",
+          "color": "#CE93D8"
         },
         {
           "id": "2braid-red",
@@ -864,6 +876,12 @@
           "color": "#F8BBD0"
         },
         {
+          "id": "2tail-purple",
+          "name": "2tail (Purple)",
+          "path": "/assets/character/hair/hair-behind/hair-behind-2tail-purple.png",
+          "color": "#CE93D8"
+        },
+        {
           "id": "2tail-red",
           "name": "2tail (Red)",
           "path": "/assets/character/hair/hair-behind/hair-behind-2tail-red.png",
@@ -909,6 +927,12 @@
           "color": "#F8BBD0"
         },
         {
+          "id": "balay-purple",
+          "name": "balay (Purple)",
+          "path": "/assets/character/hair/hair-behind/hair-behind-balay-purple.png",
+          "color": "#CE93D8"
+        },
+        {
           "id": "balay-red",
           "name": "balay (Red)",
           "path": "/assets/character/hair/hair-behind/hair-behind-balay-red.png",
@@ -946,6 +970,12 @@
           "name": "curly (Pink)",
           "path": "/assets/character/hair/hair-behind/hair-behind-curly-pink.png",
           "color": "#F8BBD0"
+        },
+        {
+          "id": "curly-purple",
+          "name": "curly (Purple)",
+          "path": "/assets/character/hair/hair-behind/hair-behind-curly-purple.png",
+          "color": "#CE93D8"
         },
         {
           "id": "curly-red",
@@ -991,6 +1021,12 @@
           "name": "cute (Pink)",
           "path": "/assets/character/hair/hair-behind/hair-behind-cute-pink.png",
           "color": "#F8BBD0"
+        },
+        {
+          "id": "cute-purple",
+          "name": "cute (Purple)",
+          "path": "/assets/character/hair/hair-behind/hair-behind-cute-purple.png",
+          "color": "#CE93D8"
         },
         {
           "id": "cute-red",
@@ -1046,6 +1082,12 @@
           "color": "#F8BBD0"
         },
         {
+          "id": "permshort-purple",
+          "name": "permshort (Purple)",
+          "path": "/assets/character/hair/hair-behind/hair-behind-permshort-purple.png",
+          "color": "#CE93D8"
+        },
+        {
           "id": "permshort-red",
           "name": "permshort (Red)",
           "path": "/assets/character/hair/hair-behind/hair-behind-permshort-red.png",
@@ -1091,6 +1133,12 @@
           "color": "#F8BBD0"
         },
         {
+          "id": "short-purple",
+          "name": "short (Purple)",
+          "path": "/assets/character/hair/hair-behind/hair-behind-short-purple.png",
+          "color": "#CE93D8"
+        },
+        {
           "id": "short-red",
           "name": "short (Red)",
           "path": "/assets/character/hair/hair-behind/hair-behind-short-red.png",
@@ -1134,6 +1182,12 @@
           "name": "straight (Pink)",
           "path": "/assets/character/hair/hair-behind/hair-behind-straight-pink.png",
           "color": "#F8BBD0"
+        },
+        {
+          "id": "straight-purple",
+          "name": "straight (Purple)",
+          "path": "/assets/character/hair/hair-behind/hair-behind-straight-purple.png",
+          "color": "#CE93D8"
         },
         {
           "id": "straight-red",
