@@ -12,7 +12,7 @@ interface PromotionBannerProps {
 }
 
 export function PromotionBanner({
-      message = "🌐 Use External Browser (Safari/Chrome) for best experience • Sac Viet Limited Collection is Out! 🎨",
+      message = "🌐 Use External Browser (Safari/Chrome) for best experience • 🇻🇳 Sac Viet Limited Collection is Out! 🎨",
   isActive = false,
 }: PromotionBannerProps) {
   const [sparkles, setSparkles] = useState<
