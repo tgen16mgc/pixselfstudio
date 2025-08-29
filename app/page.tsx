@@ -520,7 +520,7 @@ export default function Page() {
         {/* Promotion Banner */}
         <div className="mb-8">
           <PromotionBanner
-            message="🌐 Please use External Browser (such as Safari or Chrome) for non-bug buying experience 🌐"
+            message="🌐 Use External Browser (Safari/Chrome) for best experience • Sac Viet Limited Collection is Out! 🎨"
             isActive={true}
           />
         </div>
