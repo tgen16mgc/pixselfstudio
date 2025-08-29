@@ -103,6 +103,15 @@ export function getCharacterParts(): PartDefinition[] {
       optional: true,
       knownAssets: ["glasses-default.png"] // This will now be automatically included!
     },
+    hat: {
+      label: "HAT",
+      icon: "🎩",
+      category: "Accessories",
+      folderPath: "accessories/hat",
+      defaultAsset: "none",
+      optional: true,
+      knownAssets: ["hat-NonLa.png"]
+    },
   }
 
   const parts: PartDefinition[] = []

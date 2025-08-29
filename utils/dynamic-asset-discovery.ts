@@ -92,6 +92,14 @@ export async function getCharacterPartsFromAPI(): Promise<PartDefinition[]> {
       defaultAsset: "none",
       optional: true,
     },
+    hat: {
+      label: "HAT",
+      icon: "🎩",
+      category: "Accessories",
+      folderPath: "accessories/hat",
+      defaultAsset: "none",
+      optional: true,
+    },
   }
 
   try {

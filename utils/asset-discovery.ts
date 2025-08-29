@@ -92,6 +92,14 @@ export async function discoverAssets(): Promise<PartDefinition[]> {
       defaultAsset: "none",
       optional: true,
     },
+    hat: {
+      label: "HAT",
+      icon: "🎩",
+      category: "Accessories",
+      folderPath: "/assets/character/accessories/hat",
+      defaultAsset: "none",
+      optional: true,
+    },
   }
 
   const parts: PartDefinition[] = []
