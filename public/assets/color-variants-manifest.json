@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2025-08-29T11:19:37.486Z",
+  "generatedAt": "2025-08-29T12:15:41.932Z",
   "assets": [
     {
       "baseId": "earring-circle",
@@ -178,6 +178,14 @@
       "subpart": "",
       "style": "aodai",
       "basePath": "/assets/character/body/clothes/clothes-aodai.png",
+      "variants": []
+    },
+    {
+      "baseId": "clothes-aohust",
+      "part": "clothes",
+      "subpart": "",
+      "style": "aohust",
+      "basePath": "/assets/character/body/clothes/clothes-aohust.png",
       "variants": []
     },
     {

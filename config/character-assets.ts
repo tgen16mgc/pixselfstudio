@@ -119,6 +119,12 @@ const FALLBACK_CHARACTER_PARTS: PartDefinition[] = [
       name: "Aodai CLOTHES",
       path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/body/clothes/clothes-aodai.png",
       enabled: true,
+    },
+    {
+      id: "aohust",
+      name: "Aohust CLOTHES",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/body/clothes/clothes-aohust.png",
+      enabled: true,
     }
     ],
     defaultAsset: "default",
