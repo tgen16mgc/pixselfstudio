@@ -96,6 +96,13 @@ const PART_CONFIG = {
     category: 'Accessories',
     label: 'GLASSES',
     icon: '🤓'
+  },
+  hat: { 
+    folder: 'accessories/hat', 
+    prefix: 'hat',
+    category: 'Accessories',
+    label: 'HAT',
+    icon: '🎩'
   }
 };
 

@@ -15,6 +15,7 @@ const folderStructure = {
   'face/blush': 'blush',
   'accessories/earring': 'earring',
   'accessories/glasses': 'glasses',
+  'accessories/hat': 'hat',
 }
 
 function updateAssetManifest() {

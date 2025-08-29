@@ -14,6 +14,8 @@
     "clothes-2day-red.png",
     "clothes-2day-yellow.png",
     "clothes-2day.png",
+    "clothes-aoVietNam.png",
+    "clothes-aodai.png",
     "clothes-aotheneu.png",
     "clothes-default.png",
     "clothes-dress1.png",
@@ -282,5 +284,8 @@
     "glasses-matmeo.png",
     "glasses-square-white.png",
     "glasses-square.png"
+  ],
+  "hat": [
+    "hat-NonLa.png"
   ]
 }

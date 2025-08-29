@@ -108,6 +108,15 @@ const PART_CONFIGS: Record<PartKey, {
     optional: true,
     colorSupport: true,
   },
+  hat: {
+    label: "HAT",
+    icon: "🎩",
+    category: "Accessories",
+    folderPath: "accessories/hat",
+    defaultAsset: "none",
+    optional: true,
+    colorSupport: true,
+  },
 }
 
 // Asset registry singleton

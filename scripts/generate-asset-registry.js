@@ -15,6 +15,7 @@ const FOLDER_STRUCTURE = {
   'face/blush': 'blush',
   'accessories/earring': 'earring',
   'accessories/glasses': 'glasses',
+  'accessories/hat': 'hat',
 }
 
 // Color patterns for variant detection
@@ -100,6 +101,14 @@ const PART_CONFIGS = {
   glasses: {
     label: "GLASSES",
     icon: "🤓",
+    category: "Accessories",
+    defaultAsset: "none",
+    optional: true,
+    colorSupport: true,
+  },
+  hat: {
+    label: "HAT",
+    icon: "🎩",
     category: "Accessories",
     defaultAsset: "none",
     optional: true,

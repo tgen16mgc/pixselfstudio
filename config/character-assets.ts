@@ -3,7 +3,7 @@ import type { AssetDefinition, PartDefinition } from "@/types/character"
 // Re-export types for convenience
 export type { AssetDefinition, PartDefinition }
 
-export type PartKey = "body" | "hairBehind" | "clothes" | "mouth" | "eyes" | "eyebrows" | "hairFront" | "earring" | "glasses" | "blush"
+export type PartKey = "body" | "hairBehind" | "clothes" | "mouth" | "eyes" | "eyebrows" | "hairFront" | "earring" | "glasses" | "blush" | "hat"
 
 // Function to get character parts (now returns fallback for client-side hook)
 export function CHARACTER_PARTS(): PartDefinition[] {
@@ -106,6 +106,18 @@ const FALLBACK_CHARACTER_PARTS: PartDefinition[] = [
       id: "sexy",
       name: "Sexy CLOTHES",
       path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/body/clothes/clothes-sexy.png",
+      enabled: true,
+    },
+    {
+      id: "aoVietNam",
+      name: "AoVietNam CLOTHES",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/body/clothes/clothes-aoVietNam.png",
+      enabled: true,
+    },
+    {
+      id: "aodai",
+      name: "Aodai CLOTHES",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/body/clothes/clothes-aodai.png",
       enabled: true,
     }
     ],
@@ -541,12 +553,35 @@ const FALLBACK_CHARACTER_PARTS: PartDefinition[] = [
     ],
     defaultAsset: "none",
     optional: true,
+  },
+  {
+    key: "hat",
+    label: "HAT",
+    icon: "🎩",
+    category: "Accessories",
+    assets: [
+    {
+      id: "none",
+      name: "No HAT",
+      path: "",
+      enabled: true,
+    },
+    {
+      id: "NonLa",
+      name: "Non La HAT",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/accessories/hat/hat-NonLa.png",
+      enabled: true,
+    }
+    ],
+    defaultAsset: "none",
+    optional: true,
   }
 ]
 
 // Layering order (high to low z-index)
 export const LAYER_ORDER: PartKey[] = [
-  "glasses", // Highest layer - glasses go on top
+  "hat", // Highest layer - hat goes on top of everything
+  "glasses", // Glasses on top of most elements
   "earring", // Earring on top of most elements
   "hairFront",
   "eyebrows",
