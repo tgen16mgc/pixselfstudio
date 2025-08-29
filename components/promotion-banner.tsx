@@ -12,7 +12,7 @@ interface PromotionBannerProps {
 }
 
 export function PromotionBanner({
-  message = "🎮 PREORDERING IS OPEN FROM 25TH TO 27TH AUG • INCLUDES LIMITED GIFTS • DON'T MISS OUT! 🎮",
+      message = "🌐 Please use External Browser (such as Safari or Chrome) for non-bug buying experience 🌐",
   isActive = false,
 }: PromotionBannerProps) {
   const [sparkles, setSparkles] = useState<
