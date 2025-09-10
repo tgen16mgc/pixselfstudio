@@ -125,6 +125,24 @@ const FALLBACK_CHARACTER_PARTS: PartDefinition[] = [
       name: "Aohust CLOTHES",
       path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/body/clothes/clothes-aohust.png",
       enabled: true,
+    },
+    {
+      id: "ajc",
+      name: "Ajc CLOTHES",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/body/clothes/clothes-ajc.png",
+      enabled: true,
+    },
+    {
+      id: "hnue",
+      name: "Hnue CLOTHES",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/body/clothes/clothes-hnue.png",
+      enabled: true,
+    },
+    {
+      id: "vnu",
+      name: "Vnu CLOTHES",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/body/clothes/clothes-vnu.png",
+      enabled: true,
     }
     ],
     defaultAsset: "default",

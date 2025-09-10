@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2025-08-29T13:42:07.495Z",
+  "generatedAt": "2025-09-10T08:07:15.186Z",
   "assets": [
     {
       "baseId": "earring-circle",
@@ -165,6 +165,14 @@
       ]
     },
     {
+      "baseId": "clothes-ajc",
+      "part": "clothes",
+      "subpart": "",
+      "style": "ajc",
+      "basePath": "/assets/character/body/clothes/clothes-ajc.png",
+      "variants": []
+    },
+    {
       "baseId": "clothes-aoVietNam",
       "part": "clothes",
       "subpart": "",
@@ -210,6 +218,14 @@
       "subpart": "",
       "style": "dress1",
       "basePath": "/assets/character/body/clothes/clothes-dress1.png",
+      "variants": []
+    },
+    {
+      "baseId": "clothes-hnue",
+      "part": "clothes",
+      "subpart": "",
+      "style": "hnue",
+      "basePath": "/assets/character/body/clothes/clothes-hnue.png",
       "variants": []
     },
     {
@@ -389,6 +405,14 @@
           "color": "#FF8A80"
         }
       ]
+    },
+    {
+      "baseId": "clothes-vnu",
+      "part": "clothes",
+      "subpart": "",
+      "style": "vnu",
+      "basePath": "/assets/character/body/clothes/clothes-vnu.png",
+      "variants": []
     },
     {
       "baseId": "blush-default",
