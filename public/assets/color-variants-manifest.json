@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2025-09-10T08:07:15.186Z",
+  "generatedAt": "2025-09-11T05:46:38.567Z",
   "assets": [
     {
       "baseId": "earring-circle",
@@ -189,6 +189,22 @@
       "variants": []
     },
     {
+      "baseId": "clothes-aoftu",
+      "part": "clothes",
+      "subpart": "",
+      "style": "aoftu",
+      "basePath": "/assets/character/body/clothes/clothes-aoftu.png",
+      "variants": []
+    },
+    {
+      "baseId": "clothes-aohuce",
+      "part": "clothes",
+      "subpart": "",
+      "style": "aohuce",
+      "basePath": "/assets/character/body/clothes/clothes-aohuce.png",
+      "variants": []
+    },
+    {
       "baseId": "clothes-aohust",
       "part": "clothes",
       "subpart": "",
@@ -202,6 +218,14 @@
       "subpart": "",
       "style": "aotheneu",
       "basePath": "/assets/character/body/clothes/clothes-aotheneu.png",
+      "variants": []
+    },
+    {
+      "baseId": "clothes-aotmu",
+      "part": "clothes",
+      "subpart": "",
+      "style": "aotmu",
+      "basePath": "/assets/character/body/clothes/clothes-aotmu.png",
       "variants": []
     },
     {
