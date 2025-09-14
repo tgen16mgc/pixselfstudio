@@ -37,18 +37,21 @@ export function WelcomeNotificationModal({
 
     document.addEventListener("keydown", handleEscape)
     document.addEventListener("mousedown", handleClickOutside)
-    // Don't prevent body scrolling as we want the modal itself to be scrollable
+    
+    // Prevent body scrolling when modal is open to fix backdrop scroll bug
+    document.body.style.overflow = 'hidden'
     
     return () => {
       document.removeEventListener("keydown", handleEscape)
       document.removeEventListener("mousedown", handleClickOutside)
+      document.body.style.overflow = 'unset'
     }
   }, [isOpen, onClose])
 
   if (!isOpen) return null
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-y-auto">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 md:p-4">
       {/* Backdrop */}
       <div 
         className="absolute inset-0 bg-black/60 backdrop-blur-sm"
@@ -65,7 +68,7 @@ export function WelcomeNotificationModal({
       {/* Modal */}
       <div
         ref={modalRef}
-        className={`relative w-full max-w-md md:max-w-lg lg:max-w-2xl mx-auto border-4 backdrop-blur-sm animate-in fade-in-0 zoom-in-95 duration-300 my-8 ${press2p.className}`}
+        className={`relative w-full max-w-xs sm:max-w-sm md:max-w-md mx-auto border-4 backdrop-blur-sm animate-in fade-in-0 zoom-in-95 duration-300 max-h-[90vh] overflow-y-auto ${press2p.className}`}
         style={{
           backgroundColor: PIXSELF_BRAND.colors.cloud.light,
           borderColor: PIXSELF_BRAND.colors.primary.navy,
@@ -74,7 +77,7 @@ export function WelcomeNotificationModal({
       >
         {/* Header with close button */}
         <div 
-          className="flex items-center justify-between p-4 border-b-4"
+          className="flex items-center justify-between p-3 md:p-4 border-b-4"
           style={{
             backgroundColor: PIXSELF_BRAND.colors.primary.gold,
             borderBottomColor: PIXSELF_BRAND.colors.primary.navy,
@@ -100,11 +103,11 @@ export function WelcomeNotificationModal({
         </div>
 
         {/* Content */}
-        <div className="p-4 md:p-6 space-y-4">
+        <div className="p-3 md:p-4 space-y-3">
           {/* Image container */}
           <div className="flex justify-center">
             <div 
-              className="border-4 overflow-hidden w-full max-w-[300px] md:max-w-[400px] lg:max-w-[450px]"
+              className="border-4 overflow-hidden w-full max-w-[200px] sm:max-w-[250px] md:max-w-[300px]"
               style={{
                 borderColor: PIXSELF_BRAND.colors.primary.navy,
                 boxShadow: PIXSELF_BRAND.shadows.pixel,
@@ -120,7 +123,7 @@ export function WelcomeNotificationModal({
           </div>
 
           {/* Action button */}
-          <div className="flex justify-center pt-2">
+          <div className="flex justify-center pt-1">
             <PixselfButton
               onClick={onClose}
               variant="accent"
