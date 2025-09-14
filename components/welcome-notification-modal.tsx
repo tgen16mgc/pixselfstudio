@@ -37,19 +37,18 @@ export function WelcomeNotificationModal({
 
     document.addEventListener("keydown", handleEscape)
     document.addEventListener("mousedown", handleClickOutside)
-    document.body.style.overflow = "hidden"
-
+    // Don't prevent body scrolling as we want the modal itself to be scrollable
+    
     return () => {
       document.removeEventListener("keydown", handleEscape)
       document.removeEventListener("mousedown", handleClickOutside)
-      document.body.style.overflow = "unset"
     }
   }, [isOpen, onClose])
 
   if (!isOpen) return null
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-y-auto">
       {/* Backdrop */}
       <div 
         className="absolute inset-0 bg-black/60 backdrop-blur-sm"
@@ -66,7 +65,7 @@ export function WelcomeNotificationModal({
       {/* Modal */}
       <div
         ref={modalRef}
-        className={`relative w-full max-w-md mx-auto border-4 backdrop-blur-sm animate-in fade-in-0 zoom-in-95 duration-300 ${press2p.className}`}
+        className={`relative w-full max-w-md md:max-w-2xl lg:max-w-4xl mx-auto border-4 backdrop-blur-sm animate-in fade-in-0 zoom-in-95 duration-300 my-8 ${press2p.className}`}
         style={{
           backgroundColor: PIXSELF_BRAND.colors.cloud.light,
           borderColor: PIXSELF_BRAND.colors.primary.navy,
@@ -101,11 +100,11 @@ export function WelcomeNotificationModal({
         </div>
 
         {/* Content */}
-        <div className="p-6 space-y-4">
+        <div className="p-4 md:p-6 space-y-4">
           {/* Image container */}
           <div className="flex justify-center">
             <div 
-              className="border-4 overflow-hidden"
+              className="border-4 overflow-hidden w-full max-w-[300px] md:max-w-[500px] lg:max-w-[600px]"
               style={{
                 borderColor: PIXSELF_BRAND.colors.primary.navy,
                 boxShadow: PIXSELF_BRAND.shadows.pixel,
@@ -114,7 +113,7 @@ export function WelcomeNotificationModal({
               <img
                 src="https://scontent.fhan5-8.fna.fbcdn.net/v/t39.30808-6/547530288_122121566786970980_157883314380678539_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeHC37O3q1CsXqIximNoWkPc2ktILAyMovvaS0gsDIyi-0DzbBKOtYHUrTF-nPbLgkqxI1WdqUHzIEgJgqvhWJeR&_nc_ohc=kpiaX2-FfssQ7kNvwGrLQQ-&_nc_oc=AdlouloUav_y1sesOlluzZVq2woNcPfslFTpJUmUtvhSO5XSzhIk_qIvoPp72Mn0rWE&_nc_zt=23&_nc_ht=scontent.fhan5-8.fna&_nc_gid=NsQfCrdOqSD9_HGmEaCniA&oh=00_AfY16lxuZK9PoJ2jRaZIA0X9xuCKCVgY_mBhqRvcoA-rOQ&oe=68CCE7C2"
                 alt="Welcome notification"
-                className="w-full h-auto max-w-[300px] block"
+                className="w-full h-auto block"
                 style={{ imageRendering: "auto" }}
               />
             </div>

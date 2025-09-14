@@ -155,22 +155,27 @@ export async function drawCharacterToCanvas(
     
     // Check if this is a color variant in the manifest
     if (manifest && selection.assetId.includes('-')) {
+      console.log(`🔍 Looking for variant ${selection.assetId} in manifest for part ${partKey}`);
       // Find the matching asset in the manifest
       for (const asset of manifest.assets) {
         // Check if this variant exists in the asset's variants array
         const variant = asset.variants.find((v: any) => v.id === selection.assetId);
         if (variant) {
           assetPath = `https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public${variant.path}`;
-          // console.log(`🎯 Found variant path in manifest: ${assetPath}`);
+          console.log(`🎯 Found variant path in manifest: ${assetPath}`);
           break;
         }
         
         // Also check if the selection.assetId matches the base asset
         if (asset.baseId.endsWith(`-${selection.assetId}`) && asset.basePath) {
           assetPath = `https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public${asset.basePath}`;
-          // console.log(`🎯 Found base asset path in manifest: ${assetPath}`);
+          console.log(`🎯 Found base asset path in manifest: ${assetPath}`);
           break;
         }
+      }
+      
+      if (!assetPath) {
+        console.warn(`⚠️ No variant found in manifest for ${partKey}:${selection.assetId}`);
       }
     }
     
@@ -190,7 +195,7 @@ export async function drawCharacterToCanvas(
       continue
     }
 
-    // console.log(`🎨 Drawing ${partKey}:${selection.assetId} with path: ${assetPath}`)
+    console.log(`🎨 Drawing ${partKey}:${selection.assetId} with path: ${assetPath}`)
 
     // Get cached image
     let img = getCachedImage(assetPath)
