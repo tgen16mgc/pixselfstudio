@@ -111,7 +111,7 @@ export function WelcomeNotificationModal({
               }}
             >
               <img
-                src="https://scontent.fhan5-8.fna.fbcdn.net/v/t39.30808-6/547530288_122121566786970980_157883314380678539_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeHC37O3q1CsXqIximNoWkPc2ktILAyMovvaS0gsDIyi-0DzbBKOtYHUrTF-nPbLgkqxI1WdqUHzIEgJgqvhWJeR&_nc_ohc=kpiaX2-FfssQ7kNvwGrLQQ-&_nc_oc=AdlouloUav_y1sesOlluzZVq2woNcPfslFTpJUmUtvhSO5XSzhIk_qIvoPp72Mn0rWE&_nc_zt=23&_nc_ht=scontent.fhan5-8.fna&_nc_gid=NsQfCrdOqSD9_HGmEaCniA&oh=00_AfY16lxuZK9PoJ2jRaZIA0X9xuCKCVgY_mBhqRvcoA-rOQ&oe=68CCE7C2"
+                src="/image/title background.gif"
                 alt="Welcome notification"
                 className="w-full h-auto block"
                 style={{ imageRendering: "auto" }}
