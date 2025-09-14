@@ -23,7 +23,7 @@ import { PixselfBackground } from "@/components/pixself-background"
 import { PixselfButton, PixselfPanel } from "@/components/pixself-ui-components"
 import { LoadingScreen } from "@/components/loading-screen"
 import { DownloadConfirmationModal } from "@/components/download-confirmation-modal"
-
+import { WelcomePopup } from "@/components/welcome-popup"
 
 import { CharacterGalleryModal } from "@/components/character-gallery-modal"
 import { EnhancedTitleSection } from "@/components/enhanced-title-section"
@@ -206,6 +206,7 @@ export default function Page() {
   const isDesktop = useIsDesktop()
   const { parts: dynamicParts } = useDynamicAssets()
   const [isLoading, setIsLoading] = useState(true)
+  const [showWelcome, setShowWelcome] = useState(false)
   const [selections, setSelections] = useState<Selections>(createDefaultSelections)
   const [activePart, setActivePart] = useState<PartKey>("body")
   const [history, setHistory] = useState<HistoryState[]>([])
@@ -490,7 +491,10 @@ export default function Page() {
 
   // Show loading screen first
   if (isLoading) {
-    return <LoadingScreen onComplete={() => setIsLoading(false)} />
+    return <LoadingScreen onComplete={() => {
+      setIsLoading(false)
+      setShowWelcome(true) // Show welcome popup after loading
+    }} />
   }
 
   return (
@@ -1115,6 +1119,12 @@ export default function Page() {
           onPlaySound={(type) => play8BitSound(type, soundEnabled)}
         />
       )}
+
+      {/* Welcome Popup */}
+      <WelcomePopup
+        isOpen={showWelcome}
+        onClose={() => setShowWelcome(false)}
+      />
 
       {/* Pixself Footer */}
       <PixselfFooter />
