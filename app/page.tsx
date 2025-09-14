@@ -229,6 +229,9 @@ export default function Page() {
 
   const [storageAvailable, setStorageAvailable] = useState(false)
 
+  // Ref to store timeout ID for cleanup
+  const welcomeTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+
 
 
   // Preload assets on mount
@@ -362,6 +365,16 @@ export default function Page() {
     return () => window.removeEventListener("keydown", handleKeyDown)
   }, [historyIndex, history, soundEnabled, storageAvailable, undo, redo, showDownloadConfirmation])
 
+  // Cleanup welcome modal timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (welcomeTimeoutRef.current) {
+        clearTimeout(welcomeTimeoutRef.current)
+        welcomeTimeoutRef.current = null
+      }
+    }
+  }, [])
+
   function onSelectAsset(part: PartKey, assetId: string) {
     // Immediate selection update for seamless experience
     const newSelections = {
@@ -494,7 +507,7 @@ export default function Page() {
     return <LoadingScreen onComplete={() => {
       setIsLoading(false)
       // Show welcome modal after loading completes
-      setTimeout(() => {
+      welcomeTimeoutRef.current = setTimeout(() => {
         setShowWelcomeModal(true)
       }, 500) // Small delay for smooth transition
     }} />
