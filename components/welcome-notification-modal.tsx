@@ -65,7 +65,7 @@ export function WelcomeNotificationModal({
       {/* Modal */}
       <div
         ref={modalRef}
-        className={`relative w-full max-w-md md:max-w-2xl lg:max-w-4xl mx-auto border-4 backdrop-blur-sm animate-in fade-in-0 zoom-in-95 duration-300 my-8 ${press2p.className}`}
+        className={`relative w-full max-w-md md:max-w-lg lg:max-w-2xl mx-auto border-4 backdrop-blur-sm animate-in fade-in-0 zoom-in-95 duration-300 my-8 ${press2p.className}`}
         style={{
           backgroundColor: PIXSELF_BRAND.colors.cloud.light,
           borderColor: PIXSELF_BRAND.colors.primary.navy,
@@ -104,7 +104,7 @@ export function WelcomeNotificationModal({
           {/* Image container */}
           <div className="flex justify-center">
             <div 
-              className="border-4 overflow-hidden w-full max-w-[300px] md:max-w-[500px] lg:max-w-[600px]"
+              className="border-4 overflow-hidden w-full max-w-[300px] md:max-w-[400px] lg:max-w-[450px]"
               style={{
                 borderColor: PIXSELF_BRAND.colors.primary.navy,
                 boxShadow: PIXSELF_BRAND.shadows.pixel,
