@@ -68,7 +68,7 @@ export function WelcomeNotificationModal({
       {/* Modal */}
       <div
         ref={modalRef}
-        className={`relative w-full max-w-xs sm:max-w-sm md:max-w-md mx-auto border-4 backdrop-blur-sm animate-in fade-in-0 zoom-in-95 duration-300 max-h-[90vh] overflow-y-auto ${press2p.className}`}
+        className={`relative w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl mx-auto border-4 backdrop-blur-sm animate-in fade-in-0 zoom-in-95 duration-300 max-h-[90vh] overflow-y-auto ${press2p.className}`}
         style={{
           backgroundColor: PIXSELF_BRAND.colors.cloud.light,
           borderColor: PIXSELF_BRAND.colors.primary.navy,
@@ -107,15 +107,15 @@ export function WelcomeNotificationModal({
           {/* Image container */}
           <div className="flex justify-center">
             <div 
-              className="border-4 overflow-hidden w-full max-w-[200px] sm:max-w-[250px] md:max-w-[300px]"
+              className="border-4 overflow-hidden w-full max-w-[280px] sm:max-w-[350px] md:max-w-[400px] lg:max-w-[450px]"
               style={{
                 borderColor: PIXSELF_BRAND.colors.primary.navy,
                 boxShadow: PIXSELF_BRAND.shadows.pixel,
               }}
             >
               <img
-                src="https://scontent.fhan5-8.fna.fbcdn.net/v/t39.30808-6/547530288_122121566786970980_157883314380678539_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeHC37O3q1CsXqIximNoWkPc2ktILAyMovvaS0gsDIyi-0DzbBKOtYHUrTF-nPbLgkqxI1WdqUHzIEgJgqvhWJeR&_nc_ohc=kpiaX2-FfssQ7kNvwGrLQQ-&_nc_oc=AdlouloUav_y1sesOlluzZVq2woNcPfslFTpJUmUtvhSO5XSzhIk_qIvoPp72Mn0rWE&_nc_zt=23&_nc_ht=scontent.fhan5-8.fna&_nc_gid=NsQfCrdOqSD9_HGmEaCniA&oh=00_AfY16lxuZK9PoJ2jRaZIA0X9xuCKCVgY_mBhqRvcoA-rOQ&oe=68CCE7C2"
-                alt="Welcome notification"
+                src="/image/xtb-notification.jpg"
+                alt="XTB Trading Notification"
                 className="w-full h-auto block"
                 style={{ imageRendering: "auto" }}
               />
