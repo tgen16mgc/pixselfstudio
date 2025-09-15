@@ -17,17 +17,29 @@
                     <h2>Asset Manifest:</h2>
                     <pre>${JSON.stringify(data, null, 2)}</pre>
                     
-                    <h2>Glasses Assets:</h2>
+                    <h2>Body Assets Test:</h2>
                     <ul>
-                        ${data.glasses.map(asset => `
+                        ${data.body.map(asset => `
                             <li>
                                 ${asset}
-                                <img src="/assets/character/accessories/glasses/${asset}" 
-                                     style="width:50px; height:50px; margin-left:10px;" 
-                                     onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHZpZXdCb3g9IjAgMCA1MCA1MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjUwIiBoZWlnaHQ9IjUwIiBmaWxsPSIjZmY2NjY2Ii8+Cjx0ZXh0IHg9IjI1IiB5PSIyNSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IndoaXRlIj5FUlJPUjwvdGV4dD4KPHN2Zz4='; this.title='Failed to load';" />
+                                <img src="/assets/character/body/body/${asset}" 
+                                     style="width:100px; height:100px; margin-left:10px; image-rendering: pixelated;" 
+                                     onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHZpZXdCb3g9IjAgMCA1MCA1MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjUwIiBoZWlnaHQ9IjUwIiBmaWxsPSIjZmY2NjY2Ii8+Cjx0ZXh0IHg9IjI1IiB5PSIyNSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IndoaXRlIj5FUlJPUjwvdGV4dD4KPHN2Zz4='; this.title='Failed to load';" 
+                                     onload="console.log('✅ Successfully loaded:', '${asset}');"
+                                     onerror="console.error('❌ Failed to load:', '${asset}');" />
                             </li>
                         `).join('')}
                     </ul>
+                    
+                    <h2>Specific Test: body-default-white.png</h2>
+                    <div style="border: 2px solid #333; padding: 10px; margin: 10px 0;">
+                        <p>Direct path test:</p>
+                        <img src="/assets/character/body/body/body-default-white.png" 
+                             style="width:200px; height:200px; image-rendering: pixelated; border: 1px solid red;" 
+                             onload="this.nextElementSibling.textContent = '✅ SUCCESS: body-default-white.png loaded!'; this.nextElementSibling.style.color='green';"
+                             onerror="this.nextElementSibling.textContent = '❌ ERROR: body-default-white.png failed to load!'; this.nextElementSibling.style.color='red';" />
+                        <p style="font-weight: bold;">Loading status...</p>
+                    </div>
                 `;
             } catch (error) {
                 document.getElementById('result').innerHTML = `

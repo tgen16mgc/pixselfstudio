@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { PIXSELF_BRAND } from "@/config/pixself-brand"
-import { CHARACTER_PARTS } from "@/config/character-assets"
+import { CHARACTER_PARTS, type PartDefinition } from "@/config/character-assets"
 import type { PartKey } from "@/types/character"
 
 interface AssetVariantGridProps {
@@ -11,6 +11,7 @@ interface AssetVariantGridProps {
   onAssetSelect: (assetId: string) => void
   isLoading?: boolean
   isMobile?: boolean
+  parts?: PartDefinition[] // Add optional parts prop for dynamic assets
 }
 
 export function AssetVariantGrid({
@@ -19,10 +20,13 @@ export function AssetVariantGrid({
   onAssetSelect,
   isLoading = false,
   isMobile = false,
+  parts,
 }: AssetVariantGridProps) {
   const [, setPreviewAsset] = useState<string | null>(null)
 
-  const part = CHARACTER_PARTS().find((p) => p.key === activePart)
+  // Use provided parts or fallback to static parts
+  const allParts = parts || CHARACTER_PARTS()
+  const part = allParts.find((p) => p.key === activePart)
   if (!part) return null
 
   const assets = part.assets || []

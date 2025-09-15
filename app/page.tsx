@@ -732,6 +732,7 @@ export default function Page() {
                       onAssetSelect={(assetId) => onSelectAsset(activePart, assetId)}
                       isLoading={loading}
                       isMobile={false}
+                      parts={currentParts}
                     />
                   </div>
 
@@ -1044,6 +1045,7 @@ export default function Page() {
                     onAssetSelect={(assetId) => onSelectAsset(activePart, assetId)}
                     isLoading={loading}
                     isMobile={true}
+                    parts={currentParts}
                   />
                 </div>
 
