@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { Volume2, VolumeX, Undo2, Redo2, RotateCcw, Download } from "lucide-react"
+import { Volume2, VolumeX, Undo2, Redo2, RotateCcw, Download, ShoppingCart } from "lucide-react"
 import { PixselfLogo } from "./pixself-logo"
 import { PixselfButton } from "./pixself-ui-components"
 import { PIXSELF_BRAND } from "@/config/pixself-brand"
@@ -238,7 +238,17 @@ export function EnhancedTitleSection({
                 RESET
               </PixselfButton>
 
-
+              <PixselfButton
+                onClick={() => {
+                  window.open("https://forms.gle/kBTQL5uMEQ1qp9xP9", "_blank")
+                }}
+                variant="secondary"
+                size="sm"
+                icon={<ShoppingCart className="h-3.5 w-3.5" />}
+                className="hover:scale-110 transition-transform duration-200"
+              >
+                PURCHASE
+              </PixselfButton>
 
               <PixselfButton
                 onClick={onDownload}
