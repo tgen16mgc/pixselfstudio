@@ -266,6 +266,17 @@ export function EnhancedTitleSection({
             {/* Mobile Action Buttons with enhanced styling */}
             <div className="flex lg:hidden items-center gap-2">
               <PixselfButton
+                onClick={() => {
+                  window.open("https://forms.gle/kBTQL5uMEQ1qp9xP9", "_blank")
+                }}
+                variant="secondary"
+                size="sm"
+                icon={<ShoppingCart className="h-3.5 w-3.5" />}
+                className="hover:scale-110 transition-transform duration-200"
+              >
+                BUY
+              </PixselfButton>
+              <PixselfButton
                 onClick={onDownload}
                 disabled={isDownloadLoading}
                 loading={isDownloadLoading}
