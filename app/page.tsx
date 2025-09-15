@@ -748,7 +748,7 @@ export default function Page() {
                 </div>
               </PixselfPanel>
 
-              <PixselfPanel title="EXPORT OPTIONS">
+              <PixselfPanel title="EXPORT OPTIONS (Optional)">
                 <div className="space-y-4">
                   <div className="text-[9px] mb-3" style={{ color: PIXSELF_BRAND.colors.primary.navy }}>
                     Choose your export size:
@@ -1061,7 +1061,7 @@ export default function Page() {
             </PixselfPanel>
 
             {/* Mobile Export Options */}
-            <PixselfPanel title="EXPORT OPTIONS" icon={<Download className="h-4 w-4" />}>
+            <PixselfPanel title="EXPORT OPTIONS (Optional)" icon={<Download className="h-4 w-4" />}>
               <div className="space-y-4">
                 <div className="text-[9px] mb-3" style={{ color: PIXSELF_BRAND.colors.primary.navy }}>
                   Choose your export size:
