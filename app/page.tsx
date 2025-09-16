@@ -24,6 +24,7 @@ import { PixselfButton, PixselfPanel } from "@/components/pixself-ui-components"
 import { LoadingScreen } from "@/components/loading-screen"
 import { DownloadConfirmationModal } from "@/components/download-confirmation-modal"
 import { WelcomeNotificationModal } from "@/components/welcome-notification-modal"
+import { OnboardingTour } from "@/components/onboarding-tour"
 
 import { CharacterGalleryModal } from "@/components/character-gallery-modal"
 import { EnhancedTitleSection } from "@/components/enhanced-title-section"
@@ -207,6 +208,7 @@ export default function Page() {
   const { parts: dynamicParts } = useDynamicAssets()
   const [isLoading, setIsLoading] = useState(true)
   const [showWelcomeModal, setShowWelcomeModal] = useState(false)
+  const [showOnboardingTour, setShowOnboardingTour] = useState(false)
   const [selections, setSelections] = useState<Selections>(createDefaultSelections)
   const [activePart, setActivePart] = useState<PartKey>("body")
   const [history, setHistory] = useState<HistoryState[]>([])
@@ -509,6 +511,13 @@ export default function Page() {
       // Show welcome modal after loading completes
       welcomeTimeoutRef.current = setTimeout(() => {
         setShowWelcomeModal(true)
+        // Check if user has seen the tour
+        const hasSeenTour = localStorage.getItem("pixself-onboarding-tour-completed")
+        if (!hasSeenTour) {
+          setTimeout(() => {
+            setShowOnboardingTour(true)
+          }, 2000) // Start tour 2 seconds after welcome modal
+        }
       }, 500) // Small delay for smooth transition
     }} />
   }
@@ -549,7 +558,7 @@ export default function Page() {
           <div className="grid grid-cols-12 gap-8">
             {/* Left Sidebar - Parts Navigation */}
             <div className="col-span-3 space-y-6">
-              <PixselfPanel title="CHARACTER PARTS" icon={<Layers className="h-4 w-4" />}>
+              <PixselfPanel title="CHARACTER PARTS" icon={<Layers className="h-4 w-4" />} data-tour="parts-selection">
                 {Object.entries(partsByCategory).map(([category, parts]) => (
                   <div key={category} className="mb-6 last:mb-0">
                     <div className="flex items-center gap-2 mb-3">
@@ -678,7 +687,9 @@ export default function Page() {
                   </div>
 
                   <PixselfCharacterFrame zoom={zoom}>
-                    <PixelCanvasPreview selections={selections} scale={0.6} zoom={1} />
+                    <div data-tour="character-preview">
+                      <PixelCanvasPreview selections={selections} scale={0.6} zoom={1} />
+                    </div>
                   </PixselfCharacterFrame>
 
                   {/* Action Controls */}
@@ -690,6 +701,7 @@ export default function Page() {
                         loading={downloadLoading}
                         variant="accent"
                         icon={<Download className="h-4 w-4" />}
+                        data-tour="download"
                       >
                         DOWNLOAD
                       </PixselfButton>
@@ -698,6 +710,7 @@ export default function Page() {
                           onClick={() => setShowGalleryModal(true)}
                           variant="secondary"
                           icon={<Save className="h-4 w-4" />}
+                          data-tour="gallery"
                         >
                           SAVE
                         </PixselfButton>
@@ -726,17 +739,20 @@ export default function Page() {
                         STYLE OPTIONS
                       </div>
                     </div>
-                    <AssetVariantGrid
+                    <div data-tour="style-options">
+                      <AssetVariantGrid
                       activePart={activePart}
                       currentAssetId={selections[activePart]?.assetId || "default"}
                       onAssetSelect={(assetId) => onSelectAsset(activePart, assetId)}
                       isLoading={loading}
                       isMobile={false}
                     />
+                    </div>
                   </div>
 
                   {/* Color Variants */}
-                  <DynamicColorVariants 
+                  <div data-tour="color-variants">
+                    <DynamicColorVariants 
                     activePart={activePart} 
                     currentAssetId={selections[activePart]?.assetId || "default"} 
                     onColorVariantSelect={(variantId: string) => {
@@ -745,10 +761,11 @@ export default function Page() {
                     }}
                     isMobile={false} 
                   />
+                  </div>
                 </div>
               </PixselfPanel>
 
-              <PixselfPanel title="EXPORT OPTIONS (Optional)">
+              <PixselfPanel title="EXPORT OPTIONS (Optional)" data-tour="export-options">
                 <div className="space-y-4">
                   <div className="text-[9px] mb-3" style={{ color: PIXSELF_BRAND.colors.primary.navy }}>
                     Choose your export size:
@@ -1141,6 +1158,14 @@ export default function Page() {
         isOpen={showWelcomeModal}
         onClose={() => setShowWelcomeModal(false)}
       />
+
+      {/* Onboarding Tour */}
+      {showOnboardingTour && (
+        <OnboardingTour 
+          autoStart={true} 
+          onComplete={() => setShowOnboardingTour(false)} 
+        />
+      )}
 
       {/* Pixself Footer */}
       <PixselfFooter />

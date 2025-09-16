@@ -14,6 +14,7 @@ interface PixselfButtonProps {
   className?: string
   fullWidth?: boolean
   icon?: React.ReactNode
+  "data-tour"?: string
 }
 
 export function PixselfButton({
@@ -26,6 +27,7 @@ export function PixselfButton({
   className = "",
   fullWidth = false,
   icon,
+  ...props
 }: PixselfButtonProps) {
   const getSizeClasses = () => {
     switch (size) {
@@ -79,6 +81,7 @@ export function PixselfButton({
         imageRendering: "pixelated",
         outline: `2px solid ${PIXSELF_BRAND.colors.accent.sparkle}`,
       }}
+      {...props}
     >
       {loading ? (
         <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
@@ -101,6 +104,7 @@ interface PixselfPanelProps {
   collapsible?: boolean
   defaultCollapsed?: boolean
   icon?: React.ReactNode
+  "data-tour"?: string
 }
 
 export function PixselfPanel({
@@ -111,6 +115,7 @@ export function PixselfPanel({
   collapsible = false,
   defaultCollapsed = false,
   icon,
+  ...props
 }: PixselfPanelProps) {
   const [isCollapsed, setIsCollapsed] = React.useState(defaultCollapsed)
 
@@ -125,6 +130,7 @@ export function PixselfPanel({
         boxShadow: panelConfig.shadow,
         imageRendering: "pixelated",
       }}
+      {...props}
     >
       {title && (
         <div

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import { Volume2, VolumeX, Undo2, Redo2, RotateCcw, Download, ShoppingCart } from "lucide-react"
 import { PixselfLogo } from "./pixself-logo"
 import { PixselfButton } from "./pixself-ui-components"
+import { OnboardingTourButton } from "./onboarding-tour"
 import { PIXSELF_BRAND } from "@/config/pixself-brand"
 import { Press_Start_2P } from "next/font/google"
 
@@ -165,6 +166,9 @@ export function EnhancedTitleSection({
 
           {/* Enhanced Controls Section */}
           <div className="flex items-center justify-center lg:justify-end gap-3 flex-wrap">
+            {/* Tour Button */}
+            <OnboardingTourButton />
+            
             {/* Sound Toggle with enhanced styling */}
             <button
               onClick={onToggleSound}
