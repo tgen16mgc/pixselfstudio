@@ -22,6 +22,7 @@ interface EnhancedTitleSectionProps {
   isLoading: boolean
   isDownloadLoading: boolean
   isDesktop: boolean
+  onStartTour?: () => void
 }
 
 export function EnhancedTitleSection({
@@ -35,6 +36,7 @@ export function EnhancedTitleSection({
   canRedo,
   isLoading,
   isDownloadLoading,
+  onStartTour,
   // isDesktop: _isDesktop,
 }: EnhancedTitleSectionProps) {
   const [floatingElements, setFloatingElements] = useState<
@@ -167,7 +169,7 @@ export function EnhancedTitleSection({
           {/* Enhanced Controls Section */}
           <div className="flex items-center justify-center lg:justify-end gap-3 flex-wrap">
             {/* Tour Button */}
-            <OnboardingTourButton />
+            <OnboardingTourButton onStartTour={onStartTour} />
             
             {/* Sound Toggle with enhanced styling */}
             <button

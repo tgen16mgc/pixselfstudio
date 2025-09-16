@@ -219,7 +219,7 @@ export default function Page() {
   const [downloadLoading, setDownloadLoading] = useState(false)
 
   const [showDownloadModal, setShowDownloadModal] = useState(false)
-
+  const [showManualTour, setShowManualTour] = useState(false)
 
   const [showGalleryModal, setShowGalleryModal] = useState(false)
   const [downloadModalData, setDownloadModalData] = useState<{
@@ -543,6 +543,7 @@ export default function Page() {
             isLoading={loading}
             isDownloadLoading={downloadLoading}
             isDesktop={isDesktop}
+            onStartTour={() => setShowManualTour(true)}
           />
         </header>
 
@@ -930,7 +931,7 @@ export default function Page() {
                       }}
                     />
                     <div className="absolute inset-3 flex items-center justify-center overflow-hidden">
-                      <div style={{ transform: `scale(${zoom})`, transformOrigin: "center" }}>
+                      <div style={{ transform: `scale(${zoom})`, transformOrigin: "center" }} data-tour="character-preview">
                         <PixelCanvasPreview selections={selections} scale={0.35} zoom={1} />
                       </div>
                     </div>
@@ -946,6 +947,7 @@ export default function Page() {
                     variant="accent"
                     size="sm"
                     icon={<Download className="h-3 w-3" />}
+                    data-tour="download"
                   >
                     SAVE
                   </PixselfButton>
@@ -955,6 +957,7 @@ export default function Page() {
                       variant="secondary"
                       size="sm"
                       icon={<Grid className="h-3 w-3" />}
+                      data-tour="gallery"
                     >
                       GALLERY
                     </PixselfButton>
@@ -964,7 +967,7 @@ export default function Page() {
             </PixselfPanel>
 
             {/* Mobile Parts Navigation - Horizontal Scroll */}
-            <PixselfPanel title="CHARACTER PARTS" icon={<Layers className="h-4 w-4" />}>
+            <PixselfPanel title="CHARACTER PARTS" icon={<Layers className="h-4 w-4" />} data-tour="parts-selection">
               <div className="space-y-4">
                 <div className="overflow-x-auto pb-2">
                   <div className="flex items-stretch gap-2 min-w-max px-1">
@@ -1045,7 +1048,7 @@ export default function Page() {
             >
               <div className="space-y-4">
                 {/* Asset Selection - Mobile */}
-                <div>
+                <div data-tour="style-options">
                   <div className="flex items-center gap-2 mb-4">
                     <Settings className="h-3 w-3" style={{ color: PIXSELF_BRAND.colors.primary.gold }} />
                     <div
@@ -1065,7 +1068,8 @@ export default function Page() {
                 </div>
 
                 {/* Color Variants - Mobile */}
-                <DynamicColorVariants 
+                <div data-tour="color-variants">
+                  <DynamicColorVariants 
                   activePart={activePart} 
                   currentAssetId={selections[activePart]?.assetId || "default"} 
                   onColorVariantSelect={(variantId: string) => {
@@ -1074,11 +1078,12 @@ export default function Page() {
                   }}
                   isMobile={true} 
                 />
+                </div>
               </div>
             </PixselfPanel>
 
             {/* Mobile Export Options */}
-            <PixselfPanel title="EXPORT OPTIONS (Optional)" icon={<Download className="h-4 w-4" />}>
+            <PixselfPanel title="EXPORT OPTIONS (Optional)" icon={<Download className="h-4 w-4" />} data-tour="export-options">
               <div className="space-y-4">
                 <div className="text-[9px] mb-3" style={{ color: PIXSELF_BRAND.colors.primary.navy }}>
                   Choose your export size:
@@ -1159,11 +1164,22 @@ export default function Page() {
         onClose={() => setShowWelcomeModal(false)}
       />
 
-      {/* Onboarding Tour */}
+      {/* Onboarding Tour - Auto-start */}
       {showOnboardingTour && (
         <OnboardingTour 
           autoStart={true} 
-          onComplete={() => setShowOnboardingTour(false)} 
+          onComplete={() => setShowOnboardingTour(false)}
+          isModalOpen={showDownloadModal || showGalleryModal}
+        />
+      )}
+
+      {/* Onboarding Tour - Manual start */}
+      {showManualTour && (
+        <OnboardingTour 
+          autoStart={true} 
+          startDelayMs={0}
+          onComplete={() => setShowManualTour(false)}
+          isModalOpen={showDownloadModal || showGalleryModal}
         />
       )}
 
