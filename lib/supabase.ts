@@ -12,7 +12,7 @@ if (!supabaseUrl || supabaseUrl === '') {
     isClient: typeof window !== 'undefined',
     allEnvKeys: typeof window !== 'undefined' ? 'CLIENT_SIDE' : Object.keys(process.env).filter(k => k.startsWith('NEXT_PUBLIC_'))
   })
-  throw new Error('Missing NEXT_PUBLIC_SUPABASE_URL environment variable. Check your .env.local file.')
+  throw new Error('Missing NEXT_PUBLIC_SUPABASE_URL environment variable. Please configure your Supabase credentials in your hosting platform.')
 }
 if (!supabaseAnonKey || supabaseAnonKey === '') {
   console.error('🔴 Supabase key missing:', {
@@ -20,7 +20,7 @@ if (!supabaseAnonKey || supabaseAnonKey === '') {
     isClient: typeof window !== 'undefined',
     allEnvKeys: typeof window !== 'undefined' ? 'CLIENT_SIDE' : Object.keys(process.env).filter(k => k.startsWith('NEXT_PUBLIC_'))
   })
-  throw new Error('Missing NEXT_PUBLIC_SUPABASE_ANON_KEY environment variable. Check your .env.local file.')
+  throw new Error('Missing NEXT_PUBLIC_SUPABASE_ANON_KEY environment variable. Please configure your Supabase credentials in your hosting platform.')
 }
 
 console.log('✅ Supabase client initialized:', {

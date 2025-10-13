@@ -54,9 +54,13 @@ export default function AdminOrdersPage() {
       const data = await getAllOrders()
       setOrders(data)
       setError(null)
-    } catch (err) {
+    } catch (err: any) {
       console.error('Error loading orders:', err)
-      setError('Failed to load orders. Make sure Supabase is configured correctly.')
+      if (err.message?.includes('Missing NEXT_PUBLIC_SUPABASE')) {
+        setError('Supabase is not configured. Please set up your environment variables in your hosting platform.')
+      } else {
+        setError('Failed to load orders. Check your Supabase configuration and network connection.')
+      }
     } finally {
       setLoading(false)
     }
