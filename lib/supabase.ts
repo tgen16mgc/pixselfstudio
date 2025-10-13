@@ -20,16 +20,53 @@ if (!hasValidConfig) {
 // Create a mock client if configuration is missing (for graceful degradation)
 const createMockClient = () => {
   return {
-    from: () => ({
-      select: () => Promise.resolve({ data: [], error: null }),
-      insert: () => Promise.resolve({ data: null, error: { message: 'Supabase not configured' } }),
-      update: () => Promise.resolve({ data: null, error: { message: 'Supabase not configured' } }),
-      delete: () => Promise.resolve({ data: null, error: { message: 'Supabase not configured' } })
+    from: (table: string) => ({
+      select: (columns?: string) => ({
+        order: (column: string, options?: { ascending?: boolean }) => ({
+          then: async (callback?: (result: any) => void) => {
+            const result = { data: [], error: null }
+            if (callback) callback(result)
+            return result
+          }
+        }),
+        single: () => Promise.resolve({ data: null, error: { message: 'Supabase not configured' } }),
+        eq: (column: string, value: any) => ({
+          then: async (callback?: (result: any) => void) => {
+            const result = { data: [], error: null }
+            if (callback) callback(result)
+            return result
+          }
+        }),
+        then: async (callback?: (result: any) => void) => {
+          const result = { data: [], error: null }
+          if (callback) callback(result)
+          return result
+        }
+      }),
+      insert: (data: any) => Promise.resolve({ data: null, error: { message: 'Supabase not configured' } }),
+      update: (data: any) => ({
+        eq: (column: string, value: any) => ({
+          then: async (callback?: (result: any) => void) => {
+            const result = { data: null, error: { message: 'Supabase not configured' } }
+            if (callback) callback(result)
+            return result
+          }
+        })
+      }),
+      delete: () => ({
+        eq: (column: string, value: any) => ({
+          then: async (callback?: (result: any) => void) => {
+            const result = { data: null, error: { message: 'Supabase not configured' } }
+            if (callback) callback(result)
+            return result
+          }
+        })
+      })
     }),
     storage: {
-      from: () => ({
-        upload: () => Promise.resolve({ data: null, error: { message: 'Supabase not configured' } }),
-        getPublicUrl: () => ({ data: { publicUrl: '' } })
+      from: (bucket: string) => ({
+        upload: (path: string, file: File) => Promise.resolve({ data: null, error: { message: 'Supabase not configured' } }),
+        getPublicUrl: (path: string) => ({ data: { publicUrl: '' } })
       })
     }
   }
@@ -64,7 +101,7 @@ export async function createOrder(orderData: any) {
     throw new Error('Supabase not configured. Please set up environment variables in your hosting platform.')
   }
 
-  const { data: order, error: orderError } = await supabaseAdmin
+  const insertResult = await supabaseAdmin
     .from('orders')
     .insert({
       id: orderData.orderId,
@@ -83,7 +120,7 @@ export async function createOrder(orderData: any) {
     .select()
     .single()
 
-  if (orderError) throw orderError
+  if (insertResult.error) throw insertResult.error
 
   // Insert order items
   const orderItems = orderData.items.map((item: any) => ({
@@ -95,40 +132,52 @@ export async function createOrder(orderData: any) {
     item_price: 49000 + (item.hasCharm ? 6000 : 0)
   }))
 
-  const { error: itemsError } = await supabaseAdmin
+  const itemsResult = await supabaseAdmin
     .from('order_items')
     .insert(orderItems)
 
-  if (itemsError) throw itemsError
+  if (itemsResult.error) throw itemsResult.error
 
-  return order
+  return insertResult.data
 }
 
 export async function uploadPaymentProof(file: File, orderId: string) {
+  if (!hasValidConfig) {
+    throw new Error('Supabase not configured. Please set up environment variables in your hosting platform.')
+  }
+
   const fileName = `payment-proofs/${orderId}-${Date.now()}.${file.name.split('.').pop()}`
-  
-  const { data, error } = await supabaseAdmin.storage
+
+  const uploadResult = await supabaseAdmin.storage
     .from('order-files')
     .upload(fileName, file)
 
-  if (error) throw error
+  if (uploadResult.error) throw uploadResult.error
 
   // Get public URL
-  const { data: { publicUrl } } = supabaseAdmin.storage
+  const urlResult = await supabaseAdmin.storage
     .from('order-files')
     .getPublicUrl(fileName)
 
+  const publicUrl = urlResult.data?.publicUrl || ''
+
   // Update order with payment proof URL
-  await supabaseAdmin
+  const updateResult = await supabaseAdmin
     .from('orders')
     .update({ payment_proof_url: publicUrl })
     .eq('id', orderId)
+
+  if (updateResult.error) throw updateResult.error
 
   return publicUrl
 }
 
 export async function getOrder(orderId: string) {
-  const { data, error } = await supabaseAdmin
+  if (!hasValidConfig) {
+    throw new Error('Supabase not configured. Please set up environment variables in your hosting platform.')
+  }
+
+  const result = await supabaseAdmin
     .from('orders')
     .select(`
       *,
@@ -137,23 +186,6 @@ export async function getOrder(orderId: string) {
     .eq('id', orderId)
     .single()
 
-  if (error) throw error
-  return data
-}
-
-export async function getAllOrders() {
-  if (!hasValidConfig) {
-    throw new Error('Supabase not configured. Please set up environment variables in your hosting platform.')
-  }
-
-  const { data, error } = await supabaseAdmin
-    .from('orders')
-    .select(`
-      *,
-      order_items (*)
-    `)
-    .order('created_at', { ascending: false })
-
-  if (error) throw error
-  return data
+  if (result.error) throw result.error
+  return result.data
 }
