@@ -4,6 +4,7 @@ import { createClient } from '@supabase/supabase-js'
 // Get environment variables with fallbacks for debugging
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || ''
 
 // Check if environment variables are available
 const hasValidConfig = supabaseUrl && supabaseAnonKey && supabaseUrl !== '' && supabaseAnonKey !== ''
@@ -88,7 +89,6 @@ export const supabaseAdminRead = hasValidConfig && supabaseServiceKey
   : createMockClient() as any
 
 // Server-side client for API routes
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || ''
 export const supabaseAdmin = hasValidConfig && supabaseServiceKey
   ? createClient(supabaseUrl, supabaseServiceKey, {
       auth: {
