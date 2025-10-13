@@ -120,3 +120,58 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* FVF Fernando 08 Font */
+@font-face {
+  font-family: 'FVF Fernando';
+  src: url('/fonts/FVF Fernando 08.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Custom input styles using FVF Fernando font for both text and placeholders */
+.fernando-placeholder {
+  font-family: 'FVF Fernando', monospace !important;
+  font-size: 11px !important;
+  line-height: 20px !important;
+  height: 52px !important;
+  padding: 16px !important;
+  box-sizing: border-box !important;
+  vertical-align: middle !important;
+}
+
+.fernando-placeholder::placeholder {
+  font-family: 'FVF Fernando', monospace;
+  font-size: 11px;
+  color: #666;
+  opacity: 0.8;
+}
+
+.fernando-placeholder::-webkit-input-placeholder {
+  font-family: 'FVF Fernando', monospace;
+  font-size: 11px;
+  color: #666;
+  opacity: 0.8;
+}
+
+.fernando-placeholder::-moz-placeholder {
+  font-family: 'FVF Fernando', monospace;
+  font-size: 11px;
+  color: #666;
+  opacity: 0.8;
+}
+
+.fernando-placeholder:-ms-input-placeholder {
+  font-family: 'FVF Fernando', monospace;
+  font-size: 11px;
+  color: #666;
+  opacity: 0.8;
+}
+
+.fernando-placeholder:-moz-placeholder {
+  font-family: 'FVF Fernando', monospace;
+  font-size: 11px;
+  color: #666;
+  opacity: 0.8;
+}

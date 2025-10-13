@@ -2,6 +2,9 @@
 
 import React from "react"
 import { PIXSELF_BRAND, BRAND_COMPONENTS } from "@/config/pixself-brand"
+import { Press_Start_2P } from "next/font/google"
+
+const press2p = Press_Start_2P({ weight: "400", subsets: ["latin"] })
 
 // Pixself Button Component
 interface PixselfButtonProps {
@@ -74,6 +77,7 @@ export function PixselfButton({
         active:translate-x-1 active:translate-y-1
         disabled:cursor-not-allowed disabled:active:translate-x-0 disabled:active:translate-y-0
         hover:brightness-110 hover:scale-105
+        ${press2p.className}
         ${className}
       `}
       style={{
@@ -134,7 +138,7 @@ export function PixselfPanel({
     >
       {title && (
         <div
-          className={`px-4 py-3 text-[12px] font-bold tracking-wider border-b-4 flex items-center justify-between ${
+          className={`px-4 py-3 text-[12px] font-bold tracking-wider border-b-4 flex items-center justify-between ${press2p.className} ${
             collapsible ? "cursor-pointer hover:brightness-110" : ""
           }`}
           style={{

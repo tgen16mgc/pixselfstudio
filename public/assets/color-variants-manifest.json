@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2025-09-15T16:22:11.749Z",
+  "generatedAt": "2025-10-13T14:39:57.398Z",
   "assets": [
     {
       "baseId": "earring-circle",
@@ -84,6 +84,112 @@
       "subpart": "",
       "style": "NonLa",
       "basePath": "/assets/character/accessories/hat/hat-NonLa.png",
+      "variants": []
+    },
+    {
+      "baseId": "hat-beret",
+      "part": "hat",
+      "subpart": "",
+      "style": "beret",
+      "basePath": "/assets/character/accessories/hat/hat-beret.png",
+      "variants": [
+        {
+          "id": "beret-brown",
+          "name": "beret (Brown)",
+          "path": "/assets/character/accessories/hat/hat-beret-brown.png",
+          "color": "#8B4513"
+        },
+        {
+          "id": "beret-red",
+          "name": "beret (Red)",
+          "path": "/assets/character/accessories/hat/hat-beret-red.png",
+          "color": "#FF8A80"
+        },
+        {
+          "id": "beret-white",
+          "name": "beret (White)",
+          "path": "/assets/character/accessories/hat/hat-beret-white.png",
+          "color": "#FAFAFA"
+        },
+        {
+          "id": "beret-yellow",
+          "name": "beret (Yellow)",
+          "path": "/assets/character/accessories/hat/hat-beret-yellow.png",
+          "color": "#FFF9C4"
+        }
+      ]
+    },
+    {
+      "baseId": "hat-capybara",
+      "part": "hat",
+      "subpart": "",
+      "style": "capybara",
+      "basePath": "/assets/character/accessories/hat/hat-capybara.png",
+      "variants": []
+    },
+    {
+      "baseId": "hat-flower",
+      "part": "hat",
+      "subpart": "",
+      "style": "flower",
+      "basePath": "/assets/character/accessories/hat/hat-flower.png",
+      "variants": [
+        {
+          "id": "flower-pink",
+          "name": "flower (Pink)",
+          "path": "/assets/character/accessories/hat/hat-flower-pink.png",
+          "color": "#F8BBD0"
+        },
+        {
+          "id": "flower-purple",
+          "name": "flower (Purple)",
+          "path": "/assets/character/accessories/hat/hat-flower-purple.png",
+          "color": "#CE93D8"
+        },
+        {
+          "id": "flower-white",
+          "name": "flower (White)",
+          "path": "/assets/character/accessories/hat/hat-flower-white.png",
+          "color": "#FAFAFA"
+        },
+        {
+          "id": "flower-yellow",
+          "name": "flower (Yellow)",
+          "path": "/assets/character/accessories/hat/hat-flower-yellow.png",
+          "color": "#FFF9C4"
+        }
+      ]
+    },
+    {
+      "baseId": "hat-grad",
+      "part": "hat",
+      "subpart": "",
+      "style": "grad",
+      "basePath": "/assets/character/accessories/hat/hat-grad.png",
+      "variants": []
+    },
+    {
+      "baseId": "hat-hairclipheart",
+      "part": "hat",
+      "subpart": "",
+      "style": "hairclipheart",
+      "basePath": "/assets/character/accessories/hat/hat-hairclipheart.png",
+      "variants": []
+    },
+    {
+      "baseId": "hat-leaf",
+      "part": "hat",
+      "subpart": "",
+      "style": "leaf",
+      "basePath": "/assets/character/accessories/hat/hat-leaf.png",
+      "variants": []
+    },
+    {
+      "baseId": "hat-ribbon",
+      "part": "hat",
+      "subpart": "",
+      "style": "ribbon",
+      "basePath": "/assets/character/accessories/hat/hat-ribbon.png",
       "variants": []
     },
     {
@@ -242,6 +348,14 @@
       "subpart": "",
       "style": "dress1",
       "basePath": "/assets/character/body/clothes/clothes-dress1.png",
+      "variants": []
+    },
+    {
+      "baseId": "clothes-grad",
+      "part": "clothes",
+      "subpart": "",
+      "style": "grad",
+      "basePath": "/assets/character/body/clothes/clothes-grad.png",
       "variants": []
     },
     {
@@ -740,6 +854,14 @@
           "color": "#CE93D8"
         }
       ]
+    },
+    {
+      "baseId": "mouth-1side",
+      "part": "mouth",
+      "subpart": "",
+      "style": "1side",
+      "basePath": "/assets/character/face/mouth/mouth-1side.png",
+      "variants": []
     },
     {
       "baseId": "mouth-default",
