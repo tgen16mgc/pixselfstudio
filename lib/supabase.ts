@@ -7,15 +7,16 @@ const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || ''
 
 // Check if environment variables are available
-const hasValidConfig = Boolean(supabaseUrl && supabaseAnonKey && supabaseServiceKey)
+const hasValidConfig = Boolean(supabaseUrl && supabaseAnonKey)
+const hasServiceKey = Boolean(supabaseServiceKey)
 
 if (!hasValidConfig) {
   console.warn('⚠️ Supabase not configured:', {
     url: process.env.NEXT_PUBLIC_SUPABASE_URL ? 'PRESENT' : 'MISSING',
     anonKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ? 'PRESENT' : 'MISSING',
-    serviceKey: process.env.SUPABASE_SERVICE_ROLE_KEY ? 'PRESENT' : 'MISSING',
+    serviceKey: hasServiceKey ? 'PRESENT' : 'MISSING',
     isClient: typeof window !== 'undefined',
-    allEnvKeys: typeof window !== 'undefined' ? 'CLIENT_SIDE' : Object.keys(process.env).filter(k => k.includes('SUPABASE'))
+    environment: typeof window !== 'undefined' ? 'CLIENT' : 'SERVER'
   })
 }
 
@@ -80,7 +81,8 @@ export const supabase = hasValidConfig
   : createMockClient() as any
 
 // Admin client using service role key (for admin operations)
-export const supabaseAdminRead = hasValidConfig && supabaseServiceKey
+// Only create on server side to avoid exposing service key to client
+export const supabaseAdminRead = (typeof window === 'undefined') && hasValidConfig && hasServiceKey
   ? createClient(supabaseUrl, supabaseServiceKey, {
       auth: {
         autoRefreshToken: false,
@@ -203,27 +205,34 @@ export async function getOrder(orderId: string) {
 }
 
 export async function getAllOrders() {
-  console.log('🔍 getAllOrders called, hasValidConfig:', hasValidConfig)
+  console.log('🔍 getAllOrders called, hasValidConfig:', hasValidConfig, 'hasServiceKey:', hasServiceKey, 'isClient:', typeof window !== 'undefined')
 
   if (!hasValidConfig) {
     console.error('❌ Supabase not configured')
     throw new Error('Supabase not configured. Please set up environment variables in your hosting platform.')
   }
 
-  console.log('🔄 Fetching orders from Supabase...')
-  const result = await supabaseAdminRead
-    .from('orders')
-    .select(`
-      *,
-      order_items (*)
-    `)
-    .order('created_at', { ascending: false })
+  // Check if we can use the admin client (server-side only)
+  if (typeof window === 'undefined' && hasServiceKey) {
+    console.log('🔄 Fetching orders from Supabase (server-side with service key)...')
+    const result = await supabaseAdminRead
+      .from('orders')
+      .select(`
+        *,
+        order_items (*)
+      `)
+      .order('created_at', { ascending: false })
 
-  if (result.error) {
-    console.error('❌ Supabase query error:', result.error)
-    throw result.error
+    if (result.error) {
+      console.error('❌ Supabase query error:', result.error)
+      throw result.error
+    }
+
+    console.log('✅ Orders fetched successfully:', result.data?.length || 0, 'orders')
+    return result.data || []
+  } else {
+    // Client-side or no service key - return empty array for now
+    console.log('⚠️ Using client-side fallback (no service key available)')
+    return []
   }
-
-  console.log('✅ Orders fetched successfully:', result.data?.length || 0, 'orders')
-  return result.data || []
 }

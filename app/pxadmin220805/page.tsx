@@ -71,11 +71,24 @@ export default function AdminOrdersPage() {
         supabaseServiceKey: process.env.SUPABASE_SERVICE_ROLE_KEY ? 'SET' : 'MISSING'
       })
 
-      const data = await getAllOrders()
+      // Fetch from our admin API route (server-side)
+      const response = await fetch('/api/admin/orders')
+
+      if (!response.ok) {
+        throw new Error(`API request failed: ${response.status} ${response.statusText}`)
+      }
+
+      const result = await response.json()
+
+      if (!result.success) {
+        throw new Error(result.error || 'Failed to fetch orders from API')
+      }
+
+      const data = result.orders || []
       console.log('✅ Orders loaded successfully:', data?.length || 0, 'orders')
       console.log('📋 Orders data preview:', data?.slice(0, 2) || [])
 
-      setOrders(data || [])
+      setOrders(data)
     } catch (err: any) {
       console.error('❌ Error loading orders:', err)
       console.error('❌ Error stack:', err.stack)
@@ -558,7 +571,7 @@ export default function AdminOrdersPage() {
 if (typeof window !== 'undefined') {
   window.testSupabaseConnection = async () => {
     try {
-      console.log('🔍 Testing Supabase connection...');
+      console.log('🔍 Testing admin API connection...');
 
       // Test environment variables
       console.log('🌍 Environment check:', {
@@ -567,37 +580,33 @@ if (typeof window !== 'undefined') {
         supabaseServiceKey: process.env.SUPABASE_SERVICE_ROLE_KEY ? 'SET' : 'MISSING'
       });
 
-      const { getAllOrders, supabaseAdminRead } = await import('@/lib/supabase');
+      // Test API route
+      console.log('🔗 Testing admin API route...');
+      const response = await fetch('/api/admin/orders');
 
-      // Test direct client access
-      console.log('🔗 Testing direct client access...');
-      const directResult = await supabaseAdminRead
-        .from('orders')
-        .select('id, customer_name, created_at')
-        .limit(5);
-
-      console.log('✅ Direct client test result:', {
-        success: !directResult.error,
-        count: directResult.data?.length || 0,
-        error: directResult.error?.message
-      });
-
-      if (directResult.error) {
-        console.error('❌ Direct client error:', directResult.error);
+      if (!response.ok) {
+        throw new Error(`API request failed: ${response.status} ${response.statusText}`);
       }
 
-      // Test function access
-      console.log('🔄 Testing getAllOrders function...');
-      const data = await getAllOrders();
-      console.log('✅ Function test successful:', data?.length || 0, 'orders found');
+      const result = await response.json();
 
-      console.log('📋 Sample order from function:', data?.[0] ? {
-        id: data[0].id,
-        customer: data[0].customer_name,
-        status: data[0].status
+      console.log('✅ API test result:', {
+        success: result.success,
+        count: result.count || 0,
+        error: result.error
+      });
+
+      if (!result.success) {
+        throw new Error(result.error || 'API request failed');
+      }
+
+      console.log('📋 Sample order from API:', result.orders?.[0] ? {
+        id: result.orders[0].id,
+        customer: result.orders[0].customer_name,
+        status: result.orders[0].status
       } : 'No orders returned');
 
-      return data || [];
+      return result.orders || [];
     } catch (error) {
       console.error('❌ Connection test failed:', error);
       console.error('❌ Error stack:', error.stack);
