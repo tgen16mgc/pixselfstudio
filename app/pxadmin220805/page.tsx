@@ -50,19 +50,23 @@ export default function AdminOrdersPage() {
 
   const loadOrders = async () => {
     try {
+      console.log('🔄 Starting to load orders...')
       setLoading(true)
-      const data = await getAllOrders()
-      setOrders(data)
       setError(null)
+
+      const data = await getAllOrders()
+      console.log('✅ Orders loaded successfully:', data?.length || 0, 'orders')
+      setOrders(data || [])
     } catch (err: any) {
-      console.error('Error loading orders:', err)
+      console.error('❌ Error loading orders:', err)
       if (err.message?.includes('Missing NEXT_PUBLIC_SUPABASE')) {
         setError('Supabase is not configured. Please set up your environment variables in your hosting platform.')
       } else {
-        setError('Failed to load orders. Check your Supabase configuration and network connection.')
+        setError(`Failed to load orders: ${err.message || 'Unknown error'}`)
       }
     } finally {
       setLoading(false)
+      console.log('🔄 Finished loading orders')
     }
   }
 
@@ -444,15 +448,21 @@ export default function AdminOrdersPage() {
         {/* Refresh Button */}
         <div className="text-center mt-6">
           <button
-            onClick={loadOrders}
-            className={`px-6 py-3 rounded-lg text-[10px] font-bold ${press2p.className} transition-all`}
+            onClick={() => {
+              console.log('🔘 Refresh button clicked')
+              loadOrders()
+            }}
+            disabled={loading}
+            className={`px-6 py-3 rounded-lg text-[10px] font-bold ${press2p.className} transition-all ${
+              loading ? 'opacity-50 cursor-not-allowed' : 'hover:scale-105 cursor-pointer'
+            }`}
             style={{
-              backgroundColor: PIXSELF_BRAND.colors.primary.gold,
+              backgroundColor: loading ? PIXSELF_BRAND.colors.ui.muted : PIXSELF_BRAND.colors.primary.gold,
               color: PIXSELF_BRAND.colors.primary.navy,
               border: `2px solid ${PIXSELF_BRAND.colors.primary.navy}`
             }}
           >
-            REFRESH DATA
+            {loading ? 'LOADING...' : 'REFRESH DATA'}
           </button>
         </div>
       </div>

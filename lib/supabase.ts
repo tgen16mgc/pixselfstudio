@@ -92,7 +92,8 @@ console.log('✅ Supabase client initialized:', {
   url: hasValidConfig ? supabaseUrl.substring(0, 30) + '...' : 'NOT_CONFIGURED',
   hasKey: !!supabaseAnonKey,
   isClient: typeof window !== 'undefined',
-  configured: hasValidConfig
+  configured: hasValidConfig,
+  environment: process.env.NODE_ENV
 })
 
 // Database helper functions
@@ -191,10 +192,14 @@ export async function getOrder(orderId: string) {
 }
 
 export async function getAllOrders() {
+  console.log('🔍 getAllOrders called, hasValidConfig:', hasValidConfig)
+
   if (!hasValidConfig) {
+    console.error('❌ Supabase not configured')
     throw new Error('Supabase not configured. Please set up environment variables in your hosting platform.')
   }
 
+  console.log('🔄 Fetching orders from Supabase...')
   const result = await supabaseAdmin
     .from('orders')
     .select(`
@@ -203,6 +208,11 @@ export async function getAllOrders() {
     `)
     .order('created_at', { ascending: false })
 
-  if (result.error) throw result.error
+  if (result.error) {
+    console.error('❌ Supabase query error:', result.error)
+    throw result.error
+  }
+
+  console.log('✅ Orders fetched successfully:', result.data?.length || 0, 'orders')
   return result.data || []
 }
