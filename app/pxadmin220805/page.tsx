@@ -61,11 +61,21 @@ export default function AdminOrdersPage() {
       setLoading(true)
       setError(null)
 
+      // Check if we're in browser environment
+      console.log('🌐 Environment check:', {
+        isClient: typeof window !== 'undefined',
+        hasLocalStorage: typeof localStorage !== 'undefined',
+        nodeEnv: process.env.NODE_ENV
+      })
+
       const data = await getAllOrders()
       console.log('✅ Orders loaded successfully:', data?.length || 0, 'orders')
+      console.log('📋 Orders data preview:', data?.slice(0, 2) || [])
+
       setOrders(data || [])
     } catch (err: any) {
       console.error('❌ Error loading orders:', err)
+      console.error('❌ Error stack:', err.stack)
       if (err.message?.includes('Missing NEXT_PUBLIC_SUPABASE')) {
         setError('Supabase is not configured. Please set up your environment variables in your hosting platform.')
       } else {
@@ -512,6 +522,7 @@ export default function AdminOrdersPage() {
               <p><strong>Error:</strong> {error || 'None'}</p>
               <p><strong>Environment:</strong> {process.env.NODE_ENV}</p>
               <p><strong>Supabase Configured:</strong> {typeof window !== 'undefined' ? 'Check console' : 'Server-side'}</p>
+              <p><strong>Database Status:</strong> {orders.length > 0 ? 'Has data' : 'Empty or loading'}</p>
             </div>
             <div className="mt-2 text-[8px]">
               <p className="font-bold">Run in browser console:</p>
@@ -523,6 +534,16 @@ export default function AdminOrdersPage() {
                 window.testSupabaseConnection()
               </code>
             </div>
+            {orders.length === 0 && !loading && !error && (
+              <div className="mt-3 p-2 rounded" style={{ backgroundColor: PIXSELF_BRAND.colors.ui.warning + '20' }}>
+                <p className={`text-[8px] font-bold ${press2p.className}`} style={{ color: PIXSELF_BRAND.colors.ui.warning }}>
+                  ⚠️ No orders showing? Database has {orders.length} orders but admin page shows 0.
+                </p>
+                <p className={`text-[7px] ${press2p.className}`} style={{ color: PIXSELF_BRAND.colors.primary.navyLight }}>
+                  Check browser console for detailed logs and try the test function above.
+                </p>
+              </div>
+            )}
           </div>
         )}
       </div>
@@ -535,9 +556,21 @@ if (typeof window !== 'undefined') {
   window.testSupabaseConnection = async () => {
     try {
       console.log('🔍 Testing Supabase connection...');
-      const { getAllOrders } = await import('@/lib/supabase');
+      const { getAllOrders, supabaseAdminRead } = await import('@/lib/supabase');
+
+      // Test direct client access
+      console.log('🔗 Testing direct client access...');
+      const directResult = await supabaseAdminRead
+        .from('orders')
+        .select('*')
+        .limit(3);
+
+      console.log('✅ Direct client test:', directResult.data?.length || 0, 'orders');
+
+      // Test function access
       const data = await getAllOrders();
-      console.log('✅ Connection test successful:', data?.length || 0, 'orders found');
+      console.log('✅ Function test successful:', data?.length || 0, 'orders found');
+
       return data || [];
     } catch (error) {
       console.error('❌ Connection test failed:', error);
