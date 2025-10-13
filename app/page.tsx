@@ -13,6 +13,7 @@ import {
   Redo2,
   Grid,
   Save,
+  ShoppingCart,
 } from "lucide-react"
 import { Press_Start_2P } from "next/font/google"
 import { PixselfFooter } from "@/components/pixself-footer"
@@ -28,6 +29,8 @@ import { OnboardingTour } from "@/components/onboarding-tour"
 
 import { CharacterGalleryModal } from "@/components/character-gallery-modal"
 import { EnhancedTitleSection } from "@/components/enhanced-title-section"
+import { CartPopup } from "@/components/cart-popup"
+import { useCart } from "@/contexts/cart-context"
 import { PromotionBanner } from "@/components/promotion-banner"
 import { AssetVariantGrid } from "@/components/asset-variant-grid"
 import { ColorPalettePlaceholder } from "@/components/color-palette-placeholder"
@@ -206,6 +209,7 @@ function useIsDesktop() {
 export default function Page() {
   const isDesktop = useIsDesktop()
   const { parts: dynamicParts } = useDynamicAssets()
+  const { addItem } = useCart()
   const [isLoading, setIsLoading] = useState(true)
   const [showWelcomeModal, setShowWelcomeModal] = useState(false)
   const [showOnboardingTour, setShowOnboardingTour] = useState(false)
@@ -489,6 +493,67 @@ export default function Page() {
     }
   }
 
+  const addToCart = useCallback(async (): Promise<string | null> => {
+    try {
+      console.log('🛒 Starting addToCart with selections:', selections)
+      
+      // Try to find the existing canvas first
+      const existingCanvas = document.querySelector('canvas[aria-label="Pixel character preview"]') as HTMLCanvasElement
+      let pngDataUrl: string | null = null
+      
+      if (existingCanvas && existingCanvas.width > 0 && existingCanvas.height > 0) {
+        console.log('📸 Using existing canvas:', existingCanvas.width, 'x', existingCanvas.height)
+        pngDataUrl = existingCanvas.toDataURL('image/png')
+        console.log('✅ Existing canvas PNG length:', pngDataUrl.length)
+        
+        if (pngDataUrl.length <= 1000) { // Basic check that it's not just a blank canvas
+          pngDataUrl = null // Force fallback
+        }
+      }
+      
+      // Fallback: Create a new canvas for export
+      if (!pngDataUrl) {
+        console.log('🆕 Creating new canvas for export')
+        const exportCanvas = document.createElement("canvas")
+        const exportCtx = exportCanvas.getContext("2d")
+
+        if (!exportCtx) {
+          throw new Error("Could not create canvas context")
+        }
+
+        // Use a standard scale for keychains (e.g., 512px)
+        const keychainScale = 0.8 // Scale down from 640px base to ~512px
+        
+        console.log('🎨 Drawing character to new canvas with scale:', keychainScale)
+        // Wait for the character to be fully drawn
+        await drawCharacterToCanvas(exportCanvas, selections, keychainScale)
+        
+        // Add a small delay to ensure drawing is complete
+        await new Promise(resolve => setTimeout(resolve, 200))
+
+        // Convert canvas to data URL
+        pngDataUrl = exportCanvas.toDataURL('image/png')
+        
+        // Debug: log the data URL length to verify it's not empty
+        console.log('🖼️ New canvas PNG length:', pngDataUrl.length)
+        console.log('📏 Canvas dimensions:', exportCanvas.width, 'x', exportCanvas.height)
+      }
+      
+      if (pngDataUrl) {
+        // Add item to cart
+        console.log('🛒 Adding item to cart with PNG data')
+        addItem(pngDataUrl)
+        play8BitSound("success", soundEnabled)
+        return pngDataUrl
+      } else {
+        throw new Error("Failed to generate PNG data")
+      }
+    } catch (error) {
+      console.error("❌ Error adding to cart:", error)
+      return null
+    }
+  }, [selections, soundEnabled, addItem])
+
 
 
   // Use dynamic parts or fallback to static parts
@@ -535,9 +600,8 @@ export default function Page() {
             onUndo={undo}
             onRedo={redo}
             onReset={resetAll}
-
-
             onDownload={() => showDownloadConfirmation()}
+            onAddToCart={addToCart}
             canUndo={historyIndex > 0}
             canRedo={historyIndex < history.length - 1}
             isLoading={loading}
@@ -697,10 +761,30 @@ export default function Page() {
                   <div className="flex items-center justify-center gap-4">
                     <div className="flex items-center gap-3">
                       <PixselfButton
-                        onClick={() => showDownloadConfirmation()}
+                        onClick={async () => {
+                          // Add to cart
+                          if (addToCart) {
+                            await addToCart();
+                          }
+                        }}
+                        disabled={!addToCart}
+                        variant="accent"
+                        icon={<ShoppingCart className="h-4 w-4" />}
+                      >
+                        ADD TO CART
+                      </PixselfButton>
+                      <PixselfButton
+                        onClick={async () => {
+                          // Auto-add to cart when downloading
+                          if (addToCart) {
+                            await addToCart();
+                          }
+                          // Then proceed with download
+                          showDownloadConfirmation();
+                        }}
                         disabled={downloadLoading}
                         loading={downloadLoading}
-                        variant="accent"
+                        variant="secondary"
                         icon={<Download className="h-4 w-4" />}
                         data-tour="download"
                       >
@@ -773,7 +857,14 @@ export default function Page() {
                   </div>
                   <div className="grid grid-cols-1 gap-3">
                     <PixselfButton
-                      onClick={() => showDownloadConfirmation(0.5)}
+                      onClick={async () => {
+                        // Auto-add to cart when downloading
+                        if (addToCart) {
+                          await addToCart();
+                        }
+                        // Then proceed with download
+                        showDownloadConfirmation(0.5);
+                      }}
                       disabled={downloadLoading}
                       loading={downloadLoading}
                       size="sm"
@@ -782,7 +873,14 @@ export default function Page() {
                       SMALL (320×320)
                     </PixselfButton>
                     <PixselfButton
-                      onClick={() => showDownloadConfirmation(1)}
+                      onClick={async () => {
+                        // Auto-add to cart when downloading
+                        if (addToCart) {
+                          await addToCart();
+                        }
+                        // Then proceed with download
+                        showDownloadConfirmation(1);
+                      }}
                       disabled={downloadLoading}
                       loading={downloadLoading}
                       size="sm"
@@ -791,7 +889,14 @@ export default function Page() {
                       MEDIUM (640×640)
                     </PixselfButton>
                     <PixselfButton
-                      onClick={() => showDownloadConfirmation(2)}
+                      onClick={async () => {
+                        // Auto-add to cart when downloading
+                        if (addToCart) {
+                          await addToCart();
+                        }
+                        // Then proceed with download
+                        showDownloadConfirmation(2);
+                      }}
                       disabled={downloadLoading}
                       loading={downloadLoading}
                       size="sm"
@@ -941,10 +1046,31 @@ export default function Page() {
                 {/* Compact Quick Actions */}
                 <div className="flex items-center justify-center gap-2">
                   <PixselfButton
-                    onClick={() => showDownloadConfirmation()}
+                    onClick={async () => {
+                      // Add to cart
+                      if (addToCart) {
+                        await addToCart();
+                      }
+                    }}
+                    disabled={!addToCart}
+                    variant="accent"
+                    size="sm"
+                    icon={<ShoppingCart className="h-3 w-3" />}
+                  >
+                    ADD
+                  </PixselfButton>
+                  <PixselfButton
+                    onClick={async () => {
+                      // Auto-add to cart when downloading
+                      if (addToCart) {
+                        await addToCart();
+                      }
+                      // Then proceed with download
+                      showDownloadConfirmation();
+                    }}
                     disabled={downloadLoading}
                     loading={downloadLoading}
-                    variant="accent"
+                    variant="secondary"
                     size="sm"
                     icon={<Download className="h-3 w-3" />}
                     data-tour="download"
@@ -1185,6 +1311,9 @@ export default function Page() {
 
       {/* Pixself Footer */}
       <PixselfFooter />
+
+      {/* Cart Popup - Outside all containers to avoid cropping */}
+      <CartPopup />
     </main>
   )
 }

@@ -5,6 +5,7 @@ import { Download, X, ShoppingCart, RefreshCw } from "lucide-react"
 import { PixselfButton } from "./pixself-ui-components"
 import { PIXSELF_BRAND } from "@/config/pixself-brand"
 import { trackEvent } from "@/components/meta-pixel"
+import { useCart } from "@/contexts/cart-context"
 
 interface DownloadConfirmationModalProps {
   isOpen: boolean
@@ -25,6 +26,7 @@ export function DownloadConfirmationModal({
   fileSize,
   isLoading = false,
 }: DownloadConfirmationModalProps) {
+  const { addItem, openCart } = useCart()
   const modalRef = useRef<HTMLDivElement>(null)
   const [downloadComplete, setDownloadComplete] = useState(false)
   const [isDownloadProtected, setIsDownloadProtected] = useState(false)
@@ -86,9 +88,11 @@ export function DownloadConfirmationModal({
       currency: 'VND'
     })
     
-    // Open the order form
-    window.open("https://forms.gle/kBTQL5uMEQ1qp9xP9", "_blank")
+    // Close the download modal
     onClose()
+    
+    // Open the cart (item already added when download was clicked)
+    openCart()
   }
 
   const handleCreateAnother = () => {
