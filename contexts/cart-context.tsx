@@ -9,6 +9,8 @@ export interface KeychainItem {
   createdAt: Date;
   price: number;
   hasCharm: boolean; // Whether "Sac Viet" charm is added
+  hasGiftBox: boolean; // Whether "20.10 Gift Box" is added
+  hasExtraItems: boolean; // Whether "Extra Items + Gift Packaging" is added
 }
 
 interface CartContextType {
@@ -18,6 +20,8 @@ interface CartContextType {
   addItem: (pngDataUrl: string) => string; // Returns item ID for nametag input
   updateNametag: (itemId: string, nametag: string) => void;
   updateCharm: (itemId: string, hasCharm: boolean) => void;
+  updateGiftBox: (itemId: string, hasGiftBox: boolean) => void;
+  updateExtraItems: (itemId: string, hasExtraItems: boolean) => void;
   removeItem: (itemId: string) => void;
   clearCart: () => void;
   isCartOpen: boolean;
@@ -37,7 +41,9 @@ export function useCart(): CartContextType {
 
 const KEYCHAIN_PRICE = 49000; // Price per keychain in VND
 const CHARM_PRICE = 6000; // Price for "Sac Viet" charm in VND
-const CART_VERSION = '2.2'; // Version to force cart refresh when charm feature added
+const GIFT_BOX_PRICE = 40000; // Price for "20.10 Gift Box" in VND
+const EXTRA_ITEMS_PRICE = 0; // Price for "Extra Items + Gift Packaging" (free with keychain)
+const CART_VERSION = '2.3'; // Version to force cart refresh when new items added
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [items, setItems] = useState<KeychainItem[]>([]);
@@ -81,7 +87,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   const itemCount = items.length;
   const totalPrice = items.reduce((total, item) => {
-    return total + KEYCHAIN_PRICE + (item.hasCharm ? CHARM_PRICE : 0);
+    return total + KEYCHAIN_PRICE + (item.hasCharm ? CHARM_PRICE : 0) + (item.hasGiftBox ? GIFT_BOX_PRICE : 0) + (item.hasExtraItems ? EXTRA_ITEMS_PRICE : 0);
   }, 0);
 
   const addItem = useCallback((pngDataUrl: string): string => {
@@ -92,6 +98,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       createdAt: new Date(),
       price: KEYCHAIN_PRICE,
       hasCharm: false, // Default to no charm
+      hasGiftBox: false, // Default to no gift box
+      hasExtraItems: false, // Default to no extra items
     };
 
     setItems(prev => [...prev, newItem]);
@@ -110,6 +118,22 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     setItems(prev =>
       prev.map(item =>
         item.id === itemId ? { ...item, hasCharm } : item
+      )
+    );
+  }, []);
+
+  const updateGiftBox = useCallback((itemId: string, hasGiftBox: boolean) => {
+    setItems(prev =>
+      prev.map(item =>
+        item.id === itemId ? { ...item, hasGiftBox } : item
+      )
+    );
+  }, []);
+
+  const updateExtraItems = useCallback((itemId: string, hasExtraItems: boolean) => {
+    setItems(prev =>
+      prev.map(item =>
+        item.id === itemId ? { ...item, hasExtraItems } : item
       )
     );
   }, []);
@@ -138,6 +162,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     addItem,
     updateNametag,
     updateCharm,
+    updateGiftBox,
+    updateExtraItems,
     removeItem,
     clearCart,
     isCartOpen,

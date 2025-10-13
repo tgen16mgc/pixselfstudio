@@ -143,7 +143,9 @@ export async function createOrder(orderData: any) {
     png_data_url: item.pngDataUrl,
     nametag: item.nametag,
     has_charm: item.hasCharm,
-    item_price: 49000 + (item.hasCharm ? 6000 : 0)
+    has_gift_box: item.hasGiftBox,
+    has_extra_items: item.hasExtraItems,
+    item_price: 49000 + (item.hasCharm ? 6000 : 0) + (item.hasGiftBox ? 40000 : 0) + (item.hasExtraItems ? 0 : 0)
   }))
 
   const itemsResult = await supabaseAdmin

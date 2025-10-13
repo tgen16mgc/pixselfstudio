@@ -16,6 +16,8 @@ export function CartPopup() {
     totalPrice,
     updateNametag,
     updateCharm,
+    updateGiftBox,
+    updateExtraItems,
     removeItem,
     clearCart,
     isCartOpen,
@@ -112,6 +114,8 @@ export function CartPopup() {
                       index={index}
                       onNametagChange={handleNametagChange}
                       onCharmChange={updateCharm}
+                      onGiftBoxChange={updateGiftBox}
+                      onExtraItemsChange={updateExtraItems}
                       onRemove={removeItem}
                       currentNametag={nametagInputs[item.id] || item.nametag}
                     />
@@ -190,12 +194,23 @@ interface CartItemCardProps {
   index: number;
   onNametagChange: (itemId: string, value: string) => void;
   onCharmChange: (itemId: string, hasCharm: boolean) => void;
+  onGiftBoxChange: (itemId: string, hasGiftBox: boolean) => void;
+  onExtraItemsChange: (itemId: string, hasExtraItems: boolean) => void;
   onRemove: (itemId: string) => void;
   currentNametag: string;
 }
 
-function CartItemCard({ item, index, onNametagChange, onCharmChange, onRemove, currentNametag }: CartItemCardProps) {
-  const itemPrice = 49000 + (item.hasCharm ? 6000 : 0);
+function CartItemCard({
+  item,
+  index,
+  onNametagChange,
+  onCharmChange,
+  onGiftBoxChange,
+  onExtraItemsChange,
+  onRemove,
+  currentNametag
+}: CartItemCardProps) {
+  const itemPrice = 49000 + (item.hasCharm ? 6000 : 0) + (item.hasGiftBox ? 40000 : 0) + (item.hasExtraItems ? 0 : 0);
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -223,7 +238,15 @@ function CartItemCard({ item, index, onNametagChange, onCharmChange, onRemove, c
               <p className="text-xs text-gray-500">
                 Created {item.createdAt.toLocaleDateString()}
               </p>
-              <p className="text-sm font-bold text-purple-600">{itemPrice.toLocaleString('vi-VN')} VND</p>
+              <div className="text-sm">
+                <p className="font-bold text-purple-600">{itemPrice.toLocaleString('vi-VN')} VND</p>
+                <div className="text-xs text-gray-500">
+                  <div>Base: 49,000 VND</div>
+                  {item.hasCharm && <div>+ Charm: 6,000 VND</div>}
+                  {item.hasGiftBox && <div>+ Gift Box: 40,000 VND</div>}
+                  {item.hasExtraItems && <div>+ Extra Items: Free</div>}
+                </div>
+              </div>
             </div>
             <button
               onClick={() => onRemove(item.id)}
@@ -275,6 +298,54 @@ function CartItemCard({ item, index, onNametagChange, onCharmChange, onRemove, c
               </div>
             </label>
             <p className="text-xs text-gray-500 ml-6">Beautiful charm to complement your keychain</p>
+          </div>
+
+          {/* Gift Box Add-on */}
+          <div className="space-y-2">
+            <label className="flex items-center space-x-2 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={item.hasGiftBox || false}
+                onChange={(e) => {
+                  console.log('Gift box checkbox changed:', item.id, e.target.checked);
+                  if (typeof onGiftBoxChange === 'function') {
+                    onGiftBoxChange(item.id, e.target.checked);
+                  } else {
+                    console.error('onGiftBoxChange is not a function:', onGiftBoxChange);
+                  }
+                }}
+                className="w-4 h-4 text-purple-600 bg-gray-100 border-gray-300 rounded focus:ring-purple-500 focus:ring-2"
+              />
+              <div className="text-xs">
+                <span className="font-medium text-gray-700">Add 20.10 Gift Box</span>
+                <span className="text-purple-600 font-bold ml-1">+40,000 VND</span>
+              </div>
+            </label>
+            <p className="text-xs text-gray-500 ml-6">Special packaging for Vietnamese Women's Day</p>
+          </div>
+
+          {/* Extra Items Add-on */}
+          <div className="space-y-2">
+            <label className="flex items-center space-x-2 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={item.hasExtraItems || false}
+                onChange={(e) => {
+                  console.log('Extra items checkbox changed:', item.id, e.target.checked);
+                  if (typeof onExtraItemsChange === 'function') {
+                    onExtraItemsChange(item.id, e.target.checked);
+                  } else {
+                    console.error('onExtraItemsChange is not a function:', onExtraItemsChange);
+                  }
+                }}
+                className="w-4 h-4 text-purple-600 bg-gray-100 border-gray-300 rounded focus:ring-purple-500 focus:ring-2"
+              />
+              <div className="text-xs">
+                <span className="font-medium text-gray-700">Extra Items + Gift Packaging</span>
+                <span className="text-green-600 font-bold ml-1">Free</span>
+              </div>
+            </label>
+            <p className="text-xs text-gray-500 ml-6">Complementary gift packaging with this keychain</p>
           </div>
         </div>
       </div>
