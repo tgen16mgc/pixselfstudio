@@ -7,14 +7,15 @@ const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || ''
 
 // Check if environment variables are available
-const hasValidConfig = supabaseUrl && supabaseAnonKey && supabaseUrl !== '' && supabaseAnonKey !== ''
+const hasValidConfig = Boolean(supabaseUrl && supabaseAnonKey && supabaseServiceKey)
 
 if (!hasValidConfig) {
   console.warn('⚠️ Supabase not configured:', {
     url: process.env.NEXT_PUBLIC_SUPABASE_URL ? 'PRESENT' : 'MISSING',
-    key: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ? 'PRESENT' : 'MISSING',
+    anonKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ? 'PRESENT' : 'MISSING',
+    serviceKey: process.env.SUPABASE_SERVICE_ROLE_KEY ? 'PRESENT' : 'MISSING',
     isClient: typeof window !== 'undefined',
-    allEnvKeys: typeof window !== 'undefined' ? 'CLIENT_SIDE' : Object.keys(process.env).filter(k => k.startsWith('NEXT_PUBLIC_'))
+    allEnvKeys: typeof window !== 'undefined' ? 'CLIENT_SIDE' : Object.keys(process.env).filter(k => k.includes('SUPABASE'))
   })
 }
 

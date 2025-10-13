@@ -61,11 +61,14 @@ export default function AdminOrdersPage() {
       setLoading(true)
       setError(null)
 
-      // Check if we're in browser environment
+      // Check if we're in browser environment and environment variables
       console.log('🌐 Environment check:', {
         isClient: typeof window !== 'undefined',
         hasLocalStorage: typeof localStorage !== 'undefined',
-        nodeEnv: process.env.NODE_ENV
+        nodeEnv: process.env.NODE_ENV,
+        supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL ? 'SET' : 'MISSING',
+        supabaseAnonKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ? 'SET' : 'MISSING',
+        supabaseServiceKey: process.env.SUPABASE_SERVICE_ROLE_KEY ? 'SET' : 'MISSING'
       })
 
       const data = await getAllOrders()
@@ -556,24 +559,48 @@ if (typeof window !== 'undefined') {
   window.testSupabaseConnection = async () => {
     try {
       console.log('🔍 Testing Supabase connection...');
+
+      // Test environment variables
+      console.log('🌍 Environment check:', {
+        supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL ? 'SET' : 'MISSING',
+        supabaseAnonKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ? 'SET' : 'MISSING',
+        supabaseServiceKey: process.env.SUPABASE_SERVICE_ROLE_KEY ? 'SET' : 'MISSING'
+      });
+
       const { getAllOrders, supabaseAdminRead } = await import('@/lib/supabase');
 
       // Test direct client access
       console.log('🔗 Testing direct client access...');
       const directResult = await supabaseAdminRead
         .from('orders')
-        .select('*')
-        .limit(3);
+        .select('id, customer_name, created_at')
+        .limit(5);
 
-      console.log('✅ Direct client test:', directResult.data?.length || 0, 'orders');
+      console.log('✅ Direct client test result:', {
+        success: !directResult.error,
+        count: directResult.data?.length || 0,
+        error: directResult.error?.message
+      });
+
+      if (directResult.error) {
+        console.error('❌ Direct client error:', directResult.error);
+      }
 
       // Test function access
+      console.log('🔄 Testing getAllOrders function...');
       const data = await getAllOrders();
       console.log('✅ Function test successful:', data?.length || 0, 'orders found');
+
+      console.log('📋 Sample order from function:', data?.[0] ? {
+        id: data[0].id,
+        customer: data[0].customer_name,
+        status: data[0].status
+      } : 'No orders returned');
 
       return data || [];
     } catch (error) {
       console.error('❌ Connection test failed:', error);
+      console.error('❌ Error stack:', error.stack);
       throw error;
     }
   };
