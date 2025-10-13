@@ -111,10 +111,21 @@ console.log('✅ Supabase client initialized:', {
 
 // Database helper functions
 export async function createOrder(orderData: any) {
+  console.log('🔄 createOrder called with:', {
+    orderId: orderData.orderId,
+    customerName: orderData.formData?.fullName,
+    itemsCount: orderData.items?.length,
+    totalPrice: orderData.totalPrice,
+    hasValidConfig,
+    hasServiceKey
+  })
+
   if (!hasValidConfig) {
+    console.error('❌ Supabase not configured')
     throw new Error('Supabase not configured. Please set up environment variables in your hosting platform.')
   }
 
+  console.log('📝 Inserting order to database...')
   const insertResult = await supabaseAdmin
     .from('orders')
     .insert({
@@ -134,7 +145,12 @@ export async function createOrder(orderData: any) {
     .select()
     .single()
 
-  if (insertResult.error) throw insertResult.error
+  if (insertResult.error) {
+    console.error('❌ Order insertion failed:', insertResult.error)
+    throw insertResult.error
+  }
+
+  console.log('✅ Order inserted successfully:', insertResult.data?.id)
 
   // Insert order items
   const orderItems = orderData.items.map((item: any) => ({
@@ -148,12 +164,17 @@ export async function createOrder(orderData: any) {
     item_price: 49000 + (item.hasCharm ? 6000 : 0) + (item.hasGiftBox ? 40000 : 0) + (item.hasExtraItems && item.hasGiftBox ? 0 : 0)
   }))
 
+  console.log('📦 Inserting order items:', orderItems.length, 'items')
   const itemsResult = await supabaseAdmin
     .from('order_items')
     .insert(orderItems)
 
-  if (itemsResult.error) throw itemsResult.error
+  if (itemsResult.error) {
+    console.error('❌ Order items insertion failed:', itemsResult.error)
+    throw itemsResult.error
+  }
 
+  console.log('✅ Order items inserted successfully')
   return insertResult.data
 }
 
