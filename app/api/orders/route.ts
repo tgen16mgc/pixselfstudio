@@ -98,6 +98,15 @@ interface OrderData {
 
 export async function POST(request: NextRequest) {
   try {
+    // Debug environment variables (remove in production)
+    console.log('🔍 Environment check:', {
+      hasSupabaseUrl: !!process.env.NEXT_PUBLIC_SUPABASE_URL,
+      hasSupabaseKey: !!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+      hasServiceKey: !!process.env.SUPABASE_SERVICE_ROLE_KEY,
+      nodeEnv: process.env.NODE_ENV,
+      supabaseUrlPrefix: process.env.NEXT_PUBLIC_SUPABASE_URL?.substring(0, 30)
+    })
+
     // Parse form data (includes file upload)
     const formData = await request.formData()
     
