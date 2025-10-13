@@ -5,43 +5,76 @@ import { createClient } from '@supabase/supabase-js'
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
 
-// Add validation to provide better error messages
-if (!supabaseUrl || supabaseUrl === '') {
-  console.error('🔴 Supabase URL missing:', {
-    url: process.env.NEXT_PUBLIC_SUPABASE_URL,
-    isClient: typeof window !== 'undefined',
-    allEnvKeys: typeof window !== 'undefined' ? 'CLIENT_SIDE' : Object.keys(process.env).filter(k => k.startsWith('NEXT_PUBLIC_'))
-  })
-  throw new Error('Missing NEXT_PUBLIC_SUPABASE_URL environment variable. Please configure your Supabase credentials in your hosting platform.')
-}
-if (!supabaseAnonKey || supabaseAnonKey === '') {
-  console.error('🔴 Supabase key missing:', {
+// Check if environment variables are available
+const hasValidConfig = supabaseUrl && supabaseAnonKey && supabaseUrl !== '' && supabaseAnonKey !== ''
+
+if (!hasValidConfig) {
+  console.warn('⚠️ Supabase not configured:', {
+    url: process.env.NEXT_PUBLIC_SUPABASE_URL ? 'PRESENT' : 'MISSING',
     key: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ? 'PRESENT' : 'MISSING',
     isClient: typeof window !== 'undefined',
     allEnvKeys: typeof window !== 'undefined' ? 'CLIENT_SIDE' : Object.keys(process.env).filter(k => k.startsWith('NEXT_PUBLIC_'))
   })
-  throw new Error('Missing NEXT_PUBLIC_SUPABASE_ANON_KEY environment variable. Please configure your Supabase credentials in your hosting platform.')
 }
 
-console.log('✅ Supabase client initialized:', {
-  url: supabaseUrl.substring(0, 30) + '...',
-  hasKey: !!supabaseAnonKey,
-  isClient: typeof window !== 'undefined'
-})
+// Create a mock client if configuration is missing (for graceful degradation)
+const createMockClient = () => {
+  return {
+    from: () => ({
+      select: () => Promise.resolve({ data: [], error: null }),
+      insert: () => Promise.resolve({ data: null, error: { message: 'Supabase not configured' } }),
+      update: () => Promise.resolve({ data: null, error: { message: 'Supabase not configured' } }),
+      delete: () => Promise.resolve({ data: null, error: { message: 'Supabase not configured' } })
+    }),
+    storage: {
+      from: () => ({
+        upload: () => Promise.resolve({ data: null, error: { message: 'Supabase not configured' } }),
+        getPublicUrl: () => ({ data: { publicUrl: '' } })
+      })
+    }
+  }
+}
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey)
+// Initialize Supabase client only if configuration is valid
+export const supabase = hasValidConfig
+  ? createClient(supabaseUrl, supabaseAnonKey)
+  : createMockClient() as any
 
 // Server-side client for API routes
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!
-export const supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey, {
-  auth: {
-    autoRefreshToken: false,
-    persistSession: false
-  }
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || ''
+export const supabaseAdmin = hasValidConfig && supabaseServiceKey
+  ? createClient(supabaseUrl, supabaseServiceKey, {
+      auth: {
+        autoRefreshToken: false,
+        persistSession: false
+      }
+    })
+  : createMockClient() as any
+
+console.log('✅ Supabase client initialized:', {
+  url: hasValidConfig ? supabaseUrl.substring(0, 30) + '...' : 'NOT_CONFIGURED',
+  hasKey: !!supabaseAnonKey,
+  isClient: typeof window !== 'undefined',
+  configured: hasValidConfig
 })
+
+// Server-side client for API routes
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || ''
+export const supabaseAdmin = hasValidConfig && supabaseServiceKey
+  ? createClient(supabaseUrl, supabaseServiceKey, {
+      auth: {
+        autoRefreshToken: false,
+        persistSession: false
+      }
+    })
+  : createMockClient() as any
 
 // Database helper functions
 export async function createOrder(orderData: any) {
+  if (!hasValidConfig) {
+    throw new Error('Supabase not configured. Please set up environment variables in your hosting platform.')
+  }
+
   const { data: order, error: orderError } = await supabaseAdmin
     .from('orders')
     .insert({
@@ -51,8 +84,8 @@ export async function createOrder(orderData: any) {
       customer_phone: orderData.formData.phone,
       customer_social: orderData.formData.socialMedia,
       shipping_option: orderData.formData.shippingOption,
-      shipping_address: orderData.formData.shippingOption === 'delivery' 
-        ? JSON.stringify(orderData.formData.address) 
+      shipping_address: orderData.formData.shippingOption === 'delivery'
+        ? JSON.stringify(orderData.formData.address)
         : null,
       discount_code: orderData.formData.discountCode,
       total_price: orderData.totalPrice,
@@ -120,6 +153,10 @@ export async function getOrder(orderId: string) {
 }
 
 export async function getAllOrders() {
+  if (!hasValidConfig) {
+    throw new Error('Supabase not configured. Please set up environment variables in your hosting platform.')
+  }
+
   const { data, error } = await supabaseAdmin
     .from('orders')
     .select(`
