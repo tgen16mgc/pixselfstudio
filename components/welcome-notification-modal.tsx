@@ -114,8 +114,8 @@ export function WelcomeNotificationModal({
               }}
             >
               <img
-                src="/image/xtb-notification.jpg"
-                alt="XTB Trading Notification"
+                src="/image/vietnamese-womens-day.jpg"
+                alt="Vietnamese Women's Day Promotion"
                 className="w-full h-auto block"
                 style={{ imageRendering: "auto" }}
               />
