@@ -161,6 +161,12 @@ const FALLBACK_CHARACTER_PARTS: PartDefinition[] = [
       name: "Aotmu CLOTHES",
       path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/body/clothes/clothes-aotmu.png",
       enabled: true,
+    },
+    {
+      id: "grad",
+      name: "Grad CLOTHES",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/body/clothes/clothes-grad.png",
+      enabled: true,
     }
     ],
     defaultAsset: "default",
@@ -489,6 +495,12 @@ const FALLBACK_CHARACTER_PARTS: PartDefinition[] = [
       name: "Smile2 MOUTH",
       path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/mouth/mouth-smile2.png",
       enabled: true,
+    },
+    {
+      id: "1side",
+      name: "1side MOUTH",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/face/mouth/mouth-1side.png",
+      enabled: true,
     }
     ],
     defaultAsset: "default",
@@ -618,6 +630,42 @@ const FALLBACK_CHARACTER_PARTS: PartDefinition[] = [
       id: "NonLa",
       name: "Non La HAT",
       path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/accessories/hat/hat-NonLa.png",
+      enabled: true,
+    },
+    {
+      id: "beret",
+      name: "Beret HAT",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/accessories/hat/hat-beret.png",
+      enabled: true,
+    },
+    {
+      id: "capybara",
+      name: "Capybara HAT",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/accessories/hat/hat-capybara.png",
+      enabled: true,
+    },
+    {
+      id: "flower",
+      name: "Flower HAT",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/accessories/hat/hat-flower.png",
+      enabled: true,
+    },
+    {
+      id: "hairclipheart",
+      name: "Hairclipheart HAT",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/accessories/hat/hat-hairclipheart.png",
+      enabled: true,
+    },
+    {
+      id: "leaf",
+      name: "Leaf HAT",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/accessories/hat/hat-leaf.png",
+      enabled: true,
+    },
+    {
+      id: "ribbon",
+      name: "Ribbon HAT",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/accessories/hat/hat-ribbon.png",
       enabled: true,
     }
     ],

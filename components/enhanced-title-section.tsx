@@ -2,9 +2,12 @@
 
 import { useEffect, useState } from "react"
 import { Volume2, VolumeX, Undo2, Redo2, RotateCcw, Download, ShoppingCart } from "lucide-react"
+import Link from "next/link"
 import { PixselfLogo } from "./pixself-logo"
 import { PixselfButton } from "./pixself-ui-components"
 import { OnboardingTourButton } from "./onboarding-tour"
+import { CartPopup } from "./cart-popup"
+import { useCart } from "@/contexts/cart-context"
 import { PIXSELF_BRAND } from "@/config/pixself-brand"
 import { Press_Start_2P } from "next/font/google"
 
@@ -17,6 +20,7 @@ interface EnhancedTitleSectionProps {
   onRedo: () => void
   onReset: () => void
   onDownload: () => void
+  onAddToCart?: () => Promise<string | null> // Returns PNG data URL
   canUndo: boolean
   canRedo: boolean
   isLoading: boolean
@@ -32,6 +36,7 @@ export function EnhancedTitleSection({
   onRedo,
   onReset,
   onDownload,
+  onAddToCart,
   canUndo,
   canRedo,
   isLoading,
@@ -39,6 +44,27 @@ export function EnhancedTitleSection({
   onStartTour,
   // isDesktop: _isDesktop,
 }: EnhancedTitleSectionProps) {
+  const { itemCount, openCart } = useCart();
+  const [isAddingToCart, setIsAddingToCart] = useState(false);
+
+  const handleAddToCart = async () => {
+    if (!onAddToCart) return;
+    
+    setIsAddingToCart(true);
+    try {
+      const pngDataUrl = await onAddToCart();
+      if (pngDataUrl) {
+        // onAddToCart already adds to cart, no need to call addItem again
+        // Optional: Show success message or open cart
+        // openCart();
+      }
+    } catch (error) {
+      console.error('Error adding to cart:', error);
+    } finally {
+      setIsAddingToCart(false);
+    }
+  };
+
   const [floatingElements, setFloatingElements] = useState<
     Array<{
       id: number
@@ -245,53 +271,62 @@ export function EnhancedTitleSection({
               </PixselfButton>
 
               <PixselfButton
-                onClick={() => {
-                  window.open("https://forms.gle/kBTQL5uMEQ1qp9xP9", "_blank")
-                }}
-                variant="secondary"
-                size="sm"
-                icon={<ShoppingCart className="h-3.5 w-3.5" />}
-                className="hover:scale-110 transition-transform duration-200"
-              >
-                PURCHASE
-              </PixselfButton>
-
-              <PixselfButton
-                onClick={onDownload}
-                disabled={isDownloadLoading}
-                loading={isDownloadLoading}
+                onClick={handleAddToCart}
+                disabled={isAddingToCart || !onAddToCart}
+                loading={isAddingToCart}
                 variant="accent"
                 size="sm"
-                icon={<Download className="h-3.5 w-3.5" />}
+                icon={<ShoppingCart className="h-3.5 w-3.5" />}
                 className="hover:scale-110 transition-transform duration-200 hover:rotate-3"
               >
-                DOWNLOAD
+                ADD TO CART
               </PixselfButton>
+
+              {/* Cart Button */}
+              <PixselfButton
+                onClick={openCart}
+                variant="secondary"
+                size="sm"
+                className="hover:scale-110 transition-transform duration-200 relative"
+              >
+                <ShoppingCart className="h-3.5 w-3.5" />
+                {itemCount > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold">
+                    {itemCount}
+                  </span>
+                )}
+              </PixselfButton>
+
             </div>
 
             {/* Mobile Action Buttons with enhanced styling */}
             <div className="flex lg:hidden items-center gap-2">
               <PixselfButton
-                onClick={() => {
-                  window.open("https://forms.gle/kBTQL5uMEQ1qp9xP9", "_blank")
-                }}
-                variant="secondary"
-                size="sm"
-                icon={<ShoppingCart className="h-3.5 w-3.5" />}
-                className="hover:scale-110 transition-transform duration-200"
-              >
-                BUY
-              </PixselfButton>
-              <PixselfButton
-                onClick={onDownload}
-                disabled={isDownloadLoading}
-                loading={isDownloadLoading}
+                onClick={handleAddToCart}
+                disabled={isAddingToCart || !onAddToCart}
+                loading={isAddingToCart}
                 variant="accent"
                 size="sm"
-                icon={<Download className="h-3.5 w-3.5" />}
+                icon={<ShoppingCart className="h-3.5 w-3.5" />}
                 className="hover:scale-110 transition-transform duration-200 hover:rotate-3"
               >
-                SAVE
+                ADD
+              </PixselfButton>
+
+
+              {/* Mobile Cart Button */}
+              <PixselfButton
+                onClick={openCart}
+                variant="secondary"
+                size="sm"
+                className="hover:scale-110 transition-transform duration-200 relative"
+              >
+                <ShoppingCart className="h-3.5 w-3.5" />
+                {itemCount > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center font-bold text-[10px]">
+                    {itemCount}
+                  </span>
+                )}
               </PixselfButton>
             </div>
           </div>
@@ -312,6 +347,7 @@ export function EnhancedTitleSection({
           50% { transform: translateY(-2px); }
         }
       `}</style>
+
     </div>
   )
 }

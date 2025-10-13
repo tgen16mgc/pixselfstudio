@@ -24,6 +24,7 @@
     "clothes-aotmu.png",
     "clothes-default.png",
     "clothes-dress1.png",
+    "clothes-grad.png",
     "clothes-hnue.png",
     "clothes-hoodie-blue.png",
     "clothes-hoodie-pink.png",
@@ -259,6 +260,7 @@
     "eyebrows-xeo.png"
   ],
   "mouth": [
+    "mouth-1side.png",
     "mouth-default-pink.png",
     "mouth-default-red.png",
     "mouth-default.png",
@@ -294,6 +296,21 @@
     "glasses-square.png"
   ],
   "hat": [
-    "hat-NonLa.png"
+    "hat-NonLa.png",
+    "hat-beret-brown.png",
+    "hat-beret-red.png",
+    "hat-beret-white.png",
+    "hat-beret-yellow.png",
+    "hat-beret.png",
+    "hat-capybara.png",
+    "hat-flower-pink.png",
+    "hat-flower-purple.png",
+    "hat-flower-white.png",
+    "hat-flower-yellow.png",
+    "hat-flower.png",
+    "hat-grad.png",
+    "hat-hairclipheart.png",
+    "hat-leaf.png",
+    "hat-ribbon.png"
   ]
 }
