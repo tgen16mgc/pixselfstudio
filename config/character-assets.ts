@@ -651,6 +651,12 @@ const FALLBACK_CHARACTER_PARTS: PartDefinition[] = [
       enabled: true,
     },
     {
+      id: "grad",
+      name: "Graduation HAT",
+      path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/accessories/hat/hat-grad.png",
+      enabled: true,
+    },
+    {
       id: "hairclipheart",
       name: "Hairclipheart HAT",
       path: "https://raw.githubusercontent.com/tgen16mgc/pixselfstudio/main/public/assets/character/accessories/hat/hat-hairclipheart.png",
