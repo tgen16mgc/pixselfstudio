@@ -264,17 +264,38 @@ function buildEmailDataFromOrder(orderData) {
   const customerEmail = orderData.customer?.email || '';
   const customerPhone = orderData.customer?.phone || '';
 
-  // Get first item for nickname (all items should have same nametag typically)
+  // Check if all items have the same nametag (for display purposes)
   const firstItem = orderData.items?.[0] || {};
+  const allSameNametag = orderData.items?.every(item => item.nametag === firstItem.nametag) || false;
   const nickname = firstItem.nametag || 'PIXSELF';
 
-  // Calculate totals
-  const itemCount = orderData.items?.length || 1;
-  const subTotal = itemCount * UNIT_PRICE;
+  // Calculate totals properly from order data
+  const items = orderData.items || [];
+  const itemCount = items.length;
 
+  // Calculate pricing breakdown
+  let baseTotal = 0;
+  let charmTotal = 0;
+  let shippingCost = 0;
+
+  items.forEach(item => {
+    baseTotal += UNIT_PRICE; // Base keychain price
+    if (item.hasCharm) {
+      charmTotal += 6000; // Sac Viet charm price
+    }
+  });
+
+  // Get shipping cost from pricing data or calculate from shipping option
+  if (orderData.pricing?.shippingCost !== undefined) {
+    shippingCost = orderData.pricing.shippingCost;
+  } else {
+    shippingCost = orderData.shipping?.option === 'delivery' ? 20000 : 0;
+  }
+
+  const subTotal = baseTotal + charmTotal;
   const { code: appliedCode, percent: discountPercent } = parseVoucher(orderData.discountCode || '');
   const discountVal = Math.round(subTotal * (discountPercent / 100));
-  const totalVal = Math.max(0, subTotal - discountVal);
+  const totalVal = Math.max(0, subTotal - discountVal + shippingCost);
 
   // Shipping info
   const shippingOption = orderData.shipping?.option || 'pickup';
@@ -293,11 +314,10 @@ function buildEmailDataFromOrder(orderData) {
 Chào mừng bạn chính thức trở thành cư dân Pixself City! Đơn hàng của bạn đã được xác nhận vào ${orderDate}.
 
 Thông tin đơn hàng
-Sản phẩm: Pixel Keychain - Pixself City Character
-Tuỳ biến: "${nickname}"
-Số lượng: ${itemCount}
-Tạm tính: ${formatVND(subTotal)}
-${discountPercent > 0 ? `Giảm giá: -${formatVND(discountVal)} (${appliedCode} ${discountPercent}%)\n` : ''}Tổng cộng: ${formatVND(totalVal)} (chưa tính phí vận chuyển + sản phẩm add in nếu có)
+${allSameNametag ? `Tất cả keychain: "${nickname}"` : items.map((item, index) => `Keychain #${index + 1}: "${item.nametag}"${item.hasCharm ? ' + Sac Viet Charm' : ''}`).join('\n')}
+Số lượng: ${itemCount} keychain(s)
+Tạm tính: ${formatVND(subTotal)} (${formatVND(UNIT_PRICE)}/chiếc${charmTotal > 0 ? ` + ${formatVND(charmTotal)} cho charm` : ''})
+${discountPercent > 0 ? `Giảm giá: -${formatVND(discountVal)} (${appliedCode} ${discountPercent}%)\n` : ''}${shippingCost > 0 ? `Phí vận chuyển: ${formatVND(shippingCost)}\n` : ''}Tổng cộng: ${formatVND(totalVal)}
 Thanh toán: Chuyển khoản QR - Đã thanh toán
 
 Giao nhận
@@ -354,23 +374,16 @@ Pixself cảm ơn bạn rất nhiều! ✨`;
       <td style="padding:16px 24px;background:#fafbff;border-top:1px solid #eceef3;border-bottom:1px solid #eceef3">
         <h3 style="margin:0 0 10px 0;font-size:16px"><strong>Thông tin đơn hàng</strong></h3>
         <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="font-size:14px;color:#333">
+          ${items.map((item, index) => `
           <tr>
-            <td style="padding:6px 0;color:#555">Sản phẩm</td>
-            <td style="padding:6px 0" align="right"><strong>Pixel Keychain - Pixself City Character</strong></td>
-          </tr>
-          <tr>
-            <td style="padding:6px 0;color:#555">Tuỳ biến</td>
-            <td style="padding:6px 0" align="right">"${esc(nickname)}"</td>
-          </tr>
-          <tr>
-            <td style="padding:6px 0;color:#555">Số lượng</td>
-            <td style="padding:6px 0" align="right">${esc(itemCount)}</td>
-          </tr>
+            <td style="padding:6px 0;color:#555">Keychain #${index + 1}</td>
+            <td style="padding:6px 0" align="right"><strong>"${esc(item.nametag)}"${item.hasCharm ? ' + Sac Viet Charm' : ''}</strong></td>
+          </tr>`).join('')}
 
           <tr><td colspan="2" style="padding:8px 0"><div style="height:1px;background:#eceef3"></div></td></tr>
 
           <tr>
-            <td style="padding:6px 0;color:#555">Tạm tính</td>
+            <td style="padding:6px 0;color:#555">Tạm tính (${itemCount} keychain${itemCount > 1 ? 's' : ''})</td>
             <td style="padding:6px 0" align="right">${esc(formatVND(subTotal))}</td>
           </tr>
           ${discountPercent > 0 ? `
@@ -378,11 +391,15 @@ Pixself cảm ơn bạn rất nhiều! ✨`;
             <td style="padding:6px 0;color:#b12704">Giảm giá</td>
             <td style="padding:6px 0" align="right"><strong style="color:#b12704">-${esc(formatVND(discountVal))} (${appliedCode} ${discountPercent}%)</strong></td>
           </tr>` : ``}
+          ${shippingCost > 0 ? `
+          <tr>
+            <td style="padding:6px 0;color:#555">Phí vận chuyển</td>
+            <td style="padding:6px 0" align="right">${esc(formatVND(shippingCost))}</td>
+          </tr>` : ``}
           <tr>
             <td style="padding:6px 0"><strong>Tổng cộng</strong></td>
             <td style="padding:6px 0" align="right">
               <strong style="font-size:16px">${esc(formatVND(totalVal))}</strong>
-              <span style="color:#777;font-size:12px"> (chưa tính phí vận chuyển + sản phẩm add in nếu có)</span>
             </td>
           </tr>
           <tr>
