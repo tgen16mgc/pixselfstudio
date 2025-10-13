@@ -7,6 +7,13 @@ import { PIXSELF_BRAND } from '@/config/pixself-brand'
 import { Package, User, Phone, Mail, MapPin, Home, Gift, Clock, CheckCircle, XCircle, Eye, Download } from 'lucide-react'
 import { Press_Start_2P } from "next/font/google"
 
+// Extend window interface for debugging function
+declare global {
+  interface Window {
+    testSupabaseConnection: () => Promise<any[]>;
+  }
+}
+
 const press2p = Press_Start_2P({
   weight: "400",
   subsets: ["latin"],
@@ -152,6 +159,27 @@ export default function AdminOrdersPage() {
             >
               Customer Orders & Items Management
             </p>
+            {/* Connection Status Indicator */}
+            <div className="flex items-center justify-center gap-2 mt-2">
+              <div
+                className={`w-2 h-2 rounded-full ${loading ? 'animate-pulse' : ''}`}
+                style={{
+                  backgroundColor: loading
+                    ? PIXSELF_BRAND.colors.ui.info
+                    : (orders.length > 0 ? PIXSELF_BRAND.colors.ui.success : PIXSELF_BRAND.colors.ui.warning)
+                }}
+              />
+              <span
+                className={`text-[8px] font-bold ${press2p.className}`}
+                style={{
+                  color: loading
+                    ? PIXSELF_BRAND.colors.ui.info
+                    : (orders.length > 0 ? PIXSELF_BRAND.colors.ui.success : PIXSELF_BRAND.colors.ui.warning)
+                }}
+              >
+                {loading ? 'CONNECTING...' : (orders.length > 0 ? 'CONNECTED' : 'NO DATA')}
+              </span>
+            </div>
           </div>
         </header>
 
@@ -166,6 +194,9 @@ export default function AdminOrdersPage() {
             </p>
             <p className={`text-[8px] font-medium ${press2p.className}`} style={{ color: PIXSELF_BRAND.colors.primary.navyLight }}>
               TOTAL ORDERS
+            </p>
+            <p className={`text-[6px] ${press2p.className}`} style={{ color: PIXSELF_BRAND.colors.primary.navyLight }}>
+              {loading ? 'Loading...' : 'Refreshed'}
             </p>
           </div>
           <div className="text-center p-4 rounded-lg border-2" style={{
@@ -465,7 +496,53 @@ export default function AdminOrdersPage() {
             {loading ? 'LOADING...' : 'REFRESH DATA'}
           </button>
         </div>
+
+        {/* Debug Info (only show in development) */}
+        {process.env.NODE_ENV === 'development' && (
+          <div className="mt-8 p-4 rounded-lg border-2" style={{
+            backgroundColor: PIXSELF_BRAND.colors.sky.light + '10',
+            borderColor: PIXSELF_BRAND.colors.primary.navyLight + '30'
+          }}>
+            <h3 className={`text-[10px] font-bold mb-2 ${press2p.className}`} style={{ color: PIXSELF_BRAND.colors.primary.navy }}>
+              🔧 DEBUG INFO (Development Only)
+            </h3>
+            <div className="text-[8px] space-y-1">
+              <p><strong>Orders Count:</strong> {orders.length}</p>
+              <p><strong>Loading:</strong> {loading ? 'Yes' : 'No'}</p>
+              <p><strong>Error:</strong> {error || 'None'}</p>
+              <p><strong>Environment:</strong> {process.env.NODE_ENV}</p>
+              <p><strong>Supabase Configured:</strong> {typeof window !== 'undefined' ? 'Check console' : 'Server-side'}</p>
+            </div>
+            <div className="mt-2 text-[8px]">
+              <p className="font-bold">Run in browser console:</p>
+              <code className={`block p-2 mt-1 rounded ${press2p.className}`} style={{
+                backgroundColor: PIXSELF_BRAND.colors.primary.navy,
+                color: PIXSELF_BRAND.colors.cloud.white,
+                fontSize: '6px'
+              }}>
+                window.testSupabaseConnection()
+              </code>
+            </div>
+          </div>
+        )}
       </div>
     </main>
   )
 }
+
+// Make test function available globally for debugging
+if (typeof window !== 'undefined') {
+  window.testSupabaseConnection = async () => {
+    try {
+      console.log('🔍 Testing Supabase connection...');
+      const { getAllOrders } = await import('@/lib/supabase');
+      const data = await getAllOrders();
+      console.log('✅ Connection test successful:', data?.length || 0, 'orders found');
+      return data || [];
+    } catch (error) {
+      console.error('❌ Connection test failed:', error);
+      throw error;
+    }
+  };
+}
+
