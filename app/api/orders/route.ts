@@ -89,7 +89,9 @@ async function triggerN8nWebhook(orderData: any) {
   }
 
   if (!response.ok) {
-    throw new Error(`n8n webhook failed: ${response.status} ${response.statusText}`)
+    // Log the error but don't throw - webhook failure shouldn't break the order
+    console.warn(`⚠️ n8n webhook returned ${response.status}: ${response.statusText}`)
+    return { ok: false, status: response.status }
   }
 
   // n8n may return 204 No Content
@@ -134,56 +136,30 @@ interface OrderData {
 
 export async function POST(request: NextRequest) {
   try {
-    // Debug environment variables and request
-    console.log('🔍 Order API called:', {
+    // Debug environment variables (remove in production)
+    console.log('🔍 Environment check:', {
       hasSupabaseUrl: !!process.env.NEXT_PUBLIC_SUPABASE_URL,
       hasSupabaseKey: !!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
       hasServiceKey: !!process.env.SUPABASE_SERVICE_ROLE_KEY,
       nodeEnv: process.env.NODE_ENV,
-      method: request.method,
-      url: request.url,
-      contentType: request.headers.get('content-type')
+      supabaseUrlPrefix: process.env.NEXT_PUBLIC_SUPABASE_URL?.substring(0, 30)
     })
 
     // Parse form data (includes file upload)
     const formData = await request.formData()
-
+    
     // Extract order data
     const orderDataString = formData.get('orderData') as string
     const paymentProof = formData.get('paymentProof') as File
-
-    console.log('📦 Form data received:', {
-      hasOrderData: !!orderDataString,
-      hasPaymentProof: !!paymentProof,
-      paymentProofName: paymentProof?.name,
-      paymentProofSize: paymentProof?.size,
-      formDataKeys: Array.from(formData.keys())
-    })
-
+    
     if (!orderDataString) {
-      console.error('❌ Missing order data')
       return NextResponse.json(
         { error: 'Missing order data' },
         { status: 400 }
       )
     }
 
-    let orderData: OrderData
-    try {
-      orderData = JSON.parse(orderDataString)
-      console.log('✅ Order data parsed:', {
-        orderId: orderData.orderId,
-        customerName: orderData.formData?.fullName,
-        itemsCount: orderData.items?.length,
-        totalPrice: orderData.totalPrice
-      })
-    } catch (parseError) {
-      console.error('❌ Failed to parse order data:', parseError)
-      return NextResponse.json(
-        { error: 'Invalid order data format' },
-        { status: 400 }
-      )
-    }
+    const orderData: OrderData = JSON.parse(orderDataString)
 
     // Validate required fields
     if (!orderData.formData.fullName || !orderData.formData.phone || !orderData.formData.email) {
