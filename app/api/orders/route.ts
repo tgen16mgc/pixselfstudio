@@ -1,6 +1,42 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createOrder, uploadPaymentProof } from '@/lib/supabase'
 
+// Google Apps Script email webhook integration
+async function triggerEmailWebhook(orderData: any) {
+  const googleScriptUrl = process.env.GOOGLE_APPS_SCRIPT_URL;
+
+  if (!googleScriptUrl) {
+    console.log('⚠️ GOOGLE_APPS_SCRIPT_URL not configured, skipping email webhook');
+    return;
+  }
+
+  console.log('📧 Triggering Google Apps Script email webhook...');
+
+  try {
+    const response = await fetch(googleScriptUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        event: 'order_completed',
+        data: orderData
+      })
+    });
+
+    if (!response.ok) {
+      throw new Error(`Google Apps Script webhook failed: ${response.status} ${response.statusText}`);
+    }
+
+    const result = await response.json();
+    console.log('✅ Google Apps Script email webhook triggered successfully:', result);
+
+  } catch (error) {
+    console.error('❌ Google Apps Script email webhook failed:', error);
+    // Don't throw - email failure shouldn't fail the order
+  }
+}
+
 // n8n webhook integration
 async function triggerN8nWebhook(orderData: any) {
   // Prefer dedicated test webhook when not in production
@@ -160,16 +196,16 @@ export async function POST(request: NextRequest) {
       paymentProofUrl
     })
 
-    // 🔔 Trigger n8n webhook for order notification
+    // 🔔 Trigger email webhook for order confirmation email
     try {
-      await triggerN8nWebhook({
+      await triggerEmailWebhook({
         orderId,
         customer: {
           name: orderData.formData.fullName,
           email: orderData.formData.email,
           phone: orderData.formData.phone,
-          facebook: orderData.formData.facebook,
-          instagram: orderData.formData.instagram
+          facebook: orderData.formData.socialMedia || '',
+          instagram: orderData.formData.socialMedia || ''
         },
         items: orderData.items.map((item: any) => ({
           id: item.id,
@@ -190,7 +226,47 @@ export async function POST(request: NextRequest) {
         paymentProofUrl,
         discountCode: orderData.formData.discountCode || null,
         timestamp: new Date().toISOString(),
-        estimatedDelivery: orderData.formData.shippingOption === 'pickup' 
+        estimatedDelivery: orderData.formData.shippingOption === 'pickup'
+          ? 'Ready for pickup in 4-5 days'
+          : 'Delivery in 3-5 days'
+      })
+      console.log('📧 Email webhook triggered successfully')
+    } catch (webhookError) {
+      // Don't fail the order if webhook fails - just log it
+      console.error('⚠️ Email webhook failed (order still saved):', webhookError)
+    }
+
+    // 🔔 Trigger n8n webhook for order notification (existing functionality)
+    try {
+      await triggerN8nWebhook({
+        orderId,
+        customer: {
+          name: orderData.formData.fullName,
+          email: orderData.formData.email,
+          phone: orderData.formData.phone,
+          facebook: orderData.formData.socialMedia || '',
+          instagram: orderData.formData.socialMedia || ''
+        },
+        items: orderData.items.map((item: any) => ({
+          id: item.id,
+          nametag: item.nametag,
+          hasCharm: item.hasCharm,
+          pngPreview: item.pngDataUrl ? 'included' : 'missing'
+        })),
+        pricing: {
+          itemsTotal: orderData.items.length * 49000,
+          charmsTotal: orderData.items.filter((item: any) => item.hasCharm).length * 6000,
+          shippingCost: orderData.formData.shippingOption === 'delivery' ? 20000 : 0,
+          totalPrice: orderData.totalPrice
+        },
+        shipping: {
+          option: orderData.formData.shippingOption,
+          address: orderData.formData.address || null
+        },
+        paymentProofUrl,
+        discountCode: orderData.formData.discountCode || null,
+        timestamp: new Date().toISOString(),
+        estimatedDelivery: orderData.formData.shippingOption === 'pickup'
           ? 'Ready for pickup in 4-5 days'
           : 'Delivery in 3-5 days'
       })
