@@ -145,7 +145,7 @@ export async function createOrder(orderData: any) {
     has_charm: item.hasCharm,
     has_gift_box: item.hasGiftBox,
     has_extra_items: item.hasExtraItems,
-    item_price: 49000 + (item.hasCharm ? 6000 : 0) + (item.hasGiftBox ? 40000 : 0) + (item.hasExtraItems ? 0 : 0)
+    item_price: 49000 + (item.hasCharm ? 6000 : 0) + (item.hasGiftBox ? 40000 : 0) + (item.hasExtraItems && item.hasGiftBox ? 0 : 0)
   }))
 
   const itemsResult = await supabaseAdmin

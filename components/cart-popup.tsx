@@ -210,7 +210,7 @@ function CartItemCard({
   onRemove,
   currentNametag
 }: CartItemCardProps) {
-  const itemPrice = 49000 + (item.hasCharm ? 6000 : 0) + (item.hasGiftBox ? 40000 : 0) + (item.hasExtraItems ? 0 : 0);
+  const itemPrice = 49000 + (item.hasCharm ? 6000 : 0) + (item.hasGiftBox ? 40000 : 0) + (item.hasExtraItems && item.hasGiftBox ? 0 : 0);
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -244,7 +244,8 @@ function CartItemCard({
                   <div>Base: 49,000 VND</div>
                   {item.hasCharm && <div>+ Charm: 6,000 VND</div>}
                   {item.hasGiftBox && <div>+ Gift Box: 40,000 VND</div>}
-                  {item.hasExtraItems && <div>+ Extra Items: Free</div>}
+                  {item.hasExtraItems && item.hasGiftBox && <div className="text-green-600">+ Extra Items: Free (included)</div>}
+                  {item.hasExtraItems && !item.hasGiftBox && <div>+ Extra Items: Free</div>}
                 </div>
               </div>
             </div>
@@ -310,6 +311,12 @@ function CartItemCard({
                   console.log('Gift box checkbox changed:', item.id, e.target.checked);
                   if (typeof onGiftBoxChange === 'function') {
                     onGiftBoxChange(item.id, e.target.checked);
+                    // Automatically enable extra items when gift box is selected
+                    if (e.target.checked && typeof onExtraItemsChange === 'function') {
+                      onExtraItemsChange(item.id, true);
+                    } else if (!e.target.checked && typeof onExtraItemsChange === 'function') {
+                      onExtraItemsChange(item.id, false);
+                    }
                   } else {
                     console.error('onGiftBoxChange is not a function:', onGiftBoxChange);
                   }
@@ -324,28 +331,22 @@ function CartItemCard({
             <p className="text-xs text-gray-500 ml-6">Special packaging for Vietnamese Women's Day</p>
           </div>
 
-          {/* Extra Items Add-on */}
+          {/* Extra Items (Included with Gift Box) */}
           <div className="space-y-2">
-            <label className="flex items-center space-x-2 cursor-pointer">
-              <input
-                type="checkbox"
-                checked={item.hasExtraItems || false}
-                onChange={(e) => {
-                  console.log('Extra items checkbox changed:', item.id, e.target.checked);
-                  if (typeof onExtraItemsChange === 'function') {
-                    onExtraItemsChange(item.id, e.target.checked);
-                  } else {
-                    console.error('onExtraItemsChange is not a function:', onExtraItemsChange);
-                  }
-                }}
-                className="w-4 h-4 text-purple-600 bg-gray-100 border-gray-300 rounded focus:ring-purple-500 focus:ring-2"
-              />
+            <div className="flex items-center space-x-2">
+              <div className={`w-4 h-4 rounded ${item.hasGiftBox ? 'bg-green-100 border-green-300' : 'bg-gray-100 border-gray-300'} border flex items-center justify-center`}>
+                {item.hasGiftBox && (
+                  <div className="w-2 h-2 bg-green-600 rounded-full"></div>
+                )}
+              </div>
               <div className="text-xs">
-                <span className="font-medium text-gray-700">Extra Items + Gift Packaging</span>
+                <span className={`font-medium ${item.hasGiftBox ? 'text-green-700' : 'text-gray-500'}`}>Extra Items + Gift Packaging</span>
                 <span className="text-green-600 font-bold ml-1">Free</span>
               </div>
-            </label>
-            <p className="text-xs text-gray-500 ml-6">Complementary gift packaging with this keychain</p>
+            </div>
+            <p className={`text-xs ml-6 ${item.hasGiftBox ? 'text-green-600' : 'text-gray-400'}`}>
+              {item.hasGiftBox ? 'Included with gift box' : 'Available with gift box selection'}
+            </p>
           </div>
         </div>
       </div>

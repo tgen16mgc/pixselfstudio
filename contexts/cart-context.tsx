@@ -62,7 +62,9 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
           ...item,
           createdAt: new Date(item.createdAt),
           price: KEYCHAIN_PRICE, // Force update to current price
-          hasCharm: item.hasCharm || false // Ensure hasCharm exists
+          hasCharm: item.hasCharm || false, // Ensure hasCharm exists
+          hasGiftBox: item.hasGiftBox || false, // Ensure hasGiftBox exists
+          hasExtraItems: item.hasExtraItems || false // Ensure hasExtraItems exists
         }));
         setItems(itemsWithDates);
       } else {
@@ -87,7 +89,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   const itemCount = items.length;
   const totalPrice = items.reduce((total, item) => {
-    return total + KEYCHAIN_PRICE + (item.hasCharm ? CHARM_PRICE : 0) + (item.hasGiftBox ? GIFT_BOX_PRICE : 0) + (item.hasExtraItems ? EXTRA_ITEMS_PRICE : 0);
+    return total + KEYCHAIN_PRICE + (item.hasCharm ? CHARM_PRICE : 0) + (item.hasGiftBox ? GIFT_BOX_PRICE : 0) + (item.hasExtraItems && item.hasGiftBox ? 0 : EXTRA_ITEMS_PRICE);
   }, 0);
 
   const addItem = useCallback((pngDataUrl: string): string => {
@@ -99,7 +101,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       price: KEYCHAIN_PRICE,
       hasCharm: false, // Default to no charm
       hasGiftBox: false, // Default to no gift box
-      hasExtraItems: false, // Default to no extra items
+      hasExtraItems: false, // Default to no extra items (will be auto-enabled with gift box)
     };
 
     setItems(prev => [...prev, newItem]);
@@ -125,7 +127,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const updateGiftBox = useCallback((itemId: string, hasGiftBox: boolean) => {
     setItems(prev =>
       prev.map(item =>
-        item.id === itemId ? { ...item, hasGiftBox } : item
+        item.id === itemId ? { ...item, hasGiftBox, hasExtraItems: hasGiftBox } : item
       )
     );
   }, []);
