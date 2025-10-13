@@ -77,6 +77,16 @@ export const supabase = hasValidConfig
   ? createClient(supabaseUrl, supabaseAnonKey)
   : createMockClient() as any
 
+// Admin client using service role key (for admin operations)
+export const supabaseAdminRead = hasValidConfig && supabaseServiceKey
+  ? createClient(supabaseUrl, supabaseServiceKey, {
+      auth: {
+        autoRefreshToken: false,
+        persistSession: false
+      }
+    })
+  : createMockClient() as any
+
 // Server-side client for API routes
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || ''
 export const supabaseAdmin = hasValidConfig && supabaseServiceKey
@@ -178,7 +188,7 @@ export async function getOrder(orderId: string) {
     throw new Error('Supabase not configured. Please set up environment variables in your hosting platform.')
   }
 
-  const result = await supabaseAdmin
+  const result = await supabaseAdminRead
     .from('orders')
     .select(`
       *,
@@ -200,7 +210,7 @@ export async function getAllOrders() {
   }
 
   console.log('🔄 Fetching orders from Supabase...')
-  const result = await supabaseAdmin
+  const result = await supabaseAdminRead
     .from('orders')
     .select(`
       *,
