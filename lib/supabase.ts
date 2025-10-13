@@ -189,3 +189,20 @@ export async function getOrder(orderId: string) {
   if (result.error) throw result.error
   return result.data
 }
+
+export async function getAllOrders() {
+  if (!hasValidConfig) {
+    throw new Error('Supabase not configured. Please set up environment variables in your hosting platform.')
+  }
+
+  const result = await supabaseAdmin
+    .from('orders')
+    .select(`
+      *,
+      order_items (*)
+    `)
+    .order('created_at', { ascending: false })
+
+  if (result.error) throw result.error
+  return result.data || []
+}
