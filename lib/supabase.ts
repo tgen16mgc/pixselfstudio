@@ -58,17 +58,6 @@ console.log('✅ Supabase client initialized:', {
   configured: hasValidConfig
 })
 
-// Server-side client for API routes
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || ''
-export const supabaseAdmin = hasValidConfig && supabaseServiceKey
-  ? createClient(supabaseUrl, supabaseServiceKey, {
-      auth: {
-        autoRefreshToken: false,
-        persistSession: false
-      }
-    })
-  : createMockClient() as any
-
 // Database helper functions
 export async function createOrder(orderData: any) {
   if (!hasValidConfig) {
