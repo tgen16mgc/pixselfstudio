@@ -28,6 +28,8 @@ CREATE TABLE order_items (
   png_data_url TEXT NOT NULL, -- Base64 encoded PNG data
   nametag TEXT NOT NULL,
   has_charm BOOLEAN DEFAULT FALSE,
+  has_gift_box BOOLEAN DEFAULT FALSE,
+  has_extra_items BOOLEAN DEFAULT FALSE,
   item_price INTEGER NOT NULL, -- Price in VND
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );

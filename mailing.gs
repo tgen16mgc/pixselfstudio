@@ -3,7 +3,10 @@
 // PIXSELF CHECKOUT EMAIL AUTOMATION
 // This script processes order data from the PixSelf Studio checkout API
 
-const UNIT_PRICE = 49000;                 // VND/chiếc
+const UNIT_PRICE = 49000;                 // VND/chiếc (Base keychain price)
+const CHARM_PRICE = 6000;                 // VND (Sac Viet Charm)
+const GIFT_BOX_PRICE = 40000;             // VND (20.10 Gift Box)
+const SHIPPING_DELIVERY = 20000;          // VND (Home delivery fee)
 const COVER_URL  = 'https://lh7-rt.googleusercontent.com/formsz/AN7BsVCEEam_JVgs14Fjtkbx4lerfyGHLI1tlhEHI7Aju7RlIGVVQUM3LGVcrbE08ha5xE1G4rFI5S0fLWLtd8m7fMY6AiYw3GqlZbWiEum34nJBpLQAQod-uPs_z4Xbh4mn_sb2eM3sRq3-as9FeT0AVsqDTg=w3520?key=1Ld_OjrYvx3gitQRtFva9g';
 const COVER_ALT  = 'Pixself City — Pixel Keychain';
 
@@ -264,38 +267,24 @@ function buildEmailDataFromOrder(orderData) {
   const customerEmail = orderData.customer?.email || '';
   const customerPhone = orderData.customer?.phone || '';
 
-  // Check if all items have the same nametag (for display purposes)
-  const firstItem = orderData.items?.[0] || {};
-  const allSameNametag = orderData.items?.every(item => item.nametag === firstItem.nametag) || false;
-  const nickname = firstItem.nametag || 'PIXSELF';
-
-  // Calculate totals properly from order data
+  // Get items data
   const items = orderData.items || [];
   const itemCount = items.length;
 
-  // Calculate pricing breakdown
-  let baseTotal = 0;
-  let charmTotal = 0;
-  let shippingCost = 0;
+  // Get pricing breakdown from orderData (sent from API)
+  const baseTotal = orderData.pricing?.itemsTotal || (itemCount * UNIT_PRICE);
+  const charmTotal = orderData.pricing?.charmsTotal || 0;
+  const giftBoxTotal = orderData.pricing?.giftBoxTotal || 0;
+  const extraItemsTotal = orderData.pricing?.extraItemsTotal || 0;
+  const shippingCost = orderData.pricing?.shippingCost || 0;
 
-  items.forEach(item => {
-    baseTotal += UNIT_PRICE; // Base keychain price
-    if (item.hasCharm) {
-      charmTotal += 6000; // Sac Viet charm price
-    }
-  });
-
-  // Get shipping cost from pricing data or calculate from shipping option
-  if (orderData.pricing?.shippingCost !== undefined) {
-    shippingCost = orderData.pricing.shippingCost;
-  } else {
-    shippingCost = orderData.shipping?.option === 'delivery' ? 20000 : 0;
-  }
-
-  const subTotal = baseTotal + charmTotal;
+  // Calculate discount
+  const subTotal = baseTotal + charmTotal + giftBoxTotal + extraItemsTotal;
   const { code: appliedCode, percent: discountPercent } = parseVoucher(orderData.discountCode || '');
   const discountVal = Math.round(subTotal * (discountPercent / 100));
-  const totalVal = Math.max(0, subTotal - discountVal + shippingCost);
+  
+  // Use total from API if available, otherwise calculate
+  const totalVal = orderData.pricing?.totalPrice || Math.max(0, subTotal - discountVal + shippingCost);
 
   // Shipping info
   const shippingOption = orderData.shipping?.option || 'pickup';
@@ -314,16 +303,24 @@ function buildEmailDataFromOrder(orderData) {
 Chào mừng bạn chính thức trở thành cư dân Pixself City! Đơn hàng của bạn đã được xác nhận vào ${orderDate}.
 
 Thông tin đơn hàng
-${allSameNametag ? `Tất cả keychain: "${nickname}"` : items.map((item, index) => `Keychain #${index + 1}: "${item.nametag}"${item.hasCharm ? ' + Sac Viet Charm' : ''}`).join('\n')}
+${items.map((item, index) => {
+  let line = `Keychain #${index + 1}: "${item.nametag}"`;
+  const extras = [];
+  if (item.hasCharm) extras.push('Sac Viet Charm');
+  if (item.hasGiftBox) extras.push('20.10 Gift Box');
+  if (item.hasExtraItems) extras.push('Extra Items');
+  if (extras.length > 0) line += ` + ${extras.join(' + ')}`;
+  return line;
+}).join('\n')}
 Số lượng: ${itemCount} keychain(s)
-Tạm tính: ${formatVND(subTotal)} (${formatVND(UNIT_PRICE)}/chiếc${charmTotal > 0 ? ` + ${formatVND(charmTotal)} cho charm` : ''})
-${discountPercent > 0 ? `Giảm giá: -${formatVND(discountVal)} (${appliedCode} ${discountPercent}%)\n` : ''}${shippingCost > 0 ? `Phí vận chuyển: ${formatVND(shippingCost)}\n` : ''}Tổng cộng: ${formatVND(totalVal)}
+Tạm tính: ${formatVND(baseTotal)} (${formatVND(UNIT_PRICE)}/chiếc)
+${charmTotal > 0 ? `Sac Viet Charm: ${formatVND(charmTotal)}\n` : ''}${giftBoxTotal > 0 ? `20.10 Gift Box: ${formatVND(giftBoxTotal)}\n` : ''}${extraItemsTotal > 0 ? `Extra Items: ${formatVND(extraItemsTotal)}\n` : ''}${discountPercent > 0 ? `Giảm giá: -${formatVND(discountVal)} (${appliedCode} ${discountPercent}%)\n` : ''}${shippingCost > 0 ? `Phí vận chuyển: ${formatVND(shippingCost)}\n` : ''}Tổng cộng: ${formatVND(totalVal)}
 Thanh toán: Chuyển khoản QR - Đã thanh toán
 
 Giao nhận
 Phương thức: ${shippingOption === 'pickup' ? 'PICKUP AT NEU' : 'HOME DELIVERY'}
 Địa chỉ nhận: ${shippingAddress}
-Thời gian xử lý dự kiến: ~3-5 ngày (Đối với đơn từ ngày 28.08 - 2.9, đơn sẽ được giao sau thời gian nghỉ lễ 2.9)
+Thời gian xử lý dự kiến: ${shippingOption === 'pickup' ? '~4-5 ngày' : '~3-5 ngày'}
 
 Lợi ích cư dân Pixself
 • Cá nhân hoá phiên bản pixel "có 1-0-2".
@@ -374,18 +371,40 @@ Pixself cảm ơn bạn rất nhiều! ✨`;
       <td style="padding:16px 24px;background:#fafbff;border-top:1px solid #eceef3;border-bottom:1px solid #eceef3">
         <h3 style="margin:0 0 10px 0;font-size:16px"><strong>Thông tin đơn hàng</strong></h3>
         <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="font-size:14px;color:#333">
-          ${items.map((item, index) => `
+          ${items.map((item, index) => {
+            const extras = [];
+            if (item.hasCharm) extras.push('Sac Viet Charm');
+            if (item.hasGiftBox) extras.push('20.10 Gift Box');
+            if (item.hasExtraItems) extras.push('Extra Items');
+            const extrasText = extras.length > 0 ? ` + ${extras.join(' + ')}` : '';
+            return `
           <tr>
             <td style="padding:6px 0;color:#555">Keychain #${index + 1}</td>
-            <td style="padding:6px 0" align="right"><strong>"${esc(item.nametag)}"${item.hasCharm ? ' + Sac Viet Charm' : ''}</strong></td>
-          </tr>`).join('')}
+            <td style="padding:6px 0" align="right"><strong>"${esc(item.nametag)}"${extrasText}</strong></td>
+          </tr>`;
+          }).join('')}
 
           <tr><td colspan="2" style="padding:8px 0"><div style="height:1px;background:#eceef3"></div></td></tr>
 
           <tr>
             <td style="padding:6px 0;color:#555">Tạm tính (${itemCount} keychain${itemCount > 1 ? 's' : ''})</td>
-            <td style="padding:6px 0" align="right">${esc(formatVND(subTotal))}</td>
+            <td style="padding:6px 0" align="right">${esc(formatVND(baseTotal))}</td>
           </tr>
+          ${charmTotal > 0 ? `
+          <tr>
+            <td style="padding:6px 0;color:#555">Sac Viet Charm</td>
+            <td style="padding:6px 0" align="right">${esc(formatVND(charmTotal))}</td>
+          </tr>` : ``}
+          ${giftBoxTotal > 0 ? `
+          <tr>
+            <td style="padding:6px 0;color:#555">20.10 Gift Box</td>
+            <td style="padding:6px 0" align="right">${esc(formatVND(giftBoxTotal))}</td>
+          </tr>` : ``}
+          ${extraItemsTotal > 0 ? `
+          <tr>
+            <td style="padding:6px 0;color:#555">Extra Items</td>
+            <td style="padding:6px 0" align="right">${esc(formatVND(extraItemsTotal))}</td>
+          </tr>` : ``}
           ${discountPercent > 0 ? `
           <tr>
             <td style="padding:6px 0;color:#b12704">Giảm giá</td>
@@ -425,7 +444,7 @@ Pixself cảm ơn bạn rất nhiều! ✨`;
           </tr>
           <tr>
             <td style="padding:6px 0;color:#555">Thời gian xử lý dự kiến</td>
-            <td style="padding:6px 0" align="right"><strong>~3-5 ngày (Đối với đơn từ ngày 28.08 - 2.9, đơn sẽ được giao sau thời gian nghỉ lễ 2.9)</strong></td>
+            <td style="padding:6px 0" align="right"><strong>${esc(shippingOption === 'pickup' ? '~4-5 ngày' : '~3-5 ngày')}</strong></td>
           </tr>
         </table>
       </td>

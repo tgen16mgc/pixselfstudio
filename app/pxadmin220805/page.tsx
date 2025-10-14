@@ -24,6 +24,8 @@ interface OrderItem {
   png_data_url: string
   nametag: string
   has_charm: boolean
+  has_gift_box: boolean
+  has_extra_items: boolean
   item_price: number
   created_at: string
 }
@@ -386,6 +388,42 @@ export default function AdminOrdersPage() {
                               </div>
                             </div>
 
+                            {/* Order Summary Stats */}
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
+                              <div className="bg-white border-2 rounded p-3" style={{ borderColor: PIXSELF_BRAND.colors.primary.gold }}>
+                                <div className={`text-[7px] ${press2p.className}`} style={{ color: PIXSELF_BRAND.colors.primary.navyLight }}>
+                                  KEYCHAINS
+                                </div>
+                                <div className={`text-[12px] font-bold ${press2p.className}`} style={{ color: PIXSELF_BRAND.colors.primary.navy }}>
+                                  {order.order_items?.length || 0}
+                                </div>
+                              </div>
+                              <div className="bg-white border-2 rounded p-3" style={{ borderColor: PIXSELF_BRAND.colors.ui.success }}>
+                                <div className={`text-[7px] ${press2p.className}`} style={{ color: PIXSELF_BRAND.colors.primary.navyLight }}>
+                                  W/ CHARM
+                                </div>
+                                <div className={`text-[12px] font-bold ${press2p.className}`} style={{ color: PIXSELF_BRAND.colors.primary.navy }}>
+                                  {order.order_items?.filter(item => item.has_charm).length || 0}
+                                </div>
+                              </div>
+                              <div className="bg-white border-2 rounded p-3" style={{ borderColor: PIXSELF_BRAND.colors.accent.sparkle }}>
+                                <div className={`text-[7px] ${press2p.className}`} style={{ color: PIXSELF_BRAND.colors.primary.navyLight }}>
+                                  GIFT BOXES
+                                </div>
+                                <div className={`text-[12px] font-bold ${press2p.className}`} style={{ color: PIXSELF_BRAND.colors.primary.navy }}>
+                                  {order.order_items?.filter(item => item.has_gift_box).length || 0}
+                                </div>
+                              </div>
+                              <div className="bg-white border-2 rounded p-3" style={{ borderColor: PIXSELF_BRAND.colors.accent.star }}>
+                                <div className={`text-[7px] ${press2p.className}`} style={{ color: PIXSELF_BRAND.colors.primary.navyLight }}>
+                                  W/ EXTRAS
+                                </div>
+                                <div className={`text-[12px] font-bold ${press2p.className}`} style={{ color: PIXSELF_BRAND.colors.primary.navy }}>
+                                  {order.order_items?.filter(item => item.has_extra_items).length || 0}
+                                </div>
+                              </div>
+                            </div>
+
                             {/* Order Items Table */}
                             <div>
                               <h4 className={`font-bold text-[10px] mb-3 ${press2p.className}`} style={{ color: PIXSELF_BRAND.colors.primary.navy }}>
@@ -405,6 +443,12 @@ export default function AdminOrdersPage() {
                                         CHARM
                                       </th>
                                       <th className={`px-3 py-2 text-left ${press2p.className}`} style={{ color: PIXSELF_BRAND.colors.primary.navy }}>
+                                        GIFT BOX
+                                      </th>
+                                      <th className={`px-3 py-2 text-left ${press2p.className}`} style={{ color: PIXSELF_BRAND.colors.primary.navy }}>
+                                        EXTRAS
+                                      </th>
+                                      <th className={`px-3 py-2 text-left ${press2p.className}`} style={{ color: PIXSELF_BRAND.colors.primary.navy }}>
                                         PRICE
                                       </th>
                                       <th className={`px-3 py-2 text-left ${press2p.className}`} style={{ color: PIXSELF_BRAND.colors.primary.navy }}>
@@ -422,7 +466,43 @@ export default function AdminOrdersPage() {
                                           "{item.nametag}"
                                         </td>
                                         <td className={`px-3 py-2 ${press2p.className}`} style={{ color: PIXSELF_BRAND.colors.primary.navy }}>
-                                          {item.has_charm ? 'Yes (+6,000 VND)' : 'No'}
+                                          {item.has_charm ? (
+                                            <span className="inline-flex items-center">
+                                              <CheckCircle className="h-3 w-3 mr-1" style={{ color: PIXSELF_BRAND.colors.ui.success }} />
+                                              +6K
+                                            </span>
+                                          ) : (
+                                            <span className="inline-flex items-center" style={{ color: PIXSELF_BRAND.colors.primary.navyLight }}>
+                                              <XCircle className="h-3 w-3 mr-1" />
+                                              No
+                                            </span>
+                                          )}
+                                        </td>
+                                        <td className={`px-3 py-2 ${press2p.className}`} style={{ color: PIXSELF_BRAND.colors.primary.navy }}>
+                                          {item.has_gift_box ? (
+                                            <span className="inline-flex items-center">
+                                              <Gift className="h-3 w-3 mr-1" style={{ color: PIXSELF_BRAND.colors.accent.sparkle }} />
+                                              +40K
+                                            </span>
+                                          ) : (
+                                            <span className="inline-flex items-center" style={{ color: PIXSELF_BRAND.colors.primary.navyLight }}>
+                                              <XCircle className="h-3 w-3 mr-1" />
+                                              No
+                                            </span>
+                                          )}
+                                        </td>
+                                        <td className={`px-3 py-2 ${press2p.className}`} style={{ color: PIXSELF_BRAND.colors.primary.navy }}>
+                                          {item.has_extra_items ? (
+                                            <span className="inline-flex items-center">
+                                              <Package className="h-3 w-3 mr-1" style={{ color: PIXSELF_BRAND.colors.accent.star }} />
+                                              Yes
+                                            </span>
+                                          ) : (
+                                            <span className="inline-flex items-center" style={{ color: PIXSELF_BRAND.colors.primary.navyLight }}>
+                                              <XCircle className="h-3 w-3 mr-1" />
+                                              No
+                                            </span>
+                                          )}
                                         </td>
                                         <td className={`px-3 py-2 font-bold ${press2p.className}`} style={{ color: PIXSELF_BRAND.colors.primary.gold }}>
                                           {item.item_price.toLocaleString('vi-VN')} VND
@@ -609,7 +689,9 @@ if (typeof window !== 'undefined') {
       return result.orders || [];
     } catch (error) {
       console.error('❌ Connection test failed:', error);
-      console.error('❌ Error stack:', error.stack);
+      if (error instanceof Error) {
+        console.error('❌ Error stack:', error.stack);
+      }
       throw error;
     }
   };
