@@ -101,6 +101,43 @@ LEFT JOIN order_items oi ON o.id = oi.order_id
 GROUP BY o.id, o.customer_name, o.customer_email, o.customer_phone, 
          o.shipping_option, o.total_price, o.status, o.created_at;
 
+-- Discount codes table
+CREATE TABLE discount_codes (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  code TEXT UNIQUE NOT NULL,
+  discount_type TEXT NOT NULL CHECK (discount_type IN ('percentage', 'fixed')),
+  discount_value INTEGER NOT NULL, -- percentage (1-100) or VND amount
+  apply_to TEXT DEFAULT 'total' CHECK (apply_to IN ('total', 'first_item')),
+  min_purchase INTEGER DEFAULT 0, -- minimum purchase amount in VND
+  max_discount INTEGER, -- max discount cap in VND (for percentage)
+  is_active BOOLEAN DEFAULT true,
+  valid_from TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  valid_until TIMESTAMP WITH TIME ZONE,
+  usage_limit INTEGER, -- null = unlimited
+  usage_count INTEGER DEFAULT 0,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Create indexes for discount codes
+CREATE INDEX idx_discount_codes_code ON discount_codes(code);
+CREATE INDEX idx_discount_codes_active ON discount_codes(is_active);
+
+-- Create updated_at trigger for discount_codes table
+CREATE TRIGGER update_discount_codes_updated_at 
+    BEFORE UPDATE ON discount_codes 
+    FOR EACH ROW 
+    EXECUTE FUNCTION update_updated_at_column();
+
+-- RLS for discount codes
+ALTER TABLE discount_codes ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Service role can manage discount codes" ON discount_codes
+  FOR ALL USING (auth.role() = 'service_role');
+
+CREATE POLICY "Public can read active discount codes" ON discount_codes
+  FOR SELECT USING (is_active = true);
+
 -- Insert some sample data for testing (optional)
 -- INSERT INTO orders (id, customer_name, customer_email, customer_phone, shipping_option, total_price) 
 -- VALUES ('PIXSELF-TEST-001', 'Test Customer', 'test@example.com', '+84123456789', 'pickup', 49000);

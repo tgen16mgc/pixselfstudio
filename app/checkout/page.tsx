@@ -42,6 +42,14 @@ export default function CheckoutPage() {
   const [isInitializing, setIsInitializing] = useState(true)
   const [showSuccessPopup, setShowSuccessPopup] = useState(false)
   const [orderResult, setOrderResult] = useState<any>(null)
+  const [discountState, setDiscountState] = useState({
+    code: '',
+    isApplied: false,
+    isValidating: false,
+    discountAmount: 0,
+    discountData: null as any,
+    error: ''
+  })
   const [formData, setFormData] = useState<CheckoutFormData>({
     fullName: '',
     phone: '',
@@ -91,7 +99,9 @@ export default function CheckoutPage() {
   }, [items, router, showSuccessPopup])
 
   const shippingFee = formData.shippingOption === 'delivery' ? 20000 : 0
-  const finalTotal = totalPrice + shippingFee
+  const subtotal = totalPrice
+  const discountAmount = discountState.discountAmount
+  const finalTotal = subtotal + shippingFee - discountAmount
 
   const handleInputChange = (field: string, value: string) => {
     if (field.startsWith('address.')) {
@@ -109,6 +119,76 @@ export default function CheckoutPage() {
         [field]: value
       }))
     }
+  }
+
+  const handleApplyDiscount = async () => {
+    if (!discountState.code.trim()) return
+
+    setDiscountState(prev => ({ ...prev, isValidating: true, error: '' }))
+
+    try {
+      const response = await fetch('/api/discount/validate', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          code: discountState.code,
+          items: items.map(item => ({
+            id: item.id,
+            nametag: item.nametag,
+            hasCharm: item.hasCharm,
+            hasGiftBox: item.hasGiftBox,
+            hasExtraItems: item.hasExtraItems,
+            price: 49000 + (item.hasCharm ? 6000 : 0) + (item.hasGiftBox ? 40000 : 0)
+          })),
+          subtotal: totalPrice
+        })
+      })
+
+      const result = await response.json()
+
+      if (result.valid) {
+        setDiscountState(prev => ({
+          ...prev,
+          isApplied: true,
+          isValidating: false,
+          discountAmount: result.discountAmount,
+          discountData: result,
+          error: ''
+        }))
+      } else {
+        setDiscountState(prev => ({
+          ...prev,
+          isApplied: false,
+          isValidating: false,
+          discountAmount: 0,
+          discountData: null,
+          error: result.message || 'Invalid discount code'
+        }))
+      }
+    } catch (error) {
+      console.error('Discount validation error:', error)
+      setDiscountState(prev => ({
+        ...prev,
+        isApplied: false,
+        isValidating: false,
+        discountAmount: 0,
+        discountData: null,
+        error: 'Failed to validate discount code'
+      }))
+    }
+  }
+
+  const handleRemoveDiscount = () => {
+    setDiscountState({
+      code: '',
+      isApplied: false,
+      isValidating: false,
+      discountAmount: 0,
+      discountData: null,
+      error: ''
+    })
   }
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -144,8 +224,13 @@ export default function CheckoutPage() {
       const orderFormData = new FormData()
       orderFormData.append('orderData', JSON.stringify({
         items,
-        formData,
-        totalPrice: finalTotal
+        formData: {
+          ...formData,
+          discountCode: discountState.isApplied ? discountState.code : formData.discountCode
+        },
+        totalPrice: finalTotal,
+        discountAmount: discountState.discountAmount,
+        discountData: discountState.discountData
       }))
       
       if (formData.paymentProof) {
@@ -846,25 +931,83 @@ export default function CheckoutPage() {
                     >
                       DISCOUNT CODE (OPTIONAL)
                     </label>
-                    <input
-                      type="text"
-                      value={formData.discountCode}
-                      onChange={(e) => handleInputChange('discountCode', e.target.value)}
-                      className={`w-full border-2 rounded-lg focus:outline-none font-medium transition-all fernando-placeholder ${press2p.className}`}
-                      style={{
-                        borderColor: PIXSELF_BRAND.colors.primary.navyLight + '30',
-                        backgroundColor: PIXSELF_BRAND.colors.sky.light + '15'
-                      }}
-                      onFocus={(e) => {
-                        e.target.style.borderColor = PIXSELF_BRAND.colors.accent.sparkle
-                        e.target.style.boxShadow = `0 0 0 3px ${PIXSELF_BRAND.colors.accent.sparkle}20`
-                      }}
-                      onBlur={(e) => {
-                        e.target.style.borderColor = PIXSELF_BRAND.colors.primary.navyLight + '30'
-                        e.target.style.boxShadow = 'none'
-                      }}
-                      placeholder="Enter discount code"
-                    />
+                    <div className="flex gap-2">
+                      <input
+                        type="text"
+                        value={discountState.code}
+                        onChange={(e) => setDiscountState(prev => ({ ...prev, code: e.target.value.toUpperCase(), error: '' }))}
+                        disabled={discountState.isApplied}
+                        className={`flex-1 border-2 rounded-lg focus:outline-none font-medium transition-all fernando-placeholder ${press2p.className}`}
+                        style={{
+                          borderColor: discountState.error 
+                            ? PIXSELF_BRAND.colors.ui.error 
+                            : discountState.isApplied 
+                              ? PIXSELF_BRAND.colors.ui.success 
+                              : PIXSELF_BRAND.colors.primary.navyLight + '30',
+                          backgroundColor: PIXSELF_BRAND.colors.sky.light + '15'
+                        }}
+                        onFocus={(e) => {
+                          if (!discountState.isApplied) {
+                            e.target.style.borderColor = PIXSELF_BRAND.colors.accent.sparkle
+                            e.target.style.boxShadow = `0 0 0 3px ${PIXSELF_BRAND.colors.accent.sparkle}20`
+                          }
+                        }}
+                        onBlur={(e) => {
+                          if (!discountState.isApplied) {
+                            e.target.style.borderColor = discountState.error 
+                              ? PIXSELF_BRAND.colors.ui.error 
+                              : PIXSELF_BRAND.colors.primary.navyLight + '30'
+                            e.target.style.boxShadow = 'none'
+                          }
+                        }}
+                        placeholder="Enter discount code"
+                      />
+                      {!discountState.isApplied ? (
+                        <button
+                          onClick={handleApplyDiscount}
+                          disabled={!discountState.code.trim() || discountState.isValidating}
+                          className={`px-4 py-3 border-2 rounded-lg font-bold text-[8px] transition-all ${press2p.className}`}
+                          style={{
+                            backgroundColor: (!discountState.code.trim() || discountState.isValidating) 
+                              ? PIXSELF_BRAND.colors.primary.navyLight + '30'
+                              : PIXSELF_BRAND.colors.primary.gold,
+                            borderColor: PIXSELF_BRAND.colors.primary.navy,
+                            color: PIXSELF_BRAND.colors.primary.navy,
+                            cursor: (!discountState.code.trim() || discountState.isValidating) ? 'not-allowed' : 'pointer'
+                          }}
+                        >
+                          {discountState.isValidating ? 'CHECKING...' : 'APPLY'}
+                        </button>
+                      ) : (
+                        <button
+                          onClick={handleRemoveDiscount}
+                          className={`px-4 py-3 border-2 rounded-lg font-bold text-[8px] transition-all ${press2p.className}`}
+                          style={{
+                            backgroundColor: PIXSELF_BRAND.colors.ui.error,
+                            borderColor: PIXSELF_BRAND.colors.primary.navy,
+                            color: PIXSELF_BRAND.colors.cloud.white
+                          }}
+                        >
+                          REMOVE
+                        </button>
+                      )}
+                    </div>
+                    {discountState.error && (
+                      <p 
+                        className={`text-[8px] font-medium ${press2p.className}`}
+                        style={{ color: PIXSELF_BRAND.colors.ui.error }}
+                      >
+                        ❌ {discountState.error}
+                      </p>
+                    )}
+                    {discountState.isApplied && (
+                      <p 
+                        className={`text-[8px] font-medium ${press2p.className}`}
+                        style={{ color: PIXSELF_BRAND.colors.ui.success }}
+                      >
+                        ✅ {discountState.code} applied: -{discountState.discountAmount.toLocaleString('vi-VN')} VND
+                      </p>
+                    )}
                   </div>
 
                   {/* Price Summary */}
@@ -875,9 +1018,19 @@ export default function CheckoutPage() {
                     <div className={`flex justify-between text-[9px] font-semibold ${press2p.className}`}>
                       <span style={{ color: PIXSELF_BRAND.colors.primary.navy }}>Subtotal:</span>
                       <span style={{ color: PIXSELF_BRAND.colors.primary.navy }}>
-                        {totalPrice.toLocaleString('vi-VN')} VND
+                        {subtotal.toLocaleString('vi-VN')} VND
                       </span>
                     </div>
+                    {discountState.isApplied && (
+                      <div className={`flex justify-between text-[9px] font-semibold ${press2p.className}`}>
+                        <span style={{ color: PIXSELF_BRAND.colors.ui.success }}>
+                          Discount ({discountState.code}):
+                        </span>
+                        <span style={{ color: PIXSELF_BRAND.colors.ui.success }}>
+                          -{discountState.discountAmount.toLocaleString('vi-VN')} VND
+                        </span>
+                      </div>
+                    )}
                     <div className={`flex justify-between text-[9px] font-semibold ${press2p.className}`}>
                       <span style={{ color: PIXSELF_BRAND.colors.primary.navy }}>Shipping:</span>
                       <span style={{ color: PIXSELF_BRAND.colors.primary.navy }}>

@@ -106,6 +106,34 @@ async function triggerN8nWebhook(orderData: any) {
   }
 }
 
+// Mark discount code as used (increment usage_count)
+async function markDiscountCodeAsUsed(code: string) {
+  const { supabaseAdmin } = await import('@/lib/supabase')
+  
+  // First get current usage count
+  const { data: currentData, error: fetchError } = await supabaseAdmin
+    .from('discount_codes')
+    .select('usage_count')
+    .eq('code', code.toUpperCase())
+    .single()
+  
+  if (fetchError) {
+    throw new Error(`Failed to fetch discount code: ${fetchError.message}`)
+  }
+  
+  // Increment usage count
+  const { error } = await supabaseAdmin
+    .from('discount_codes')
+    .update({ 
+      usage_count: (currentData.usage_count || 0) + 1
+    })
+    .eq('code', code.toUpperCase())
+  
+  if (error) {
+    throw new Error(`Failed to mark discount code as used: ${error.message}`)
+  }
+}
+
 // Types for your order data
 interface OrderItem {
   id: string
@@ -132,6 +160,8 @@ interface OrderData {
   }
   totalPrice: number
   paymentProof?: File
+  discountAmount?: number
+  discountData?: any
 }
 
 export async function POST(request: NextRequest) {
@@ -197,6 +227,17 @@ export async function POST(request: NextRequest) {
       shipping: orderData.formData.shippingOption,
       paymentProofUrl
     })
+
+    // Mark discount code as used if applied
+    if (orderData.formData.discountCode && orderData.discountAmount && orderData.discountAmount > 0) {
+      try {
+        await markDiscountCodeAsUsed(orderData.formData.discountCode)
+        console.log('✅ Discount code marked as used:', orderData.formData.discountCode)
+      } catch (error) {
+        console.error('⚠️ Failed to mark discount code as used:', error)
+        // Don't fail the order if discount tracking fails
+      }
+    }
 
     // 🔔 Trigger email webhook for order confirmation email
     try {

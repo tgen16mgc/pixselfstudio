@@ -238,3 +238,80 @@ export async function getAllOrders() {
     return []
   }
 }
+
+export async function validateDiscountCode(code: string, cartTotal: number) {
+  if (!hasValidConfig) {
+    throw new Error('Supabase not configured. Please set up environment variables in your hosting platform.')
+  }
+
+  const normalizedCode = code.trim().toUpperCase()
+
+  const result = await supabaseAdmin
+    .from('discount_codes')
+    .select('*')
+    .eq('code', normalizedCode)
+    .eq('is_active', true)
+    .single()
+
+  if (result.error || !result.data) {
+    return {
+      valid: false,
+      message: 'Invalid discount code'
+    }
+  }
+
+  const discountCode = result.data
+  const now = new Date()
+
+  // Check date validity
+  if (discountCode.valid_from && new Date(discountCode.valid_from) > now) {
+    return {
+      valid: false,
+      message: 'Discount code is not yet valid'
+    }
+  }
+
+  if (discountCode.valid_until && new Date(discountCode.valid_until) < now) {
+    return {
+      valid: false,
+      message: 'Discount code has expired'
+    }
+  }
+
+  // Check minimum purchase requirement
+  if (discountCode.min_purchase && cartTotal < discountCode.min_purchase) {
+    return {
+      valid: false,
+      message: `Minimum purchase of ${discountCode.min_purchase.toLocaleString('vi-VN')} VND required`
+    }
+  }
+
+  // Check usage limit
+  if (discountCode.usage_limit && discountCode.usage_count >= discountCode.usage_limit) {
+    return {
+      valid: false,
+      message: 'Discount code usage limit reached'
+    }
+  }
+
+  // Calculate discount amount
+  let discountAmount = 0
+  if (discountCode.discount_type === 'percentage') {
+    discountAmount = Math.round(cartTotal * (discountCode.discount_value / 100))
+    if (discountCode.max_discount && discountAmount > discountCode.max_discount) {
+      discountAmount = discountCode.max_discount
+    }
+  } else {
+    discountAmount = Math.min(discountCode.discount_value, cartTotal)
+  }
+
+  return {
+    valid: true,
+    code: discountCode.code,
+    discountType: discountCode.discount_type,
+    discountValue: discountCode.discount_value,
+    applyTo: discountCode.apply_to,
+    discountAmount: Math.max(0, discountAmount),
+    message: `Discount applied: ${discountAmount.toLocaleString('vi-VN')} VND off`
+  }
+}
