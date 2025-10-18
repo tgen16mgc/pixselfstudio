@@ -254,12 +254,17 @@ export async function POST(request: NextRequest) {
           id: item.id,
           nametag: item.nametag,
           hasCharm: item.hasCharm,
+          hasGiftBox: item.hasGiftBox,
+          hasExtraItems: item.hasExtraItems,
           pngPreview: item.pngDataUrl ? 'included' : 'missing'
         })),
         pricing: {
           itemsTotal: orderData.items.length * 49000,
           charmsTotal: orderData.items.filter((item: any) => item.hasCharm).length * 6000,
+          giftBoxTotal: orderData.items.filter((item: any) => item.hasGiftBox).length * 40000,
+          extraItemsTotal: orderData.items.filter((item: any) => item.hasExtraItems).length * 0,
           shippingCost: orderData.formData.shippingOption === 'delivery' ? 20000 : 0,
+          discountAmount: orderData.discountAmount || 0,
           totalPrice: orderData.totalPrice
         },
         shipping: {

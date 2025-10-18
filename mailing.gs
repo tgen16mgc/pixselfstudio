@@ -10,9 +10,10 @@ const SHIPPING_DELIVERY = 20000;          // VND (Home delivery fee)
 const COVER_URL  = 'https://lh7-rt.googleusercontent.com/formsz/AN7BsVCEEam_JVgs14Fjtkbx4lerfyGHLI1tlhEHI7Aju7RlIGVVQUM3LGVcrbE08ha5xE1G4rFI5S0fLWLtd8m7fMY6AiYw3GqlZbWiEum34nJBpLQAQod-uPs_z4Xbh4mn_sb2eM3sRq3-as9FeT0AVsqDTg=w3520?key=1Ld_OjrYvx3gitQRtFva9g';
 const COVER_ALT  = 'Pixself City — Pixel Keychain';
 
-// ——— Voucher config: CODE -> % ———
-const COUPON_MAP = { 'PIX10': 10, 'MOA20': 20, 'TIENDUONGDZVCL99': 99 };
-const PICK_BEST_COUPON = true;
+// ——— Discount codes (DEPRECATED - now handled by API) ———
+// Discounts are calculated in the checkout API and sent to this script
+// const COUPON_MAP = { 'PIX10': 10, 'MOA20': 20, 'TIENDUONGDZVCL99': 99 };
+// const PICK_BEST_COUPON = true;
 
 // ——— Email detection options ———
 const AUTO_DETECT_EMAIL_FROM_ROW = true;   // nếu không bắt được theo cột, quét cả dòng tìm email
@@ -246,21 +247,6 @@ function buildEmailDataFromOrder(orderData) {
   const esc = (s) => String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
   const nf = (n) => new Intl.NumberFormat('vi-VN').format(n);
   const formatVND = (n) => `${nf(n)} VND`;
-  const normalizeCode = (s) => String(s || '').trim().toUpperCase().replace(/\s+/g,'');
-  const parseVoucher = (raw) => {
-    const text = String(raw || '').trim();
-    if (!text) return { code: '', percent: 0 };
-    const parts = text.split(/[,;|\/\s]+/).map(normalizeCode).filter(Boolean);
-    let best = { code: '', percent: 0 };
-    for (const c of parts) {
-      const p = (typeof COUPON_MAP[c] === 'number') ? COUPON_MAP[c] : 0;
-      if (p > 0) {
-        if (PICK_BEST_COUPON) { if (p > best.percent) best = { code: c, percent: p }; }
-        else { return { code: c, percent: p }; }
-      }
-    }
-    return best;
-  };
 
   // Extract data from order structure
   const customerName = orderData.customer?.name || 'bạn';
@@ -278,10 +264,10 @@ function buildEmailDataFromOrder(orderData) {
   const extraItemsTotal = orderData.pricing?.extraItemsTotal || 0;
   const shippingCost = orderData.pricing?.shippingCost || 0;
 
-  // Calculate discount
+  // Calculate discount (now provided by API)
   const subTotal = baseTotal + charmTotal + giftBoxTotal + extraItemsTotal;
-  const { code: appliedCode, percent: discountPercent } = parseVoucher(orderData.discountCode || '');
-  const discountVal = Math.round(subTotal * (discountPercent / 100));
+  const discountCode = orderData.discountCode || '';
+  const discountVal = orderData.pricing?.discountAmount || 0;
   
   // Use total from API if available, otherwise calculate
   const totalVal = orderData.pricing?.totalPrice || Math.max(0, subTotal - discountVal + shippingCost);
@@ -314,7 +300,7 @@ ${items.map((item, index) => {
 }).join('\n')}
 Số lượng: ${itemCount} keychain(s)
 Tạm tính: ${formatVND(baseTotal)} (${formatVND(UNIT_PRICE)}/chiếc)
-${charmTotal > 0 ? `Sac Viet Charm: ${formatVND(charmTotal)}\n` : ''}${giftBoxTotal > 0 ? `20.10 Gift Box: ${formatVND(giftBoxTotal)}\n` : ''}${extraItemsTotal > 0 ? `Extra Items: ${formatVND(extraItemsTotal)}\n` : ''}${discountPercent > 0 ? `Giảm giá: -${formatVND(discountVal)} (${appliedCode} ${discountPercent}%)\n` : ''}${shippingCost > 0 ? `Phí vận chuyển: ${formatVND(shippingCost)}\n` : ''}Tổng cộng: ${formatVND(totalVal)}
+${charmTotal > 0 ? `Sac Viet Charm: ${formatVND(charmTotal)}\n` : ''}${giftBoxTotal > 0 ? `20.10 Gift Box: ${formatVND(giftBoxTotal)}\n` : ''}${extraItemsTotal > 0 ? `Extra Items: ${formatVND(extraItemsTotal)}\n` : ''}${discountVal > 0 ? `Giảm giá: -${formatVND(discountVal)} (${discountCode})\n` : ''}${shippingCost > 0 ? `Phí vận chuyển: ${formatVND(shippingCost)}\n` : ''}Tổng cộng: ${formatVND(totalVal)}
 Thanh toán: Chuyển khoản QR - Đã thanh toán
 
 Giao nhận
@@ -405,10 +391,10 @@ Pixself cảm ơn bạn rất nhiều! ✨`;
             <td style="padding:6px 0;color:#555">Extra Items</td>
             <td style="padding:6px 0" align="right">${esc(formatVND(extraItemsTotal))}</td>
           </tr>` : ``}
-          ${discountPercent > 0 ? `
+          ${discountVal > 0 ? `
           <tr>
             <td style="padding:6px 0;color:#b12704">Giảm giá</td>
-            <td style="padding:6px 0" align="right"><strong style="color:#b12704">-${esc(formatVND(discountVal))} (${appliedCode} ${discountPercent}%)</strong></td>
+            <td style="padding:6px 0" align="right"><strong style="color:#b12704">-${esc(formatVND(discountVal))} (${discountCode})</strong></td>
           </tr>` : ``}
           ${shippingCost > 0 ? `
           <tr>
@@ -496,21 +482,9 @@ function buildEmailData_(sheet, row, coverSrc) {
   const esc = (s) => String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
   const nf = (n) => new Intl.NumberFormat('vi-VN').format(n);
   const formatVND = (n) => `${nf(n)} VND`;
-  const normalizeCode = (s) => String(s || '').trim().toUpperCase().replace(/\s+/g,'');
-  const parseVoucher = (raw) => {
-    const text = String(raw || '').trim();
-    if (!text) return { code: '', percent: 0 };
-    const parts = text.split(/[,;|\/\s]+/).map(normalizeCode).filter(Boolean);
-    let best = { code: '', percent: 0 };
-    for (const c of parts) {
-      const p = (typeof COUPON_MAP[c] === 'number') ? COUPON_MAP[c] : 0;
-      if (p > 0) {
-        if (PICK_BEST_COUPON) { if (p > best.percent) best = { code: c, percent: p }; }
-        else { return { code: c, percent: p }; }
-      }
-    }
-    return best;
-  };
+  
+  // Note: Voucher/discount logic deprecated - now handled by checkout API
+  // For legacy Google Sheets submissions, discounts are not supported
 
   // ——— pick fields with robust aliases + tokens ———
   let to = pickByAliases_(rowValues, {map},
@@ -541,11 +515,8 @@ function buildEmailData_(sheet, row, coverSrc) {
     1, [['so','luong','dat','hang'], ['so','luong']]
   );
 
-  const voucherRaw = pickByAliases_(rowValues, {map},
-    ['Mã ưu đãi (nếu có)', 'Mã ưu đãi', 'Mã giảm giá', 'Voucher', 'Voucher code', 'VOUCHER'],
-    '', [['ma','uu','dai'], ['voucher'], ['ma','giam','gia']]
-  );
-
+  // Voucher field removed - discounts now handled by checkout API only
+  
   const shippingMethod = pickByAliases_(rowValues, {map},
     ['Phương thức giao/nhận hàng', 'Phương thức giao hàng', 'SHIPPING_METHOD'],
     '', [['phuong','thuc','giao','nhan','hang'], ['phuong','thuc','giao','hang']]
@@ -562,16 +533,12 @@ function buildEmailData_(sheet, row, coverSrc) {
     return Utilities.formatDate(new Date(), Session.getScriptTimeZone(), 'dd/MM/yyyy');
   })();
 
-  // ——— Money calc (subtotal -> discount -> total) ———
+  // ——— Money calc (subtotal only - no discount for legacy sheet submissions) ———
   const qty = Math.max(1, parseInt(String(qtyRaw).toString().replace(/[^\d]/g,''), 10) || 1);
   const subTotalVal = qty * UNIT_PRICE;
-
-  const { code: appliedCode, percent: discountPercent } = parseVoucher(voucherRaw);
-  const discountVal = Math.round(subTotalVal * (discountPercent / 100));
-  let totalVal = Math.max(0, subTotalVal - discountVal);
+  const totalVal = subTotalVal;
 
   const subTotalText = formatVND(subTotalVal);
-  const discountText = discountPercent > 0 ? `-${formatVND(discountVal)} (${appliedCode} ${discountPercent}%)` : '';
   const totalText = formatVND(totalVal);
 
   // ——— Subject & Bodies ———
@@ -584,10 +551,10 @@ Chào mừng bạn chính thức trở thành cư dân Pixself City! Đơn hàng
 
 Thông tin đơn hàng
 Sản phẩm: Pixel Keychain - Pixself City Character
-Tuỳ biến: “${nickname}”
+Tuỳ biến: "${nickname}"
 Số lượng: ${qty}
 Tạm tính: ${subTotalText}
-${discountPercent > 0 ? `Giảm giá: ${discountText}\n` : ''}Tổng cộng: ${totalText} (chưa tính phí vận chuyển + sản phẩm add in nếu có)
+Tổng cộng: ${totalText} (chưa tính phí vận chuyển + sản phẩm add in nếu có)
 Thanh toán: Chuyển khoản QR - Đã thanh toán
 
 Giao nhận
@@ -663,11 +630,6 @@ Pixself cảm ơn bạn rất nhiều! ✨`;
             <td style="padding:6px 0;color:#555">Tạm tính</td>
             <td style="padding:6px 0" align="right">${esc(subTotalText)}</td>
           </tr>
-          ${discountPercent > 0 ? `
-          <tr>
-            <td style="padding:6px 0;color:#b12704">Giảm giá</td>
-            <td style="padding:6px 0" align="right"><strong style="color:#b12704">${esc(discountText)}</strong></td>
-          </tr>` : ``}
           <tr>
             <td style="padding:6px 0"><strong>Tổng cộng</strong></td>
             <td style="padding:6px 0" align="right">
