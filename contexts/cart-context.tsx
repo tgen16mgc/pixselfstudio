@@ -1,6 +1,7 @@
 'use client';
 
 import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
+import { FEATURES } from '@/config/feature-flags';
 
 export interface KeychainItem {
   id: string;
@@ -88,8 +89,12 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   }, [items]);
 
   const itemCount = items.length;
+  // Calculate price based on feature flags
   const totalPrice = items.reduce((total, item) => {
-    return total + KEYCHAIN_PRICE + (item.hasCharm ? CHARM_PRICE : 0) + (item.hasGiftBox ? GIFT_BOX_PRICE : 0) + (item.hasExtraItems && item.hasGiftBox ? 0 : EXTRA_ITEMS_PRICE);
+    return total + KEYCHAIN_PRICE + 
+      (FEATURES.CHARM_OPTION && item.hasCharm ? CHARM_PRICE : 0) + 
+      (FEATURES.GIFT_BOX_OPTION && item.hasGiftBox ? GIFT_BOX_PRICE : 0) + 
+      (FEATURES.EXTRA_ITEMS_OPTION && item.hasExtraItems && item.hasGiftBox ? 0 : EXTRA_ITEMS_PRICE);
   }, 0);
 
   const addItem = useCallback((pngDataUrl: string): string => {
@@ -99,9 +104,9 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       nametag: '', // Will be filled by user
       createdAt: new Date(),
       price: KEYCHAIN_PRICE,
-      hasCharm: false, // Default to no charm
-      hasGiftBox: false, // Default to no gift box
-      hasExtraItems: false, // Default to no extra items (will be auto-enabled with gift box)
+      hasCharm: false, // Disabled - always false
+      hasGiftBox: false, // Disabled - always false
+      hasExtraItems: false, // Disabled - always false
     };
 
     setItems(prev => [...prev, newItem]);
@@ -117,6 +122,10 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const updateCharm = useCallback((itemId: string, hasCharm: boolean) => {
+    if (!FEATURES.CHARM_OPTION) {
+      console.log('Charm option is disabled, ignoring update request');
+      return;
+    }
     setItems(prev =>
       prev.map(item =>
         item.id === itemId ? { ...item, hasCharm } : item
@@ -125,6 +134,10 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const updateGiftBox = useCallback((itemId: string, hasGiftBox: boolean) => {
+    if (!FEATURES.GIFT_BOX_OPTION) {
+      console.log('Gift box option is disabled, ignoring update request');
+      return;
+    }
     setItems(prev =>
       prev.map(item =>
         item.id === itemId ? { ...item, hasGiftBox, hasExtraItems: hasGiftBox } : item
@@ -133,6 +146,10 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const updateExtraItems = useCallback((itemId: string, hasExtraItems: boolean) => {
+    if (!FEATURES.EXTRA_ITEMS_OPTION) {
+      console.log('Extra items option is disabled, ignoring update request');
+      return;
+    }
     setItems(prev =>
       prev.map(item =>
         item.id === itemId ? { ...item, hasExtraItems } : item

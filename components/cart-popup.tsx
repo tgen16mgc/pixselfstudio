@@ -6,6 +6,7 @@ import { X, Trash2, ShoppingBag, CreditCard } from 'lucide-react';
 import { useCart, KeychainItem } from '@/contexts/cart-context';
 import { PixselfButton } from './pixself-ui-components';
 import { Press_Start_2P } from 'next/font/google';
+import { FEATURES } from '@/config/feature-flags';
 
 const press2p = Press_Start_2P({ weight: "400", subsets: ["latin"] });
 
@@ -210,7 +211,11 @@ function CartItemCard({
   onRemove,
   currentNametag
 }: CartItemCardProps) {
-  const itemPrice = 49000 + (item.hasCharm ? 6000 : 0) + (item.hasGiftBox ? 40000 : 0) + (item.hasExtraItems && item.hasGiftBox ? 0 : 0);
+  // Calculate price based on feature flags
+  const itemPrice = 49000 + 
+    (FEATURES.CHARM_OPTION && item.hasCharm ? 6000 : 0) + 
+    (FEATURES.GIFT_BOX_OPTION && item.hasGiftBox ? 40000 : 0) + 
+    (FEATURES.EXTRA_ITEMS_OPTION && item.hasExtraItems && item.hasGiftBox ? 0 : 0);
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -242,10 +247,10 @@ function CartItemCard({
                 <p className="font-bold text-purple-600">{itemPrice.toLocaleString('vi-VN')} VND</p>
                 <div className="text-xs text-gray-500">
                   <div>Base: 49,000 VND</div>
-                  {item.hasCharm && <div>+ Charm: 6,000 VND</div>}
-                  {item.hasGiftBox && <div>+ Gift Box: 40,000 VND</div>}
-                  {item.hasExtraItems && item.hasGiftBox && <div className="text-green-600">+ Extra Items: Free (included)</div>}
-                  {item.hasExtraItems && !item.hasGiftBox && <div>+ Extra Items: Free</div>}
+                  {FEATURES.CHARM_OPTION && item.hasCharm && <div>+ Charm: 6,000 VND</div>}
+                  {FEATURES.GIFT_BOX_OPTION && item.hasGiftBox && <div>+ Gift Box: 40,000 VND</div>}
+                  {FEATURES.EXTRA_ITEMS_OPTION && item.hasExtraItems && item.hasGiftBox && <div className="text-green-600">+ Extra Items: Free (included)</div>}
+                  {FEATURES.EXTRA_ITEMS_OPTION && item.hasExtraItems && !item.hasGiftBox && <div>+ Extra Items: Free</div>}
                 </div>
               </div>
             </div>
@@ -278,76 +283,82 @@ function CartItemCard({
           </div>
 
           {/* Charm Add-on */}
-          <div className="space-y-2">
-            <label className="flex items-center space-x-2 cursor-pointer">
-              <input
-                type="checkbox"
-                checked={item.hasCharm || false}
-                onChange={(e) => {
-                  console.log('Charm checkbox changed:', item.id, e.target.checked, typeof onCharmChange);
-                  if (typeof onCharmChange === 'function') {
-                    onCharmChange(item.id, e.target.checked);
-                  } else {
-                    console.error('onCharmChange is not a function:', onCharmChange);
-                  }
-                }}
-                className="w-4 h-4 text-purple-600 bg-gray-100 border-gray-300 rounded focus:ring-purple-500 focus:ring-2"
-              />
-              <div className="text-xs">
-                <span className="font-medium text-gray-700">Add "Sac Viet" Charm</span>
-                <span className="text-purple-600 font-bold ml-1">+6,000 VND</span>
-              </div>
-            </label>
-            <p className="text-xs text-gray-500 ml-6">Beautiful charm to complement your keychain</p>
-          </div>
+          {FEATURES.CHARM_OPTION && (
+            <div className="space-y-2">
+              <label className="flex items-center space-x-2 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={item.hasCharm || false}
+                  onChange={(e) => {
+                    console.log('Charm checkbox changed:', item.id, e.target.checked, typeof onCharmChange);
+                    if (typeof onCharmChange === 'function') {
+                      onCharmChange(item.id, e.target.checked);
+                    } else {
+                      console.error('onCharmChange is not a function:', onCharmChange);
+                    }
+                  }}
+                  className="w-4 h-4 text-purple-600 bg-gray-100 border-gray-300 rounded focus:ring-purple-500 focus:ring-2"
+                />
+                <div className="text-xs">
+                  <span className="font-medium text-gray-700">Add "Sac Viet" Charm</span>
+                  <span className="text-purple-600 font-bold ml-1">+6,000 VND</span>
+                </div>
+              </label>
+              <p className="text-xs text-gray-500 ml-6">Beautiful charm to complement your keychain</p>
+            </div>
+          )}
 
           {/* Gift Box Add-on */}
-          <div className="space-y-2">
-            <label className="flex items-center space-x-2 cursor-pointer">
-              <input
-                type="checkbox"
-                checked={item.hasGiftBox || false}
-                onChange={(e) => {
-                  console.log('Gift box checkbox changed:', item.id, e.target.checked);
-                  if (typeof onGiftBoxChange === 'function') {
-                    onGiftBoxChange(item.id, e.target.checked);
-                    // Automatically enable extra items when gift box is selected
-                    if (e.target.checked && typeof onExtraItemsChange === 'function') {
-                      onExtraItemsChange(item.id, true);
-                    } else if (!e.target.checked && typeof onExtraItemsChange === 'function') {
-                      onExtraItemsChange(item.id, false);
+          {FEATURES.GIFT_BOX_OPTION && (
+            <div className="space-y-2">
+              <label className="flex items-center space-x-2 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={item.hasGiftBox || false}
+                  onChange={(e) => {
+                    console.log('Gift box checkbox changed:', item.id, e.target.checked);
+                    if (typeof onGiftBoxChange === 'function') {
+                      onGiftBoxChange(item.id, e.target.checked);
+                      // Automatically enable extra items when gift box is selected
+                      if (e.target.checked && typeof onExtraItemsChange === 'function') {
+                        onExtraItemsChange(item.id, true);
+                      } else if (!e.target.checked && typeof onExtraItemsChange === 'function') {
+                        onExtraItemsChange(item.id, false);
+                      }
+                    } else {
+                      console.error('onGiftBoxChange is not a function:', onGiftBoxChange);
                     }
-                  } else {
-                    console.error('onGiftBoxChange is not a function:', onGiftBoxChange);
-                  }
-                }}
-                className="w-4 h-4 text-purple-600 bg-gray-100 border-gray-300 rounded focus:ring-purple-500 focus:ring-2"
-              />
-              <div className="text-xs">
-                <span className="font-medium text-gray-700">Add 20.10 Gift Box</span>
-                <span className="text-purple-600 font-bold ml-1">+40,000 VND</span>
-              </div>
-            </label>
-            <p className="text-xs text-gray-500 ml-6">Special packaging for Vietnamese Women's Day</p>
-          </div>
+                  }}
+                  className="w-4 h-4 text-purple-600 bg-gray-100 border-gray-300 rounded focus:ring-purple-500 focus:ring-2"
+                />
+                <div className="text-xs">
+                  <span className="font-medium text-gray-700">Add 20.10 Gift Box</span>
+                  <span className="text-purple-600 font-bold ml-1">+40,000 VND</span>
+                </div>
+              </label>
+              <p className="text-xs text-gray-500 ml-6">Special packaging for Vietnamese Women's Day</p>
+            </div>
+          )}
 
           {/* Extra Items (Included with Gift Box) */}
-          <div className="space-y-2">
-            <div className="flex items-center space-x-2">
-              <div className={`w-4 h-4 rounded ${item.hasGiftBox ? 'bg-green-100 border-green-300' : 'bg-gray-100 border-gray-300'} border flex items-center justify-center`}>
-                {item.hasGiftBox && (
-                  <div className="w-2 h-2 bg-green-600 rounded-full"></div>
-                )}
+          {FEATURES.EXTRA_ITEMS_OPTION && (
+            <div className="space-y-2">
+              <div className="flex items-center space-x-2">
+                <div className={`w-4 h-4 rounded ${item.hasGiftBox ? 'bg-green-100 border-green-300' : 'bg-gray-100 border-gray-300'} border flex items-center justify-center`}>
+                  {item.hasGiftBox && (
+                    <div className="w-2 h-2 bg-green-600 rounded-full"></div>
+                  )}
+                </div>
+                <div className="text-xs">
+                  <span className={`font-medium ${item.hasGiftBox ? 'text-green-700' : 'text-gray-500'}`}>Extra Items + Gift Packaging</span>
+                  <span className="text-green-600 font-bold ml-1">Free</span>
+                </div>
               </div>
-              <div className="text-xs">
-                <span className={`font-medium ${item.hasGiftBox ? 'text-green-700' : 'text-gray-500'}`}>Extra Items + Gift Packaging</span>
-                <span className="text-green-600 font-bold ml-1">Free</span>
-              </div>
+              <p className={`text-xs ml-6 ${item.hasGiftBox ? 'text-green-600' : 'text-gray-400'}`}>
+                {item.hasGiftBox ? 'Included with gift box' : 'Available with gift box selection'}
+              </p>
             </div>
-            <p className={`text-xs ml-6 ${item.hasGiftBox ? 'text-green-600' : 'text-gray-400'}`}>
-              {item.hasGiftBox ? 'Included with gift box' : 'Available with gift box selection'}
-            </p>
-          </div>
+          )}
         </div>
       </div>
     </motion.div>
