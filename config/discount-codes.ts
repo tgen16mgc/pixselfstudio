@@ -4,7 +4,7 @@
 export interface DiscountCode {
   id?: string
   code: string
-  discountType: 'percentage' | 'fixed'
+  discountType: 'percentage' | 'fixed' | 'gift'
   discountValue: number
   applyTo: 'total' | 'first_item'
   minPurchase?: number
@@ -19,10 +19,12 @@ export interface DiscountCode {
 export interface DiscountValidationResult {
   valid: boolean
   code?: string
-  discountType?: 'percentage' | 'fixed'
+  discountType?: 'percentage' | 'fixed' | 'gift'
   discountValue?: number
   applyTo?: 'total' | 'first_item'
   discountAmount?: number
+  giftType?: 'loopy_charm'
+  isGiftCode?: boolean
   message?: string
 }
 
@@ -181,6 +183,9 @@ export function formatPercentage(value: number): string {
  * Get discount description for display
  */
 export function getDiscountDescription(discountCode: DiscountCode): string {
+  if (discountCode.discountType === 'gift') {
+    return 'Free Loopy Charm for all items'
+  }
   if (discountCode.discountType === 'percentage') {
     return `${discountCode.discountValue}% off${discountCode.applyTo === 'first_item' ? ' first item' : ''}`
   } else {

@@ -228,14 +228,22 @@ export async function POST(request: NextRequest) {
       paymentProofUrl
     })
 
-    // Mark discount code as used if applied
-    if (orderData.formData.discountCode && orderData.discountAmount && orderData.discountAmount > 0) {
+    // Mark discount/gift code as used if applied
+    // Check for discount code in formData or discountData (for gift codes)
+    const codeToMark = orderData.formData.discountCode || (orderData.discountData?.code)
+    const isGiftCode = orderData.discountData?.isGiftCode || orderData.discountData?.discountType === 'gift'
+    const discountAmount = orderData.discountAmount || 0
+    
+    // Mark as used if there's a code and either:
+    // - It's a discount code (discountAmount > 0), OR
+    // - It's a gift code (isGiftCode = true)
+    if (codeToMark && (discountAmount > 0 || isGiftCode)) {
       try {
-        await markDiscountCodeAsUsed(orderData.formData.discountCode)
-        console.log('✅ Discount code marked as used:', orderData.formData.discountCode)
+        await markDiscountCodeAsUsed(codeToMark)
+        console.log('✅ Code marked as used:', codeToMark, isGiftCode ? '(gift code)' : '(discount code)')
       } catch (error) {
-        console.error('⚠️ Failed to mark discount code as used:', error)
-        // Don't fail the order if discount tracking fails
+        console.error('⚠️ Failed to mark code as used:', error)
+        // Don't fail the order if code tracking fails
       }
     }
 

@@ -37,7 +37,7 @@ interface CheckoutFormData {
 
 export default function CheckoutPage() {
   const router = useRouter()
-  const { items, totalPrice, clearCart } = useCart()
+  const { items, totalPrice, clearCart, updateCharm } = useCart()
   const [isLoading, setIsLoading] = useState(false)
   const [isInitializing, setIsInitializing] = useState(true)
   const [showSuccessPopup, setShowSuccessPopup] = useState(false)
@@ -48,6 +48,7 @@ export default function CheckoutPage() {
     isValidating: false,
     discountAmount: 0,
     discountData: null as any,
+    isGiftCode: false,
     error: ''
   })
   const [formData, setFormData] = useState<CheckoutFormData>({
@@ -149,12 +150,32 @@ export default function CheckoutPage() {
       const result = await response.json()
 
       if (result.valid) {
+        const isGiftCode = result.isGiftCode || result.discountType === 'gift'
+        
+        // Enforce mutual exclusivity: 
+        // - If currently have a gift code and applying a discount, remove charms
+        // - If currently have a discount and applying a gift code, it's already cleared
+        if (discountState.isGiftCode && !isGiftCode) {
+          // Removing gift code, clear charms
+          items.forEach(item => {
+            updateCharm(item.id, false)
+          })
+        }
+        
+        // If it's a gift code, auto-add Loopy Charm to all items
+        if (isGiftCode) {
+          items.forEach(item => {
+            updateCharm(item.id, true)
+          })
+        }
+
         setDiscountState(prev => ({
           ...prev,
           isApplied: true,
           isValidating: false,
-          discountAmount: result.discountAmount,
+          discountAmount: result.discountAmount || 0,
           discountData: result,
+          isGiftCode,
           error: ''
         }))
       } else {
@@ -164,6 +185,7 @@ export default function CheckoutPage() {
           isValidating: false,
           discountAmount: 0,
           discountData: null,
+          isGiftCode: false,
           error: result.message || 'Invalid discount code'
         }))
       }
@@ -175,18 +197,27 @@ export default function CheckoutPage() {
         isValidating: false,
         discountAmount: 0,
         discountData: null,
+        isGiftCode: false,
         error: 'Failed to validate discount code'
       }))
     }
   }
 
   const handleRemoveDiscount = () => {
+    // If removing a gift code, also remove charms from all items
+    if (discountState.isGiftCode) {
+      items.forEach(item => {
+        updateCharm(item.id, false)
+      })
+    }
+    
     setDiscountState({
       code: '',
       isApplied: false,
       isValidating: false,
       discountAmount: 0,
       discountData: null,
+      isGiftCode: false,
       error: ''
     })
   }
@@ -929,7 +960,7 @@ export default function CheckoutPage() {
                       className={`block text-[9px] font-bold mb-1 tracking-wider ${press2p.className}`}
                       style={{ color: PIXSELF_BRAND.colors.primary.navyLight }}
                     >
-                      DISCOUNT CODE (OPTIONAL)
+                      DISCOUNT / GIFT CODE (OPTIONAL)
                     </label>
                     <div className="flex gap-2">
                       <input
@@ -1005,7 +1036,11 @@ export default function CheckoutPage() {
                         className={`text-[8px] font-medium ${press2p.className}`}
                         style={{ color: PIXSELF_BRAND.colors.ui.success }}
                       >
-                        ✅ {discountState.code} applied: -{discountState.discountAmount.toLocaleString('vi-VN')} VND
+                        {discountState.isGiftCode ? (
+                          <>✅ {discountState.code} applied: Free Loopy Charm for all items</>
+                        ) : (
+                          <>✅ {discountState.code} applied: -{discountState.discountAmount.toLocaleString('vi-VN')} VND</>
+                        )}
                       </p>
                     )}
                   </div>
@@ -1021,13 +1056,23 @@ export default function CheckoutPage() {
                         {subtotal.toLocaleString('vi-VN')} VND
                       </span>
                     </div>
-                    {discountState.isApplied && (
+                    {discountState.isApplied && !discountState.isGiftCode && (
                       <div className={`flex justify-between text-[9px] font-semibold ${press2p.className}`}>
                         <span style={{ color: PIXSELF_BRAND.colors.ui.success }}>
                           Discount ({discountState.code}):
                         </span>
                         <span style={{ color: PIXSELF_BRAND.colors.ui.success }}>
                           -{discountState.discountAmount.toLocaleString('vi-VN')} VND
+                        </span>
+                      </div>
+                    )}
+                    {discountState.isApplied && discountState.isGiftCode && (
+                      <div className={`flex justify-between text-[9px] font-semibold ${press2p.className}`}>
+                        <span style={{ color: PIXSELF_BRAND.colors.ui.success }}>
+                          Gift ({discountState.code}):
+                        </span>
+                        <span style={{ color: PIXSELF_BRAND.colors.ui.success }}>
+                          Free Loopy Charm
                         </span>
                       </div>
                     )}

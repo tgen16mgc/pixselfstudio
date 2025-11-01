@@ -94,6 +94,31 @@ INSERT INTO discount_codes (code, discount_type, discount_value, apply_to)
 VALUES ('FIRST5K', 'fixed', 5000, 'first_item');
 ```
 
+### 4. Gift Codes
+- **Type**: `gift`
+- **Purpose**: Automatically adds free gifts to cart items (e.g., Loopy Charm)
+- **Value**: Always `0` (no price discount, just gift addition)
+- **Behavior**: When applied, automatically adds the specified gift to all items in cart
+- **Mutually Exclusive**: Cannot be used together with discount codes
+
+```sql
+-- Example: Gift code for free Loopy Charm (valid 31/10 - 30/11, one-time use)
+INSERT INTO discount_codes (
+  code, discount_type, discount_value, apply_to,
+  valid_from, valid_until, usage_limit, is_active
+) VALUES (
+  'GIFT123', 'gift', 0, 'total',
+  '2025-10-31 00:00:00', '2025-11-30 23:59:59', 1, true
+);
+```
+
+**Gift Code Features:**
+- Automatically adds free Loopy Charm to all items when code is applied
+- No price discount applied (discount_amount = 0)
+- Can have usage limits, validity dates, and minimum purchase requirements
+- Removes the gift from all items when code is removed
+- Cannot be combined with discount codes (mutually exclusive)
+
 ## Advanced Configuration
 
 ### Minimum Purchase Requirements
@@ -246,6 +271,7 @@ INSERT INTO discount_codes (
 | "Discount code has expired" | Past valid_until date | Update valid_until or create new code |
 | "Usage limit reached" | usage_count >= usage_limit | Increase usage_limit or create new code |
 | "No discount applicable" | Discount amount = 0 | Check min_purchase and cart value |
+| "Gift not applied" | Gift code may have failed validation | Check code validity, dates, and usage limits |
 
 ## Monitoring and Analytics
 
@@ -301,11 +327,18 @@ For business questions:
 ## Quick Reference
 
 ### Sample Codes (Pre-loaded)
+
+**Discount Codes:**
 - `PIX10` - 10% off total
 - `MOA20` - 20% off total  
 - `FIRST5K` - 5,000 VND off first item
 - `WELCOME` - 15% off total
 - `SAVE50` - 50,000 VND off total
+
+**Gift Codes (Loopy Charm):**
+- 80 gift codes available for Loopy Charm promotion (valid 31/10/2025 - 30/11/2025, one-time use)
+- Examples: `YIW4`, `CQH6`, `2ASZ`, `45BA`, etc.
+- See `add-gift-codes-support.sql` for full list
 
 ### API Endpoints
 - `POST /api/discount/validate` - Validate discount code

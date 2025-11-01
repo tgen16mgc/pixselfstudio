@@ -57,6 +57,22 @@ export async function POST(request: NextRequest) {
       })
     }
 
+    // Handle gift codes differently
+    if (discount.discountType === 'gift') {
+      const result: DiscountValidationResult = {
+        valid: true,
+        code: discount.code,
+        discountType: 'gift',
+        discountValue: 0,
+        applyTo: 'total',
+        discountAmount: 0,
+        giftType: 'loopy_charm',
+        isGiftCode: true,
+        message: 'Gift code applied: Free Loopy Charm for all items'
+      }
+      return NextResponse.json(result)
+    }
+
     // Calculate discount amount with conditional logic for PIXSELF codes
     let discountAmount = 0
     
@@ -97,6 +113,7 @@ export async function POST(request: NextRequest) {
       discountValue: discount.discountValue,
       applyTo: discount.applyTo,
       discountAmount,
+      isGiftCode: false,
       message: `Discount applied: ${discountAmount.toLocaleString('vi-VN')} VND off`
     }
 
@@ -145,6 +162,8 @@ export async function GET(request: NextRequest) {
       discountType: discountCode.discount_type,
       discountValue: discountCode.discount_value,
       applyTo: discountCode.apply_to,
+      isGiftCode: discountCode.discount_type === 'gift',
+      giftType: discountCode.discount_type === 'gift' ? 'loopy_charm' : undefined,
       message: 'Code exists and is active'
     })
 
